@@ -14,7 +14,7 @@ public class Core extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		ArrayList<String> row = new ArrayList<String>(Arrays.asList(request.getParameter("first_name").split("\n")));
-		out.print(request.getParameter("first_name")+" ");
+		out.print(request.getParameter("first_name")+"\n");
 		
 		out.print(ValidationM.comentaryVariable(row));
 		
