@@ -11,6 +11,8 @@ public class Core extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.print(request.getParameter("first_name"));
+		
+		out.print(request.getParameter("first_name")+"");
+		out.print(ValidationM.comentaryVariable(request.getParameter("first_name")) ? "true" : "false");
 	}
 }
