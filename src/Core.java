@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,8 +13,10 @@ public class Core extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
+		ArrayList<String> row = new ArrayList<String>(Arrays.asList(request.getParameter("first_name").split("\n")));
+		out.print(request.getParameter("first_name")+" ");
 		
-		out.print(request.getParameter("first_name")+"");
-		out.print(ValidationM.comentaryVariable(request.getParameter("first_name")) ? "true" : "false");
+		out.print(ValidationM.comentaryVariable(row));
+		
 	}
 }
