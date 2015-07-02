@@ -45,13 +45,18 @@ public class ValidationM {
 		ArrayList<String> functionList= new ArrayList<String>();
 		String function ="";
 		int iloscpetli=0;
-		Pattern pattern = Pattern.compile("[^\\n]+[\\s]+\\{[^\\}\\{]+\\}");
-		Matcher matcher = pattern.matcher(javaScriptText);
-		while(matcher.find()){
-			function=matcher.group();
-			functionList.add(function);
-			javaScriptText.replace(function, Integer.toString(iloscpetli));
-			++iloscpetli;
+		while(true){
+			Pattern pattern = Pattern.compile("[^\\n]+[\\s]+\\{[^\\}\\{]+\\}");
+			Matcher matcher = pattern.matcher(javaScriptText);
+			if(matcher.find()){
+				function=matcher.group();
+				functionList.add(function);
+				javaScriptText=javaScriptText.replace(function, Integer.toString(iloscpetli));
+				++iloscpetli;
+			}
+			else{
+				break;
+			}
 		}
 			
 

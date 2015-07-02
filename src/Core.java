@@ -14,7 +14,8 @@ public class Core extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		
-		ArrayList<String> listaFunkcji = new ArrayList<String>( ValidationM.group(request.getParameter("javaScript")));
+		ArrayList<String> listaFunkcji = new ArrayList<String>();
+		listaFunkcji =ValidationM.group(request.getParameter("javaScript"));
 
 		for(int i=0; i<listaFunkcji.size() ; i++){
 			out.print(listaFunkcji.get(i));
