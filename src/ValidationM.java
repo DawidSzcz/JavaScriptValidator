@@ -58,11 +58,12 @@ public class ValidationM {
 				break;
 			}
 		}
-			
 
 		functionList.add(javaScriptText);
 		
 		return functionList;
 	}
+	
+	
 	
 }

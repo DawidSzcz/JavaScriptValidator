@@ -19,7 +19,7 @@ public class Core extends HttpServlet {
 
 		for(int i=0; i<listaFunkcji.size() ; i++){
 			out.print(listaFunkcji.get(i));
-			out.print("\n \n \n");
+			out.print("---------------------------------------------------------------------");
 		}
 		
 		
