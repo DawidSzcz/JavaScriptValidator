@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidationM {
 	
@@ -39,8 +41,23 @@ public class ValidationM {
 		
 		return newTekst;
 	}
-	public static String cos (ArrayList<String> javaScriptText){
-		String error= new String();
-		return error;
+	public static ArrayList<String> group (String javaScriptText){
+		ArrayList<String> functionList= new ArrayList<String>();
+		String function ="";
+		int iloscpetli=0;
+		Pattern pattern = Pattern.compile("[^\\n]+[\\s]+\\{[^\\}\\{]+\\}");
+		Matcher matcher = pattern.matcher(javaScriptText);
+		while(matcher.find()){
+			function=matcher.group();
+			functionList.add(function);
+			javaScriptText.replace(function, Integer.toString(iloscpetli));
+			++iloscpetli;
+		}
+			
+
+		functionList.add(javaScriptText);
+		
+		return functionList;
 	}
+	
 }
