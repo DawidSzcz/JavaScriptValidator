@@ -39,4 +39,8 @@ public class ValidationM {
 		
 		return newTekst;
 	}
+	public static String cos (ArrayList<String> javaScriptText){
+		String error= new String();
+		return error;
+	}
 }
