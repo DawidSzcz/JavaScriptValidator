@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+.lp 
+{
+	width: 4%;	
+	border: 1px solid black;
+}
+.code, .error
+{
+	width: 48%;
+	border: 1px solid black;
+}
+table
+{
+	border: 1px solid black;
+}
