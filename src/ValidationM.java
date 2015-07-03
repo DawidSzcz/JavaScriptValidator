@@ -65,7 +65,7 @@ public class ValidationM {
 	}
 	public static String sqlCorrect(String javaScriptText){
 		String errorMassage="";
-		String findSQLQery="select[^\\;]+from";
+		String findSQLQery="select [^\\;]+ from |CREATE TABLE [^\\;,]+ \\(";
 		String executeSQL=".executeStatement";
 		String getPort=".getTytanDBPortFeature()";
 		String errorExecuteSQL="function \"executeStatement\" is incorrect";
@@ -89,4 +89,37 @@ public class ValidationM {
 		return errorMassage;
 	}
 	
+	// operatory reg \w+\s*=\s*[\w"']+|\w+\s*==\s*[\w"']+|\w+\s*!=\s*[\w"']+|\w+\s*>\s*[\w"']+|\w+\s*<\s*[\w"']+|\w+\s*<=\s*[\w"']+|\w+\s*>=\s*[\w"']+|\w+\s*===\s*[\w"']+|\w+\s*!==\s*[\w"']+
+	public static String opreratorCorrect(String javaScriptText){
+		String errorMassage="";
+		String errorOperator="Operator is incoroect";
+		String regOperator="\\w+\\s*=\\s*[\\w\"']+|\\w+\\s*==\\s*[\\w\"']+|\\w+\\s*!=\\s*[\\w\"']+|\\w+\\s*>=\\s*[\\w\"']+|\\w+\\s*<=\\s*[\\w\"']+|\\w+\\s*<\\s*[\\w\"']+|\\w+\\s*>\\s*[\\w\"']+";
+		
+	
+		
+		Pattern pattern = Pattern.compile(regOperator);
+		Matcher matcher = pattern.matcher(javaScriptText);
+		int errorIndex;
+		
+		while(matcher.find()){
+			javaScriptText=javaScriptText.replace(matcher.group(),"");
+			matcher = pattern.matcher(javaScriptText);
+		}
+		errorIndex=javaScriptText.indexOf("=");
+		if (errorIndex!=-1){
+			errorMassage+="="+errorOperator;
+		}
+		errorIndex=javaScriptText.indexOf("<");
+		if (errorIndex!=-1){
+			errorMassage+="<"+errorOperator;
+		}
+		errorIndex=javaScriptText.indexOf(">");
+		if (errorIndex!=-1){
+			errorMassage+=">"+errorOperator;
+		}
+		
+		
+		return errorMassage;
+	}
+
 }
