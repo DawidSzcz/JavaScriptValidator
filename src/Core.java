@@ -15,12 +15,18 @@ public class Core extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		ArrayList<String> listaFunkcji = new ArrayList<String>();
-		listaFunkcji =ValidationM.group(request.getParameter("javaScript"));
-
-		for(int i=0; i<listaFunkcji.size() ; i++){
-			out.print(listaFunkcji.get(i));
-			out.print("---------------------------------------------------------------------");
-		}
+		String javaScriptText=request.getParameter("javaScript");
+		String errors;
+		
+		listaFunkcji =ValidationM.group(javaScriptText);
+		errors=ValidationM.sqlCorrect(javaScriptText);
+		
+		out.print(errors);
+		
+//		for(int i=0; i<listaFunkcji.size() ; i++){
+//			out.print(listaFunkcji.get(i));
+//			out.print("<br/> <br/> <br/>");
+//		}
 		
 		
 		

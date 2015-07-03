@@ -3,67 +3,90 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidationM {
-	
-	public static String comentaryVariable (ArrayList<String> javaScriptText){
-		String newTekst= new String();
-		Boolean noError=true;
-		Boolean addTekst=true;
-		int licznik=0;
-		for (int iterator2=0; iterator2<javaScriptText.size(); iterator2++){
+
+	public static String comentaryVariable(ArrayList<String> javaScriptText) {
+		String errorMassage = " ERROR";
+		String newTekst = new String();
+		Boolean Error = false;
+		Boolean addTekst = true;
+		int licznik = 0;
+		for (int iterator2 = 0; iterator2 < javaScriptText.size(); iterator2++) {
 			String row = javaScriptText.get(iterator2);
-			for (int iterator=0; iterator<row.length(); iterator++ ){	
-				
-				if (iterator != row.length()-1 && row.charAt(iterator)=='/' && row.charAt(iterator+1)=='*' ){
+			for (int iterator = 0; iterator < row.length(); iterator++) {
+
+				if (iterator != row.length() - 1 && row.charAt(iterator) == '/' && row.charAt(iterator + 1) == '*') {
 					licznik++;
-					addTekst=false;
+					addTekst = false;
 				}
-					
+
 				if (addTekst)
-					newTekst+=javaScriptText.get(iterator2).charAt(iterator);
-				
-				if (iterator != 0 && row.charAt(iterator-1)=='*' && row.charAt(iterator)=='/' ){
+					newTekst += javaScriptText.get(iterator2).charAt(iterator);
+
+				if (iterator != 0 && row.charAt(iterator - 1) == '*' && row.charAt(iterator) == '/') {
 					licznik--;
-					addTekst=true;
+					addTekst = true;
 				}
-				
-					
-				if (licznik<0){
-					noError= false;
+
+				if (licznik < 0) {
+					Error = true;
 				}
 			}
 		}
-	
-		if (licznik!=0){
-			noError= false;
+
+		if (licznik != 0) {
+			Error = true;
 		}
-		if (!noError)
-			newTekst+=" ERROR";
-		
+		if (Error)
+			newTekst += errorMassage;
+
 		return newTekst;
 	}
-	public static ArrayList<String> group (String javaScriptText){
-		ArrayList<String> functionList= new ArrayList<String>();
-		String function ="";
-		int iloscpetli=0;
-		while(true){
+
+	public static ArrayList<String> group(String javaScriptText) {
+		ArrayList<String> functionList = new ArrayList<String>();
+		String function = "";
+		int iloscpetli = 0;
+		while (true) {
 			Pattern pattern = Pattern.compile("[^\\n]+[\\s]+\\{[^\\}\\{]+\\}");
 			Matcher matcher = pattern.matcher(javaScriptText);
-			if(matcher.find()){
-				function=matcher.group();
+			if (matcher.find()) {
+				function = matcher.group();
 				functionList.add(function);
-				javaScriptText=javaScriptText.replace(function, Integer.toString(iloscpetli));
+				javaScriptText = javaScriptText.replace(function, "["+Integer.toString(iloscpetli)+"]");
 				++iloscpetli;
-			}
-			else{
+			} else {
 				break;
 			}
 		}
 
 		functionList.add(javaScriptText);
-		
+
 		return functionList;
 	}
-	
-	
+	public static String sqlCorrect(String javaScriptText){
+		String errorMassage="";
+		String findSQLQery="select[^\\;]+from";
+		String executeSQL=".executeStatement";
+		String getPort=".getTytanDBPortFeature()";
+		String errorExecuteSQL="function \"executeStatement\" is incorrect";
+		String errorGetPort="function \"getTytanDBPortFeature()\" is incorrect";
+		int errorindex;
+		
+		Pattern pattern = Pattern.compile(findSQLQery);
+		Matcher matcher = pattern.matcher(javaScriptText);
+		if (matcher.find()){
+			errorindex=javaScriptText.indexOf(executeSQL);
+			if (errorindex==-1){
+				errorMassage+=errorExecuteSQL+" ";
+			}
+			errorindex=javaScriptText.indexOf(getPort);
+			if (errorindex==-1){
+				errorMassage+=errorGetPort+" ";
+			}
+			
+		}
+		
+		return errorMassage;
+	}
 	
 }
