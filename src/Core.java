@@ -18,8 +18,10 @@ public class Core extends HttpServlet {
 		String javaScriptText=request.getParameter("javaScript");
 		String errors;
 		
-		listaFunkcji =ValidationM.group(javaScriptText);
-		errors=ValidationM.sqlCorrect(javaScriptText);
+//		listaFunkcji =ValidationM.group(javaScriptText);
+//		errors=ValidationM.sqlCorrect(javaScriptText);
+		
+		errors=ValidationM.opreratorCorrect(javaScriptText);
 		
 		out.print(errors);
 		
