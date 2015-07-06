@@ -1,3 +1,5 @@
+package Validator;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,7 +54,7 @@ public class ValidationM {
 			if (matcher.find()) {
 				function = matcher.group();
 				functionList.add(function);
-				javaScriptText = javaScriptText.replace(function, "["+Integer.toString(iloscpetli)+"]");
+				javaScriptText = javaScriptText.replace(function, "[" + Integer.toString(iloscpetli) + "]");
 				++iloscpetli;
 			} else {
 				break;
@@ -63,62 +65,60 @@ public class ValidationM {
 
 		return functionList;
 	}
-	public static String sqlCorrect(String javaScriptText){
-		String errorMassage="";
-		String findSQLQery="select [^\\;]+ from |CREATE TABLE [^\\;,]+ \\(";
-		String executeSQL=".executeStatement";
-		String getPort=".getTytanDBPortFeature()";
-		String errorExecuteSQL="function \"executeStatement\" is incorrect";
-		String errorGetPort="function \"getTytanDBPortFeature()\" is incorrect";
+
+	public static String sqlCorrect(String javaScriptText) {
+		String errorMassage = "";
+		String findSQLQery = "select [^\\;]+ from |CREATE TABLE [^\\;,]+ \\(";
+		String executeSQL = ".executeStatement";
+		String getPort = ".getTytanDBPortFeature()";
+		String errorExecuteSQL = "function \"executeStatement\" is incorrect";
+		String errorGetPort = "function \"getTytanDBPortFeature()\" is incorrect";
 		int errorindex;
-		
+
 		Pattern pattern = Pattern.compile(findSQLQery);
 		Matcher matcher = pattern.matcher(javaScriptText);
-		if (matcher.find()){
-			errorindex=javaScriptText.indexOf(executeSQL);
-			if (errorindex==-1){
-				errorMassage+=errorExecuteSQL+" ";
+		if (matcher.find()) {
+			errorindex = javaScriptText.indexOf(executeSQL);
+			if (errorindex == -1) {
+				errorMassage += errorExecuteSQL + " ";
 			}
-			errorindex=javaScriptText.indexOf(getPort);
-			if (errorindex==-1){
-				errorMassage+=errorGetPort+" ";
+			errorindex = javaScriptText.indexOf(getPort);
+			if (errorindex == -1) {
+				errorMassage += errorGetPort + " ";
 			}
-			
+
 		}
-		
+
 		return errorMassage;
 	}
-	
-	// operatory reg \w+\s*=\s*[\w"']+|\w+\s*==\s*[\w"']+|\w+\s*!=\s*[\w"']+|\w+\s*>\s*[\w"']+|\w+\s*<\s*[\w"']+|\w+\s*<=\s*[\w"']+|\w+\s*>=\s*[\w"']+|\w+\s*===\s*[\w"']+|\w+\s*!==\s*[\w"']+
-	public static String opreratorCorrect(String javaScriptText){
-		String errorMassage="";
-		String errorOperator="Operator is incoroect";
-		String regOperator="\\w+\\s*=\\s*[\\w\"']+|\\w+\\s*==\\s*[\\w\"']+|\\w+\\s*!=\\s*[\\w\"']+|\\w+\\s*>=\\s*[\\w\"']+|\\w+\\s*<=\\s*[\\w\"']+|\\w+\\s*<\\s*[\\w\"']+|\\w+\\s*>\\s*[\\w\"']+";
-		
-	
-		
+
+	// operatory reg
+	// \w+\s*=\s*[\w"']+|\w+\s*==\s*[\w"']+|\w+\s*!=\s*[\w"']+|\w+\s*>\s*[\w"']+|\w+\s*<\s*[\w"']+|\w+\s*<=\s*[\w"']+|\w+\s*>=\s*[\w"']+|\w+\s*===\s*[\w"']+|\w+\s*!==\s*[\w"']+
+	public static String opreratorCorrect(String javaScriptText) {
+		String errorMassage = "";
+		String errorOperator = "Operator is incoroect";
+		String regOperator = "\\w+\\s*=\\s*[\\w\"']+|\\w+\\s*==\\s*[\\w\"']+|\\w+\\s*!=\\s*[\\w\"']+|\\w+\\s*>=\\s*[\\w\"']+|\\w+\\s*<=\\s*[\\w\"']+|\\w+\\s*<\\s*[\\w\"']+|\\w+\\s*>\\s*[\\w\"']+|\\w+\\s*===\\s*[\\w\"']+|\\w+\\s*!==\\s*[\\w\"']+";
+
 		Pattern pattern = Pattern.compile(regOperator);
 		Matcher matcher = pattern.matcher(javaScriptText);
 		int errorIndex;
-		
-		while(matcher.find()){
-			javaScriptText=javaScriptText.replace(matcher.group(),"");
+
+		while (matcher.find()) {
+			javaScriptText = javaScriptText.replace(matcher.group(), "");
 			matcher = pattern.matcher(javaScriptText);
 		}
-		errorIndex=javaScriptText.indexOf("=");
-		if (errorIndex!=-1){
-			errorMassage+="="+errorOperator;
+		errorIndex = javaScriptText.indexOf("=");
+		if (errorIndex != -1) {
+			errorMassage = errorOperator;
 		}
-		errorIndex=javaScriptText.indexOf("<");
-		if (errorIndex!=-1){
-			errorMassage+="<"+errorOperator;
+		errorIndex = javaScriptText.indexOf("<");
+		if (errorIndex != -1) {
+			errorMassage = errorOperator;
 		}
-		errorIndex=javaScriptText.indexOf(">");
-		if (errorIndex!=-1){
-			errorMassage+=">"+errorOperator;
+		errorIndex = javaScriptText.indexOf(">");
+		if (errorIndex != -1) {
+			errorMassage = errorOperator;
 		}
-		
-		
 		return errorMassage;
 	}
 
