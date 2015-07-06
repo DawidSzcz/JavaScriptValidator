@@ -2,14 +2,20 @@ package ValidatorM;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import expression.ExpressionParser;
+import javafx.util.Pair;
+import sun.reflect.annotation.ExceptionProxy;
 
 public class ValidationM {
 
 	public static String comentaryVariable(String javaScriptTextString) {
-		
-		ArrayList<String> javaScriptTextList= new ArrayList<String>(Arrays.asList(javaScriptTextString.split("\n")));
+
+		ArrayList<String> javaScriptTextList = new ArrayList<String>(Arrays.asList(javaScriptTextString.split("\n")));
 		String errorMassage = " ERROR";
 		String newTekst = new String();
 		Boolean Error = false;
@@ -19,7 +25,7 @@ public class ValidationM {
 			String row = javaScriptTextList.get(iterator2);
 			for (int iterator = 0; iterator < row.length(); iterator++) {
 
-				if (iterator != row.length() - 1 && row.charAt(iterator) == '/' && row.charAt(iterator + 1) == '/'){
+				if (iterator != row.length() - 1 && row.charAt(iterator) == '/' && row.charAt(iterator + 1) == '/') {
 					break;
 				}
 				if (iterator != row.length() - 1 && row.charAt(iterator) == '/' && row.charAt(iterator + 1) == '*') {
@@ -39,7 +45,7 @@ public class ValidationM {
 					Error = true;
 				}
 			}
-			newTekst +="\n";
+			newTekst += "\n";
 		}
 
 		if (licznik != 0) {
@@ -127,6 +133,32 @@ public class ValidationM {
 			errorMassage = errorOperator;
 		}
 		return errorMassage;
+	}
+
+	public static Pair<Map<String, String>, String> takeOutStrings(String javaScriptText) {
+		Boolean isInString = false;
+		String stringToHashMap = "";
+		Map<String, String> idToString = new HashMap<>();
+		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
+			if (javaScriptText.charAt(iterator) == '"') {
+				if (!isInString) {
+					isInString = true;
+				} else {
+					isInString = false;
+					stringToHashMap+=javaScriptText.charAt(iterator);
+					String uniqueId= ExpressionParser.uniqueId(javaScriptText);
+					idToString.put(uniqueId, stringToHashMap);
+					javaScriptText=javaScriptText.replace(stringToHashMap, "StringID:"+uniqueId);
+					stringToHashMap = "";
+					iterator = 0;
+				}
+			}
+			if (isInString) {
+				stringToHashMap+=javaScriptText.charAt(iterator);
+			}
+		}
+
+		return new Pair<Map<String, String>, String>(idToString, javaScriptText);
 	}
 
 }

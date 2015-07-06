@@ -99,7 +99,7 @@ public class ExpressionParser
 		String side[] = stat.split("=");
 		return new Assignment(side[0], side[1]);
 	}
-	private String uniqueId(String in)
+	public static String uniqueId(String in)
 	{
 		Random rand = new Random();
 		String randomString = String.valueOf(rand.nextLong());

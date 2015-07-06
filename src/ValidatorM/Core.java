@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import expression.Expression;
 import expression.ExpressionIterator;
 import expression.ExpressionParser;
 import expression.Patterns;
+import javafx.util.Pair;
 
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -37,12 +39,15 @@ public class Core extends HttpServlet {
 		ExpressionParser parser = new ExpressionParser();
 		try {
 			String javaScriptText= new String (request.getParameter("javaScript"));
-			javaScriptText=ValidationM.comentaryVariable(javaScriptText);		
-			List<Expression> list = parser.Parse(javaScriptText);
-			List<String> rows = Arrays.asList(javaScriptText.split("\n"));
+			javaScriptText=ValidationM.comentaryVariable(javaScriptText);
+			Pair<Map<String, String>, String> javaScriptTextAndMap = ValidationM.takeOutStrings(javaScriptText);
+			
+			List<Expression> list = parser.Parse(javaScriptTextAndMap.getValue());
+			List<String> rows = Arrays.asList(javaScriptTextAndMap.getValue().split("\n"));
+			
 		//List<List<String>> messages = ValidationDawid.countBrackets(rows);
 		
-		out.println(String.format(html, makeResponse(rows, list)));
+			out.println(String.format(html, makeResponse(rows, list)));
 		
 		} catch (WrongWhileException e) {
 			out.println("Somfin gone wrong");
