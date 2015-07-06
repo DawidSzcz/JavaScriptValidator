@@ -1,28 +1,34 @@
-package Validator;
+package ValidatorM;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidationM {
 
-	public static String comentaryVariable(ArrayList<String> javaScriptText) {
+	public static String comentaryVariable(String javaScriptTextString) {
+		
+		ArrayList<String> javaScriptTextList= new ArrayList<String>(Arrays.asList(javaScriptTextString.split("\n")));
 		String errorMassage = " ERROR";
 		String newTekst = new String();
 		Boolean Error = false;
 		Boolean addTekst = true;
 		int licznik = 0;
-		for (int iterator2 = 0; iterator2 < javaScriptText.size(); iterator2++) {
-			String row = javaScriptText.get(iterator2);
+		for (int iterator2 = 0; iterator2 < javaScriptTextList.size(); iterator2++) {
+			String row = javaScriptTextList.get(iterator2);
 			for (int iterator = 0; iterator < row.length(); iterator++) {
 
+				if (iterator != row.length() - 1 && row.charAt(iterator) == '/' && row.charAt(iterator + 1) == '/'){
+					break;
+				}
 				if (iterator != row.length() - 1 && row.charAt(iterator) == '/' && row.charAt(iterator + 1) == '*') {
 					licznik++;
 					addTekst = false;
 				}
 
 				if (addTekst)
-					newTekst += javaScriptText.get(iterator2).charAt(iterator);
+					newTekst += javaScriptTextList.get(iterator2).charAt(iterator);
 
 				if (iterator != 0 && row.charAt(iterator - 1) == '*' && row.charAt(iterator) == '/') {
 					licznik--;
@@ -33,6 +39,7 @@ public class ValidationM {
 					Error = true;
 				}
 			}
+			newTekst +="\n";
 		}
 
 		if (licznik != 0) {
