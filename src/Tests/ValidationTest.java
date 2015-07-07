@@ -4,9 +4,6 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.List;
-
-import validator.*;
-
 import org.junit.Test;
 
 import exception.WrongWhileException;
