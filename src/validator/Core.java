@@ -21,28 +21,14 @@ import expression.Patterns;
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private final String html = "<html>"
-			+ "<head>"
-			+"<link rel=\"stylesheet\" type=\"text/css\" href=\"outStyle.css\">"
-			+ "</head>"
-			+ "<body> "
-			+ "<table>"
-			+ "<tr><th>Lp.</th><th>Code</th><th>Errors</th></tr>"
-			+ "%s<table>"
-			+ "</body>";
-	private final String row = "<tr><td class=\"lp\">%d</td><td style=\"padding-left:%dpx\" class=\"code\">%s</td><td class=\"error\">%s</td></tr>";
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
 		try {
-			List<Expression> list = parser.Parse(request.getParameter("javaScript"));
-
-		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
-		//List<List<String>> messages = ValidationDawid.countBrackets(rows);
-		
-		out.println(String.format(html, makeResponse(rows, list)));
-		
+			List<Expression> list = parser.parse(request.getParameter("javaScript"));
+			List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
+			out.println(String.format(ValidUtils.html, makeResponse(rows, list)));
 		} catch (WrongWhileException e) {
 			out.println("Somfin gone wrong");
 		}
@@ -54,39 +40,29 @@ public class Core extends HttpServlet {
 		Matcher singleState;
 		for(int i = 0; i < rows.size(); i++)
 		{
-			String rowMess = "nvm";
 			singleState = Patterns.sinState.matcher(rows.get(i));
 			if(singleState.find())
 			{
-				String next = iterator.next();
-				rowMess = next != null ? next :"nvm";
+				Expression next = iterator.next();
+				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? makeData(next) : iterator.getTree());
 			}
-			body += String.format(row, i, countSpace(rows.get(i)), rows.get(i), rowMess);
+			else
+				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
 		}
 		return body;
 	}
-	private int countSpace(String row) {
-		int tabs = 0;
-		while(row.charAt(tabs) == '\t' || row.charAt(tabs) == ' ')
-		{
-			if(row.charAt(tabs) == '\t')
-				tabs+=4;
-			else
-				tabs++;
-		}
-		return tabs*5;
-	}
-	
-	/*for(int i = 0; i < rows.size(); i++)
+	private String makeData(Expression exp)
 	{
-		String rowMess = "";
-		if(!messages.get(i).isEmpty())
+		List<String> errors = exp.getErrors();
+		if(errors.size() == 1)
+			return errors.get(0);
+		else
 		{
-			rowMess = "<select>\n";
-			for(String message : messages.get(i))
-				rowMess += "<option>\n" + message + "</option>";
-			rowMess += "</select>";
+			String data = "<select>\n";
+			for(String message : errors)
+				data += "<option>\n" + message + "</option>";
+			return data + "\n</select>";
 		}
-		body += String.format(row, i, rows.get(i), rowMess);
-	}*/
+	}
+
 } 

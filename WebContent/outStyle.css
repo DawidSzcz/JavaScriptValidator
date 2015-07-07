@@ -5,10 +5,15 @@
 	width: 4%;	
 	border: 1px solid black;
 }
-.code, .error
+.code, .error, .noError, .plain
 {
 	width: 48%;
 	border: 1px solid black;
+}
+.error
+{
+	background-color: red;
+	font-weight: bold;
 }
 table
 {

@@ -9,24 +9,25 @@ import javafx.util.Pair;
 public class ExpressionIterator 
 {
 	Stack<Pair<Expression, Integer>> stack = new Stack<>();
+	private Expression nullExpresion = new NullExpression();
 	public ExpressionIterator(List<Expression> exps) {
 		stack.push(new Pair<Expression, Integer>(new Top(exps), 0));
 	}
-	public String next()
+	public Expression next()
 	{
 		if(stack.isEmpty())
-			return null;
+			return nullExpresion;
 		Pair<Expression, Integer> pair = stack.pop();
 		try{
 			Expression exp = pair.getKey().get(pair.getValue());
 			stack.push(new Pair<Expression, Integer>(pair.getKey(), pair.getValue() + 1));
 			stack.push(new Pair<Expression, Integer>(exp, 1));
-			return makeTree();
+			return stack.peek().getKey();
 		}catch(IndexOutOfBoundsException ex){
 			return next();
-		}
+		}	
 	}
-	private String makeTree() {
+	public String getTree(){
 		String ret = "";
 		for(int i = 0; i <stack.size(); i++)
 			ret += stack.get(i).getKey().toString() + " ";

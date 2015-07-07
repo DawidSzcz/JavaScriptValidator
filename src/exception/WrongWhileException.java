@@ -1,7 +1,18 @@
 package exception;
 
 public class WrongWhileException extends Exception {
-	public WrongWhileException(String str) {
-		System.err.println(str);
+	String error;
+	String block;
+	public WrongWhileException(String error, String statement) {
+		this.error = error;
+		this.block = statement;
+	}
+	public String getError()
+	{
+		return error;
+	}
+	public String getStatement()
+	{
+		return block;
 	}
 }
