@@ -26,4 +26,10 @@ public class If extends Expression{
 	public String toString() {
 		return "IF ";
 	}
+	private String isIfValid(){
+		String error="";
+		
+		
+		return error;
+	}
 }
