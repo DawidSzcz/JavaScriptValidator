@@ -105,8 +105,6 @@ public class ValidationM {
 		return errorMassage;
 	}
 
-	// operatory reg
-	// \w+\s*=\s*[\w"']+|\w+\s*==\s*[\w"']+|\w+\s*!=\s*[\w"']+|\w+\s*>\s*[\w"']+|\w+\s*<\s*[\w"']+|\w+\s*<=\s*[\w"']+|\w+\s*>=\s*[\w"']+|\w+\s*===\s*[\w"']+|\w+\s*!==\s*[\w"']+
 	public static String findOprerator(String javaScriptText) {
 		String errorMassage = "";
 		String errorOperator = "Operator is incoroect";

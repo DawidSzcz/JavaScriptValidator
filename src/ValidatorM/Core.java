@@ -2,8 +2,6 @@ package ValidatorM;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,7 +15,6 @@ import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionIterator;
 import expression.ExpressionParser;
-import expression.OperatorCorrect;
 import expression.Patterns;
 import javafx.util.Pair;
 
@@ -41,7 +38,6 @@ public class Core extends HttpServlet {
 		try {
 			String javaScriptText= new String (request.getParameter("javaScript"));
 			javaScriptText=ValidationM.comentaryVariable(javaScriptText);
-			String test=OperatorCorrect.isOpreratorCorrect(javaScriptText);
 			Pair<Map<String, String>, String> javaScriptTextAndMap = ValidationM.takeOutStrings(javaScriptText);
 			
 			List<Expression> list = parser.Parse(javaScriptTextAndMap.getValue());
