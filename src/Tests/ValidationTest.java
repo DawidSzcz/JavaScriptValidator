@@ -18,7 +18,7 @@ public class ValidationTest {
 
 	@Test
 public void test() throws IOException, WrongWhileException {
-		String input = "adewqwq++";
+		String input = "troro++=23";
 		String output = OperatorCorrect.isOpreratorCorrect(input);
 		
 		assertTrue(output.compareTo("")==0);
