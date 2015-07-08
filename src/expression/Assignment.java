@@ -3,8 +3,9 @@ package expression;
 public class Assignment extends Expression {
 	 String first;
 	 String second;
-	 public Assignment(String a, String b)
+	 public Assignment(String name, String a, String b)
 	 {
+		 super(name);
 		 first = a;
 		 second = b;
 	 }

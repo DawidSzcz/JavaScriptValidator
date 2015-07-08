@@ -35,38 +35,34 @@ public class Core extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
-		try {
 			String javaScriptText= new String (request.getParameter("javaScript"));
 			javaScriptText=ValidationM.comentaryVariable(javaScriptText);
 			Pair<Map<String, String>, String> javaScriptTextAndMap = ValidationM.takeOutStrings(javaScriptText);
 			
-			List<Expression> list = parser.Parse(javaScriptTextAndMap.getValue());
+			List<Expression> list = parser.parse(javaScriptTextAndMap.getValue());
 			List<String> rows = Arrays.asList(javaScriptTextAndMap.getValue().split("\n"));
 			
 		//List<List<String>> messages = ValidationDawid.countBrackets(rows);
 		
 			out.println(String.format(html, makeResponse(rows, list)));
-		
-		} catch (WrongWhileException e) {
-			out.println("Somfin gone wrong");
-		}
+
 	}
 	private String makeResponse(List<String> rows, List<Expression> list)
 	{
 		String body = "";
 		ExpressionIterator iterator = new ExpressionIterator(list);
 		Matcher singleState;
-		for(int i = 0; i < rows.size(); i++)
-		{
-			String rowMess = "nvm";
-			singleState = Patterns.sinState.matcher(rows.get(i));
-			if(singleState.find())
-			{
-				String next = iterator.next();
-				rowMess = next != null ? next :"nvm";
-			}
-			body += String.format(row, i, countSpace(rows.get(i)), rows.get(i), rowMess);
-		}
+//		for(int i = 0; i < rows.size(); i++)
+//		{
+//			String rowMess = "nvm";
+//			singleState = Patterns.sinState.matcher(rows.get(i));
+//			if(singleState.find())
+//			{
+//				String next = iterator.next();
+//				rowMess = next != null ? next :"nvm";
+//			}
+//			body += String.format(row, i, countSpace(rows.get(i)), rows.get(i), rowMess);
+//		}
 		return body;
 	}
 	private int countSpace(String row) {

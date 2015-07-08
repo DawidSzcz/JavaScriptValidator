@@ -1,7 +1,5 @@
-/Core.class
 /Tests/
-/ValidationM.class
-/Validator/
+/ValidatorM/
 /exception/
 /expression/
-/ValidatorM/
+/validator/

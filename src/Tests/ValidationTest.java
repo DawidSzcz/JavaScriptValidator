@@ -1,5 +1,6 @@
 package Tests;
 
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
@@ -8,6 +9,13 @@ import java.util.List;
 
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.util.List;
+import org.junit.Test;
+
+import exception.WrongComplexException;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionParser;
@@ -29,6 +37,21 @@ public void test() throws IOException, WrongWhileException {
 //		assertTrue(list.get(0) instanceof If);
 //		assertTrue(list.get(1) instanceof Invocation);
 	}
+		@Test
+	public void test3() throws IOException
+	{
+		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n"+
+                "{\n"+
+                "	-eter(0).setValue(null);\n"+
+                "}"+
+                "rowp.getParameter(0).setValue(null);\n";
+		ExpressionParser parser = new ExpressionParser();
+		List<Expression> list = parser.parse(input);
+		assertSame(2, list.size());
+		assertTrue(list.get(0) instanceof If);
+		assertTrue(list.get(1) instanceof Invocation);
+		assertTrue(list.get(0).get(1) instanceof Invocation);
+	}
 
 	@Test
 public void test2() throws IOException, WrongWhileException {
@@ -46,7 +69,7 @@ public void test2() throws IOException, WrongWhileException {
 "	} \n"+
 "}\n";
 		ExpressionParser parser = new ExpressionParser();
-		List<Expression> list = parser.Parse(input);
+		List<Expression> list = parser.parse(input);
 		
 		assertSame(3, list.size());
 		assertTrue(list.get(1) instanceof If);
