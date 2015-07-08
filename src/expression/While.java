@@ -5,7 +5,8 @@ import java.util.List;
 public class While extends Expression{
 	String  condition;
 	List<Expression> statements;
-	public While(String cond, List<Expression> stats) {
+	public While(String name, String cond, List<Expression> stats) {
+		super(name);
 		condition = cond;
 		statements = stats;
 	}

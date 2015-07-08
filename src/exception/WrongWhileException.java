@@ -1,6 +1,6 @@
 package exception;
 
-public class WrongWhileException extends Exception {
+public class WrongWhileException extends WrongComplexException {
 	String error;
 	String block;
 	public WrongWhileException(String error, String statement) {

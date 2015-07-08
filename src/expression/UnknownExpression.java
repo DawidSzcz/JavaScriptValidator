@@ -1,10 +1,12 @@
 package expression;
 
-public class UnknownExpression extends Expression {
+import java.util.LinkedList;
+import java.util.List;
 
-	String statement;
+public class UnknownExpression extends Expression 
+{
 	public UnknownExpression(String str) {
-		statement = str;
+		super(str);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -15,7 +17,16 @@ public class UnknownExpression extends Expression {
 
 	@Override
 	public String toString() {
-		return statement;
+		return name;
 	}
+	public boolean hasErrors()
+	{
+		return true;
+	}
+	public List<String> getErrors()
+	{
+		return errors;
+	}
+
 
 }

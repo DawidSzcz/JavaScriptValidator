@@ -5,9 +5,9 @@ import java.util.List;
 public class Else extends If
 {
 	List<Expression> elseStatements;
-	Else(If If, List<Expression> els)
+	Else(String name, If If, List<Expression> els)
 	{
-		super(If);
+		super(name, If.getCondition(), If.getStatements());
 		elseStatements = els;
 	}
 }

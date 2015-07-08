@@ -25,26 +25,22 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
-		try {
-			List<Expression> list = parser.parse(request.getParameter("javaScript"));
-			List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
-			out.println(String.format(ValidUtils.html, makeResponse(rows, list)));
-		} catch (WrongWhileException e) {
-			out.println("Somfin gone wrong");
-		}
+		List<Expression> list = parser.parse(request.getParameter("javaScript"));
+		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
+		out.println(String.format(ValidUtils.html, makeResponse(rows, list)));
 	}
 	private String makeResponse(List<String> rows, List<Expression> list)
 	{
 		String body = "";
 		ExpressionIterator iterator = new ExpressionIterator(list);
 		Matcher singleState;
+		Expression next = iterator.next();
 		for(int i = 0; i < rows.size(); i++)
 		{
-			singleState = Patterns.sinState.matcher(rows.get(i));
-			if(singleState.find())
+			if(rows.get(i).contains(next.getName()))
 			{
-				Expression next = iterator.next();
 				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? makeData(next) : iterator.getTree());
+				next = iterator.next();
 			}
 			else
 				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");

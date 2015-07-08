@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import org.junit.Test;
 
+import exception.WrongComplexException;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionParser;
@@ -15,7 +16,7 @@ import expression.Invocation;
 public class ValidationTest {
 
 	@Test
-	public void test() throws IOException, WrongWhileException 
+	public void test() throws IOException
 	{
 		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n"+
                 "{\n"+

@@ -1,9 +1,8 @@
 package expression;
 
 public class Invocation extends Expression {
-	String inv;
 	public Invocation(String str) {
-		inv = str;
+		super(str);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -14,6 +13,6 @@ public class Invocation extends Expression {
 	}
 	@Override
 	public String toString() {
-		return "Invocation ";
+		return "Invocation";
 	}
 }

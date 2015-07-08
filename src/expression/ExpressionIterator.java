@@ -9,7 +9,7 @@ import javafx.util.Pair;
 public class ExpressionIterator 
 {
 	Stack<Pair<Expression, Integer>> stack = new Stack<>();
-	private Expression nullExpresion = new NullExpression();
+	private Expression nullExpresion = new NullExpression("NULL");
 	public ExpressionIterator(List<Expression> exps) {
 		stack.push(new Pair<Expression, Integer>(new Top(exps), 0));
 	}
@@ -37,6 +37,7 @@ public class ExpressionIterator
 	{
 		List<Expression> topExpressions;
 		public Top(List<Expression> exps) {
+			super("TOP");
 			topExpressions = exps;
 		}
 		@Override

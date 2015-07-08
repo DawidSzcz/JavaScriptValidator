@@ -9,9 +9,9 @@ public class Patterns {
 	public static String argumentsS = "(?<=\\().+(?=\\))";
 	public static String headerS = "[^\\{]+";
 	public static String complexS = "(if)|(while)|(function)";
-	public static String IfS = "\\s*if";
-	public static String WhileS = "\\s*while";
-	public static String FunctionS = "\\s*function";
+	public static String IfS = "^\\s*if";
+	public static String WhileS = "^\\s*while";
+	public static String FunctionS = "^\\s*function";
 	public static String blockS = "((if)|(while)|(function))[^\\n]+[\\s]+(\\{[^\\}\\{]+\\})";
 	public static String assignS = "\\s*\\w+ *=";
 	public static String identiferS = "^-?\\d+";
@@ -19,7 +19,7 @@ public class Patterns {
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "(^[^=]+(\\.|\\;))+";
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
-	public static String lineS = "[^\\n\r]+";
+	public static String lineS = "[\\{\\}\\w]+[^\\n\r]*";
 	
 	public static Pattern clean = Pattern.compile(cleanS);
 	public static Pattern arg = Pattern.compile(argumentsS);

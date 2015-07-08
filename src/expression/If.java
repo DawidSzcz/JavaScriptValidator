@@ -5,14 +5,10 @@ import java.util.List;
 public class If extends Expression{
 	String condition;
 	List<Expression> statements;
-	public If(String cond, List<Expression> stat) {
+	public If(String name, String cond, List<Expression> stat) {
+		super(name);
 		condition = cond;
 		statements = stat;
-	}
-	public If(If copy)
-	{
-		condition = copy.condition;
-		statements = copy.statements;
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -25,5 +21,13 @@ public class If extends Expression{
 	@Override
 	public String toString() {
 		return "IF ";
+	}
+	protected String getCondition()
+	{
+		return condition;
+	}
+	protected List<Expression> getStatements()
+	{
+		return statements;
 	}
 }

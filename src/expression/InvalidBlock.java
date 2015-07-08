@@ -4,27 +4,21 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import exception.UnknownException;
+
 public class InvalidBlock extends Expression {
 
-	String error;
 	List<String> states = new LinkedList<>();
 	
-	public InvalidBlock(String block)
+	public InvalidBlock(String block) throws UnknownException
 	{
-		error = block;
+		super(block);
 		states = Arrays.asList(block.split("\\{|\\;"));
-	}
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if (index < states.size())
-			return new InvalidExpression(states.get(index));
-		else
-			throw new IndexOutOfBoundsException();
 	}
 
 	@Override
 	public String toString() {
-		return error;
+		return name;
 	}
 	public boolean hasErrors()
 	{
@@ -33,8 +27,14 @@ public class InvalidBlock extends Expression {
 	public List<String> getErrors()
 	{
 		LinkedList<String> list =  new LinkedList<String>();
-		list.add(error);
+		list.add(name);
 		return list;
+	}
+
+	@Override
+	public Expression get(int index) throws IndexOutOfBoundsException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -3,11 +3,13 @@ package expression;
 import java.util.LinkedList;
 import java.util.List;
 
+import exception.UnknownException;
+
 public class InvalidExpression extends Expression{
 
-	String statement;
-	public InvalidExpression(String str) {
-		statement = str;
+	public InvalidExpression(String str) 
+	{
+		super(str);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -19,7 +21,7 @@ public class InvalidExpression extends Expression{
 
 	@Override
 	public String toString() {
-		return statement;
+		return name;
 	}
 	public boolean hasErrors()
 	{

@@ -37,7 +37,6 @@ public class Core extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
-		try {
 			String javaScriptText= new String (request.getParameter("javaScript"));
 			javaScriptText=ValidationM.comentaryVariable(javaScriptText);
 			Pair<Map<String, String>, String> javaScriptTextAndMap = ValidationM.takeOutStrings(javaScriptText);
@@ -48,10 +47,7 @@ public class Core extends HttpServlet {
 		//List<List<String>> messages = ValidationDawid.countBrackets(rows);
 		
 			out.println(String.format(html, makeResponse(rows, list)));
-		
-		} catch (WrongWhileException e) {
-			out.println("Somfin gone wrong");
-		}
+
 	}
 	private String makeResponse(List<String> rows, List<Expression> list)
 	{

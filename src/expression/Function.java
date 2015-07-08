@@ -3,6 +3,10 @@ package expression;
 import java.util.List;
 
 public class Function extends Expression {
+	public Function(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
+	}
 	List<Expression> aguments;
 	List<Expression> statements;
 	@Override
