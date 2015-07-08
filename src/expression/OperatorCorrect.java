@@ -19,7 +19,7 @@ public class OperatorCorrect {
 					return expression + " is incorrect";
 				}
 				if (!matcher.find() && !matcher2.find()) {
-					return "";
+					return expression + " is incorrect";
 				}
 				if (matcher.find() && !matcher2.find()) {
 					return isOpreratorCorrect(subExpression1);
@@ -80,10 +80,19 @@ public class OperatorCorrect {
 	}
 
 	private static int findOperator(String expression) {
-		for (int i = 0; i < expression.length(); i++) {
-			if (expression.charAt(i) == '+' || expression.charAt(i) == '-' || expression.charAt(i) == '*'
-					|| expression.charAt(i) == '/' || expression.charAt(i) == '=') {
-				return i;
+
+		for (int indeks = 0; indeks < expression.length(); indeks++) {
+			if (indeks != expression.length() - 1 && expression.charAt(indeks + 1) == '+'
+					&& expression.charAt(indeks) == '+'
+					|| indeks != expression.length() - 1 && expression.charAt(indeks + 1) == '-'
+							&& expression.charAt(indeks) == '-') {
+				return indeks;
+			}
+		}
+		for (int indeks = 0; indeks < expression.length(); indeks++) {
+			if (expression.charAt(indeks) == '+' || expression.charAt(indeks) == '-' || expression.charAt(indeks) == '*'
+					|| expression.charAt(indeks) == '/' || expression.charAt(indeks) == '=') {
+				return indeks;
 			}
 		}
 

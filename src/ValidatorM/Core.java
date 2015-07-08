@@ -41,7 +41,7 @@ public class Core extends HttpServlet {
 		try {
 			String javaScriptText= new String (request.getParameter("javaScript"));
 			javaScriptText=ValidationM.comentaryVariable(javaScriptText);
-//			String test=OperatorCorrect.isOpreratorCorrect(javaScriptText);
+			String test=OperatorCorrect.isOpreratorCorrect(javaScriptText);
 			Pair<Map<String, String>, String> javaScriptTextAndMap = ValidationM.takeOutStrings(javaScriptText);
 			
 			List<Expression> list = parser.Parse(javaScriptTextAndMap.getValue());
