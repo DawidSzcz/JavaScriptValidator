@@ -25,7 +25,8 @@ public class ValidationTest {
 
 	@Test
 	public void test() throws IOException, WrongWhileException {
-		String input = "troro++ = 23- p * 9";
+//		String input = "--toto+troro++ = 23- p *ewrw--+ 9*ale--";
+		String input = "totot!== 534-10";
 		String output = OperatorCorrect.isOpreratorCorrect(input);
 
 		assertTrue(output.compareTo("") == 0);
