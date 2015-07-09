@@ -22,14 +22,6 @@ public class If extends Expression{
 	public String toString() {
 		return "IF ";
 	}
-	private String isIfValid(){
-		String error=OperatorCorrect.isOpreratorCorrect(condition);
-		for(int i=0 ; i<statements.size(); i++){
-			error+=OperatorCorrect.isOpreratorCorrect(statements.get(i).toString());
-		}
-		
-		return error;
-	}
 	protected String getCondition()
 	{
 		return condition;

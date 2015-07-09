@@ -2,7 +2,7 @@ package expression;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+// Do zrobienia "~" "<<" ">>" "===" "!==" ">>>" "!liczba"
 public class OperatorCorrect {
 
 	public static String isOpreratorCorrect(String expression) {
@@ -47,7 +47,8 @@ public class OperatorCorrect {
 		if (indeks != expression.length() - 1 && expression.charAt(indeks + 1) == '=') {
 			if (expression.charAt(indeks) == '=' || expression.charAt(indeks) == '+' || expression.charAt(indeks) == '-'
 					|| expression.charAt(indeks) == '*' || expression.charAt(indeks) == '/'
-					|| expression.charAt(indeks) == '%') {
+					|| expression.charAt(indeks) == '%' || expression.charAt(indeks) == '!'
+					|| expression.charAt(indeks) == '<' || expression.charAt(indeks) == '>') {
 				return true;
 			}
 		}
@@ -55,11 +56,11 @@ public class OperatorCorrect {
 	}
 
 	private static boolean isExpressionCorrect(String expression) {
-		Pattern pattern = Pattern.compile("\\w+");
+		Pattern pattern = Pattern.compile("\\s*\\w+\\s*");
 		Matcher matcher = pattern.matcher(expression);
 		if (matcher.find()) {
 			if (matcher.group().compareTo(expression) == 0) {
-			return true;
+				return true;
 			}
 		}
 		return false;
@@ -69,7 +70,10 @@ public class OperatorCorrect {
 
 		for (int indeks = 0; indeks < expression.length(); indeks++) {
 			if (expression.charAt(indeks) == '+' || expression.charAt(indeks) == '-' || expression.charAt(indeks) == '*'
-					|| expression.charAt(indeks) == '/' || expression.charAt(indeks) == '=') {
+					|| expression.charAt(indeks) == '/' || expression.charAt(indeks) == '='
+					|| expression.charAt(indeks) == '%' || expression.charAt(indeks) == '<'
+					|| expression.charAt(indeks) == '>' || expression.charAt(indeks) == '&'
+					|| expression.charAt(indeks) == '|' || expression.charAt(indeks) == '^') {
 				return indeks;
 			}
 		}
