@@ -24,17 +24,12 @@ import expression.OperatorCorrect;
 public class ValidationTest {
 
 	@Test
-	public void test() throws IOException, WrongWhileException {
-//		String input = "--toto+troro++ = 23- p *ewrw--+ 9*ale--";
-		String input = "totot!== 534-10";
+	public void testOperatorCprrect() throws IOException, WrongWhileException {
+		String input = "--toto+~saaa+troro++ != 23- p *ewrw--+ 9*ale--/876-!42";
 		String output = OperatorCorrect.isOpreratorCorrect(input);
 
 		assertTrue(output.compareTo("") == 0);
-		// ExpressionParser parser = new ExpressionParser();
-		// List<Expression> list = parser.Parse(input);
-		// assertSame(3, list.size());
-		// assertTrue(list.get(0) instanceof If);
-		// assertTrue(list.get(1) instanceof Invocation);
+
 	}
 
 	@Test
