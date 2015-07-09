@@ -1,17 +1,11 @@
 package expression;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import exception.WrongComplexException;
 import exception.WrongForException;
 import exception.WrongIfException;
@@ -54,13 +48,14 @@ public class ExpressionParser {
 				else if (matcherFunc.find())
 					exps.add(makeFunc(statement));
 				else if (matcherWhile.find())
-					exps.add(makeWhile(statement));
+					exps.add(makeWhile(statement));				
+				else if (matcherFor.find())
+						exps.add(makeFor(statement));
 				else if (matcherAssign.find())
 					exps.add(makeAssignment(statement));
 				else if (matcherInvo.find())
 					exps.add(makeInvocation(statement));
-				else if (matcherFor.find())
-					exps.add(makeFor(statement));
+
 				else {
 					Expression unknown = new UnknownExpression(statement);
 					exps.add(unknown);

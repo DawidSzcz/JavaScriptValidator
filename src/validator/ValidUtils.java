@@ -14,15 +14,16 @@ public class ValidUtils {
 	public static final String row = "<tr><td class=\"lp\">%d</td><td style=\"padding-left:%dpx\" class=\"code\">%s</td><td class=\"%s\">%s</td></tr>";
 	
 	public static  int countSpace(String row) {
-		int tabs = 0;
-		while(row.charAt(tabs) == '\t' || row.charAt(tabs) == ' ')
-		{
-			if(row.charAt(tabs) == '\t')
-				tabs+=4;
-			else
-				tabs++;
-		}
-		return tabs*5;
+//		int tabs = 0;
+//		while(tabs<row.length()-1 && row.charAt(tabs) == '\t' || row.charAt(tabs) == ' ')
+//		{
+//			if(row.charAt(tabs) == '\t')
+//				tabs+=4;
+//			else
+//				tabs++;
+//		}
+//		return tabs*5;
+		return 0;
 	}
 }
 
