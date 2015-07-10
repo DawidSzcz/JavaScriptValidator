@@ -31,5 +31,10 @@ public class InvalidExpression extends Expression{
 	{
 		return errors;
 	}
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

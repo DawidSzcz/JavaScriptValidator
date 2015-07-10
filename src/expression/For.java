@@ -29,6 +29,12 @@ public class For extends Expression{
 		return "For";
 	}
 
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
 /*
 	private Expression makeFor(String group) throws IOException, WrongComplexException {

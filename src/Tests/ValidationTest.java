@@ -26,16 +26,14 @@ import expression.Expression;
 import expression.ExpressionParser;
 import expression.If;
 import expression.Invocation;
-import expression.OperatorCorrect;
+import expression.OldOperatorCorrect;
 
 public class ValidationTest {
 
 	@Test
 	public void testOperatorCprrect() throws IOException, WrongWhileException {
-		String input = "--toto+~saaa+troro++ != 23- p *ewrw--+ 9*ale--/876-!42";
-		String output = OperatorCorrect.isOpreratorCorrect(input);
-
-		assertTrue(output.compareTo("") == 0);
+		
+		assertTrue(OldOperatorCorrect.isOpreratorCorrect("!42+54"));
 
 	}
 
@@ -53,7 +51,7 @@ public class ValidationTest {
 		} catch (FileNotFoundException e) {
 
 		}
-
+		
 		List<String> test=Arrays.asList(input.split("\n"));
 		assertSame(5, test.size());
 		/*

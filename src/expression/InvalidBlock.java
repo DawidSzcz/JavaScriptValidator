@@ -37,4 +37,10 @@ public class InvalidBlock extends Expression {
 		return null;
 	}
 
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

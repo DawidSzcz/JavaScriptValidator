@@ -4,33 +4,33 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // Ostatnio dodane: "~" "<<" ">>" "===" "!==" ">>>" "!liczba"
-public class OperatorCorrect {
+public class OldOperatorCorrect {
 
-	public static String isOpreratorCorrect(String expression) {
+	public static Boolean isOpreratorCorrect(String expression) {
 		expression = operatorsWithOneVariable(expression);
 		int indeks = findOperator(expression);
 		if (indeks != -1) {
 			if (tripleOperator(expression, indeks)) {
 				String subExpression1 = expression.substring(0, indeks);
 				String subExpression2 = expression.substring(indeks + 3);
-				return isOpreratorCorrect(subExpression1) + isOpreratorCorrect(subExpression2);
+				return isOpreratorCorrect(subExpression1) && isOpreratorCorrect(subExpression2);
 			} else if (doubleOperator(expression, indeks)) {
 				String subExpression1 = expression.substring(0, indeks);
 				String subExpression2 = expression.substring(indeks + 2);
-				return isOpreratorCorrect(subExpression1) + isOpreratorCorrect(subExpression2);
+				return isOpreratorCorrect(subExpression1) && isOpreratorCorrect(subExpression2);
 			} else {
 				String subExpression1 = expression.substring(0, indeks);
 				String subExpression2 = expression.substring(indeks + 1);
-				return isOpreratorCorrect(subExpression1) + isOpreratorCorrect(subExpression2);
+				return isOpreratorCorrect(subExpression1) && isOpreratorCorrect(subExpression2);
 			}
 
 		} else
 
 		{
 			if (isExpressionCorrect(expression)) {
-				return "";
+				return true;
 			} else {
-				return expression + " is incorrect";
+				return false;
 			}
 		}
 
@@ -102,8 +102,7 @@ public class OperatorCorrect {
 					|| expression.charAt(indeks) == '/' || expression.charAt(indeks) == '='
 					|| expression.charAt(indeks) == '%' || expression.charAt(indeks) == '<'
 					|| expression.charAt(indeks) == '>' || expression.charAt(indeks) == '&'
-					|| expression.charAt(indeks) == '|' || expression.charAt(indeks) == '^'
-					|| expression.charAt(indeks) == '!') {
+					|| expression.charAt(indeks) == '|' || expression.charAt(indeks) == '^') {
 				return indeks;
 			}
 		}

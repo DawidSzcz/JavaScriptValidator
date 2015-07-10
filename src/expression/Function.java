@@ -20,4 +20,9 @@ public class Function extends Expression {
 	public String toString() {
 		return "Function ";
 	}
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
