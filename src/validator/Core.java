@@ -19,6 +19,7 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
+		boolean test =operator.OperatorCorrect.isOpreratorCorrect(request.getParameter("javaScript"));
 		List<Expression> list = parser.parse(request.getParameter("javaScript"));
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, list)));

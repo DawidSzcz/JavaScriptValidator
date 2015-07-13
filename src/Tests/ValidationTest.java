@@ -33,15 +33,17 @@ public class ValidationTest {
 	@Test
 	public void testOperatorCprrect() throws IOException, WrongWhileException {
 		
-		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+32==3"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x + 1 "));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+32==3 "));
 //		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("y = x + 1 "));
-		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x --y"));
+		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
 		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x - --p"));
 		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
 //		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x = 4 = 5"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!4 + 5"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!x"));
+		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !4  +  5"));
+		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !x  "));
+		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
+		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+"+"\n"+"32==3 "));
 //		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("3 + 5 + 4 = 2"));
 
 	}

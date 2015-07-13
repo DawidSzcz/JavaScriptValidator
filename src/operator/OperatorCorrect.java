@@ -44,16 +44,17 @@ public class OperatorCorrect {
 
 	private static boolean isExpresionCorect(String expression) {
 		Matcher matcherOperator1expression=Patterns.operator1expression.matcher(expression);
-		Matcher matcherOperator2expression=Patterns.operator2expressions.matcher(expression);
 		
 		while (matcherOperator1expression.find()) {
 				expression = expression.replace(matcherOperator1expression.group(), "exe");
 				matcherOperator1expression=Patterns.operator1expression.matcher(expression);
 		}
+		Matcher matcherOperator2expression=Patterns.operator2expressions.matcher(expression);
 		while (matcherOperator2expression.find()) {
 			expression = expression.replace(matcherOperator2expression.group(), "exe");
 			matcherOperator2expression=Patterns.operator2expressions.matcher(expression);
 		}
+		expression = expression.replace(" ", "");
 		if (expression.equals("exe")){
 		 	return true;
 		}
