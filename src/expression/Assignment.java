@@ -20,4 +20,9 @@ public class Assignment extends Expression {
 	{
 		return "Assignment";
 	}
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

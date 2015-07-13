@@ -19,10 +19,10 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
+
+		boolean test =operator.OperatorCorrect.isOpreratorCorrect(request.getParameter("javaScript"));
 		List<Expression> list = parser.parse(request.getParameter("javaScript"));
-		String htmlValid=htmlValidReplace(request.getParameter("javaScript"));
-		List<String> rows = Arrays.asList(htmlValid.split("\n"));
-		//List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
+		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, list)));
 	}
 	private String htmlValidReplace(String javaScirptText) {
@@ -41,11 +41,11 @@ public class Core extends HttpServlet {
 		{
 			if(rows.get(i).contains(next.getName()))
 			{
-				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? makeData(next) : iterator.getTree());
+				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(htmlValidReplace(rows.get(i))), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? makeData(next) : iterator.getTree());
 				next = iterator.next();
 			}
 			else
-				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
+				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(htmlValidReplace(rows.get(i))), rows.get(i), "plain", "plain");
 		}
 		return body;
 	}

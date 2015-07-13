@@ -27,6 +27,11 @@ public class UnknownExpression extends Expression
 	{
 		return errors;
 	}
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 
 }

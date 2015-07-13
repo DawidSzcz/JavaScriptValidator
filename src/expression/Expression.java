@@ -20,6 +20,7 @@ public abstract class Expression {
 
 	public abstract String toString();
 	List<String> errors = new LinkedList<>();
+	public abstract boolean isValid();
 	public List<String> getErrors()
 	{
 		return errors;

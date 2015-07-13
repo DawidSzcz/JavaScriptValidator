@@ -49,5 +49,10 @@ public class ExpressionIterator
 			// TODO Auto-generated method stub
 			return "";
 		}
+		@Override
+		public boolean isValid() {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 }

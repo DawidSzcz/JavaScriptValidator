@@ -19,4 +19,10 @@ public class NullExpression extends Expression{
 		return "Null Expression";
 	}
 
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
