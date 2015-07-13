@@ -45,7 +45,7 @@ public class ValidationTest {
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+" + "\n" + "32==3 "));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x++ w"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
-		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+534+asas+23234234+6665*2323342)+dad[wda]"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
 	}
 

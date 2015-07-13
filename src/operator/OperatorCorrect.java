@@ -7,8 +7,6 @@ public class OperatorCorrect {
 	public static boolean isOpreratorCorrect(String expression) {
 
 		expression = expression.replaceAll("\\w+", "exp");
-		Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
-		Matcher macherFunction = Patterns.function.matcher(expression);
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 
 		// s³abo rozwiazane!
@@ -17,18 +15,18 @@ public class OperatorCorrect {
 			if (!isExpresionCorect(macherSquareBracket.group())) {
 				return false;
 			} else
-				expression = expression.replace("["+macherSquareBracket.group()+"]", "*exp");
+				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*exp");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		}
-
+		Matcher macherFunction = Patterns.function.matcher(expression);
 		while (macherFunction.find()) {
-//			if (!isFunction(macherFunction.group())) {
-//				return false;							*do zrobienia poprawnosc argumentow w funkcji
-//			} else
-				expression = expression.replace(macherFunction.group(), "exp");
+			// if (!isFunction(macherFunction.group())) {
+			// return false; *do zrobienia poprawnosc argumentow w funkcji
+			// } else
+			expression = expression.replace(macherFunction.group(), "exp");
 			macherFunction = Patterns.function.matcher(expression);
 		}
-
+		Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (!isExpresionCorect(macherBracket.group())) {
 				return false;
@@ -52,7 +50,7 @@ public class OperatorCorrect {
 			expression = expression.replace(matcherOperator2expression.group(), "exp");
 			matcherOperator2expression = Patterns.operator2expressions.matcher(expression);
 		}
-			
+
 		expression = expression.replace(" ", "");
 		if (expression.equals("exp")) {
 			return true;
