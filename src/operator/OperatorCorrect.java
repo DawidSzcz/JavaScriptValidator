@@ -6,7 +6,7 @@ public class OperatorCorrect {
 
 	public static boolean isOpreratorCorrect(String expression) {
 
-		expression = expression.replaceAll("\\w+", "exp");
+		expression = expression.replaceAll(Patterns.variable, "exp");
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 
 		// s³abo rozwiazane!
