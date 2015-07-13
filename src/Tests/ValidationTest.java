@@ -9,10 +9,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 import org.junit.Test;
+
+import enums.Error;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +29,9 @@ import expression.Expression;
 import expression.ExpressionParser;
 import expression.If;
 import expression.Invocation;
+import expression.Program;
 import operator.OperatorCorrect;
+import validator.ValidUtils;
 
 public class ValidationTest {
 
@@ -49,31 +54,25 @@ public class ValidationTest {
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
 	}
 
+	
 	@Test
 	public void testParser() throws IOException, WrongWhileException {
-		String input = "";
-		String line;
-		try {
-			FileReader file = new FileReader("daneDoTestow.txt");
-			BufferedReader bufferedReader = new BufferedReader(file);
-			while ((line = bufferedReader.readLine()) != null) {
-				input += line + "\n";
-			}
-			bufferedReader.close();
-		} catch (FileNotFoundException e) {
-
-		}
-
+		String input = TestUtils.readFromFile("daneDoTestow.txt");
 		List<String> test = Arrays.asList(input.split("\n"));
 		assertSame(5, test.size());
 	}
 
 	@Test
 	public void test3() throws IOException {
-		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" + "{\n" + "	-eter(0).setValue(null);\n"
-				+ "}" + "rowp.getParameter(0).setValue(null);\n";
+		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" 
+				+ "{\n" 
+				+ "	-eter(0).setValue(null);\n"
+				+ "}" 
+				+ "rowp.getParameter(0).setValue(null);\n";
 		ExpressionParser parser = new ExpressionParser();
 		List<Expression> list = parser.parse(input);
+		Program program = new Program("Program", list);
+		HashMap<Integer, List<Error>> errors = program.getAllErrors();
 		assertSame(2, list.size());
 		assertTrue(list.get(0) instanceof If);
 		assertTrue(list.get(1) instanceof Invocation);

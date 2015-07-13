@@ -67,20 +67,13 @@ public class ExpressionParser {
 													unknown.addError(Error.UnexpectedClosingBracket);
 											}
 			} catch (WrongComplexException e) {
-				InvalidExpression exp = new InvalidExpression(e.getStatement(), getLine(statement));
+				InvalidExpression exp = new InvalidExpression(e.getStatement(), ParseUtils.getLine(instructions, statement));
 				exp.addError(e.getError());
 				exps.add(exp);
 				exps.addAll(secondExpression(exp, statement));
 			}
 		}
 		return exps;
-	}
-
-	private String cleanLine(String statement) {
-		Matcher matcher = Patterns.line.matcher(statement);
-		if(!matcher.find())
-			return "";
-		return matcher.group();
 	}
 	private Expression makeElse(String statement, Expression If) throws WrongIfException, IOException {
 		Matcher states = Patterns.states.matcher(statement);
@@ -90,7 +83,7 @@ public class ExpressionParser {
 		else {
 			throw new WrongIfException(Error.InvalidBlock, statement);
 		}
-		return new Else(statement, getLine(statement), (If)If, parseExpressions(statesments));
+		return new Else(statement, ParseUtils.getLine(instructions, statement), (If)If, parseExpressions(statesments));
 	}
 
 	private List<Expression> secondExpression(Expression exp, String statement) throws IOException {
@@ -124,7 +117,7 @@ public class ExpressionParser {
 			throw new WrongForException(Error.InvalidBlock, group);
 		}
 
-		return new For(group, getLine(group), arguments, parseExpressions(statesments));
+		return new For(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
 
 	}
 
@@ -147,7 +140,7 @@ public class ExpressionParser {
 			throw new WrongWhileException(Error.InvalidBlock, group);
 		}
 
-		return new While(group, getLine(group), arguments, parseExpressions(statesments));
+		return new While(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
 
 	}
 
@@ -164,21 +157,11 @@ public class ExpressionParser {
 		else {
 			throw new WrongIfException(Error.InvalidBlock, group);
 		}
-		return new If(group, getLine(group), arguments, parseExpressions(statesments));
+		return new If(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
 
-	}
-
-	private int getLine(String group) {
-		group = cleanLine(group);
-		for(int i = 0; i < instructions.size(); i++)
-			try{
-				if(group.contains(cleanLine(instructions.get(i))))
-					return i + 1;
-			}catch(IllegalStateException e){}
-		return -2;
 	}
 	private Expression makeInvocation(String statement) {
-		return new Invocation(statement, getLine(statement));
+		return new Invocation(statement, ParseUtils.getLine(instructions, statement));
 	}
 
 	private Expression makeAssignment(String stat) {
@@ -186,7 +169,7 @@ public class ExpressionParser {
 		mat.find();
 		stat = mat.group();
 		String side[] = stat.split("=");
-		return new Assignment(stat, getLine(stat),side[0], side[1]);
+		return new Assignment(stat, ParseUtils.getLine(instructions, stat),side[0], side[1]);
 	}
 
 	public static String uniqueId(String in) {
