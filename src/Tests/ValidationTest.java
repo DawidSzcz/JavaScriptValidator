@@ -32,20 +32,21 @@ public class ValidationTest {
 
 	@Test
 	public void testOperatorCprrect() throws IOException, WrongWhileException {
-		
+
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" cse "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x + 1 "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+32==3 "));
-//		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("y = x + 1 "));
-		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x - --p"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
-//		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x = 4 = 5"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !4  +  5"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !x  "));
-		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
-		  assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+"+"\n"+"32==3 "));
-//		  assertFalse(operator.OperatorCorrect.isOpreratorCorrect("3 + 5 + 4 = 2"));
-
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x - --p"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !4  +  5"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !x  "));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+" + "\n" + "32==3 "));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x++ w"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
 	}
 
 	@Test
@@ -55,15 +56,15 @@ public class ValidationTest {
 		try {
 			FileReader file = new FileReader("daneDoTestow.txt");
 			BufferedReader bufferedReader = new BufferedReader(file);
-			while ((line = bufferedReader.readLine()) != null){
+			while ((line = bufferedReader.readLine()) != null) {
 				input += line + "\n";
 			}
 			bufferedReader.close();
 		} catch (FileNotFoundException e) {
 
 		}
-		
-		List<String> test=Arrays.asList(input.split("\n"));
+
+		List<String> test = Arrays.asList(input.split("\n"));
 		assertSame(5, test.size());
 		/*
 		 * String input =
