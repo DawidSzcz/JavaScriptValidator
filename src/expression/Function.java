@@ -1,14 +1,16 @@
 package expression;
 
+import java.util.HashMap;
 import java.util.List;
 
-public class Function extends Expression {
-	public Function(String name) {
-		super(name);
+import enums.Error;
+
+public class Function extends ComplexExpression {
+	public Function(String name, int line) {
+		super(name, line);
 		// TODO Auto-generated constructor stub
 	}
 	List<Expression> aguments;
-	List<Expression> statements;
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
 		if(index == 0)

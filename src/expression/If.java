@@ -2,11 +2,10 @@ package expression;
 
 import java.util.List;
 
-public class If extends Expression{
+public class If extends ComplexExpression{
 	String condition;
-	List<Expression> statements;
-	public If(String name, String cond, List<Expression> stat) {
-		super(name);
+	public If(String name, int line, String cond, List<Expression> stat) {
+		super(name, line);
 		condition = cond;
 		statements = stat;
 	}
@@ -30,4 +29,9 @@ public class If extends Expression{
 	{
 		return statements;
 	}
+	protected String getName()
+	{
+		return name;
+	}
+	
 }

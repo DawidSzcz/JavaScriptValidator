@@ -2,6 +2,7 @@ package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,11 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import enums.Error;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionIterator;
 import expression.ExpressionParser;
 import expression.Patterns;
+import expression.Program;
 
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,40 +28,27 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
-		List<Expression> list = parser.parse(request.getParameter("javaScript"));
+		Expression program =  new Program(request.getParameter("javaScript"), parser.parse(request.getParameter("javaScript")));
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
-		out.println(String.format(ValidUtils.html, makeResponse(rows, list)));
+		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));
 	}
-	private String makeResponse(List<String> rows, List<Expression> list)
+	private String makeResponse(List<String> rows, Expression program)
 	{
+		HashMap<Integer, List<Error>> error = program.getAllErrors();
 		String body = "";
-		ExpressionIterator iterator = new ExpressionIterator(list);
-		Matcher singleState;
+		ExpressionIterator iterator = new ExpressionIterator(program);
 		Expression next = iterator.next();
 		for(int i = 0; i < rows.size(); i++)
 		{
-			if(rows.get(i).contains(next.getName()))
+			if(next.match(rows.get(i)))
 			{
-				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? makeData(next) : iterator.getTree());
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
 				next = iterator.next();
 			}
 			else
-				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
 		}
 		return body;
-	}
-	private String makeData(Expression exp)
-	{
-		List<String> errors = exp.getErrors();
-		if(errors.size() == 1)
-			return errors.get(0);
-		else
-		{
-			String data = "<select>\n";
-			for(String message : errors)
-				data += "<option>\n" + message + "</option>";
-			return data + "\n</select>";
-		}
 	}
 
 } 

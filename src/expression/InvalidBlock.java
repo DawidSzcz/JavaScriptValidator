@@ -4,15 +4,16 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import enums.Error;
 import exception.UnknownException;
 
 public class InvalidBlock extends Expression {
 
 	List<String> states = new LinkedList<>();
 	
-	public InvalidBlock(String block) throws UnknownException
+	public InvalidBlock(String block, int line) throws UnknownException
 	{
-		super(block);
+		super(block, line);
 		states = Arrays.asList(block.split("\\{|\\;"));
 	}
 
@@ -23,12 +24,6 @@ public class InvalidBlock extends Expression {
 	public boolean hasErrors()
 	{
 		return true;
-	}
-	public List<String> getErrors()
-	{
-		LinkedList<String> list =  new LinkedList<String>();
-		list.add(name);
-		return list;
 	}
 
 	@Override

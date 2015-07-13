@@ -1,13 +1,14 @@
 package exception;
+import enums.Error;
 
 public class WrongIfException extends WrongComplexException {
-	String error;
+	Error error;
 	String block;
-	public WrongIfException(String error, String statement) {
+	public WrongIfException(Error error, String statement) {
 		this.error = error;
 		this.block = statement;
 	}
-	public String getError()
+	public Error getError()
 	{
 		return error;
 	}

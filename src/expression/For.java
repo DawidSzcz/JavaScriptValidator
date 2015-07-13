@@ -1,17 +1,18 @@
 package expression;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 
+import enums.Error;
 import exception.WrongComplexException;
 import exception.WrongForException;
 
-public class For extends Expression{
+public class For extends ComplexExpression{
 	String  condition;
-	List<Expression> statements;
-	public For(String name, String cond, List<Expression> stats) {
-		super(name);
+	public For(String name, int line, String cond, List<Expression> stats) {
+		super(name, line);
 		condition = cond;
 		statements = stats;		
 	}

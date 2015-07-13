@@ -9,9 +9,9 @@ import javafx.util.Pair;
 public class ExpressionIterator 
 {
 	Stack<Pair<Expression, Integer>> stack = new Stack<>();
-	private Expression nullExpresion = new NullExpression("NULL");
-	public ExpressionIterator(List<Expression> exps) {
-		stack.push(new Pair<Expression, Integer>(new Top(exps), 0));
+	private Expression nullExpresion = new NullExpression("NULL", -1);
+	public ExpressionIterator(Expression program) {
+		stack.push(new Pair<Expression, Integer>(program, 0));
 	}
 	public Expression next()
 	{
@@ -28,26 +28,10 @@ public class ExpressionIterator
 		}	
 	}
 	public String getTree(){
-		String ret = "";
+		
+		String ret = !stack.empty() ? stack.peek().getKey().getLine() +": ": "";
 		for(int i = 0; i <stack.size(); i++)
 			ret += stack.get(i).getKey().toString() + " ";
 		return ret;
-	}
-	private class Top extends Expression
-	{
-		List<Expression> topExpressions;
-		public Top(List<Expression> exps) {
-			super("TOP");
-			topExpressions = exps;
-		}
-		@Override
-		public Expression get(int index) throws IndexOutOfBoundsException {
-			return topExpressions.get(index);
-		}
-		@Override
-		public String toString() {
-			// TODO Auto-generated method stub
-			return "";
-		}
 	}
 }
