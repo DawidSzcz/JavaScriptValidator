@@ -37,6 +37,7 @@ public class ValidationTest {
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x + 1 "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+32==3 "));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x - --1"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x - --p"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !4  +  5"));

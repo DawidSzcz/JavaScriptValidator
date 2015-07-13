@@ -4,16 +4,16 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 	public static String variable = "[_$A-Za-z]\\w*";
-//	public static
+	public static String number = "[0-9]+";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
 	public static String functionS = "(\\w+\\.)*\\w+(\\([^\\)\\(]*\\))";
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
-	public static String operator1expressionS = createRegex1("\\+\\+exp")
-	+ "|" + createRegex1("exp\\+\\+")
-	+ "|" + createRegex1("exp\\-\\-")
-	+ "|" + createRegex1("\\-\\-exp")
-	+ "|" + createRegex1("\\~exp")
-	+ "|" + createRegex1("\\!exp");
+	public static String operator1expressionS = createRegex1("\\+\\+variable")
+	+ "|" + createRegex1("variable\\+\\+")
+	+ "|" + createRegex1("variable\\-\\-")
+	+ "|" + createRegex1("\\-\\-variable")
+	+ "|" + createRegex1("\\~(number|variable)")
+	+ "|" + createRegex1("\\!(number|variable)");
 	public static String operator2expressionsS = createRegex2("\\+")
 	+ "|" + createRegex2("\\-")
 	+ "|" + createRegex2("\\*")
@@ -41,6 +41,6 @@ public class Patterns {
 	}
 	// "+operator+"
 	private static String createRegex2(String operator) {
-		return "\\s*exp\\s*"+operator+"\\s*exp\\s*";
+		return "\\s*(number|variable)\\s*"+operator+"\\s*(number|variable)\\s*";
 	}
 }
