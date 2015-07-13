@@ -15,4 +15,9 @@ public class Invocation extends Expression {
 	public String toString() {
 		return "Invocation";
 	}
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

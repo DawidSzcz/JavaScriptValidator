@@ -42,13 +42,12 @@ public class Core extends HttpServlet {
 		{
 			if(next.match(rows.get(i)))
 			{
-				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
 				next = iterator.next();
 			}
 			else
-				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), "plain", "plain");
 		}
 		return body;
 	}
-
-} 
+}

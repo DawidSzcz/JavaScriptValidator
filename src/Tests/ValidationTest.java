@@ -2,8 +2,15 @@ package Tests;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.Test;
 
@@ -19,40 +26,46 @@ import expression.Expression;
 import expression.ExpressionParser;
 import expression.If;
 import expression.Invocation;
-import expression.OperatorCorrect;
+import operator.OperatorCorrect;
 
 public class ValidationTest {
 
-//	@Test
-//	public void test() throws IOException, WrongWhileException {
-////		String input = "--toto+troro++ = 23- p *ewrw--+ 9*ale--";
-//		String input = "totot!== 534-10";
-//		String output = OperatorCorrect.isOpreratorCorrect(input);
-//
-//		assertTrue(output.compareTo("") == 0);
-//		// ExpressionParser parser = new ExpressionParser();
-//		// List<Expression> list = parser.Parse(input);
-//		// assertSame(3, list.size());
-//		// assertTrue(list.get(0) instanceof If);
-//		// assertTrue(list.get(1) instanceof Invocation);
-//	}
+	@Test
+	public void testOperatorCprrect() throws IOException, WrongWhileException {
+
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" cse "));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x + 1 "));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+32==3 "));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x - --p"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !4  +  5"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !x  "));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+" + "\n" + "32==3 "));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x++ w"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
+	}
 
 	@Test
-	public void test2() throws IOException, WrongWhileException {
-/*		String input = "process_id=_featureManager.getProcessInstanceFeature().getWFLIProcessId(); \n"
-				+ "if ((_COUNTRY_ID.getValue()==320)||(_COUNTRY_ID.getValue()==390)) \n" + "{\n"
-				+ "	dbPort = _featureManager.getTytanDBPortFeature(); \n"
-				+ "	query = dbPort.executeStatement(\"select NOORDER, RESITEM_ID from table (xpwflcitem.fcGetMSISDNrow(\"+process_id+\"))\"); \n"
-				+ "	while(query.next()) \n" + "	{ \n"
-				+ "		noorder = java.math.BigInteger(query.getString(\"NOORDER\")); \n"
-				+ "		resitem = java.math.BigInteger(query.getString(\"RESITEM_ID\")); \n"
-				+ "		_TABLE.getRow(noorder).getParameter(5).setValue(resitem); \n" + "	} \n" + "}\n";
-		ExpressionParser parser = new ExpressionParser();
-		List<Expression> list = parser.parse(input);
+	public void testParser() throws IOException, WrongWhileException {
+		String input = "";
+		String line;
+		try {
+			FileReader file = new FileReader("daneDoTestow.txt");
+			BufferedReader bufferedReader = new BufferedReader(file);
+			while ((line = bufferedReader.readLine()) != null) {
+				input += line + "\n";
+			}
+			bufferedReader.close();
+		} catch (FileNotFoundException e) {
 
-		assertSame(3, list.size());
-		assertTrue(list.get(1) instanceof If);
-		// assertTrue(list.get(1) instanceof Invocation); */
+		}
+
+		List<String> test = Arrays.asList(input.split("\n"));
+		assertSame(5, test.size());
 	}
 
 	@Test

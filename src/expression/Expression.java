@@ -23,6 +23,10 @@ public abstract class Expression {
 	public abstract Expression get(int index) throws IndexOutOfBoundsException;
 
 	public abstract String toString();
+	public  boolean isValid()
+	{
+		return errors.isEmpty();
+	}
 	public List<enums.Error> getErrors()
 	{
 		return errors;

@@ -1,27 +1,17 @@
 package expression;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.coyote.ErrorState;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-
-import enums.Error;
 import exception.WrongComplexException;
 import exception.WrongForException;
 import exception.WrongIfException;
 import exception.WrongWhileException;
+import enums.Error;
 
 public class ExpressionParser {
 	HashMap<String, String> blocks = new HashMap<>();

@@ -22,4 +22,9 @@ public class Function extends ComplexExpression {
 	public String toString() {
 		return "Function ";
 	}
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

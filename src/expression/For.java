@@ -30,6 +30,12 @@ public class For extends ComplexExpression{
 		return "For";
 	}
 
+	@Override
+	public boolean isValid() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
 /*
 	private Expression makeFor(String group) throws IOException, WrongComplexException {

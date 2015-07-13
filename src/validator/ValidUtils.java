@@ -42,4 +42,11 @@ public class ValidUtils {
 			return data + "\n</select>";
 		}
 	}
+	public static String htmlValidReplace(String javaScirptText) {
+		javaScirptText=javaScirptText.replace("&", "&#x26;");
+		javaScirptText=javaScirptText.replace("<", "&#x3C;");
+		javaScirptText=javaScirptText.replace(">", "&#x3E;" );
+		javaScirptText=javaScirptText.replace("\"", "&#x22;");
+		return javaScirptText;
+	}
 }
