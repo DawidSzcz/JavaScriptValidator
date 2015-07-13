@@ -1,11 +1,15 @@
 package expression;
 
+import java.util.HashMap;
+import java.util.List;
+
+import enums.Error;
 public class Assignment extends Expression {
 	 String first;
 	 String second;
-	 public Assignment(String name, String a, String b)
+	 public Assignment(String name, int line, String a, String b)
 	 {
-		 super(name);
+		 super(name, line);
 		 first = a;
 		 second = b;
 	 }
@@ -19,10 +23,5 @@ public class Assignment extends Expression {
 	public String toString()
 	{
 		return "Assignment";
-	}
-	@Override
-	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

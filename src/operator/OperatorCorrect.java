@@ -12,25 +12,23 @@ public class OperatorCorrect {
 		// s³abo rozwiazane!
 		while (macherSquareBracket.find()) {
 
-			if (!isExpresionCorect(macherSquareBracket.group())) {
+			if (!isExpresionCorect(macherSquareBracket.group())) 
 				return false;
-			} else
+			else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*exp");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		}
 		Matcher macherFunction = Patterns.function.matcher(expression);
 		while (macherFunction.find()) {
-			// if (!isFunction(macherFunction.group())) {
-			// return false; *do zrobienia poprawnosc argumentow w funkcji
-			// } else
+
 			expression = expression.replace(macherFunction.group(), "exp");
 			macherFunction = Patterns.function.matcher(expression);
 		}
 		Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
-			if (!isExpresionCorect(macherBracket.group())) {
+			if (!isExpresionCorect(macherBracket.group())) 
 				return false;
-			} else
+			else
 				expression = expression.replace("(" + macherBracket.group() + ")", "exp");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);
 		}
@@ -52,9 +50,9 @@ public class OperatorCorrect {
 		}
 
 		expression = expression.replace(" ", "");
-		if (expression.equals("exp")) {
+		if (expression.equals("exp"))
 			return true;
-		} else
+		else
 			return false;
 	}
 }

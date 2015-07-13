@@ -1,13 +1,15 @@
 package exception;
 
+import enums.Error;
+
 public class WrongWhileException extends WrongComplexException {
-	String error;
+	Error error;
 	String block;
-	public WrongWhileException(String error, String statement) {
+	public WrongWhileException(Error error, String statement) {
 		this.error = error;
 		this.block = statement;
 	}
-	public String getError()
+	public Error getError()
 	{
 		return error;
 	}

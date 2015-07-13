@@ -1,6 +1,7 @@
 package expression;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,11 +11,13 @@ import exception.WrongComplexException;
 import exception.WrongForException;
 import exception.WrongIfException;
 import exception.WrongWhileException;
+import enums.Error;
 
 public class ExpressionParser {
 	HashMap<String, String> blocks = new HashMap<>();
-
+	List<String> instructions;
 	public List<Expression> parse(String input) throws IOException {
+		instructions = Arrays.asList(input.split("\n"));
 		Matcher mat = Patterns.block.matcher(input);
 		while (mat.find()) {
 			String block = mat.group();
@@ -26,7 +29,6 @@ public class ExpressionParser {
 		}
 		return parseExpressions(input);
 	}
-
 	private List<Expression> parseExpressions(String input) throws IOException {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
@@ -42,28 +44,30 @@ public class ExpressionParser {
 			Matcher matcherAssign = Patterns.assign.matcher(statement);
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);
 			Matcher matcherFor = Patterns.For.matcher(statement);
+			Matcher matcherElse = Patterns.Else.matcher(statement);
 			try {
-				if (matcherIf.find())
-					exps.add(makeIf(statement));
-				else if (matcherFunc.find())
-					exps.add(makeFunc(statement));
-				else if (matcherWhile.find())
-					exps.add(makeWhile(statement));				
-				else if (matcherFor.find())
-						exps.add(makeFor(statement));
-				else if (matcherAssign.find())
-					exps.add(makeAssignment(statement));
-				else if (matcherInvo.find())
-					exps.add(makeInvocation(statement));
-
-				else {
-					Expression unknown = new UnknownExpression(statement);
-					exps.add(unknown);
-					if (statement.contains("}"))
-						unknown.addError("This closing bracket has no pair");
-				}
+				if(matcherElse.find())
+					exps.add(makeElse(statement, exps.remove(exps.size()-1)));
+				else if (matcherIf.find())
+						exps.add(makeIf(statement));
+					else if (matcherFunc.find())
+							exps.add(makeFunc(statement));
+						else if (matcherWhile.find())
+								exps.add(makeWhile(statement));
+							else if (matcherFor.find())
+									exps.add(makeFor(statement));
+								else if (matcherAssign.find())
+										exps.add(makeAssignment(statement));
+									else if (matcherInvo.find())
+											exps.add(makeInvocation(statement));
+										else {
+												Expression unknown = new UnknownExpression(statement, instructions.indexOf(statement));
+												exps.add(unknown);
+												if (statement.contains("}"))
+													unknown.addError(Error.UnexpectedClosingBracket);
+											}
 			} catch (WrongComplexException e) {
-				InvalidExpression exp = new InvalidExpression(e.getStatement());
+				InvalidExpression exp = new InvalidExpression(e.getStatement(), ParseUtils.getLine(instructions, statement));
 				exp.addError(e.getError());
 				exps.add(exp);
 				exps.addAll(secondExpression(exp, statement));
@@ -71,15 +75,25 @@ public class ExpressionParser {
 		}
 		return exps;
 	}
+	private Expression makeElse(String statement, Expression If) throws WrongIfException, IOException {
+		Matcher states = Patterns.states.matcher(statement);
+		String arguments, statesments;
+		if (states.find())
+			statesments = states.group();
+		else {
+			throw new WrongIfException(Error.InvalidBlock, statement);
+		}
+		return new Else(statement, ParseUtils.getLine(instructions, statement), (If)If, parseExpressions(statesments));
+	}
 
 	private List<Expression> secondExpression(Expression exp, String statement) throws IOException {
 		if (statement.contains("{")) {
-			exp.addError("Missing closing bracket");
+			exp.addError(Error.UnexpectedOpeningBracket);
 			return parseExpressions(statement.split("\\{")[1]);
 		}
 		Matcher match = Patterns.checkOpenning.matcher(statement);
 		if (match.find()) {
-			exp.addError("Missing opening bracket");
+			exp.addError(Error.MissingOpenningBracket);
 			match = Patterns.line.matcher(statement);
 			match.find();
 			match.find();
@@ -96,14 +110,14 @@ public class ExpressionParser {
 		if (arg.find())
 			arguments = arg.group();
 		else
-			throw new WrongForException("Ivalid arguments", group);
+			throw new WrongForException(Error.InvalidArguments, group);
 		if (states.find())
 			statesments = states.group();
 		else {
-			throw new WrongForException("Invalid block", group);
+			throw new WrongForException(Error.InvalidBlock, group);
 		}
 
-		return new For(group, arguments, parseExpressions(statesments));
+		return new For(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
 
 	}
 
@@ -119,14 +133,14 @@ public class ExpressionParser {
 		if (arg.find())
 			arguments = arg.group();
 		else
-			throw new WrongWhileException("Ivalid arguments", group);
+			throw new WrongWhileException(Error.InvalidArguments, group);
 		if (states.find())
 			statesments = states.group();
 		else {
-			throw new WrongWhileException("Invalid block", group);
+			throw new WrongWhileException(Error.InvalidBlock, group);
 		}
 
-		return new While(group, arguments, parseExpressions(statesments));
+		return new While(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
 
 	}
 
@@ -137,18 +151,17 @@ public class ExpressionParser {
 		if (arg.find())
 			arguments = arg.group();
 		else
-			throw new WrongIfException("Ivalid arguments", group);
+			throw new WrongIfException(Error.InvalidArguments, group);
 		if (states.find())
 			statesments = states.group();
 		else {
-			throw new WrongIfException("Invalid block", group);
+			throw new WrongIfException(Error.InvalidBlock, group);
 		}
-		return new If(group, arguments, parseExpressions(statesments));
+		return new If(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
 
 	}
-
 	private Expression makeInvocation(String statement) {
-		return new Invocation(statement);
+		return new Invocation(statement, ParseUtils.getLine(instructions, statement));
 	}
 
 	private Expression makeAssignment(String stat) {
@@ -156,7 +169,7 @@ public class ExpressionParser {
 		mat.find();
 		stat = mat.group();
 		String side[] = stat.split("=");
-		return new Assignment(stat, side[0], side[1]);
+		return new Assignment(stat, ParseUtils.getLine(instructions, stat),side[0], side[1]);
 	}
 
 	public static String uniqueId(String in) {

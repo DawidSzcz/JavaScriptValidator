@@ -1,8 +1,8 @@
 package expression;
 
 public class Invocation extends Expression {
-	public Invocation(String str) {
-		super(str);
+	public Invocation(String str, int line) {
+		super(str, line);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

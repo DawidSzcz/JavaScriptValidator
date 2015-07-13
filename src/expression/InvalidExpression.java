@@ -1,15 +1,17 @@
 package expression;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import enums.Error;
 import exception.UnknownException;
 
 public class InvalidExpression extends Expression{
 
-	public InvalidExpression(String str) 
+	public InvalidExpression(String str, int line) 
 	{
-		super(str);
+		super(str, line);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -26,15 +28,6 @@ public class InvalidExpression extends Expression{
 	public boolean hasErrors()
 	{
 		return true;
-	}
-	public List<String> getErrors()
-	{
-		return errors;
-	}
-	@Override
-	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

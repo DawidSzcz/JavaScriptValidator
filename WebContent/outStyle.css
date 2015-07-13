@@ -19,3 +19,9 @@ table
 {
 	border: 1px solid black;
 }
+select
+{
+	background-color: red;
+	font-weight: bold;
+	width: 100%;	
+}

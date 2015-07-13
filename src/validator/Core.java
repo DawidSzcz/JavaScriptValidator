@@ -2,15 +2,24 @@ package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import enums.Error;
+import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionIterator;
 import expression.ExpressionParser;
+import expression.Patterns;
+import expression.Program;
 
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -19,48 +28,26 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser();
-
-		boolean test =operator.OperatorCorrect.isOpreratorCorrect(request.getParameter("javaScript"));
-		List<Expression> list = parser.parse(request.getParameter("javaScript"));
+		Expression program =  new Program(request.getParameter("javaScript"), parser.parse(request.getParameter("javaScript")));
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
-		out.println(String.format(ValidUtils.html, makeResponse(rows, list)));
+		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));
 	}
-	private String htmlValidReplace(String javaScirptText) {
-		javaScirptText=javaScirptText.replace("&", "&#x26;");
-		javaScirptText=javaScirptText.replace("<", "&#x3C;");
-		javaScirptText=javaScirptText.replace(">", "&#x3E;" );
-		javaScirptText=javaScirptText.replace("\"", "&#x22;");
-		return javaScirptText;
-	}
-	private String makeResponse(List<String> rows, List<Expression> list)
+	private String makeResponse(List<String> rows, Expression program)
 	{
+		HashMap<Integer, List<Error>> error = program.getAllErrors();
 		String body = "";
-		ExpressionIterator iterator = new ExpressionIterator(list);
+		ExpressionIterator iterator = new ExpressionIterator(program);
 		Expression next = iterator.next();
 		for(int i = 0; i < rows.size(); i++)
 		{
-			if(rows.get(i).contains(next.getName()))
+			if(next.match(rows.get(i)))
 			{
-				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(htmlValidReplace(rows.get(i))), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? makeData(next) : iterator.getTree());
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
 				next = iterator.next();
 			}
 			else
-				body += String.format(ValidUtils.row, i, ValidUtils.countSpace(htmlValidReplace(rows.get(i))), rows.get(i), "plain", "plain");
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), "plain", "plain");
 		}
 		return body;
 	}
-	private String makeData(Expression exp)
-	{
-		List<String> errors = exp.getErrors();
-		if(errors.size() == 1)
-			return errors.get(0);
-		else
-		{
-			String data = "<select>\n";
-			for(String message : errors)
-				data += "<option>\n" + message + "</option>";
-			return data + "\n</select>";
-		}
-	}
-
-} 
+}

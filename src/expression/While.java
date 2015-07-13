@@ -2,11 +2,10 @@ package expression;
 
 import java.util.List;
 
-public class While extends Expression{
+public class While extends ComplexExpression{
 	String  condition;
-	List<Expression> statements;
-	public While(String name, String cond, List<Expression> stats) {
-		super(name);
+	public While(String name, int line, String cond, List<Expression> stats) {
+		super(name, line);
 		condition = cond;
 		statements = stats;
 	}

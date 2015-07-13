@@ -3,6 +3,7 @@ package expression;
 import java.util.regex.Pattern;
 
 public class Patterns {
+	public static String ElseS = "\\s*else";
 	public static String splitS = ";+\\s*";
 	public static String variableS = "\\a+\\w+";
 	public static String cleanS = "\\w.+";
@@ -12,14 +13,14 @@ public class Patterns {
 	public static String IfS = "^\\s*if";
 	public static String WhileS = "^\\s*while";
 	public static String FunctionS = "^\\s*function";
-	public static String blockS = "((if)|(while)|(function)|(for))[^\\n]+[\\s]*(\\{[^\\}\\{]+\\})";
+	public static String blockS = "((if)|(while)|(function)|(for)|(else))[^\\n]+[\\s]*(\\{[^\\}\\{]+\\})";
 	public static String assignS = "\\s*\\w+ *=";
 	public static String identiferS = "^-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
-	public static String invocationS = "(^[^=]+(\\.|\\;))+";
+	public static String invocationS = "(^[^=]+(\\.|\\;))*\\w+\\([^\\n]*\\)";
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
-	public static String lineS = "[\\{\\}\\w]+[^\\n\r]*";
+	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
 
 	public static Pattern clean = Pattern.compile(cleanS);
@@ -38,5 +39,6 @@ public class Patterns {
 	public static Pattern checkOpenning = Pattern.compile(checkOpenningS);
 	public static Pattern line = Pattern.compile(lineS);
 	public static Pattern For = Pattern.compile(ForS);
+	public static Pattern Else = Pattern.compile(ElseS);
 
 }

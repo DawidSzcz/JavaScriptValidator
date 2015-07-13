@@ -4,25 +4,22 @@ import exception.UnknownException;
 
 public class NullExpression extends Expression{
 
-	public NullExpression(String name) {
-		super(name);
+	public NullExpression(String name, int line) {
+		super(name, line);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
-		return this;
+		if(index == 0)
+			return this;
+		else 
+			throw new IndexOutOfBoundsException();
 	}
 
 	@Override
 	public String toString() {
-		return "Null Expression";
-	}
-
-	@Override
-	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		return "";
 	}
 
 }
