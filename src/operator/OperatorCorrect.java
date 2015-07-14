@@ -13,7 +13,7 @@ public class OperatorCorrect {
 		// s³abo rozwiazane!
 		while (macherSquareBracket.find()) {
 
-			if (!isExpresionCorect(macherSquareBracket.group())) 
+			if (!isExpresionCorect(macherSquareBracket.group()))
 				return false;
 			else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
@@ -22,15 +22,15 @@ public class OperatorCorrect {
 		Matcher macherFunction = Patterns.function.matcher(expression);
 		while (macherFunction.find()) {
 
-			expression = expression.replace(macherFunction.group(), "exp");
+			expression = expression.replace(macherFunction.group(), "number");
 			macherFunction = Patterns.function.matcher(expression);
 		}
 		Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
-			if (!isExpresionCorect(macherBracket.group())) 
+			if (!isExpresionCorect(macherBracket.group()))
 				return false;
 			else
-				expression = expression.replace("(" + macherBracket.group() + ")", "variable");
+				expression = expression.replace("(" + macherBracket.group() + ")", "number");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);
 		}
 
@@ -38,8 +38,10 @@ public class OperatorCorrect {
 	}
 
 	private static boolean isExpresionCorect(String expression) {
-		Matcher matcherOperator1expression = Patterns.operator1expression.matcher(expression);
 
+		expression = expression.replaceAll(Patterns.complexExpressions,"variable");
+				
+		Matcher matcherOperator1expression = Patterns.operator1expression.matcher(expression);
 		while (matcherOperator1expression.find()) {
 			expression = expression.replace(matcherOperator1expression.group(), "variable");
 			matcherOperator1expression = Patterns.operator1expression.matcher(expression);
@@ -51,7 +53,7 @@ public class OperatorCorrect {
 		}
 
 		expression = expression.replace(" ", "");
-		if (expression.equals("variable"))
+		if (expression.equals("variable")||expression.equals("number"))
 			return true;
 		else
 			return false;
