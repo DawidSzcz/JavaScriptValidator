@@ -6,9 +6,9 @@ import java.util.List;
 import enums.Error;
 
 public class Function extends ComplexExpression {
-	public Function(String name, int line) {
-		super(name, line);
-		// TODO Auto-generated constructor stub
+	public Function(String statement, int line, ExpressionParser expressionParser) 
+	{
+		super(statement, line);
 	}
 	List<Expression> aguments;
 	@Override

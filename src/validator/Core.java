@@ -1,3 +1,4 @@
+
 package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Tests.ExelReader;
 import enums.Error;
 import exception.WrongWhileException;
 import expression.Expression;
@@ -28,9 +28,7 @@ public class Core extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		PrintWriter out = response.getWriter();
-		ExpressionParser parser = new ExpressionParser();
-		boolean test =operator.OperatorCorrect.isOpreratorCorrect(request.getParameter("javaScript"));
-		ExelReader.exelToTxt();
+		ExpressionParser parser = new ExpressionParser(request.getParameter("javaScript"));
 		Expression program =  new Program(request.getParameter("javaScript"), parser.parse(request.getParameter("javaScript")));
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));

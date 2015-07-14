@@ -1,32 +1,25 @@
 package Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import java.io.IOException;
 import java.util.List;
+
 import org.junit.Test;
 
-import exception.WrongComplexException;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionParser;
 import expression.If;
 import expression.Invocation;
-
 
 public class ValidationTest {
 
@@ -44,11 +37,24 @@ public class ValidationTest {
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda+13]"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("[x]++"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x = 1"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("--1"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("1 =(= 2)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("1 == 2 +1 == 0"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(a,b)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x()y()"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x().y() +1 "));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x.y +1 "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" java.math.BigInteger.valueOf(query.getString(cus))"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" rowp.getParameter(0).setValue(null)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn(asdas + process_id)"));
-		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn"));
-		
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn"));		
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x++ w"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
@@ -75,31 +81,13 @@ public class ValidationTest {
 
 		List<String> test = Arrays.asList(input.split("\n"));
 		assertSame(5, test.size());
-		/*
-		 * String input =
-		 * "process_id=_featureManager.getProcessInstanceFeature().getWFLIProcessId(); \n"
-		 * +
-		 * "if ((_COUNTRY_ID.getValue()==320)||(_COUNTRY_ID.getValue()==390)) \n"
-		 * + "{\n" + "	dbPort = _featureManager.getTytanDBPortFeature(); \n" +
-		 * "	query = dbPort.executeStatement(\"select NOORDER, RESITEM_ID from table (xpwflcitem.fcGetMSISDNrow(\"+process_id+\"))\"); \n"
-		 * + "	while(query.next()) \n" + "	{ \n" +
-		 * "		noorder = java.math.BigInteger(query.getString(\"NOORDER\")); \n"
-		 * +
-		 * "		resitem = java.math.BigInteger(query.getString(\"RESITEM_ID\")); \n"
-		 * +
-		 * "		_TABLE.getRow(noorder).getParameter(5).setValue(resitem); \n"
-		 * + "	} \n" + "}\n"; ExpressionParser parser = new ExpressionParser();
-		 * List<Expression> list = parser.parse(input);
-		 * 
-		 * assertSame(3, list.size()); assertTrue(list.get(1) instanceof If);
-		 */
 	}
 
 	@Test
 	public void test3() throws IOException {
 		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" + "{\n" + "	-eter(0).setValue(null);\n"
 				+ "}" + "rowp.getParameter(0).setValue(null);\n";
-		ExpressionParser parser = new ExpressionParser();
+		ExpressionParser parser = new ExpressionParser(input);
 		List<Expression> list = parser.parse(input);
 		assertSame(2, list.size());
 		assertTrue(list.get(0) instanceof If);

@@ -7,21 +7,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
-import exception.WrongComplexException;
-import exception.WrongForException;
-import exception.WrongIfException;
-import exception.WrongWhileException;
+
 import enums.Error;
+import exception.JSValidatorException;
+import exception.WrongElseException;
+import exception.WrongIfException;
 
 public class ExpressionParser {
 	HashMap<String, String> blocks = new HashMap<>();
 	List<String> instructions;
-	public List<Expression> parse(String input) throws IOException {
+	public ExpressionParser(String input)
+	{
 		instructions = Arrays.asList(input.split("\n"));
+		
+	}
+	public List<Expression> parse(String input) throws IOException {
 		Matcher mat = Patterns.block.matcher(input);
 		while (mat.find()) {
 			String block = mat.group();
-			String uniqueId = uniqueId(input);
+			String uniqueId = ParseUtils.uniqueId(input);
 			if (input.contains(block))
 				input = input.replace(block, uniqueId + ";\n");
 			blocks.put(uniqueId, block);
@@ -38,6 +42,7 @@ public class ExpressionParser {
 			if (matcher.find()) {
 				statement = blocks.get(matcher.group());
 			}
+			int line = ParseUtils.getLine(instructions, statement);
 			Matcher matcherIf = Patterns.If.matcher(statement);
 			Matcher matcherFunc = Patterns.function.matcher(statement);
 			Matcher matcherWhile = Patterns.While.matcher(statement);
@@ -47,26 +52,30 @@ public class ExpressionParser {
 			Matcher matcherElse = Patterns.Else.matcher(statement);
 			try {
 				if(matcherElse.find())
-					exps.add(makeElse(statement, exps.remove(exps.size()-1)));
+					try{
+					exps.add(new Else(statement, line, (If)exps.remove(exps.size()-1), this));
+					}catch(Exception e){
+						throw new WrongElseException(Error.MissingIfBeforeElse, statement);
+					}
 				else if (matcherIf.find())
-						exps.add(makeIf(statement));
+						exps.add(new If(statement, line, this));
 					else if (matcherFunc.find())
-							exps.add(makeFunc(statement));
+							exps.add(new Function(statement, line, this));
 						else if (matcherWhile.find())
-								exps.add(makeWhile(statement));
+								exps.add(new While(statement, line, this));
 							else if (matcherFor.find())
-									exps.add(makeFor(statement));
+									exps.add(new For(statement, line, this));
 								else if (matcherAssign.find())
-										exps.add(makeAssignment(statement));
+										exps.add(new Assignment(statement, line));
 									else if (matcherInvo.find())
-											exps.add(makeInvocation(statement));
+											exps.add(new Invocation(statement, line));
 										else {
 												Expression unknown = new UnknownExpression(statement, instructions.indexOf(statement));
 												exps.add(unknown);
 												if (statement.contains("}"))
 													unknown.addError(Error.UnexpectedClosingBracket);
 											}
-			} catch (WrongComplexException e) {
+			} catch (JSValidatorException e) {
 				InvalidExpression exp = new InvalidExpression(e.getStatement(), ParseUtils.getLine(instructions, statement));
 				exp.addError(e.getError());
 				exps.add(exp);
@@ -74,16 +83,6 @@ public class ExpressionParser {
 			}
 		}
 		return exps;
-	}
-	private Expression makeElse(String statement, Expression If) throws WrongIfException, IOException {
-		Matcher states = Patterns.states.matcher(statement);
-		String arguments, statesments;
-		if (states.find())
-			statesments = states.group();
-		else {
-			throw new WrongIfException(Error.InvalidBlock, statement);
-		}
-		return new Else(statement, ParseUtils.getLine(instructions, statement), (If)If, parseExpressions(statesments));
 	}
 
 	private List<Expression> secondExpression(Expression exp, String statement) throws IOException {
@@ -103,81 +102,4 @@ public class ExpressionParser {
 
 	}
 
-	private Expression makeFor(String group) throws IOException, WrongComplexException {
-		Matcher arg = Patterns.arg.matcher(group);
-		Matcher states = Patterns.states.matcher(group);
-		String arguments,statesments; 
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongForException(Error.InvalidArguments, group);
-		if (states.find())
-			statesments = states.group();
-		else {
-			throw new WrongForException(Error.InvalidBlock, group);
-		}
-
-		return new For(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
-
-	}
-
-	private Expression makeFunc(String block) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Expression makeWhile(String group) throws IOException, WrongComplexException {
-		Matcher arg = Patterns.arg.matcher(group);
-		Matcher states = Patterns.states.matcher(group);
-		String arguments, statesments;
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongWhileException(Error.InvalidArguments, group);
-		if (states.find())
-			statesments = states.group();
-		else {
-			throw new WrongWhileException(Error.InvalidBlock, group);
-		}
-
-		return new While(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
-
-	}
-
-	private Expression makeIf(String group) throws IOException, WrongComplexException {
-		Matcher arg = Patterns.arg.matcher(group);
-		Matcher states = Patterns.states.matcher(group);
-		String arguments, statesments;
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongIfException(Error.InvalidArguments, group);
-		if (states.find())
-			statesments = states.group();
-		else {
-			throw new WrongIfException(Error.InvalidBlock, group);
-		}
-		return new If(group, ParseUtils.getLine(instructions, group), arguments, parseExpressions(statesments));
-
-	}
-	private Expression makeInvocation(String statement) {
-		return new Invocation(statement, ParseUtils.getLine(instructions, statement));
-	}
-
-	private Expression makeAssignment(String stat) {
-		Matcher mat = Patterns.clean.matcher(stat);
-		mat.find();
-		stat = mat.group();
-		String side[] = stat.split("=");
-		return new Assignment(stat, ParseUtils.getLine(instructions, stat),side[0], side[1]);
-	}
-
-	public static String uniqueId(String in) {
-		Random rand = new Random();
-		String randomString = String.valueOf(rand.nextLong());
-		while (in.contains(randomString))
-			;
-		randomString = String.valueOf(rand.nextLong());
-		return randomString;
-	}
 }

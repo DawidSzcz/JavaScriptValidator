@@ -29,5 +29,10 @@ public class InvalidExpression extends Expression{
 	{
 		return true;
 	}
+	@Override
+	public boolean isValid() 
+	{
+		return false;
+	}
 
 }

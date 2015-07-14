@@ -6,7 +6,6 @@ public class Patterns {
 	public static String ElseS = "\\s*else";
 	public static String splitS = ";+\\s*";
 	public static String variableS = "\\a+\\w+";
-	public static String cleanS = "\\w.+";
 	public static String argumentsS = "(?<=\\().+(?=\\))";
 	public static String headerS = "[^\\{]+";
 	public static String complexS = "(if)|(while)|(function)|(for)";
@@ -23,7 +22,6 @@ public class Patterns {
 	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
 
-	public static Pattern clean = Pattern.compile(cleanS);
 	public static Pattern arg = Pattern.compile(argumentsS);
 	public static Pattern head = Pattern.compile(headerS);
 	public static Pattern complex = Pattern.compile(complexS);
