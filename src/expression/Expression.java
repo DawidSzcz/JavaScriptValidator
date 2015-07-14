@@ -23,17 +23,15 @@ public abstract class Expression {
 	public abstract Expression get(int index) throws IndexOutOfBoundsException;
 
 	public abstract String toString();
-	public  boolean isValid()
-	{
-		return errors.isEmpty();
-	}
+	public abstract boolean isValid();
+	
 	public List<enums.Error> getErrors()
 	{
 		return errors;
 	}
 	public boolean hasErrors()
 	{
-		return false;
+		return !errors.isEmpty();
 	}
 	public void addError(enums.Error err)
 	{

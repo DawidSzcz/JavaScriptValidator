@@ -22,4 +22,10 @@ public class NullExpression extends Expression{
 		return "";
 	}
 
+	@Override
+	public boolean isValid() 
+	{
+		return false;
+	}
+
 }

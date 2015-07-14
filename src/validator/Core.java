@@ -27,7 +27,7 @@ public class Core extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
 		PrintWriter out = response.getWriter();
-		ExpressionParser parser = new ExpressionParser();
+		ExpressionParser parser = new ExpressionParser(request.getParameter("javaScript"));
 		Expression program =  new Program(request.getParameter("javaScript"), parser.parse(request.getParameter("javaScript")));
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));

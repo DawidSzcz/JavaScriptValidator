@@ -1,24 +1,32 @@
 package expression;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.WrongElseException;
+import exception.WrongIfException;
 
 public class Else extends If
 {
 	List<Expression> elseStatements;
 	String elseName;
 	int elseLine;
-	Else(String name, int line, If If, List<Expression> els)
+	public Else(String statement, int line, If If, ExpressionParser expressionParser) throws WrongIfException, IOException 
 	{
-		super(If.getName(), If.line, If.getCondition(), If.getStatements());
+		super((If).getName(), (If).line, (If).getCondition(), (If).getStatements());
+		Matcher states = Patterns.states.matcher(statement);
+		String statements;
+		if (states.find())
+			statements = states.group();
+		else {
+			throw new WrongIfException(Error.InvalidBlock, statement);
+		}
 		elseLine = line;
-		Matcher match =Patterns.line.matcher(name);
-		match.find();
-		elseName = match.group();
-		elseStatements = els;
+		elseName = ParseUtils.cleanLine(name);
+		elseStatements = expressionParser.parse(statements);
 	}
 	public String toString()
 	{
@@ -55,5 +63,14 @@ public class Else extends If
 			}
 		}
 		return hash;
+	}
+	@Override
+	public boolean isValid() {
+		if(!super.isValid())
+			return false;
+		for(Expression exp: statements)
+			if(!exp.isValid())
+				return false;
+		return true;
 	}
 }

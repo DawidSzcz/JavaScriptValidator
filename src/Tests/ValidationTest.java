@@ -1,29 +1,20 @@
 package Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+import java.util.List;
 
+import org.junit.Test;
 import org.junit.Test;
 
 import enums.Error;
-
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.List;
-import org.junit.Test;
-
-import exception.WrongComplexException;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionParser;
@@ -31,7 +22,6 @@ import expression.If;
 import expression.Invocation;
 import expression.Program;
 import operator.OperatorCorrect;
-import validator.ValidUtils;
 
 public class ValidationTest {
 
@@ -52,6 +42,19 @@ public class ValidationTest {
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("[x]++"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x = 1"));
+		//assertFalse(operator.OperatorCorrect.isOpreratorCorrect("--1"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("1 =(= 2)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("1 == 2 +1 == 0"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(a,b)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x()y()"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x().y() +1 "));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x.y +1 "));
 	}
 
 	

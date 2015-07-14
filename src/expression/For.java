@@ -1,20 +1,39 @@
 package expression;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 
 import enums.Error;
-import exception.WrongComplexException;
 import exception.WrongForException;
 
 public class For extends ComplexExpression{
-	String  condition;
-	public For(String name, int line, String cond, List<Expression> stats) {
-		super(name, line);
-		condition = cond;
-		statements = stats;		
+	Statement condition[];
+
+	public For(String statement, int line, ExpressionParser expressionParser) throws IOException, WrongForException {
+		super(statement, line);
+		Matcher arg = Patterns.arg.matcher(statement);
+		Matcher states = Patterns.states.matcher(statement);
+		String arguments,statements; 
+		if (arg.find())
+			arguments = arg.group();
+		else
+			throw new WrongForException(Error.InvalidArguments, statement);
+		if (states.find())
+			statements = states.group();
+		else {
+			throw new WrongForException(Error.InvalidBlock, statement);
+		}
+		String[] conditions = arguments.split(";");
+		if(conditions.length == 3)
+		{
+			this.condition[0]  = new Statement(conditions[0]);
+			this.condition[1]  = new Statement(conditions[1]);
+			this.condition[2]  = new Statement(conditions[2]);
+		}
+		else
+			throw new WrongForException(Error.WrongNumberOfArguments, statement);
+		this.statements = expressionParser.parse(statement);
+		
 	}
 
 	@Override
@@ -32,28 +51,9 @@ public class For extends ComplexExpression{
 
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		if(!super.isValid())
+			return false;
+		return(condition[0].isValid() && condition[1].isValid() && condition[2].isValid());
 	}
 
 }
-/*
-	private Expression makeFor(String group) throws IOException, WrongComplexException {
-		Matcher arg = Patterns.arg.matcher(group);
-		Matcher states = Patterns.states.matcher(group);
-		String arguments,statesments; 
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongForException("Ivalid arguments", group);
-		if (states.find())
-			statesments = states.group();
-		else {
-			throw new WrongForException("Invalid block", group);
-		}
-
-		return new For(group, arguments, parseExpressions(statesments));
-
-	}
-
-*/
