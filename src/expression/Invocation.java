@@ -1,5 +1,7 @@
 package expression;
 
+import exception.InvalidOperator;
+
 public class Invocation extends Expression {
 	Statement invocation;
 	public Invocation(String str, int line) {
@@ -19,6 +21,13 @@ public class Invocation extends Expression {
 	}
 	@Override
 	public boolean isValid() {
-		return invocation.isValid();
+		try{
+			invocation.isValid();
+		}catch(InvalidOperator e)
+		{
+			this.addError(e.getError());
+			return false;
+		}
+		return true;
 	}
 }

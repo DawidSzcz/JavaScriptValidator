@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.InvalidOperator;
 import exception.WrongForException;
 
 public class For extends ComplexExpression{
@@ -53,7 +54,15 @@ public class For extends ComplexExpression{
 	public boolean isValid() {
 		if(!super.isValid())
 			return false;
-		return(condition[0].isValid() && condition[1].isValid() && condition[2].isValid());
+		try{
+			condition[0].isValid();
+			condition[1].isValid();
+			condition[2].isValid();
+		}catch(InvalidOperator e){
+			this.addError(e.getError());
+			return false;
+		}
+		return true;
 	}
 
 }

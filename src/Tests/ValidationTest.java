@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import exception.InvalidOperator;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionParser;
@@ -24,7 +25,7 @@ import expression.Invocation;
 public class ValidationTest {
 
 	@Test
-	public void testOperatorCprrect() throws IOException, WrongWhileException {
+	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" cse "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x + 1 "));

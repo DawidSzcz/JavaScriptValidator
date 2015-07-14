@@ -1,5 +1,6 @@
 package expression;
 
+import exception.InvalidOperator;
 import operator.OperatorCorrect;
 
 public class Statement {
@@ -12,7 +13,7 @@ public class Statement {
 	{
 		return name;
 	}
-	public boolean isValid()
+	public boolean isValid() throws InvalidOperator
 	{
 		return OperatorCorrect.isOpreratorCorrect(name);
 	}

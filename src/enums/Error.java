@@ -9,7 +9,8 @@ public enum Error {
 	MissingOpenningBracket("Missing opening bracket"),
 	WrongNumberOfArguments("Wrong number of arguments"),
 	WrongAssignment("Wrong assignment"),
-	MissingIfBeforeElse("MissingIfBeforeElse");
+	MissingIfBeforeElse("MissingIfBeforeElse"),
+	InvalidOperator("Invalid Operator");
 	
 	public final String content;
 	Error(String str)

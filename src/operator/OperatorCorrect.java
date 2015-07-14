@@ -2,9 +2,11 @@ package operator;
 
 import java.util.regex.Matcher;
 
+import exception.InvalidOperator;
+
 public class OperatorCorrect {
 
-	public static boolean isOpreratorCorrect(String expression) {
+	public static boolean isOpreratorCorrect(String expression) throws InvalidOperator {
 
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
@@ -43,7 +45,7 @@ public class OperatorCorrect {
 		return isExpresionCorect(expression);
 	}
 
-	private static boolean isExpresionCorect(String expression) {
+	private static boolean isExpresionCorect(String expression) throws InvalidOperator {
 
 		expression = expression.replaceAll(Patterns.complexExpressions,"variable");
 				
@@ -62,6 +64,6 @@ public class OperatorCorrect {
 		if (expression.equals("variable")||expression.equals("number"))
 			return true;
 		else
-			return false;
+			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 	}
 }

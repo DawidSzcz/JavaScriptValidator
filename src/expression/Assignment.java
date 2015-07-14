@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import enums.Error;
+import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 public class Assignment extends Expression {
 	 Statement first;
@@ -39,6 +40,14 @@ public class Assignment extends Expression {
 	}
 	@Override
 	public boolean isValid() {
-		return first.isValid() && second.isValid();
+		try{
+			first.isValid();
+			second.isValid();
+		}catch(InvalidOperator e)
+		{
+			this.addError(e.getError());
+			return false;
+		}
+		return true;
 	}
 }
