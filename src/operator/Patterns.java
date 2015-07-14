@@ -7,7 +7,7 @@ public class Patterns {
 	public static String number = "[0-9]+";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
-	public static String functionS = "(\\w+\\.)+(\\w+(\\([^\\)\\(]*\\))+\\.*)+";
+	public static String functionS = "(variable\\.)*(variable(\\([^\\)\\(]*\\))+)+";
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
 	+ "|" + createRegex1("variable\\+\\+")

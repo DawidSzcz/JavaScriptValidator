@@ -36,18 +36,26 @@ public class ValidationTest {
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" cse "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x + 1 "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+32==3 "));
-		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
-		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x - --1"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x - --p"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !4  +  5"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("  !x  "));
-		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("!2+54+" + "\n" + "32==3 "));
-		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x++ w"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda+13]"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" java.math.BigInteger.valueOf(query.getString(cus))"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" rowp.getParameter(0).setValue(null)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn(asdas + process_id)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn"));
+		
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" x!"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x++ w"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x y+w"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x - --1"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn(asdas + process_id"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" rowp.getParameter(0) .setValue(null)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("java.math.1.valueOf(query.getString(cus))"));
 	}
 
 	@Test

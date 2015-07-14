@@ -20,12 +20,18 @@ public class OperatorCorrect {
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		}
 		Matcher macherFunction = Patterns.function.matcher(expression);
+		Matcher macherBracket;
 		while (macherFunction.find()) {
-
-			expression = expression.replace(macherFunction.group(), "number");
+			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
+			if (macherBracket.find()){
+				if (!isExpresionCorect(macherBracket.group())){
+					return false;
+				}
+			}
+			expression = expression.replace(macherFunction.group(), "variable");
 			macherFunction = Patterns.function.matcher(expression);
 		}
-		Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
+		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (!isExpresionCorect(macherBracket.group()))
 				return false;
