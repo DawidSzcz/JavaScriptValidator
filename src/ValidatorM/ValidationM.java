@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import expression.ExpressionParser;
+import expression.ParseUtils;
 import javafx.util.Pair;
 import sun.reflect.annotation.ExceptionProxy;
 
@@ -144,7 +145,7 @@ public class ValidationM {
 				} else {
 					isInString = false;
 					stringToHashMap+=javaScriptText.charAt(iterator);
-					String uniqueId= ExpressionParser.uniqueId(javaScriptText);
+					String uniqueId= ParseUtils.uniqueId(javaScriptText);
 					idToString.put(uniqueId, stringToHashMap);
 					javaScriptText=javaScriptText.replace(stringToHashMap, "StringID:"+uniqueId);
 					stringToHashMap = "";

@@ -7,7 +7,7 @@ import java.util.List;
 import enums.Error;
 import exception.UnknownException;
 
-public class InvalidBlock extends Expression {
+public class InvalidBlock extends ComplexExpression {
 
 	List<String> states = new LinkedList<>();
 	
@@ -28,8 +28,7 @@ public class InvalidBlock extends Expression {
 
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		return statements.get(index);
 	}
 
 }

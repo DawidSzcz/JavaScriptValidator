@@ -35,5 +35,12 @@ public abstract class ComplexExpression extends Expression {
 		}
 		return hash;
 	}
+	@Override
+	public boolean isValid() {
+		for(Expression exp : statements)
+			if(!exp.isValid())
+				return false;
+		return true;
+	}	
 
 }

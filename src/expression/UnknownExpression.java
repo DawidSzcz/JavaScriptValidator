@@ -26,6 +26,11 @@ public class UnknownExpression extends Expression
 	{
 		return true;
 	}
+	@Override
+	public boolean isValid() 
+	{
+		return false;
+	}
 
 }
 

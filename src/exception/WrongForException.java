@@ -1,8 +1,6 @@
 package exception;
 
-public class WrongForException extends WrongComplexException {
-	enums.Error error;
-	String block;
+public class WrongForException extends JSValidatorException {
 	public WrongForException(enums.Error error, String statement) {
 		this.error = error;
 		this.block = statement;

@@ -6,7 +6,10 @@ public enum Error {
 	UnexpectedOpeningBracket("Unexpected opening bracket"),
 	UnexpectedClosingBracket("Unexpected closing bracket"),	
 	UnparsedLine("Unparsed line"),
-	MissingOpenningBracket("Missing opening bracket");
+	MissingOpenningBracket("Missing opening bracket"),
+	WrongNumberOfArguments("Wrong number of arguments"),
+	WrongAssignment("Wrong assignment"),
+	MissingIfBeforeElse("MissingIfBeforeElse");
 	
 	public final String content;
 	Error(String str)
