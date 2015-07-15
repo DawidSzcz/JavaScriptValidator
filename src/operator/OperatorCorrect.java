@@ -3,6 +3,7 @@ package operator;
 import java.util.regex.Matcher;
 
 import exception.InvalidOperator;
+import javafx.util.Pair;
 
 public class OperatorCorrect {
 
@@ -10,48 +11,44 @@ public class OperatorCorrect {
 
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
-		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-
+		
+		
+		
 		// s³abo rozwiazane!
-		while (macherSquareBracket.find()) {
+//		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
+//		while (macherSquareBracket.find()) {
+//
+//			if (!isExpresionCorect(macherSquareBracket.group()))
+//				return false;
+//			else
+//				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
+//			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
+//		}
 
-			if (!isExpresionCorect(macherSquareBracket.group()))
-				return false;
-			else
-				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
-			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-		}
-		
-		
-		
 		Matcher macherFunction = Patterns.function.matcher(expression);
 		Matcher macherBracket;
 		while (macherFunction.find()) {
 			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
 			if (macherBracket.find()) {
-				String argunets=macherBracket.group();
+				String argunets = macherBracket.group();
 				Matcher matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
-				if (matcherArgument.find()){
-					do{
-						if (!isExpresionCorect(matcherArgument.group())){
+				if (matcherArgument.find()) {
+					do {
+						if (!isExpresionCorect(matcherArgument.group())) {
 							return false;
-						}else{
-							argunets=argunets.replace(matcherArgument.group()+",", "");
+						} else {
+							argunets = argunets.replace(matcherArgument.group() + ",", "");
 							matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
 						}
-					}
-					while (matcherArgument.find());
-				}
-				else if(!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
+					} while (matcherArgument.find());
+				} else if (!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
 					return false;
 				}
 			}
 			expression = expression.replace(macherFunction.group(), "variable");
 			macherFunction = Patterns.function.matcher(expression);
 		}
-		
-		
-		
+
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (!isExpresionCorect(macherBracket.group()))
@@ -84,5 +81,21 @@ public class OperatorCorrect {
 			return true;
 		else
 			return false;
+	}
+	private static Pair<Boolean,String> squareBracketValidator(String expression){
+		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
+		Boolean iscorrect=true;
+		while (macherSquareBracket.find()) {
+
+			if (!isExpresionCorect(macherSquareBracket.group())){
+				iscorrect=false;
+				break;
+			}
+			else
+				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
+			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
+		}
+		Pair<Boolean,String> autput = new Pair<Boolean, String>(iscorrect, expression);
+		return autput;
 	}
 }

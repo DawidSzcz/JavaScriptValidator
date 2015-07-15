@@ -58,13 +58,14 @@ public class ValidationTest {
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("_logger.warn(asdas + process_id"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect(" rowp.getParameter(0) .setValue(null)"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("java.math.1.valueOf(query.getString(cus))"));
-		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("assertTrue(operator.OperatorCorrect.isOpreratorCorrect(cos))"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("assertTrue(operator.OperatorCorrect.isOpreratorCorrect())"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x().y() +1 "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(a,b)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b+(a+v), c(d,e))"));
 	}
 
 	@Test
