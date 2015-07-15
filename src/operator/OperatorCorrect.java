@@ -61,7 +61,7 @@ public class OperatorCorrect {
 		}
 
 		expression = expression.replace(" ", "");
-		if (expression.equals("variable")||expression.equals("number"))
+		if (expression.equals("variable")||expression.equals("number") || expression.equals(""))
 			return true;
 		else
 			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
