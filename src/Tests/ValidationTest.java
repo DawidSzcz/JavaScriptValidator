@@ -68,7 +68,6 @@ public class ValidationTest {
 		assertTrue(OperatorCorrect.isOpreratorCorrect("x(x(a,b, c), b, c(d,e))"));
 		assertFalse(OperatorCorrect.isOpreratorCorrect("x!x"));
 		assertTrue(OperatorCorrect.isOpreratorCorrect(" !x == !y"));
-		
 	}
 
 	@Test
