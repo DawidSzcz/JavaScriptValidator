@@ -28,7 +28,10 @@ public class ValidationTest {
 	@Test
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
-		assertTrue(TestUtils.testStatement("typeof _WFL_OP_V_PARAM != undefined ? _WFL_OP_V_PARAM.getValue() : IS_UNDEFINED"));
+		assertFalse(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined ? _WFL_OP_V_PARAM.getValue() : IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined-45645 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)*321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
 		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement())"));
 		assertTrue(TestUtils.testStatement("x().y() +1 "));
 		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement(cos))"));

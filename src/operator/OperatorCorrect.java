@@ -3,7 +3,6 @@ package operator;
 import java.util.regex.Matcher;
 
 import exception.InvalidOperator;
-import javafx.util.Pair;
 
 public class OperatorCorrect {
 
@@ -87,7 +86,11 @@ public class OperatorCorrect {
 			expression = expression.replace(matcherOperator2expression.group(), "variable");
 			matcherOperator2expression = Patterns.operator2expressions.matcher(expression);
 		}
-
+		Matcher matcherQuestionMark= Patterns.questionMark.matcher(expression);
+		while (matcherQuestionMark.find()) {
+			expression = expression.replace(matcherQuestionMark.group(), "variable");
+			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
+		}
 		expression = expression.replace(" ", "");
 		if (expression.equals("variable") || expression.equals("number"))
 			return true;
