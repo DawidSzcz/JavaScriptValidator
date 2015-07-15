@@ -21,7 +21,8 @@ public class ExpressionParser {
 		instructions = Arrays.asList(input.split("\n"));
 		
 	}
-	public List<Expression> parse(String input) throws IOException {
+	public Expression parse(String input) throws IOException {
+		String wholeProgram = input;
 		Matcher mat = Patterns.block.matcher(input);
 		while (mat.find()) {
 			String block = mat.group();
@@ -31,9 +32,9 @@ public class ExpressionParser {
 			blocks.put(uniqueId, block);
 			mat = Patterns.block.matcher(input);
 		}
-		return parseExpressions(input);
+		return new Program(wholeProgram, parseExpressions(input));
 	}
-	private List<Expression> parseExpressions(String input) throws IOException {
+	List<Expression> parseExpressions(String input) throws IOException {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
 		Matcher matcher;

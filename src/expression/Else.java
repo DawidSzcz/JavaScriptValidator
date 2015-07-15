@@ -26,7 +26,7 @@ public class Else extends If
 		}
 		elseLine = line;
 		elseName = ParseUtils.cleanLine(name);
-		elseStatements = expressionParser.parse(statements);
+		elseStatements = expressionParser.parseExpressions(statements);
 	}
 	public String toString()
 	{

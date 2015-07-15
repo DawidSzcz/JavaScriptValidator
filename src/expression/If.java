@@ -24,7 +24,7 @@ public class If extends ComplexExpression{
 		else
 			throw new WrongIfException(Error.InvalidBlock, statement);
 		condition = new Statement(arguments);
-		this.statements = expressionParser.parse(statements);
+		this.statements = expressionParser.parseExpressions(statements);
 	}
 	public If(String name, int line, Statement condition2, List<Expression> statements) {
 		super(name, line);

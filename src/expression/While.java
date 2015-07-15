@@ -25,7 +25,7 @@ public class While extends ComplexExpression{
 			throw new WrongWhileException(Error.InvalidBlock, statement);
 		}
 		condition = arguments;
-		this.statements = expressionParser.parse(statements);
+		this.statements = expressionParser.parseExpressions(statements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

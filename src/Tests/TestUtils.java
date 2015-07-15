@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import operator.OperatorCorrect;
+
 public class TestUtils {
 	public static String  readFromFile(String path) throws IOException
 	{
@@ -16,5 +18,15 @@ public class TestUtils {
 			}
 			bufferedReader.close();
 			return input;
+	}
+	public static boolean testStatement(String str)
+	{
+		try{
+			OperatorCorrect.isOpreratorCorrect(str);
+			return true;
+		}catch(Exception e)
+		{
+			return false;
+		}
 	}
 }

@@ -33,7 +33,7 @@ public class For extends ComplexExpression{
 		}
 		else
 			throw new WrongForException(Error.WrongNumberOfArguments, statement);
-		this.statements = expressionParser.parse(statement);
+		this.statements = expressionParser.parseExpressions(statement);
 		
 	}
 

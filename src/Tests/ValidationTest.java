@@ -21,10 +21,12 @@ import expression.Expression;
 import expression.ExpressionParser;
 import expression.If;
 import expression.Invocation;
+import operator.OperatorCorrect;
 
 public class ValidationTest {
 
 	@Test
+<<<<<<< HEAD
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("assertTrue(operator.OperatorCorrect.isOpreratorCorrect(cos))"));
@@ -66,6 +68,7 @@ public class ValidationTest {
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b+(a+v), c(d,e))"));
+
 	}
 
 	@Test
@@ -92,10 +95,9 @@ public class ValidationTest {
 		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" + "{\n" + "	-eter(0).setValue(null);\n"
 				+ "}" + "rowp.getParameter(0).setValue(null);\n";
 		ExpressionParser parser = new ExpressionParser(input);
-		List<Expression> list = parser.parse(input);
-		assertSame(2, list.size());
-		assertTrue(list.get(0) instanceof If);
-		assertTrue(list.get(1) instanceof Invocation);
-		assertTrue(list.get(0).get(1) instanceof Invocation);
+		Expression program = parser.parse(input);
+		assertTrue(program.get(0) instanceof If);
+		assertTrue(program.get(1) instanceof Invocation);
+		assertTrue(program.get(0).get(1) instanceof Invocation);
 	}
 }
