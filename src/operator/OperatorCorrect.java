@@ -6,7 +6,7 @@ import exception.InvalidOperator;
 
 public class OperatorCorrect {
 
-	public static boolean isOpreratorCorrect(String expression) throws InvalidOperator {
+	public static boolean isOpreratorCorrect(String expression) {
 
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
@@ -26,7 +26,7 @@ public class OperatorCorrect {
 		while (macherFunction.find()) {
 			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
 			if (macherBracket.find()){
-				if (!isExpresionCorect(macherBracket.group())){
+				if (!isExpresionCorect(macherBracket.group()) && !macherBracket.group().equals("")){
 					return false;
 				}
 			}
@@ -45,7 +45,7 @@ public class OperatorCorrect {
 		return isExpresionCorect(expression);
 	}
 
-	private static boolean isExpresionCorect(String expression) throws InvalidOperator {
+	private static boolean isExpresionCorect(String expression) {
 
 		expression = expression.replaceAll(Patterns.complexExpressions,"variable");
 				
@@ -64,6 +64,6 @@ public class OperatorCorrect {
 		if (expression.equals("variable")||expression.equals("number"))
 			return true;
 		else
-			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+			return false;
 	}
 }
