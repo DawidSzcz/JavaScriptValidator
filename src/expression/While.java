@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.InvalidOperator;
 import exception.WrongWhileException;
 
 public class While extends ComplexExpression{
-	String  condition;
+	Statement  condition;
 	public While(String statement, int line, ExpressionParser expressionParser) throws WrongWhileException, IOException 
 	{
 		super(statement, line);
@@ -24,7 +25,7 @@ public class While extends ComplexExpression{
 		else {
 			throw new WrongWhileException(Error.InvalidBlock, statement);
 		}
-		condition = arguments;
+		condition = new Statement(arguments);
 		this.statements = expressionParser.parseExpressions(statements);
 	}
 	@Override
@@ -40,7 +41,14 @@ public class While extends ComplexExpression{
 	}
 	@Override
 	public boolean isValid() {
-		// TODO Auto-generated method stub
-		return false;
+		if(!super.isValid())
+			return false;
+		try{
+			return condition.isValid();
+		}catch(InvalidOperator e)
+		{
+			this.addError(e.getError());
+			return false;
+		}
 	}
 }

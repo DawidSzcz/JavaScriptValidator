@@ -60,7 +60,7 @@ public class ValidationTest {
 		assertFalse(OperatorCorrect.isOpreratorCorrect("java.math.1.valueOf(query.getString(cus))"));
 		assertTrue(OperatorCorrect.isOpreratorCorrect("assertTrue(OperatorCorrect.isOpreratorCorrect(cos))"));
 		assertTrue(OperatorCorrect.isOpreratorCorrect("x().y() +1 "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x(a,b)"));
+		assertFalse(OperatorCorrect.isOpreratorCorrect("x(a,b)"));
 		assertTrue(OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
 		assertFalse(OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
 		assertFalse(OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
