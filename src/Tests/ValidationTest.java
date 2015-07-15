@@ -45,11 +45,6 @@ public class ValidationTest {
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("--1"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("1 =(= 2)"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("1 == 2 +1 == 0"));
-//		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(a,b)"));
-//		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
-//		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
-//		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
-//		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x()y()"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x.y +1 "));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect(" java.math.BigInteger.valueOf(query.getString(cus))"));
@@ -65,6 +60,11 @@ public class ValidationTest {
 		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("java.math.1.valueOf(query.getString(cus))"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("assertTrue(operator.OperatorCorrect.isOpreratorCorrect(cos))"));
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x().y() +1 "));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(a,b)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
+		assertFalse(operator.OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
+		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
 	}
 
 	@Test
