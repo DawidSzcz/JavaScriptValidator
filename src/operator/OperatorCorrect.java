@@ -13,7 +13,7 @@ public class OperatorCorrect {
 		expression = squareBracketValidator(expression);
 		expression = functiontValidator(expression);
 		expression = bracketValidator(expression);
-		if(!isExpresionCorect(expression)){
+		if (!isExpresionCorect(expression)) {
 			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 		}
 		return true;
@@ -49,7 +49,8 @@ public class OperatorCorrect {
 							matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
 						}
 					} while (matcherArgument.find());
-				}if (!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
+				}
+				if (!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
 					throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 				}
 			}
@@ -86,7 +87,7 @@ public class OperatorCorrect {
 			expression = expression.replace(matcherOperator2expression.group(), "variable");
 			matcherOperator2expression = Patterns.operator2expressions.matcher(expression);
 		}
-		Matcher matcherQuestionMark= Patterns.questionMark.matcher(expression);
+		Matcher matcherQuestionMark = Patterns.questionMark.matcher(expression);
 		while (matcherQuestionMark.find()) {
 			expression = expression.replace(matcherQuestionMark.group(), "variable");
 			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
@@ -97,4 +98,5 @@ public class OperatorCorrect {
 		else
 			return false;
 	}
+
 }

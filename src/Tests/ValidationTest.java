@@ -26,6 +26,7 @@ import operator.OperatorCorrect;
 public class ValidationTest {
 
 	@Test
+
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
 		assertFalse(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
@@ -71,6 +72,7 @@ public class ValidationTest {
 		assertFalse(TestUtils.testStatement("x((a,b, c), c)"));
 		assertTrue(TestUtils.testStatement("x(x(a,b, c),b, c(d,e))"));
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
+
 	}
 
 	@Test

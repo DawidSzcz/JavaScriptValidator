@@ -22,11 +22,11 @@ public class ExelReader {
 			HSSFSheet worksheet = workbook.getSheet("operacje");
 			HSSFRow row1;
 			HSSFCell cell;
-			int iterator=0;
+			int iterator=1;
 			row1 = worksheet.getRow(iterator);
 			do{
 			cell = row1.getCell(0);
-			PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+iterator+".txt", "UTF-8");
+			PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+".txt", "UTF-8");
 			String text = cell.getStringCellValue();
 			zapis.println(text);
 			zapis.close();
