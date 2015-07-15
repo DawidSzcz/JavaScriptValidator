@@ -11,7 +11,7 @@ public class OperatorCorrect {
 
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
-		
+		expression = squareBracketValidator(expression);
 		
 		
 		// s³abo rozwiazane!
@@ -82,20 +82,17 @@ public class OperatorCorrect {
 		else
 			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 	}
-	private static Pair<Boolean,String> squareBracketValidator(String expression){
+	private static String squareBracketValidator(String expression) throws InvalidOperator{
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-		Boolean iscorrect=true;
 		while (macherSquareBracket.find()) {
 
 			if (!isExpresionCorect(macherSquareBracket.group())){
-				iscorrect=false;
-				break;
+				throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 			}
 			else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		}
-		Pair<Boolean,String> autput = new Pair<Boolean, String>(iscorrect, expression);
-		return autput;
+		return expression;
 	}
 }

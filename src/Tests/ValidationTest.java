@@ -26,7 +26,6 @@ import operator.OperatorCorrect;
 public class ValidationTest {
 
 	@Test
-<<<<<<< HEAD
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
 		assertTrue(operator.OperatorCorrect.isOpreratorCorrect("assertTrue(operator.OperatorCorrect.isOpreratorCorrect(cos))"));
