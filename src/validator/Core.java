@@ -29,7 +29,7 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser(request.getParameter("javaScript"));
-		Expression program = parser.parse(request.getParameter("javaScript"));
+		Expression program = parser.parse();
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));
 	}

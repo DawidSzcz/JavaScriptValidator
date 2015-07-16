@@ -49,7 +49,7 @@ public class ExpressionsTest {
 	public void test() throws IOException 
 	{
 		ExpressionParser parser = new ExpressionParser(data);
-		assertEquals(parser.parse(data).isValid(), result);
+		assertEquals(parser.parse().isValid(), result);
 	}
 	public static void main(String[] args) {
 	      Result result = JUnitCore.runClasses(ExpressionsTest.class);

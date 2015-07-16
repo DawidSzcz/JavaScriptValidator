@@ -5,23 +5,32 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 
+import ValidatorM.ValidationM;
 import enums.Error;
 import exception.JSValidatorException;
 import exception.WrongElseException;
 import exception.WrongIfException;
+import javafx.util.Pair;
 
 public class ExpressionParser {
 	HashMap<String, String> blocks = new HashMap<>();
 	List<String> instructions;
+	Map<String, String> strings;
+	String input;
+	
 	public ExpressionParser(String input)
 	{
+		input = ValidationM.comentaryVariable(input);
+		Pair<Map<String, String>, String> pair = ValidationM.takeOutStrings(input);
+		this.input = pair.getValue();
+		strings = pair.getKey();
 		instructions = Arrays.asList(input.split("\n"));
-		
 	}
-	public Expression parse(String input) throws IOException {
+	public Expression parse() throws IOException {
 		String wholeProgram = input;
 		Matcher mat = Patterns.block.matcher(input);
 		while (mat.find()) {

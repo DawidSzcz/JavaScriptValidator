@@ -99,7 +99,7 @@ public class ValidationTest {
 		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" + "{\n" + "	-eter(0).setValue(null);\n"
 				+ "}" + "rowp.getParameter(0).setValue(null);\n";
 		ExpressionParser parser = new ExpressionParser(input);
-		Expression program = parser.parse(input);
+		Expression program = parser.parse();
 		assertTrue(program.get(0) instanceof If);
 		assertTrue(program.get(1) instanceof Invocation);
 		assertTrue(program.get(0).get(1) instanceof Invocation);

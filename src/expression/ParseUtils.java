@@ -24,9 +24,13 @@ public class ParseUtils {
 	}
 	public static String uniqueId(String in) {
 		Random rand = new Random();
-		String randomString = String.valueOf(rand.nextLong());
+		long x = rand.nextLong();
+		String randomString = String.valueOf(x > 0 ? x : -x);
 		while (in.contains(randomString))
-			randomString = String.valueOf(rand.nextLong());
+		{
+			x = rand.nextLong();
+			randomString = String.valueOf(x > 0 ? x : -x);
+		}
 		return randomString;
 	}
 
