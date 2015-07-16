@@ -1,11 +1,10 @@
+
 package Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,11 +15,9 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
-
-import expression.Expression;
-import expression.ExpressionParser;
 import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+
+import expression.ExpressionParser;
 
 
 @RunWith(Parameterized.class)
@@ -53,7 +50,7 @@ public class ExpressionsTest {
 	public void test() throws IOException 
 	{
 		ExpressionParser parser = new ExpressionParser(data);
-		assertEquals(result, parser.parse(data).isValid());
+		assertEquals(parser.parse().isValid(), result);
 	}
 	public static void main(String[] args) {
 	      Result result = JUnitCore.runClasses(ExpressionsTest.class);
@@ -64,3 +61,4 @@ public class ExpressionsTest {
 	   }
 
 }
+

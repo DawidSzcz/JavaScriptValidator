@@ -1,4 +1,3 @@
-
 package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,9 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import enums.Error;
+import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionIterator;
 import expression.ExpressionParser;
+import expression.Patterns;
+import expression.Program;
 
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -26,7 +28,7 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser(request.getParameter("javaScript"));
-		Expression program = parser.parse(request.getParameter("javaScript"));
+		Expression program = parser.parse();
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));
 	}
