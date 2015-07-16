@@ -26,48 +26,53 @@ import operator.OperatorCorrect;
 public class ValidationTest {
 
 	@Test
+
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
-		assertTrue(OperatorCorrect.isOpreratorCorrect("assertTrue(OperatorCorrect.isOpreratorCorrect(cos))"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect(" cse "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x + 1 "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("!2+54+32==3 "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x - --p"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x < 3 > 5"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("  !4  +  5"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("  !x  "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("!2+54+" + "\n" + "32==3 "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("453+(tr+494)"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda+13]"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("453+(tr+494)+dad[wda]"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("453+(tr+494+dad[wda+12])"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("[x]++"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x = 1"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("--1"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("1 =(= 2)"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("1 == 2 +1 == 0"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x()y()"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x.y +1 "));
-		assertTrue(OperatorCorrect.isOpreratorCorrect(" java.math.BigInteger.valueOf(query.getString(cus))"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect(" rowp.getParameter(0).setValue(null)"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("_logger.warn(asdas + process_id)"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("_logger.warn"));		
-		assertFalse(OperatorCorrect.isOpreratorCorrect(" x!"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x++ w"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x y+w"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x - --1"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("_logger.warn(asdas + process_id"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect(" rowp.getParameter(0) .setValue(null)"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("java.math.1.valueOf(query.getString(cus))"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("assertTrue(OperatorCorrect.isOpreratorCorrect(cos))"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x().y() +1 "));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x(a,b)"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x(x(a,b),b)"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x((a,b), c)"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x((a,b, c), c)"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x(x(a,b, c),b, c(d,e))"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect("x(x(a,b, c), b, c(d,e))"));
-		assertFalse(OperatorCorrect.isOpreratorCorrect("x!x"));
-		assertTrue(OperatorCorrect.isOpreratorCorrect(" !x == !y"));
+
+		assertFalse(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined ? _WFL_OP_V_PARAM.getValue() : IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined-45645 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)*321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
+		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement())"));
+		assertTrue(TestUtils.testStatement("x().y() +1 "));
+		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement(cos))"));
+		assertTrue(TestUtils.testStatement(" cse "));
+		assertTrue(TestUtils.testStatement("x + 1 "));
+		assertTrue(TestUtils.testStatement("!2+54+32==3 "));
+		assertTrue(TestUtils.testStatement("x - --p"));
+		assertTrue(TestUtils.testStatement("x < 3 > 5"));
+		assertTrue(TestUtils.testStatement("  !4  +  5"));
+		assertTrue(TestUtils.testStatement("  !x  "));
+		assertTrue(TestUtils.testStatement("!2+54+" + "\n" + "32==3 "));
+		assertTrue(TestUtils.testStatement("453+(tr+494)"));
+		assertTrue(TestUtils.testStatement("453+(tr+494)+dad[wda+13]"));
+		assertTrue(TestUtils.testStatement("453+(tr+494)+dad[wda]"));
+		assertTrue(TestUtils.testStatement("453+(tr+494+dad[wda+12])"));
+		assertFalse(TestUtils.testStatement("[x]++"));
+		assertFalse(TestUtils.testStatement("x = 1"));
+		assertFalse(TestUtils.testStatement("--1"));
+		assertFalse(TestUtils.testStatement("1 =(= 2)"));
+		assertTrue(TestUtils.testStatement("1 == 2 +1 == 0"));
+		assertFalse(TestUtils.testStatement("x()y()"));
+		assertTrue(TestUtils.testStatement("x.y +1 "));
+		assertTrue(TestUtils.testStatement(" java.math.BigInteger.valueOf(query.getString(cus))"));
+		assertTrue(TestUtils.testStatement(" rowp.getParameter(0).setValue(null)"));
+		assertTrue(TestUtils.testStatement("_logger.warn(asdas + process_id)"));
+		assertTrue(TestUtils.testStatement("_logger.warn"));		
+		assertFalse(TestUtils.testStatement(" x!"));
+		assertFalse(TestUtils.testStatement("x++ w"));
+		assertFalse(TestUtils.testStatement("x y+w"));
+		assertFalse(TestUtils.testStatement("x - --1"));
+		assertFalse(TestUtils.testStatement("_logger.warn(asdas + process_id"));
+		assertFalse(TestUtils.testStatement(" rowp.getParameter(0) .setValue(null)"));
+		assertFalse(TestUtils.testStatement("java.math.1.valueOf(query.getString(cus))"));
+		assertTrue(TestUtils.testStatement("x(a,b)"));
+		assertTrue(TestUtils.testStatement("x(x(a,b),b)"));
+		assertFalse(TestUtils.testStatement("x((a,b), c)"));
+		assertFalse(TestUtils.testStatement("x((a,b, c), c)"));
+		assertTrue(TestUtils.testStatement("x(x(a,b, c),b, c(d,e))"));
+// to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
+
 	}
 
 	@Test

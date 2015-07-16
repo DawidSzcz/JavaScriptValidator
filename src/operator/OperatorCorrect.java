@@ -3,28 +3,36 @@ package operator;
 import java.util.regex.Matcher;
 
 import exception.InvalidOperator;
-import javafx.util.Pair;
 
 public class OperatorCorrect {
 
-	public static boolean isOpreratorCorrect(String expression)throws InvalidOperator {
+	public static boolean isOpreratorCorrect(String expression) throws InvalidOperator {
 
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
-		
-		
-		
-		// s³abo rozwiazane!
-//		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-//		while (macherSquareBracket.find()) {
-//
-//			if (!isExpresionCorect(macherSquareBracket.group()))
-//				return false;
-//			else
-//				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
-//			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-//		}
+		expression = squareBracketValidator(expression);
+		expression = functiontValidator(expression);
+		expression = bracketValidator(expression);
+		if (!isExpresionCorect(expression)) {
+			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+		}
+		return true;
+	}
 
+	private static String squareBracketValidator(String expression) throws InvalidOperator {
+		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
+		while (macherSquareBracket.find()) {
+
+			if (!isExpresionCorect(macherSquareBracket.group())) {
+				throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+			} else
+				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
+			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
+		}
+		return expression;
+	}
+
+	private static String functiontValidator(String expression) throws InvalidOperator {
 		Matcher macherFunction = Patterns.function.matcher(expression);
 		Matcher macherBracket;
 		while (macherFunction.find()) {
@@ -35,33 +43,37 @@ public class OperatorCorrect {
 				if (matcherArgument.find()) {
 					do {
 						if (!isExpresionCorect(matcherArgument.group())) {
-							return false;
+							throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 						} else {
 							argunets = argunets.replace(matcherArgument.group() + ",", "");
 							matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
 						}
 					} while (matcherArgument.find());
-				} else if (!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
-					return false;
+				}
+				if (!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
+					throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 				}
 			}
 			expression = expression.replace(macherFunction.group(), "variable");
 			macherFunction = Patterns.function.matcher(expression);
 		}
+		return expression;
+	}
 
+	private static String bracketValidator(String expression) throws InvalidOperator {
+		Matcher macherBracket;
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (!isExpresionCorect(macherBracket.group()))
-				return false;
+				throw new InvalidOperator(enums.Error.InvalidOperator, expression);
 			else
 				expression = expression.replace("(" + macherBracket.group() + ")", "number");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);
 		}
-
-		return isExpresionCorect(expression);
+		return expression;
 	}
 
-	private static boolean isExpresionCorect(String expression)throws InvalidOperator {
+	private static boolean isExpresionCorect(String expression) throws InvalidOperator {
 
 		expression = expression.replaceAll(Patterns.complexExpressions, "variable");
 
@@ -75,27 +87,16 @@ public class OperatorCorrect {
 			expression = expression.replace(matcherOperator2expression.group(), "variable");
 			matcherOperator2expression = Patterns.operator2expressions.matcher(expression);
 		}
-
+		Matcher matcherQuestionMark = Patterns.questionMark.matcher(expression);
+		while (matcherQuestionMark.find()) {
+			expression = expression.replace(matcherQuestionMark.group(), "variable");
+			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
+		}
 		expression = expression.replace(" ", "");
 		if (expression.equals("variable") || expression.equals("number"))
 			return true;
 		else
-			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+			return false;
 	}
-	private static Pair<Boolean,String> squareBracketValidator(String expression) throws InvalidOperator{
-		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-		Boolean iscorrect=true;
-		while (macherSquareBracket.find()) {
 
-			if (!isExpresionCorect(macherSquareBracket.group())){
-				iscorrect=false;
-				break;
-			}
-			else
-				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
-			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
-		}
-		Pair<Boolean,String> autput = new Pair<Boolean, String>(iscorrect, expression);
-		return autput;
-	}
 }
