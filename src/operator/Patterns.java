@@ -3,8 +3,9 @@ package operator;
 import java.util.regex.Pattern;
 
 public class Patterns {
-	public static String variable = "[_$A-Za-z]\\w*|^\\s*-[_$A-Za-z]\\w*";
-	public static String number = "[0-9]+|^\\s*-[0-9]+";
+	public static String variable = "[_$A-Za-z]\\w*|^\\s*-[_$A-Za-z]\\w*|(?<=[^\\w-])\\s*-[_$A-Za-z]\\w*";
+	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w-])\\s*-[0-9]+";
+	public static String New = "\\Wnew\\s+\\w+";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
 	public static String functionS = "(variable\\.)*variable(\\([^\\)\\(]*\\))";
@@ -16,8 +17,7 @@ public class Patterns {
 	+ "|" + createRegex1("variable\\-\\-")
 	+ "|" + createRegex1("\\-\\-variable")
 	+ "|" + createRegex1("\\~(number|variable)")
-	+ "|" + createRegex1("\\!(number|variable)")
-	+ "|" + "\\Wnew\\s+variable";
+	+ "|" + createRegex1("\\!(number|variable)");
 	public static String operator2expressionsS = createRegex2("\\+")
 	+ "|" + createRegex2("\\-")
 	+ "|" + createRegex2("\\*")
@@ -32,7 +32,9 @@ public class Patterns {
 	+ "|" + createRegex2("\\>\\=")
 	+ "|" + createRegex2("\\<\\=")
 	+ "|" + createRegex2("\\>\\>")
-	+ "|" + createRegex2("\\<\\<");
+	+ "|" + createRegex2("\\<\\<")
+	+ "|" + createRegex2("\\|\\|")
+	+ "|" + createRegex2("\\&\\&");
 	
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
 	public static Pattern function = Pattern.compile(functionS);

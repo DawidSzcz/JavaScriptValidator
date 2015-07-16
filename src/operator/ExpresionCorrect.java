@@ -9,6 +9,7 @@ public class ExpresionCorrect {
 
 	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
 
+		expression = expression.replaceAll(Patterns.New, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);

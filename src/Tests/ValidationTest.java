@@ -25,6 +25,7 @@ public class ValidationTest {
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
+		assertTrue(TestUtils.testStatement("((action==StringID8947072945635327574)||(action==StringID514299064289191436))"));
 		assertFalse(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
 		assertTrue(TestUtils.testStatement("++_WFL_OP_V_PARAM != undefined ? _WFL_OP_V_PARAM.getValue() : IS_UNDEFINED"));
 		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined-45645 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
@@ -72,24 +73,24 @@ public class ValidationTest {
 
 	}
 
-	@Test
-	public void testParser() throws IOException, WrongWhileException {
-		String input = "";
-		String line;
-		try {
-			FileReader file = new FileReader("daneDoTestow.txt");
-			BufferedReader bufferedReader = new BufferedReader(file);
-			while ((line = bufferedReader.readLine()) != null) {
-				input += line + "\n";
-			}
-			bufferedReader.close();
-		} catch (FileNotFoundException e) {
-
-		}
-
-		List<String> test = Arrays.asList(input.split("\n"));
-		assertSame(5, test.size());
-	}
+//	@Test
+//	public void testParser() throws IOException, WrongWhileException {
+//		String input = "";
+//		String line;
+//		try {
+//			FileReader file = new FileReader("daneDoTestow.txt");
+//			BufferedReader bufferedReader = new BufferedReader(file);
+//			while ((line = bufferedReader.readLine()) != null) {
+//				input += line + "\n";
+//			}
+//			bufferedReader.close();
+//		} catch (FileNotFoundException e) {/
+//
+//		}
+//
+//		List<String> test = Arrays.asList(input.split("\n"));
+//		assertSame(5, test.size());
+//	}
 
 	@Test
 	public void test3() throws IOException {
