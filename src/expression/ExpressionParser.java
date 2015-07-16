@@ -5,13 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 
 import enums.Error;
 import exception.JSValidatorException;
 import exception.WrongElseException;
-import exception.WrongIfException;
 
 public class ExpressionParser {
 	HashMap<String, String> blocks = new HashMap<>();

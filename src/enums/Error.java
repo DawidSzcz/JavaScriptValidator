@@ -10,7 +10,10 @@ public enum Error {
 	WrongNumberOfArguments("Wrong number of arguments"),
 	WrongAssignment("Wrong assignment"),
 	MissingIfBeforeElse("MissingIfBeforeElse"),
-	InvalidOperator("Invalid Operator");
+	InvalidOperator("Invalid operator"),
+	InvalidFunction("Invalid function"),
+	InvalExpresionInSqareBracket("Inval expresion in sqare bracket"),
+	InvalExpresionInBracket("Inval Expresion In Bracket");
 	
 	public final String content;
 	Error(String str)

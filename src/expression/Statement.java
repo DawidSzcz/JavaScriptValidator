@@ -1,7 +1,8 @@
 package expression;
 
+import exception.InvalidFunction;
 import exception.InvalidOperator;
-import operator.OperatorCorrect;
+import operator.ExpresionCorrect;
 
 public class Statement {
 	private String name;
@@ -13,8 +14,8 @@ public class Statement {
 	{
 		return name;
 	}
-	public boolean isValid() throws InvalidOperator
+	public boolean isValid() throws InvalidOperator, InvalidFunction
 	{
-		return OperatorCorrect.isOpreratorCorrect(name);
+		return ExpresionCorrect.isExpressinCorrect(name);
 	}
 }

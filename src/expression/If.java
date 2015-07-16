@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongIfException;
 
@@ -63,6 +64,9 @@ public class If extends ComplexExpression{
 			condition.isValid();
 		}catch(InvalidOperator e)
 		{
+			this.addError(e.getError());
+			return false;
+		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}

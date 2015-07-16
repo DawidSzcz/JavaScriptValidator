@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongForException;
 
@@ -59,6 +60,9 @@ public class For extends ComplexExpression{
 			condition[1].isValid();
 			condition[2].isValid();
 		}catch(InvalidOperator e){
+			this.addError(e.getError());
+			return false;
+		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}
