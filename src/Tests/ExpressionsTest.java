@@ -52,13 +52,6 @@ public class ExpressionsTest {
 		ExpressionParser parser = new ExpressionParser(data);
 		assertEquals(parser.parse().isValid(), result);
 	}
-	public static void main(String[] args) {
-	      Result result = JUnitCore.runClasses(ExpressionsTest.class);
-	      for (Failure failure : result.getFailures()) {
-	         System.out.println(failure.toString());
-	      }
-	      System.out.println(result.wasSuccessful());
-	   }
 
 }
 

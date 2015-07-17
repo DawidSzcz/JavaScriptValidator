@@ -18,7 +18,7 @@ public class Assignment extends Expression {
 	 }
 	public Assignment(String statement, int line) throws WrongAssignmentException {
 		super(statement, line);
-		statement = ParseUtils.cleanLine(statement);
+		statement = ParseUtils.cleanLine(statement);  // Usouwanie bia³ych znaków do zrobienia TO JEST ZLE
 		String side[] = statement.split("=");
 		if(side.length == 2)
 		{
