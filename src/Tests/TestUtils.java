@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import operator.OperatorCorrect;
+import operator.ExpresionCorrect;
 
 public class TestUtils {
 	public static String  readFromFile(String path) throws IOException
@@ -22,7 +22,7 @@ public class TestUtils {
 	public static boolean testStatement(String str)
 	{
 		try{
-			OperatorCorrect.isOpreratorCorrect(str);
+			ExpresionCorrect.isExpressinCorrect(str);
 			return true;
 		}catch(Exception e)
 		{

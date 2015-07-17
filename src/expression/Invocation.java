@@ -1,7 +1,9 @@
 package expression;
 
+
 import java.util.Map;
 
+import exception.InvalidFunction;
 import exception.InvalidOperator;
 
 public class Invocation extends Expression {
@@ -27,6 +29,9 @@ public class Invocation extends Expression {
 			invocation.isValid();
 		}catch(InvalidOperator e)
 		{
+			this.addError(e.getError());
+			return false;
+		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}

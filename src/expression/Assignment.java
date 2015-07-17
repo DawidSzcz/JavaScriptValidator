@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import enums.Error;
+import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 public class Assignment extends Expression {
@@ -40,6 +41,9 @@ public class Assignment extends Expression {
 			second.isValid();
 		}catch(InvalidOperator e)
 		{
+			this.addError(e.getError());
+			return false;
+		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}
