@@ -1,11 +1,13 @@
 package expression;
 
+import java.util.Map;
+
 import exception.UnknownException;
 
 public class NullExpression extends Expression{
 
-	public NullExpression(String name, int line) {
-		super(name, line);
+	public NullExpression(String name, int currentLine, Map<String, String> strings) {
+		super(name, currentLine, strings);
 		// TODO Auto-generated constructor stub
 	}
 

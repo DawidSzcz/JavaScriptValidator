@@ -1,11 +1,13 @@
 package expression;
 
+import java.util.Map;
+
 import exception.InvalidOperator;
 
 public class Invocation extends Expression {
 	Statement invocation;
-	public Invocation(String str, int line) {
-		super(str, line);
+	public Invocation(String str, int currentLine, Map<String, String> strings) {
+		super(str, currentLine, strings);
 		invocation = new Statement(ParseUtils.cleanLine(str));
 	}
 	@Override

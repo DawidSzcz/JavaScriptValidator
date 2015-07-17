@@ -17,17 +17,18 @@ import exception.WrongIfException;
 import javafx.util.Pair;
 
 public class ExpressionParser {
-	HashMap<String, String> blocks = new HashMap<>();
-	List<String> instructions;
-	Map<String, String> strings;
-	String input;
+	private HashMap<String, String> blocks = new HashMap<>();
+	private List<String> instructions;
+	private Map<String, String> strings;
+	private String input;
+	private int currentLine = 0;
 	
 	public ExpressionParser(String input)
 	{
-		input = ValidationM.comentaryVariable(input);
-		Pair<Map<String, String>, String> pair = ValidationM.takeOutStrings(input);
-		this.input = pair.getValue();
-		strings = pair.getKey();
+		input = ParseUtils.removeComments(input);
+		Pair<String, Map<String, String>> pair = ParseUtils.takeOutStrings(input);
+		this.input = pair.getKey();
+		strings = pair.getValue();
 		instructions = Arrays.asList(input.split("\n"));
 	}
 	public Expression parse() throws IOException {
@@ -41,7 +42,7 @@ public class ExpressionParser {
 			blocks.put(uniqueId, block);
 			mat = Patterns.block.matcher(input);
 		}
-		return new Program(wholeProgram, parseExpressions(input));
+		return new Program(wholeProgram, 0 , parseExpressions(input), strings);
 	}
 	List<Expression> parseExpressions(String input) throws IOException {
 		List<Expression> exps = new LinkedList<>();
@@ -52,7 +53,6 @@ public class ExpressionParser {
 			if (matcher.find()) {
 				statement = blocks.get(matcher.group());
 			}
-			int line = ParseUtils.getLine(instructions, statement);
 			Matcher matcherIf = Patterns.If.matcher(statement);
 			Matcher matcherFunc = Patterns.function.matcher(statement);
 			Matcher matcherWhile = Patterns.While.matcher(statement);
@@ -60,37 +60,42 @@ public class ExpressionParser {
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);
 			Matcher matcherFor = Patterns.For.matcher(statement);
 			Matcher matcherElse = Patterns.Else.matcher(statement);
+			
+			Expression exp;
+			
 			try {
 				if(matcherElse.find())
 					try{
-					exps.add(new Else(statement, line, (If)exps.remove(exps.size()-1), this));
+						exp =new Else(statement, currentLine, (If)exps.remove(exps.size()-1), strings, this);
 					}catch(Exception e){
 						throw new WrongElseException(Error.MissingIfBeforeElse, statement);
 					}
 				else if (matcherIf.find())
-						exps.add(new If(statement, line, this));
+						exp = new If(statement, currentLine, strings, this);
 					else if (matcherFunc.find())
-							exps.add(new Function(statement, line, this));
+							exp = new Function(statement, currentLine, strings, this);
 						else if (matcherWhile.find())
-								exps.add(new While(statement, line, this));
+								exp = new While(statement, currentLine, strings, this);
 							else if (matcherFor.find())
-									exps.add(new For(statement, line, this));
+									exp = new For(statement, currentLine, strings, this);
 								else if (matcherAssign.find())
-										exps.add(new Assignment(statement, line));
+										exp = new Assignment(statement, currentLine, strings);
 									else if (matcherInvo.find())
-											exps.add(new Invocation(statement, line));
+											exp = new Invocation(statement, currentLine, strings);
 										else {
-												Expression unknown = new UnknownExpression(statement, instructions.indexOf(statement));
-												exps.add(unknown);
+												exp = new UnknownExpression(statement, currentLine, strings);
 												if (statement.contains("}"))
-													unknown.addError(Error.UnexpectedClosingBracket);
+													exp.addError(Error.UnexpectedClosingBracket);
 											}
 			} catch (JSValidatorException e) {
-				InvalidExpression exp = new InvalidExpression(e.getStatement(), ParseUtils.getLine(instructions, statement));
+				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
 				exp.addError(e.getError());
 				exps.add(exp);
 				exps.addAll(secondExpression(exp, statement));
+				continue;
 			}
+			currentLine = exp.setLine(instructions);
+			exps.add(exp);
 		}
 		return exps;
 	}
@@ -109,7 +114,16 @@ public class ExpressionParser {
 			return parseExpressions(match.group());
 		}
 		return new LinkedList<Expression>();
-
 	}
+//	private String translateName(String s)
+//	{
+//		Matcher m = Patterns.stringID.matcher(s);
+//		while(m.find())
+//		{
+//			String id = m.group();
+//			s = s.replace(id, strings.get(id));
+//		}
+//		return s;
+//	}
 
 }

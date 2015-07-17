@@ -2,6 +2,7 @@ package expression;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
@@ -10,9 +11,9 @@ import exception.WrongWhileException;
 
 public class While extends ComplexExpression{
 	Statement  condition;
-	public While(String statement, int line, ExpressionParser expressionParser) throws WrongWhileException, IOException 
+	public While(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongWhileException, IOException 
 	{
-		super(statement, line);
+		super(statement, currentLine, strings);
 		Matcher arg = Patterns.arg.matcher(statement);
 		Matcher states = Patterns.states.matcher(statement);
 		String arguments, statements;

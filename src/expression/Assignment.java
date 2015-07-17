@@ -2,6 +2,7 @@ package expression;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import enums.Error;
 import exception.InvalidOperator;
@@ -9,14 +10,8 @@ import exception.WrongAssignmentException;
 public class Assignment extends Expression {
 	 Statement first;
 	 Statement second;
-	 public Assignment(String name, int line, String a, String b)
-	 {
-		 super(name, line);
-		 first = new Statement(a);
-		 second = new Statement(b);
-	 }
-	public Assignment(String statement, int line) throws WrongAssignmentException {
-		super(statement, line);
+	public Assignment(String statement, int currentLine, Map<String, String> strings) throws WrongAssignmentException {
+		super(statement, currentLine, strings);
 		statement = ParseUtils.cleanLine(statement);
 		String side[] = statement.split("=");
 		if(side.length == 2)

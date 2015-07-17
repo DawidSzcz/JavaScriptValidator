@@ -3,6 +3,7 @@ package expression;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import enums.Error;
 import exception.UnknownException;
@@ -11,9 +12,9 @@ public class InvalidBlock extends ComplexExpression {
 
 	List<String> states = new LinkedList<>();
 	
-	public InvalidBlock(String block, int line) throws UnknownException
+	public InvalidBlock(String block, int currentLine, Map<String, String> strings) throws UnknownException
 	{
-		super(block, line);
+		super(block, currentLine, strings);
 		states = Arrays.asList(block.split("\\{|\\;"));
 	}
 

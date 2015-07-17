@@ -3,15 +3,16 @@ package expression;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import enums.Error;
 import exception.UnknownException;
 
 public class InvalidExpression extends Expression{
 
-	public InvalidExpression(String str, int line) 
+	public InvalidExpression(String str, int currentLine, Map<String, String> strings) 
 	{
-		super(str, line);
+		super(str, currentLine, strings);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

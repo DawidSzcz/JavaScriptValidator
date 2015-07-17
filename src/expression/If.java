@@ -2,6 +2,7 @@ package expression;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
@@ -10,8 +11,8 @@ import exception.WrongIfException;
 
 public class If extends ComplexExpression{
 	Statement condition;
-	public If(String statement, int line, ExpressionParser expressionParser) throws WrongIfException, IOException {
-		super(statement, line);
+	public If(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
+		super(statement, currentLine, strings);
 		Matcher arg = Patterns.arg.matcher(statement);
 		Matcher states = Patterns.states.matcher(statement);
 		String arguments, statements;
@@ -26,8 +27,8 @@ public class If extends ComplexExpression{
 		condition = new Statement(arguments);
 		this.statements = expressionParser.parseExpressions(statements);
 	}
-	public If(String name, int line, Statement condition2, List<Expression> statements) {
-		super(name, line);
+	public If(String name, int currentLine, Statement condition2, Map<String, String> strings, List<Expression> statements) {
+		super(name, currentLine, strings);
 		this.condition = condition2;
 		this.statements= statements;
 	}

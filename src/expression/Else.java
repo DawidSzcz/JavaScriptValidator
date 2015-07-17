@@ -3,6 +3,7 @@ package expression;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
@@ -14,9 +15,10 @@ public class Else extends If
 	List<Expression> elseStatements;
 	String elseName;
 	int elseLine;
-	public Else(String statement, int line, If If, ExpressionParser expressionParser) throws WrongIfException, IOException 
+	public Else(String statement, int currentLine, If If, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException 
 	{
-		super((If).getName(), (If).line, (If).getCondition(), (If).getStatements());
+		super((If).getName(), currentLine, (If).getCondition(), strings, (If).getStatements());
+		line = If.line;
 		Matcher states = Patterns.states.matcher(statement);
 		String statements;
 		if (states.find())
@@ -24,7 +26,6 @@ public class Else extends If
 		else {
 			throw new WrongIfException(Error.InvalidBlock, statement);
 		}
-		elseLine = line;
 		elseName = ParseUtils.cleanLine(name);
 		elseStatements = expressionParser.parseExpressions(statements);
 	}
@@ -38,12 +39,13 @@ public class Else extends If
 		if(i <= this.statements.size())
 			return super.get(i);
 		else if(i == this.statements.size() + 1)
-				return new NullExpression(elseName, elseLine);
+				return new NullExpression(elseName, -1, strings);
 			else
 				return elseStatements.get(i - statements.size() - 2);
 	}
 	@Override
 	public boolean match(String s) {
+		s = ParseUtils.removeCommentsFromLine(s);
 		Matcher match = Patterns.line.matcher(s);
 		match.find();
 		s = match.group();
@@ -72,5 +74,20 @@ public class Else extends If
 			if(!exp.isValid())
 				return false;
 		return true;
+	}
+	@Override
+	public int setLine(List<String> instructions) {
+		for(int i = formerLine +1; i < instructions.size(); i++)
+		{
+			String line = instructions.get(i);
+			line = ParseUtils.removeCommentsFromLine(line);
+			if(name.contains(line))
+			{
+				this.elseLine= i+1;
+				return elseLine;
+			}
+		}
+		this.elseLine = -2;
+		return formerLine;
 	}
 }

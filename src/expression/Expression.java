@@ -3,6 +3,7 @@ package expression;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
@@ -10,10 +11,14 @@ import enums.Error;
 public abstract class Expression {
 	protected String name;
 	protected int line;
+	protected Map<String, String> strings;
+	protected int formerLine;
 	List<enums.Error> errors = new LinkedList<>();
-	public Expression(String name, int line) 
+	
+	public Expression(String name, int currentLine, Map<String, String> strings) 
 	{
-		this.line = line;
+		this.formerLine = currentLine;
+		this.strings = strings;
 		Matcher match = Patterns.line.matcher(name);
 		if(match.find())
 			this.name = match.group();
@@ -39,11 +44,12 @@ public abstract class Expression {
 	}
 	public boolean match(String s)
 	{
+		s = ParseUtils.removeCommentsFromLine(s);
 		Matcher match = Patterns.line.matcher(s);
 		if(!match.find())
 			return false;
 		s = match.group();
-		return name.contains(s);
+		return translateName().contains(s);
 	}
 	public int getLine()
 	{
@@ -54,5 +60,35 @@ public abstract class Expression {
 		if(!errors.isEmpty())
 			hash.put(line, getErrors());
 		return hash;
+	}
+	protected String translateName()
+	{
+		String wholeName = name;
+		Matcher m = Patterns.stringID.matcher(wholeName);
+		while(m.find())
+		{
+			String id = m.group();
+			wholeName = wholeName.replace(id, strings.get(id));
+		}
+		return wholeName;
+	}
+	public int setLine(List<String> instructions) {
+		for(int i = formerLine; i < instructions.size(); i++)
+		{
+			try{
+				String line = ParseUtils.cleanLine(instructions.get(i));
+				Matcher m = Patterns.commentLine.matcher(line);
+				while(m.find())
+					line = line.replace(m.group(), "");
+				if(match(line))
+				{
+					this.line= i+1;
+					return this.line;
+				}
+
+			}catch(IllegalStateException e){}
+		}
+		this.line = -2;
+		return formerLine;
 	}
 }

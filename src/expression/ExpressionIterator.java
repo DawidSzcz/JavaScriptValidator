@@ -9,7 +9,7 @@ import javafx.util.Pair;
 public class ExpressionIterator 
 {
 	Stack<Pair<Expression, Integer>> stack = new Stack<>();
-	private Expression nullExpresion = new NullExpression("NULL", -1);
+	private Expression nullExpresion = new NullExpression("NULL", -1, null);
 	public ExpressionIterator(Expression program) {
 		stack.push(new Pair<Expression, Integer>(program, 0));
 	}

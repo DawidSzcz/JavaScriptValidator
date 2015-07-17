@@ -21,6 +21,10 @@ public class Patterns {
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
 	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
+	public static String stringIDS = "StringID\\d+"; 
+	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
+	private static String commentLineS = "(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
+	private static String stringS = "\"[^\"\n\r]*\"";
 
 	public static Pattern arg = Pattern.compile(argumentsS);
 	public static Pattern head = Pattern.compile(headerS);
@@ -38,5 +42,9 @@ public class Patterns {
 	public static Pattern line = Pattern.compile(lineS);
 	public static Pattern For = Pattern.compile(ForS);
 	public static Pattern Else = Pattern.compile(ElseS);
+	public static Pattern stringID = Pattern.compile(stringIDS);
+	public static Pattern comment = Pattern.compile(commentS);
+	public static Pattern commentLine = Pattern.compile(commentLineS);
+	public static Pattern string = Pattern.compile(stringS);
 
 }

@@ -2,15 +2,16 @@ package expression;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import enums.Error;
 
 public class Program extends ComplexExpression 
 {
-	public Program(String name, List<Expression>stats) {
-		super(name, 0);
+	public Program(String name, int currentLine, List<Expression>stats, Map<String, String> strings) {
+		super(name, currentLine, strings);
 		statements = stats;
-		// TODO Auto-generated constructor stub
+		line = 0;
 	}
 
 	@Override

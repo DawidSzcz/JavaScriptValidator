@@ -146,7 +146,7 @@ public class ValidationM {
 					isInString = false;
 					stringToHashMap+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
-					idToString.put(uniqueId, stringToHashMap);
+					idToString.put("StringID"+uniqueId, stringToHashMap);
 					javaScriptText=javaScriptText.replace(stringToHashMap, "StringID"+uniqueId);
 					stringToHashMap = "";
 					iterator = 0;

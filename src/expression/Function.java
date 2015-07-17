@@ -2,13 +2,14 @@ package expression;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import enums.Error;
 
 public class Function extends ComplexExpression {
-	public Function(String statement, int line, ExpressionParser expressionParser) 
+	public Function(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) 
 	{
-		super(statement, line);
+		super(statement, currentLine, strings);
 	}
 	List<Expression> aguments;
 	@Override

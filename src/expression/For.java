@@ -1,6 +1,7 @@
 package expression;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
@@ -10,8 +11,8 @@ import exception.WrongForException;
 public class For extends ComplexExpression{
 	Statement condition[];
 
-	public For(String statement, int line, ExpressionParser expressionParser) throws IOException, WrongForException {
-		super(statement, line);
+	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
+		super(statement, currentLine, strings);
 		Matcher arg = Patterns.arg.matcher(statement);
 		Matcher states = Patterns.states.matcher(statement);
 		String arguments,statements; 

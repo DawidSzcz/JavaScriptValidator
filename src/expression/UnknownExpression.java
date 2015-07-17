@@ -3,13 +3,14 @@ package expression;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import enums.Error;
 
 public class UnknownExpression extends Expression 
 {
-	public UnknownExpression(String str, int line) {
-		super(str, line);
+	public UnknownExpression(String str, int currentLine, Map<String, String> strings) {
+		super(str, currentLine, strings);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
