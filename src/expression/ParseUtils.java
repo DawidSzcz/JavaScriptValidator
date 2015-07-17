@@ -59,7 +59,7 @@ public class ParseUtils {
 		while(m.find())
 		{
 			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
-			m = Patterns.string.matcher(javaScriptTextString);
+			m = Patterns.comment.matcher(javaScriptTextString);
 		}
 		return javaScriptTextString;
 		

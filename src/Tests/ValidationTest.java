@@ -8,11 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.List;
-
 import org.junit.Test;
 
 import exception.InvalidOperator;
@@ -21,7 +18,6 @@ import expression.Expression;
 import expression.ExpressionParser;
 import expression.If;
 import expression.Invocation;
-import operator.OperatorCorrect;
 
 public class ValidationTest {
 
@@ -29,18 +25,22 @@ public class ValidationTest {
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
+		assertFalse(TestUtils.testStatement("w = 1"));
+		assertTrue(TestUtils.testStatement("((action==StringID8947072945635327574)||(action==StringID514299064289191436))"));
 		assertFalse(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
-		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined ? _WFL_OP_V_PARAM.getValue() : IS_UNDEFINED"));
+		assertFalse(TestUtils.testStatement("rowp.getParameter(2).setValue(null)rowp.getParameter(3).setValue(null)"));
+		assertTrue(TestUtils.testStatement("++_WFL_OP_V_PARAM != undefined ? _WFL_OP_V_PARAM.getValue() : IS_UNDEFINED"));
 		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != undefined-45645 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
 		assertTrue(TestUtils.testStatement("_WFL_OP_V_PARAM != (undefined-45645)*321 ? _WFL_OP_V_PARAM.getValue()+12 : ++IS_UNDEFINED"));
 		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement())"));
 		assertTrue(TestUtils.testStatement("x().y() +1 "));
-		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement(cos))"));
+		assertTrue(TestUtils.testStatement("assertTrue(TestUtils.testStatement(cos))++"));
 		assertTrue(TestUtils.testStatement(" cse "));
 		assertTrue(TestUtils.testStatement("x + 1 "));
 		assertTrue(TestUtils.testStatement("!2+54+32==3 "));
 		assertTrue(TestUtils.testStatement("x - --p"));
 		assertTrue(TestUtils.testStatement("x < 3 > 5"));
+		assertTrue(TestUtils.testStatement("-x + 5"));
 		assertTrue(TestUtils.testStatement("  !4  +  5"));
 		assertTrue(TestUtils.testStatement("  !x  "));
 		assertTrue(TestUtils.testStatement("!2+54+" + "\n" + "32==3 "));
@@ -75,24 +75,24 @@ public class ValidationTest {
 
 	}
 
-	@Test
-	public void testParser() throws IOException, WrongWhileException {
-		String input = "";
-		String line;
-		try {
-			FileReader file = new FileReader("daneDoTestow.txt");
-			BufferedReader bufferedReader = new BufferedReader(file);
-			while ((line = bufferedReader.readLine()) != null) {
-				input += line + "\n";
-			}
-			bufferedReader.close();
-		} catch (FileNotFoundException e) {
-
-		}
-
-		List<String> test = Arrays.asList(input.split("\n"));
-		assertSame(5, test.size());
-	}
+//	@Test
+//	public void testParser() throws IOException, WrongWhileException {
+//		String input = "";
+//		String line;
+//		try {
+//			FileReader file = new FileReader("daneDoTestow.txt");
+//			BufferedReader bufferedReader = new BufferedReader(file);
+//			while ((line = bufferedReader.readLine()) != null) {
+//				input += line + "\n";
+//			}
+//			bufferedReader.close();
+//		} catch (FileNotFoundException e) {/
+//
+//		}
+//
+//		List<String> test = Arrays.asList(input.split("\n"));
+//		assertSame(5, test.size());
+//	}
 
 	@Test
 	public void test3() throws IOException {

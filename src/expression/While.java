@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongWhileException;
 
@@ -48,6 +49,9 @@ public class While extends ComplexExpression{
 			return condition.isValid();
 		}catch(InvalidOperator e)
 		{
+			this.addError(e.getError());
+			return false;
+		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}

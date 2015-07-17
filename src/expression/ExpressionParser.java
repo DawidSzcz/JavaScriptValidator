@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
 import java.util.Map;
-import java.util.Random;
 import java.util.regex.Matcher;
 
 import ValidatorM.ValidationM;
 import enums.Error;
 import exception.JSValidatorException;
 import exception.WrongElseException;
-import exception.WrongIfException;
+
 import javafx.util.Pair;
 
 public class ExpressionParser {
@@ -25,11 +25,11 @@ public class ExpressionParser {
 	
 	public ExpressionParser(String input)
 	{
+		instructions = Arrays.asList(input.split("\n"));
 		input = ParseUtils.removeComments(input);
 		Pair<String, Map<String, String>> pair = ParseUtils.takeOutStrings(input);
 		this.input = pair.getKey();
 		strings = pair.getValue();
-		instructions = Arrays.asList(input.split("\n"));
 	}
 	public Expression parse() throws IOException {
 		String wholeProgram = input;

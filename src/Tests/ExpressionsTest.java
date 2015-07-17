@@ -1,3 +1,4 @@
+
 package Tests;
 
 import static org.junit.Assert.assertEquals;
@@ -7,6 +8,8 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.Test;
@@ -17,6 +20,7 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
 import expression.ExpressionParser;
+import expression.Patterns;
 
 
 @RunWith(Parameterized.class)
@@ -28,7 +32,7 @@ public class ExpressionsTest {
 		data = d; result = r;
 	}
 	@Parameterized.Parameters
-	public static Collection primeNumbers() throws IOException 
+	public static Collection parametrs() throws IOException 
 	{
 		List<Object[]> parametrs = new LinkedList<Object[]>();
 		File file = new File("testy");
@@ -38,8 +42,13 @@ public class ExpressionsTest {
 		String[] urls = file.list();
 		for(String url : urls)
 		{
+			Pattern pat = Pattern.compile("\\[.*\\]");
+			Matcher match = pat.matcher(url);
+			match.find();
+			String b = match.group();
+			Boolean bool = Boolean.parseBoolean(b.substring(1, 5));
 			d = TestUtils.readFromFile("testy\\"+url);
-			Object[] temp = {d, true};
+			Object[] temp = {d, bool};
 			parametrs.add(temp);
 		}
 		
@@ -51,12 +60,6 @@ public class ExpressionsTest {
 		ExpressionParser parser = new ExpressionParser(data);
 		assertEquals(parser.parse().isValid(), result);
 	}
-	public static void main(String[] args) {
-	      Result result = JUnitCore.runClasses(ExpressionsTest.class);
-	      for (Failure failure : result.getFailures()) {
-	         System.out.println(failure.toString());
-	      }
-	      System.out.println(result.wasSuccessful());
-	   }
 
 }
+

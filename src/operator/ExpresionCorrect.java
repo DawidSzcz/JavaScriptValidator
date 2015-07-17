@@ -2,12 +2,14 @@ package operator;
 
 import java.util.regex.Matcher;
 
+import exception.InvalidFunction;
 import exception.InvalidOperator;
 
-public class OperatorCorrect {
+public class ExpresionCorrect {
 
-	public static boolean isOpreratorCorrect(String expression) throws InvalidOperator {
+	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
 
+		expression = expression.replaceAll(Patterns.New, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
@@ -24,7 +26,7 @@ public class OperatorCorrect {
 		while (macherSquareBracket.find()) {
 
 			if (!isExpresionCorect(macherSquareBracket.group())) {
-				throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+				throw new InvalidOperator(enums.Error.InvalExpresionInSqareBracket, expression);
 			} else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
@@ -32,7 +34,7 @@ public class OperatorCorrect {
 		return expression;
 	}
 
-	private static String functiontValidator(String expression) throws InvalidOperator {
+	private static String functiontValidator(String expression) throws InvalidOperator,InvalidFunction {
 		Matcher macherFunction = Patterns.function.matcher(expression);
 		Matcher macherBracket;
 		while (macherFunction.find()) {
@@ -43,7 +45,7 @@ public class OperatorCorrect {
 				if (matcherArgument.find()) {
 					do {
 						if (!isExpresionCorect(matcherArgument.group())) {
-							throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+							throw new InvalidFunction(enums.Error.InvalidFunction, expression);
 						} else {
 							argunets = argunets.replace(matcherArgument.group() + ",", "");
 							matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
@@ -65,7 +67,7 @@ public class OperatorCorrect {
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (!isExpresionCorect(macherBracket.group()))
-				throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+				throw new InvalidOperator(enums.Error.InvalExpresionInBracket, expression);
 			else
 				expression = expression.replace("(" + macherBracket.group() + ")", "number");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);

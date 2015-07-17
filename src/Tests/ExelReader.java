@@ -26,7 +26,7 @@ public class ExelReader {
 			row1 = worksheet.getRow(iterator);
 			do{
 			cell = row1.getCell(0);
-			PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+".txt", "UTF-8");
+			PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+"[true].txt", "UTF-8");
 			String text = cell.getStringCellValue();
 			zapis.println(text);
 			zapis.close();
