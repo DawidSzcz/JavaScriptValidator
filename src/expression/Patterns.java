@@ -26,7 +26,7 @@ public class Patterns {
 	public static String stringIDS = "StringID\\d+"; 
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
-	private static String stringS = "\"[^\"\n\r]*\"";
+	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS);
