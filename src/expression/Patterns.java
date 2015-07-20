@@ -13,20 +13,19 @@ public class Patterns {
 	public static String WhileS = "^\\s*while";
 	public static String FunctionS = "^\\s*function";
 	public static String blockS = "((if)|(while)|(function)|(for)|(else))[^\\n]+[\\s]*(\\{[^\\}\\{]+\\})";
-	public static String assignS = "\\s*\\w+ *=";
 	public static String identiferS = "^\\s*-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "(^[^=]+(\\.|\\;))*\\w+\\([^\\n]*\\)";
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
 	//public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
-	public static String escapeWhiteSpaceS  = "[\\w\\(\\)\\d]+.+[\\w\\(\\)\\d]+";
+	public static String escapeWhiteSpaceS  = "[\\w\\(\\)\\d]+.+[\\w\\(\\)\\d\\[\\]_\\$]+";
 	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
 	public static String stringIDS = "StringID\\d+"; 
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
-	private static String stringS = "[\"\'][^\"\n\r]*[\"\']";
+	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\+\\-\\<\\>\\!\\\\\\*\\=\\%])=(?![\\+\\-\\<\\>\\!\\\\\\*\\=\\%])";
 
 	
@@ -34,7 +33,7 @@ public class Patterns {
 	public static Pattern head = Pattern.compile(headerS);
 	public static Pattern complex = Pattern.compile(complexS);
 	public static Pattern block = Pattern.compile(blockS);
-	public static Pattern assign = Pattern.compile(assignS);
+	public static Pattern assign = Pattern.compile(assignDivisionS);
 	public static Pattern If = Pattern.compile(IfS);
 	public static Pattern While = Pattern.compile(WhileS);
 	public static Pattern function = Pattern.compile(FunctionS);

@@ -46,9 +46,11 @@ public abstract class Expression {
 	{
 		s = ParseUtils.removeCommentsFromLine(s);
 		Matcher match = Patterns.line.matcher(s);
-		if(!match.find())
+		try{
+			s = ParseUtils.cleanLine(s);
+		}catch(IllegalStateException e){
 			return false;
-		s = match.group();
+		}
 		return translateName().contains(s);
 	}
 	public int getLine()

@@ -24,8 +24,10 @@ public class ValidationTest {
 	@Test
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
-
+		assertTrue(TestUtils.testStatement("maskAndCaptionStyle[0] "));
+		assertTrue(TestUtils.testStatement("vs_query.getString(StringID959569054)"));
 		assertTrue(TestUtils.testStatement("var i+new as"));
+		assertTrue(TestUtils.testStatement("stringid231321 ? _WFL_OP_VAL1.getValue() : null"));
 		assertFalse(TestUtils.testStatement("w == 1 +++na"));
 		assertFalse(TestUtils.testStatement("w == 1 ---na"));
 		assertTrue(TestUtils.testStatement("w == 1 + ++na"));

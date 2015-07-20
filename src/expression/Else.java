@@ -46,9 +46,11 @@ public class Else extends If
 	@Override
 	public boolean match(String s) {
 		s = ParseUtils.removeCommentsFromLine(s);
-		Matcher match = Patterns.line.matcher(s);
-		match.find();
-		s = match.group();
+		try{
+			s = ParseUtils.cleanLine(s);
+		}catch(IllegalStateException e){
+			return false;
+		}
 		return (super.match(s)|| elseName.contains(s));
 	}
 	@Override
