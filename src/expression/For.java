@@ -10,7 +10,7 @@ import exception.InvalidOperator;
 import exception.WrongForException;
 
 public class For extends ComplexExpression{
-	Statement condition[];
+	Statement condition[] = new Statement[3];
 
 	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
@@ -35,7 +35,7 @@ public class For extends ComplexExpression{
 		}
 		else
 			throw new WrongForException(Error.WrongNumberOfArguments, statement);
-		this.statements = expressionParser.parseExpressions(statement);
+		this.statements = expressionParser.parseExpressions(statements);
 		
 	}
 

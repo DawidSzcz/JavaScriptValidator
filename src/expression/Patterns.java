@@ -14,11 +14,13 @@ public class Patterns {
 	public static String FunctionS = "^\\s*function";
 	public static String blockS = "((if)|(while)|(function)|(for)|(else))[^\\n]+[\\s]*(\\{[^\\}\\{]+\\})";
 	public static String assignS = "\\s*\\w+ *=";
-	public static String identiferS = "^-?\\d+";
+	public static String identiferS = "^\\s*-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "(^[^=]+(\\.|\\;))*\\w+\\([^\\n]*\\)";
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
+	//public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
+	public static String escapeWhiteSpaceS  = "[\\w\\(\\)\\d]+.+[\\w\\(\\)\\d]+";
 	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
 	public static String stringIDS = "StringID\\d+"; 
@@ -46,5 +48,5 @@ public class Patterns {
 	public static Pattern comment = Pattern.compile(commentS);
 	public static Pattern commentLine = Pattern.compile(commentLineS);
 	public static Pattern string = Pattern.compile(stringS);
-
+	public static Pattern escapeWhiteSpace =Pattern.compile(escapeWhiteSpaceS, Pattern.DOTALL);
 }
