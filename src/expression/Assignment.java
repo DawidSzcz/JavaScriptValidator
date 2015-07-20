@@ -14,7 +14,7 @@ public class Assignment extends Expression {
 	public Assignment(String statement, int currentLine, Map<String, String> strings) throws WrongAssignmentException {
 		super(statement, currentLine, strings);
 		statement = ParseUtils.cleanLine(statement);
-		String side[] = statement.split("=");
+		String side[] = statement.split(Patterns.assignDivisionS);
 		if(side.length == 2)
 		{
 			first = new Statement(side[0]);
