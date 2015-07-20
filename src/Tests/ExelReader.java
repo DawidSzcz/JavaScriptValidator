@@ -23,16 +23,18 @@ public class ExelReader {
 			HSSFRow row1;
 			HSSFCell cell;
 			int iterator=1;
+			String bool;
 			row1 = worksheet.getRow(iterator);
 			do{
-			cell = row1.getCell(0);
-			PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+"[true].txt", "UTF-8");
-			String text = cell.getStringCellValue();
-			zapis.println(text);
-			zapis.close();
-			
-			iterator+=1;
-			row1 = worksheet.getRow(iterator);
+				cell = row1.getCell(0);
+				bool = row1.getCell(1).toString().equals("false") ? "false" : "true";
+				PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+"["+bool+"].txt", "UTF-8");
+				String text = cell.getStringCellValue();
+				zapis.println(text);
+				zapis.close();
+				
+				iterator+=1;
+				row1 = worksheet.getRow(iterator);
 			}while(row1!=null);
 
 			workbook.close();
