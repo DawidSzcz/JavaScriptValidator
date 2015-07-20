@@ -45,16 +45,16 @@ public class Core extends HttpServlet {
 			if(next.match(rows.get(i)))
 			{
 				next.isValid();
-				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
 				prev = next;
 				actualTree = iterator.getTree();
 				next = iterator.next();
 			}
 			else
 				if(prev != null && prev.match(rows.get(i)))
-					body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), prev.hasErrors() ? "error" : "noError", prev.hasErrors() ? ValidUtils.prepareErrors(prev) : actualTree);
+					body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), prev.hasErrors() ? "error" : "noError", prev.hasErrors() ? ValidUtils.prepareErrors(prev) : actualTree);
 				else
-					body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(ValidUtils.htmlValidReplace(rows.get(i))), rows.get(i), "plain", "plain");
+					body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), "plain", "plain");
 		}
 		return body;
 	}
