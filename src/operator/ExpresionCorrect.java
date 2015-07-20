@@ -11,6 +11,7 @@ public class ExpresionCorrect {
 
 		expression = expression.replaceAll(Patterns.New, "variable");
 		expression = expression.replaceAll(Patterns.Var, "variable");
+		expression = expression.replaceAll(Patterns.typeof, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);

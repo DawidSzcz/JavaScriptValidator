@@ -8,6 +8,7 @@ public class Patterns {
 	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w-])\\s*-[0-9]+";
 	public static String New = "((?<=\\W)|^)new\\s+\\w+";
 	public static String Var = "((?<=\\W)|^)var\\s+[_$A-Za-z]\\w*";
+	public static String typeof = "((?<=\\W)|^)typeof\\s+\\w+";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
 	public static String functionS = "(variable\\.)*variable(\\([^\\)\\(]*\\))";
