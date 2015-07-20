@@ -16,17 +16,16 @@ public class Patterns {
 	public static String identiferS = "^\\s*-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
-	public static String invocationS = "(^[^=]+(\\.|\\;))*\\w+\\([^\\n]*\\)";
+	public static String invocationS = "[^\\{\\}]+";
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
-	//public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
-	public static String escapeWhiteSpaceS  = "[\\w\\(\\)\\d]+.+[\\w\\(\\)\\d\\[\\]_\\$]+";
+	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\d]+.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+";
 	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
 	public static String stringIDS = "StringID\\d+"; 
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
-	public static String assignDivisionS = "(?<![\\+\\-\\<\\>\\!\\\\\\*\\=\\%])=(?![\\+\\-\\<\\>\\!\\\\\\*\\=\\%])";
+	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])=|\\+=|-=|\\\\=|%=|\\*(?![\\<\\>\\!\\=])";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS);
