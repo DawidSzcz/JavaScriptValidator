@@ -19,11 +19,11 @@ public abstract class Expression {
 	{
 		this.formerLine = currentLine;
 		this.strings = strings;
-		Matcher match = Patterns.line.matcher(name);
-		if(match.find())
-			this.name = match.group();
-		else
+		try{
+			this.name = ParseUtils.cleanLine(name);
+		}catch(IllegalStateException e){
 			addError(enums.Error.UnparsedLine);
+		}
 	}
 	public abstract Expression get(int index) throws IndexOutOfBoundsException;
 

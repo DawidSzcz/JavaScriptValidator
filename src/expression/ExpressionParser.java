@@ -51,7 +51,7 @@ public class ExpressionParser {
 		for (String statement : statements) {
 			matcher = Patterns.id.matcher(statement);
 			if (matcher.find()) {
-				statement = blocks.get(matcher.group());
+				statement = blocks.get(ParseUtils.cleanLine(matcher.group()));
 			}
 			Matcher matcherIf = Patterns.If.matcher(statement);
 			Matcher matcherFunc = Patterns.function.matcher(statement);
@@ -115,15 +115,5 @@ public class ExpressionParser {
 		}
 		return new LinkedList<Expression>();
 	}
-//	private String translateName(String s)
-//	{
-//		Matcher m = Patterns.stringID.matcher(s);
-//		while(m.find())
-//		{
-//			String id = m.group();
-//			s = s.replace(id, strings.get(id));
-//		}
-//		return s;
-//	}
 
 }
