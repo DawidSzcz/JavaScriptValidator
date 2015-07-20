@@ -15,7 +15,7 @@ public class ExelReader {
 	// "operacje.xls"
 	public static void exelToTxt() {
 		try {
-			File file = new File("bledneoperacje.xls");
+			File file = new File("operacje.xls");
 			System.out.println(file.getAbsolutePath());
 			FileInputStream fileInputStream = new FileInputStream(file);
 			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);

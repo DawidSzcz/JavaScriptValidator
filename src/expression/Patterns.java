@@ -27,6 +27,7 @@ public class Patterns {
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"";
+	public static String assignDivisionS = "(?<![\\+\\-\\<\\>\\!\\\\\\*\\=\\%])=(?![\\+\\-\\<\\>\\!\\\\\\*\\=\\%])";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS);

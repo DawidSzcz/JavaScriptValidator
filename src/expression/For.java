@@ -7,10 +7,12 @@ import java.util.regex.Matcher;
 import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
+import exception.WrongAssignmentException;
 import exception.WrongForException;
 
 public class For extends ComplexExpression{
-	Statement condition[] = new Statement[3];
+	Expression assignment;
+	Statement condition[] = new Statement[2];
 
 	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
@@ -29,9 +31,13 @@ public class For extends ComplexExpression{
 		String[] conditions = arguments.split(";");
 		if(conditions.length == 3)
 		{
-			this.condition[0]  = new Statement(conditions[0]);
-			this.condition[1]  = new Statement(conditions[1]);
-			this.condition[2]  = new Statement(conditions[2]);
+			try {
+				assignment = new Assignment(conditions[0], line, this.strings);
+			} catch (WrongAssignmentException e) {
+				this.addError(e.getError());
+			}
+			this.condition[0]  = new Statement(conditions[1]);
+			this.condition[1]  = new Statement(conditions[2]);
 		}
 		else
 			throw new WrongForException(Error.WrongNumberOfArguments, statement);
@@ -57,9 +63,9 @@ public class For extends ComplexExpression{
 		if(!super.isValid())
 			return false;
 		try{
+			assignment.isValid();
 			condition[0].isValid();
 			condition[1].isValid();
-			condition[2].isValid();
 		}catch(InvalidOperator e){
 			this.addError(e.getError());
 			return false;
