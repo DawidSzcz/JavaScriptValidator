@@ -10,6 +10,7 @@ public class ExpresionCorrect {
 	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
 
 		expression = expression.replaceAll(Patterns.New, "variable");
+		expression = expression.replaceAll(Patterns.Var, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
@@ -78,7 +79,13 @@ public class ExpresionCorrect {
 	private static boolean isExpresionCorect(String expression) throws InvalidOperator {
 
 		expression = expression.replaceAll(Patterns.complexExpressions, "variable");
-
+		
+		Matcher matcherThreePlus = Patterns.threePlus.matcher(expression);
+		Matcher matcherThreeMinus = Patterns.threeMinus.matcher(expression);
+		if (matcherThreePlus.find() || matcherThreeMinus.find() ){
+			return false;
+		}
+		
 		Matcher matcherOperator1expression = Patterns.operator1expression.matcher(expression);
 		while (matcherOperator1expression.find()) {
 			expression = expression.replace(matcherOperator1expression.group(), "variable");

@@ -28,6 +28,7 @@ public class Patterns {
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"";
 
+	
 	public static Pattern arg = Pattern.compile(argumentsS);
 	public static Pattern head = Pattern.compile(headerS);
 	public static Pattern complex = Pattern.compile(complexS);
@@ -49,4 +50,5 @@ public class Patterns {
 	public static Pattern commentLine = Pattern.compile(commentLineS);
 	public static Pattern string = Pattern.compile(stringS);
 	public static Pattern escapeWhiteSpace =Pattern.compile(escapeWhiteSpaceS, Pattern.DOTALL);
+
 }

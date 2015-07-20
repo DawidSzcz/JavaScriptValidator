@@ -34,6 +34,7 @@ public class ExpressionsTest {
 	@Parameterized.Parameters
 	public static Collection parametrs() throws IOException 
 	{
+		boolean bool;
 		List<Object[]> parametrs = new LinkedList<Object[]>();
 		File file = new File("testy");
 		FileUtils.cleanDirectory(file);
@@ -44,11 +45,11 @@ public class ExpressionsTest {
 		{
 			Pattern pat = Pattern.compile("\\[true\\]");
 			Matcher match = pat.matcher(url);
-			boolean bool;
 			if(match.find())
-				bool = true;
+				bool=true;
 			else
-				bool = false;
+				bool=false;
+			
 			d = TestUtils.readFromFile("testy\\"+url);
 			Object[] temp = {d, bool};
 			parametrs.add(temp);
@@ -64,4 +65,5 @@ public class ExpressionsTest {
 	}
 
 }
+
 

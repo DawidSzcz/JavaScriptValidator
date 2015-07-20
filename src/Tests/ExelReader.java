@@ -15,7 +15,7 @@ public class ExelReader {
 	// "operacje.xls"
 	public static void exelToTxt() {
 		try {
-			File file = new File("operacje.xls");
+			File file = new File("bledneoperacje.xls");
 			System.out.println(file.getAbsolutePath());
 			FileInputStream fileInputStream = new FileInputStream(file);
 			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
@@ -28,12 +28,10 @@ public class ExelReader {
 			do{
 				cell = row1.getCell(0);
 				bool = row1.getCell(1).toString().equals("false") ? "false" : "true";
-				PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+"["+bool+"].txt", "UTF-8");
+				PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator++)+"["+bool+"].txt", "UTF-8");
 				String text = cell.getStringCellValue();
 				zapis.println(text);
 				zapis.close();
-				
-				iterator+=1;
 				row1 = worksheet.getRow(iterator);
 			}while(row1!=null);
 
