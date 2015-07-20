@@ -20,31 +20,30 @@ public class ExelReader {
 			FileInputStream fileInputStream = new FileInputStream(file);
 			HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
 			HSSFSheet worksheet = workbook.getSheet("operacje");
-			String boolenString;
 			HSSFRow row1;
-			HSSFRow row2;
 			HSSFCell cell;
-			HSSFCell boolCell;
-			int iterator=1;
-			row1 = worksheet.getRow(iterator);
-			row2 = worksheet.getRow(iterator);
-			do{
-			cell = row1.getCell(0);
-			boolCell =row2.getCell(1);
-			
-			if (boolCell.toString().compareTo("false")==0)
-				boolenString="false";
-			else
-				boolenString="true";
-			PrintWriter zapis = new PrintWriter("testy\\DaneTestowe"+String.format("%03d", iterator)+"["+boolenString+"].txt", "UTF-8");
-			String text = cell.getStringCellValue();
-			zapis.println(text);
-			zapis.close();
-			
-			iterator+=1;
-			row1 = worksheet.getRow(iterator);
-			row2 = worksheet.getRow(iterator);
-			}while(row1!=null);
+			String boolCell = "";
+			int iterator = 1;
+			do {
+				row1 = worksheet.getRow(iterator);
+				try {
+					cell = row1.getCell(0);
+				} catch (NullPointerException e) {
+					break;
+				}
+				boolCell = row1.getCell(1).toString();
+				if (boolCell.toString().compareTo("false") == 0)
+					boolCell = "false";
+				else
+					boolCell = "true";
+				PrintWriter zapis = new PrintWriter(
+						"testy\\DaneTestowe" + String.format("%03d", iterator) + "[" + boolCell + "].txt", "UTF-8");
+				String text = cell.getStringCellValue();
+				zapis.println(text);
+				zapis.close();
+
+				iterator += 1;
+			} while (row1 != null);
 
 			workbook.close();
 		} catch (FileNotFoundException e) {

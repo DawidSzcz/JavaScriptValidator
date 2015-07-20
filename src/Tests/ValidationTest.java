@@ -25,6 +25,7 @@ public class ValidationTest {
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
+		assertTrue(TestUtils.testStatement("var i+new as"));
 		assertFalse(TestUtils.testStatement("w == 1 +++na"));
 		assertFalse(TestUtils.testStatement("w == 1 ---na"));
 		assertTrue(TestUtils.testStatement("w == 1 + ++na"));

@@ -3,9 +3,11 @@ package operator;
 import java.util.regex.Pattern;
 
 public class Patterns {
+
 	public static String variable = "[_$A-Za-z]\\w*|^\\s*-[_$A-Za-z]\\w*|(?<=[^\\w-])\\s*-[_$A-Za-z]\\w*";
 	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w-])\\s*-[0-9]+";
-	public static String New = "\\Wnew\\s+\\w+";
+	public static String New = "((?<=\\W)|^)new\\s+\\w+";
+	public static String Var = "((?<=\\W)|^)var\\s+[_$A-Za-z]\\w*";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
 	public static String functionS = "(variable\\.)*variable(\\([^\\)\\(]*\\))";
