@@ -12,6 +12,8 @@ public class Patterns {
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
 	public static String splitFunctionArgumentsS = "^[^,]+(?=,)|(?<=,)[^,]+(?=,)|(?<=,)[^,]+$";
 	public static String questionMarkS = "variable\\s*\\?\\s*variable\\s*:\\s*variable";
+	private static String threePlusS = "\\+\\+\\+";
+	private static String threeMinusS = "\\-\\-\\-";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
 	+ "|" + createRegex1("variable\\+\\+")
 	+ "|" + createRegex1("variable\\-\\-")
@@ -43,6 +45,8 @@ public class Patterns {
 	public static Pattern operator2expressions = Pattern.compile(operator2expressionsS);
 	public static Pattern splitFunctionArguments = Pattern.compile(splitFunctionArgumentsS);
 	public static Pattern questionMark = Pattern.compile(questionMarkS);
+	public static Pattern threePlus = Pattern.compile(threePlusS);
+	public static Pattern threeMinus = Pattern.compile(threeMinusS);
 	
 	private static String createRegex1(String operator) {
 		return "(?<=\\W)\\s*"+operator+"\\s*(?=\\W)|^"+operator+"\\s*|\\s*"+operator+"$";

@@ -78,7 +78,13 @@ public class ExpresionCorrect {
 	private static boolean isExpresionCorect(String expression) throws InvalidOperator {
 
 		expression = expression.replaceAll(Patterns.complexExpressions, "variable");
-
+		
+		Matcher matcherThreePlus = Patterns.threePlus.matcher(expression);
+		Matcher matcherThreeMinus = Patterns.threeMinus.matcher(expression);
+		if (matcherThreePlus.find() || matcherThreeMinus.find() ){
+			return false;
+		}
+		
 		Matcher matcherOperator1expression = Patterns.operator1expression.matcher(expression);
 		while (matcherOperator1expression.find()) {
 			expression = expression.replace(matcherOperator1expression.group(), "variable");
