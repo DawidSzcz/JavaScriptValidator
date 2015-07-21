@@ -81,34 +81,4 @@ public class ValidationTest {
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
 	}
-
-//	@Test
-//	public void testParser() throws IOException, WrongWhileException {
-//		String input = "";
-//		String line;
-//		try {
-//			FileReader file = new FileReader("daneDoTestow.txt");
-//			BufferedReader bufferedReader = new BufferedReader(file);
-//			while ((line = bufferedReader.readLine()) != null) {
-//				input += line + "\n";
-//			}
-//			bufferedReader.close();
-//		} catch (FileNotFoundException e) {/
-//
-//		}
-//
-//		List<String> test = Arrays.asList(input.split("\n"));
-//		assertSame(5, test.size());
-//	}
-
-	@Test
-	public void test3() throws IOException {
-		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" + "{\n" + "	-eter(0).setValue(null);\n"
-				+ "}" + "rowp.getParameter(0).setValue(null);\n";
-		ExpressionParser parser = new ExpressionParser(input);
-		Expression program = parser.parse();
-		assertTrue(program.get(0) instanceof If);
-		assertTrue(program.get(1) instanceof Invocation);
-		assertTrue(program.get(0).get(1) instanceof Invocation);
-	}
 }

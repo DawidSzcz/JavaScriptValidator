@@ -58,7 +58,7 @@ public class ExpressionsTest {
 		return parametrs;
 	}
 	@Test
-	public void test() throws IOException 
+	public void test() throws IOException
 	{
 		ExpressionParser parser = new ExpressionParser(data);
 		assertEquals(parser.parse().isValid(), result);
