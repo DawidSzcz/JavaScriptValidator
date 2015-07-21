@@ -16,9 +16,9 @@ public class Patterns {
 	public static String identiferS = "^\\s*-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
-	public static String invocationS = "[^\\{\\}]+";
+	public static String invocationS = "[^\\{\\}\\s]+";
 	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
-	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\d]+.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+";
+	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*";
 	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
 	public static String ForS = "^\\s*for";
 	public static String stringIDS = "StringID\\d+"; 

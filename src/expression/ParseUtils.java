@@ -14,7 +14,7 @@ public class ParseUtils {
 
 	public static String cleanLine(String statement) throws IllegalStateException
 	{
-		statement = statement.replace("\\s*", " ");
+		statement = statement.replace("\\s+", " ");
 		Matcher matcher = Patterns.escapeWhiteSpace.matcher(statement);
 		if(!matcher.find())
 			throw new IllegalStateException();
