@@ -13,14 +13,10 @@ import java.util.regex.Pattern;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
 import org.junit.runner.RunWith;
-import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
 import expression.ExpressionParser;
-import expression.Patterns;
 
 
 @RunWith(Parameterized.class)
@@ -39,7 +35,7 @@ public class ExpressionsTest {
 		File file = new File("testy");
 		FileUtils.cleanDirectory(file);
 		ExelReader.exelToTxt();
-		String d;
+		String data;
 		String[] urls = file.list();
 		for(String url : urls)
 		{
@@ -50,8 +46,8 @@ public class ExpressionsTest {
 			else
 				bool=false;
 			
-			d = TestUtils.readFromFile("testy\\"+url);
-			Object[] temp = {d, bool};
+			data = TestUtils.readFromFile("testy\\"+url);
+			Object[] temp = {data, bool};
 			parametrs.add(temp);
 		}
 		
@@ -60,8 +56,10 @@ public class ExpressionsTest {
 	@Test
 	public void test() throws IOException
 	{
+		
 		ExpressionParser parser = new ExpressionParser(data);
-		assertEquals(parser.parse().isValid(), result);
+		boolean x = parser.parse().getAllErrors().size()==0;
+		assertEquals(x, result);
 	}
 
 }

@@ -38,9 +38,9 @@ public abstract class ComplexExpression extends Expression {
 	}
 	@Override
 	public boolean isValid() {
-		for(Expression exp : statements)
-			if(!exp.isValid())
-				return false;
+//		for(Expression exp : statements)
+//			if(!exp.isValid())
+//				return false;
 		return true;
 	}	
 

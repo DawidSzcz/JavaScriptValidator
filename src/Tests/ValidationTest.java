@@ -24,10 +24,12 @@ public class ValidationTest {
 	@Test
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
+
 		assertTrue(TestUtils.testStatement("PARAM1 == StringID8219226471481774312 || ((VAL1 != null && PARAM1.equals(VAL1)) || (VAL2 != null && !PARAM1.equals(VAL2)))"));
 		assertTrue(TestUtils.testStatement("b(a==1)"));
 		assertTrue(TestUtils.testStatement("_TABLE.getRow(_TABLE.getRowCount()-2)"));
 		assertTrue(TestUtils.testStatement("_TABLE.getRow(_TABLE.getRowCount()-as)"));
+		assertFalse(TestUtils.testStatement("a =1"));
 		assertTrue(TestUtils.testStatement("maskAndCaptionStyle[0] "));
 		assertTrue(TestUtils.testStatement("vs_query.getString(StringID959569054)"));
 		assertTrue(TestUtils.testStatement("var i+new as"));

@@ -95,6 +95,7 @@ public class ExpressionParser {
 				continue;
 			}
 			currentLine = exp.setLine(instructions);
+			exp.isValid();
 			exps.add(exp);
 		}
 		return exps;
