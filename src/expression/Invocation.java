@@ -10,7 +10,7 @@ public class Invocation extends Expression {
 	Statement invocation;
 	public Invocation(String str, int currentLine, Map<String, String> strings) {
 		super(str, currentLine, strings);
-		invocation = new Statement(ParseUtils.cleanLine(str));
+		invocation = new Statement(str);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

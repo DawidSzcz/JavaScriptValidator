@@ -13,7 +13,8 @@ public enum Error {
 	InvalidOperator("Invalid operator"),
 	InvalidFunction("Invalid function"),
 	InvalExpresionInSqareBracket("Inval expresion in sqare bracket"),
-	InvalExpresionInBracket("Inval Expresion In Bracket");
+	InvalExpresionInBracket("Inval Expresion In Bracket"), 
+	InvalidElseName("Invalid Else Name");
 	
 	public final String content;
 	Error(String str)
