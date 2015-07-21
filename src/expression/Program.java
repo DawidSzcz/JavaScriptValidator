@@ -23,5 +23,11 @@ public class Program extends ComplexExpression
 	public String toString() {
 		return "Program";
 	}
+	public boolean isValid() {
+		for(Expression exp : statements)
+			if(!exp.isValid())
+				return false;
+		return true;
+	}
 
 }

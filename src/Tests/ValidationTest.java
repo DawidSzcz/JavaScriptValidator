@@ -24,6 +24,7 @@ public class ValidationTest {
 	@Test
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
+		assertFalse(TestUtils.testStatement("a =1"));
 		assertTrue(TestUtils.testStatement("maskAndCaptionStyle[0] "));
 		assertTrue(TestUtils.testStatement("vs_query.getString(StringID959569054)"));
 		assertTrue(TestUtils.testStatement("var i+new as"));

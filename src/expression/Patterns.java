@@ -12,7 +12,7 @@ public class Patterns {
 	public static String IfS = "^\\s*if";
 	public static String WhileS = "^\\s*while";
 	public static String FunctionS = "^\\s*function";
-	public static String blockS = "((if)|(while)|(function)|(for)|(else))[^\\n]+[\\s]*(\\{[^\\}\\{]+\\})";
+	public static String blockS = "((if|while|function|for)[^\\n]+|else)[\\s]*\\{[^\\}\\{]+\\}";
 	public static String identiferS = "^\\s*-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
@@ -25,7 +25,7 @@ public class Patterns {
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
-	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])=|\\+=|-=|\\\\=|%=|\\*(?![\\<\\>\\!\\=])";
+	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
 	public static String elseIfS = "else\\s*-?\\d+";
 
 	

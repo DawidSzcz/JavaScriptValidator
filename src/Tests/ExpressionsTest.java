@@ -60,8 +60,10 @@ public class ExpressionsTest {
 	@Test
 	public void test() throws IOException 
 	{
+		
 		ExpressionParser parser = new ExpressionParser(data);
-		assertEquals(parser.parse().isValid(), result);
+		boolean x = parser.parse().isValid();
+		assertEquals(x, result);
 	}
 
 }
