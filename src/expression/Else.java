@@ -20,18 +20,29 @@ public class Else extends If
 		super((If).getName(), currentLine, (If).getCondition(), strings, (If).getStatements());
 		line = If.line;
 		Matcher states = Patterns.states.matcher(statement);
+		Matcher elseIf = Patterns.elseIf.matcher(statement);
 		String statements;
 		if (states.find())
 			statements = states.group();
-		else {
-			throw new WrongIfException(Error.InvalidBlock, statement);
+		else if(elseIf.find())
+			{
+				statements = elseIf.group();
+			}
+			else
+			{
+				throw new WrongIfException(Error.InvalidBlock, statement);
+			}
+		try{
+			elseName = ParseUtils.cleanLine(name);
+		}catch(IllegalStateException e)
+		{
+			this.addError(Error.InvalidElseName);
 		}
-		elseName = ParseUtils.cleanLine(name);
 		elseStatements = expressionParser.parseExpressions(statements);
 	}
 	public String toString()
 	{
-		return "ElseIF";
+		return "IFElse";
 	}
 	@Override
 	public Expression get(int i) throws IndexOutOfBoundsException

@@ -26,6 +26,7 @@ public class Patterns {
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])=|\\+=|-=|\\\\=|%=|\\*(?![\\<\\>\\!\\=])";
+	public static String elseIfS = "else\\s*-?\\d+";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS);
@@ -49,5 +50,6 @@ public class Patterns {
 	public static Pattern commentLine = Pattern.compile(commentLineS);
 	public static Pattern string = Pattern.compile(stringS);
 	public static Pattern escapeWhiteSpace =Pattern.compile(escapeWhiteSpaceS, Pattern.DOTALL);
+	public static Pattern elseIf = Pattern.compile(elseIfS);
 
 }

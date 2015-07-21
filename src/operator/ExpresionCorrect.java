@@ -102,7 +102,7 @@ public class ExpresionCorrect {
 			expression = expression.replace(matcherQuestionMark.group(), "variable");
 			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
 		}
-		expression = expression.replace(" ", "");
+		expression = expression.replaceAll("\\s+", "");
 		if (expression.equals("variable") || expression.equals("number"))
 			return true;
 		else
