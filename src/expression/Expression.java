@@ -88,7 +88,9 @@ public abstract class Expression {
 					return this.line;
 				}
 
-			}catch(IllegalStateException e){}
+			}catch(IllegalStateException e){
+				
+			}
 		}
 		this.line = -2;
 		return formerLine;

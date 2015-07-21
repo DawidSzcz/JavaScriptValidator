@@ -20,7 +20,6 @@ public class ParseUtils {
 			throw new IllegalStateException();
 		return matcher.group();
 	}
-
 	public static int getLine(List<String> instructions, String group) {
 		group = cleanLine(group);
 		for(int i = 0; i < instructions.size(); i++)
