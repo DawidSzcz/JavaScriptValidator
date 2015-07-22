@@ -23,6 +23,7 @@ public abstract class Expression {
 			this.name = ParseUtils.cleanLine(name);
 		}catch(IllegalStateException e){
 			addError(enums.Error.UnparsedLine);
+			this.name="null";
 		}
 	}
 	public abstract Expression get(int index) throws IndexOutOfBoundsException;

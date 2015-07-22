@@ -11,10 +11,10 @@ public class Patterns {
 	public static String typeof = "((?<=\\W)|^)typeof\\s+\\w+";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
-	public static String functionS = "(variable\\.)*variable(\\([^\\)\\(]*\\))";
+	public static String functionS = "(variable\\.)*variable\\s*(\\([^\\)\\(]*\\))";
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
 	public static String splitFunctionArgumentsS = "^[^,]+(?=,)|(?<=,)[^,]+(?=,)|(?<=,)[^,]+$";
-	public static String questionMarkS = "variable\\s*\\?\\s*variable\\s*:\\s*variable";
+	public static String questionMarkS = "(number|variable)\\s*\\?\\s*(number|variable)\\s*:\\s*(number|variable)";
 	private static String threePlusS = "\\+\\+\\+";
 	private static String threeMinusS = "\\-\\-\\-";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
