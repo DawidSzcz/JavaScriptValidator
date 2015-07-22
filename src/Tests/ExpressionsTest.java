@@ -29,7 +29,7 @@ public class ExpressionsTest {
 	String data;
 	boolean result;
 	public ExpressionsTest(String u, String d, Boolean r) {
-		data = d; result = r;
+		url = u; data = d; result = r;
 	}
 	@Parameterized.Parameters
 	public static Collection parametrs() throws IOException 
