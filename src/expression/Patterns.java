@@ -3,7 +3,7 @@ package expression;
 import java.util.regex.Pattern;
 
 public class Patterns {
-	public static String ElseS = "\\s*else";
+	public static String ElseS = "^\\s*else";
 	public static String splitS = ";+\\s*";
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\))";
@@ -13,7 +13,7 @@ public class Patterns {
 	public static String WhileS = "^\\s*while";
 	public static String FunctionS = "^\\s*function";
 	public static String blockS = "((if|while|function|for)[^\\n]+|else)[\\s]*\\{[^\\}\\{]+\\}";
-	public static String identiferS = "^\\s*-?\\d+";
+	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
@@ -26,7 +26,7 @@ public class Patterns {
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
-	public static String elseIfS = "else\\s*-?\\d+";
+	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS);

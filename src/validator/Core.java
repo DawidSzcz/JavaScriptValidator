@@ -1,3 +1,4 @@
+
 package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -57,4 +58,5 @@ public class Core extends HttpServlet {
 		}
 		return body;
 	}
+
 }

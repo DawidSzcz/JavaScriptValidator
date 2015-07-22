@@ -36,7 +36,7 @@ public class ExpressionParser {
 		Matcher mat = Patterns.block.matcher(input);
 		while (mat.find()) {
 			String block = mat.group();
-			String uniqueId = ParseUtils.uniqueId(input);
+			String uniqueId = "BlockID"+ParseUtils.uniqueId(input);
 			if (input.contains(block))
 				input = input.replace(block, uniqueId + ";\n");
 			blocks.put(uniqueId, block);

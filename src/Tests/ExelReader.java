@@ -23,9 +23,9 @@ public class ExelReader {
 			HSSFSheet worksheet = workbook.getSheet("operacje");
 			HSSFRow row1;
 			HSSFCell cell;
-			int iterator=1;
+			int iterator=0;
 			String bool;
-			row1 = worksheet.getRow(iterator);
+			row1 = worksheet.getRow(iterator+1);
 			do{
 				cell = row1.getCell(0);
 				bool = row1.getCell(1).toString().equals("false") ? "false" : "true";
@@ -33,7 +33,7 @@ public class ExelReader {
 				String text = cell.getStringCellValue();
 				zapis.println(text);
 				zapis.close();
-				row1 = worksheet.getRow(iterator);
+				row1 = worksheet.getRow(iterator+1);
 			}while(row1!=null);
 
 			workbook.close();
