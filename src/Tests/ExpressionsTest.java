@@ -25,7 +25,7 @@ public class ExpressionsTest {
 	String data;
 	boolean result;
 	public ExpressionsTest(String u, String d, Boolean r) {
-		data = d; result = r; url=u;
+		url = u; data = d; result = r;
 	}
 	@Parameterized.Parameters
 	public static Collection parametrs() throws IOException 
@@ -35,7 +35,7 @@ public class ExpressionsTest {
 		File file = new File("testy");
 		FileUtils.cleanDirectory(file);
 		ExelReader.exelToTxt();
-		String data;
+		String d;
 		String[] urls = file.list();
 		for(String url : urls)
 		{
@@ -46,21 +46,18 @@ public class ExpressionsTest {
 			else
 				bool=false;
 			
-
-			data = TestUtils.readFromFile("testy\\"+url);
-			Object[] temp = {url, data, bool};
-
+			d = TestUtils.readFromFile("testy\\"+url);
+			Object[] temp = {url, d, bool};
 			parametrs.add(temp);
 		}
 		
 		return parametrs;
 	}
 	@Test
-	public void test() throws IOException
+	public void test() throws IOException 
 	{
 		ExpressionParser parser = new ExpressionParser(data);
 		boolean x = parser.parse().getAllErrors().size() == 0;
-
 		assertEquals(x, result);
 	}
 
