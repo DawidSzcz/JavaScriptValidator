@@ -25,6 +25,8 @@ public class ValidationTest {
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
+		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
+		assertTrue(TestUtils.testStatement("vr_Row.getParameterByName(stringid13213).setValue(vt_codes[vr_Row.getParameterByName(stringid123).getValue()])"));
 		assertTrue(TestUtils.testStatement("PARAM1 == StringID8219226471481774312 || ((VAL1 != null && PARAM1.equals(VAL1)) || (VAL2 != null && !PARAM1.equals(VAL2)))"));
 		assertTrue(TestUtils.testStatement("b(a==1)"));
 		assertTrue(TestUtils.testStatement("_TABLE.getRow(_TABLE.getRowCount()-2)"));
