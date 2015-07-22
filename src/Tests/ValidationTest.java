@@ -24,6 +24,11 @@ public class ValidationTest {
 	@Test
 
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
+
+		assertTrue(TestUtils.testStatement("PARAM1 == StringID8219226471481774312 || ((VAL1 != null && PARAM1.equals(VAL1)) || (VAL2 != null && !PARAM1.equals(VAL2)))"));
+		assertTrue(TestUtils.testStatement("b(a==1)"));
+		assertTrue(TestUtils.testStatement("_TABLE.getRow(_TABLE.getRowCount()-2)"));
+		assertTrue(TestUtils.testStatement("_TABLE.getRow(_TABLE.getRowCount()-as)"));
 		assertFalse(TestUtils.testStatement("a =1"));
 		assertTrue(TestUtils.testStatement("maskAndCaptionStyle[0] "));
 		assertTrue(TestUtils.testStatement("vs_query.getString(StringID959569054)"));
@@ -81,35 +86,5 @@ public class ValidationTest {
 		assertTrue(TestUtils.testStatement("x(x(a,b, c),b, c(d,e))"));
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
-	}
-
-//	@Test
-//	public void testParser() throws IOException, WrongWhileException {
-//		String input = "";
-//		String line;
-//		try {
-//			FileReader file = new FileReader("daneDoTestow.txt");
-//			BufferedReader bufferedReader = new BufferedReader(file);
-//			while ((line = bufferedReader.readLine()) != null) {
-//				input += line + "\n";
-//			}
-//			bufferedReader.close();
-//		} catch (FileNotFoundException e) {/
-//
-//		}
-//
-//		List<String> test = Arrays.asList(input.split("\n"));
-//		assertSame(5, test.size());
-//	}
-
-	@Test
-	public void test3() throws IOException {
-		String input = "if (rowid.equals(rowp.getParameter(0).getValue()))\n" + "{\n" + "	-eter(0).setValue(null);\n"
-				+ "}" + "rowp.getParameter(0).setValue(null);\n";
-		ExpressionParser parser = new ExpressionParser(input);
-		Expression program = parser.parse();
-		assertTrue(program.get(0) instanceof If);
-		assertTrue(program.get(1) instanceof Invocation);
-		assertTrue(program.get(0).get(1) instanceof Invocation);
 	}
 }

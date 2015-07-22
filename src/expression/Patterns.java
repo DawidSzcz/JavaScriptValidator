@@ -6,13 +6,13 @@ public class Patterns {
 	public static String ElseS = "^\\s*else";
 	public static String splitS = ";+\\s*";
 	public static String variableS = "\\a+\\w+";
-	public static String argumentsS = "(?<=\\().+(?=\\))";
+	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";
 	public static String complexS = "(if)|(while)|(function)|(for)";
 	public static String IfS = "^\\s*if";
 	public static String WhileS = "^\\s*while";
 	public static String FunctionS = "^\\s*function";
-	public static String blockS = "((if|while|function|for)[^\\n]+|else)[\\s]*\\{[^\\}\\{]+\\}";
+	public static String blockS = "((if|while|function|for)[^\\{]+|else)[\\s]*\\{[^\\}\\{]+\\}";
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
@@ -29,7 +29,7 @@ public class Patterns {
 	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
 
 	
-	public static Pattern arg = Pattern.compile(argumentsS);
+	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
 	public static Pattern head = Pattern.compile(headerS);
 	public static Pattern complex = Pattern.compile(complexS);
 	public static Pattern block = Pattern.compile(blockS);

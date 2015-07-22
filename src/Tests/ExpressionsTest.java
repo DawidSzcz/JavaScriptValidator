@@ -13,14 +13,10 @@ import java.util.regex.Pattern;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.junit.Test;
-import org.junit.runner.JUnitCore;
-import org.junit.runner.Result;
 import org.junit.runner.RunWith;
-import org.junit.runner.notification.Failure;
 import org.junit.runners.Parameterized;
 
 import expression.ExpressionParser;
-import expression.Patterns;
 
 
 @RunWith(Parameterized.class)
