@@ -44,7 +44,6 @@ public class Core extends HttpServlet {
 		{
 			if(next.match(rows.get(i)))
 			{
-				next.isValid();
 				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
 				prev = next;
 				actualTree = iterator.getTree();

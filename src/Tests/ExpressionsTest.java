@@ -1,7 +1,7 @@
 
 package Tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,10 +25,10 @@ import expression.Patterns;
 
 @RunWith(Parameterized.class)
 public class ExpressionsTest {
-
+	String url;
 	String data;
 	boolean result;
-	public ExpressionsTest(String d, Boolean r) {
+	public ExpressionsTest(String u, String d, Boolean r) {
 		data = d; result = r;
 	}
 	@Parameterized.Parameters
@@ -51,7 +51,7 @@ public class ExpressionsTest {
 				bool=false;
 			
 			d = TestUtils.readFromFile("testy\\"+url);
-			Object[] temp = {d, bool};
+			Object[] temp = {url, d, bool};
 			parametrs.add(temp);
 		}
 		
@@ -60,9 +60,8 @@ public class ExpressionsTest {
 	@Test
 	public void test() throws IOException 
 	{
-		
 		ExpressionParser parser = new ExpressionParser(data);
-		boolean x = parser.parse().isValid();
+		boolean x = parser.parse().getAllErrors().size() == 0;
 		assertEquals(x, result);
 	}
 

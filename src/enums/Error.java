@@ -14,7 +14,8 @@ public enum Error {
 	InvalidFunction("Invalid function"),
 	InvalExpresionInSqareBracket("Inval expresion in sqare bracket"),
 	InvalExpresionInBracket("Inval Expresion In Bracket"), 
-	InvalidElseName("Invalid Else Name");
+	InvalidElseName("Invalid Else Name"), 
+	InvalidElseIf("Invalid If in ElseIf");
 	
 	public final String content;
 	Error(String str)

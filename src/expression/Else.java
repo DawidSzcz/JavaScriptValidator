@@ -15,7 +15,7 @@ public class Else extends If
 	List<Expression> elseStatements;
 	String elseName;
 	int elseLine;
-	public Else(String statement, int currentLine, If If, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException 
+	public Else(String statement, int currentLine, If If, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException, WrongElseException 
 	{
 		super((If).getName(), currentLine, (If).getCondition(), strings, (If).getStatements());
 		line = If.line;
