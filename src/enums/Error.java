@@ -13,7 +13,7 @@ public enum Error {
 	InvalidOperator("Invalid operator"),
 	InvalidFunction("Invalid function"),
 	InvalExpresionInSqareBracket("Inval expresion in sqare bracket"),
-	InvalExpresionInBracket("Inval Expresion In Bracket"), 
+	InvalExpresionInParenthesis("Inval Expresion In Parenthesis"), 
 	InvalidElseName("Invalid Else Name"), 
 	InvalidElseIf("Invalid If in ElseIf");
 	

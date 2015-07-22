@@ -23,11 +23,14 @@ public class ExpresionCorrect {
 		return true;
 	}
 
-	private static String squareBracketValidator(String expression) throws InvalidOperator {
+	private static String squareBracketValidator(String expression) throws InvalidOperator, InvalidFunction {
+
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		while (macherSquareBracket.find()) {
-
-			if (!isExpresionCorect(macherSquareBracket.group())) {
+			String subexpression=macherSquareBracket.group();
+			subexpression = functiontValidator(subexpression);
+			subexpression = bracketValidator(subexpression);			
+			if (!isExpresionCorect(subexpression)) {
 				throw new InvalidOperator(enums.Error.InvalExpresionInSqareBracket, expression);
 			} else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
@@ -69,7 +72,7 @@ public class ExpresionCorrect {
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (!isExpresionCorect(macherBracket.group()))
-				throw new InvalidOperator(enums.Error.InvalExpresionInBracket, expression);
+				throw new InvalidOperator(enums.Error.InvalExpresionInParenthesis, expression);
 			else
 				expression = expression.replace("(" + macherBracket.group() + ")", "number");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);
@@ -103,7 +106,7 @@ public class ExpresionCorrect {
 			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
 		}
 		expression = expression.replaceAll("\\s+", "");
-		if (expression.equals("variable") || expression.equals("number"))
+		if (expression.equals("variable") || expression.equals("number") || expression.equals(""))
 			return true;
 		else
 			return false;
