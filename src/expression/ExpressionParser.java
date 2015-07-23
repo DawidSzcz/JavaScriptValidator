@@ -87,16 +87,16 @@ public class ExpressionParser {
 												if (statement.contains("}"))
 													exp.addError(Error.UnexpectedClosingBracket);
 											}
+
+				exps.add(exp);
+				currentLine = exp.setLine(instructions);
 			} catch (JSValidatorException e) {
 				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
 				exp.addError(e.getError());
 				exps.add(exp);
 				exps.addAll(secondExpression(exp, statement));
-				continue;
 			}
-			currentLine = exp.setLine(instructions);
 			exp.isValid();
-			exps.add(exp);
 		}
 		return exps;
 	}
@@ -107,7 +107,7 @@ public class ExpressionParser {
 			return parseExpressions(statement.split("\\{")[1]);
 		}
 		Matcher match = Patterns.checkOpenning.matcher(statement);
-		if (match.find()) {
+		if (match.find()){
 			exp.addError(Error.MissingOpenningBracket);
 			match = Patterns.line.matcher(statement);
 			match.find();

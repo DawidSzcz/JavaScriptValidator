@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 	public static String ElseS = "^\\s*else";
-	public static String splitS = ";+\\s*";
+	public static String splitS = ";+\\s*\n"; // Dopisane /n trzeba sie teraz bedzie gimnastykowac z podwojnymi instrukcjami; 
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";
@@ -12,14 +12,14 @@ public class Patterns {
 	public static String IfS = "^\\s*if";
 	public static String WhileS = "^\\s*while";
 	public static String FunctionS = "^\\s*function";
-	public static String blockS = "((if|while|function|for)[^\\{]+|else)[\\s]*\\{[^\\}\\{]+\\}";
+	public static String blockS = "(^|\\s+)(((if|while|function)[^;\\{]+|for[^\\{]+)|else)[\\s]*\\{[^\\}\\{]+\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
-	public static String checkOpenningS = "\\)\\s*\\n+\\s*\\w";
-	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*";
-	public static String lineS = "[\\{\\}\\w]+[^\\n\r;]*";
+	public static String checkOpenningS = "\\)\\s*\n+\\s*\\w";
+	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*"; // Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
+	public static String lineS = "[\\{\\}\\w]+[^\n\r;]*";
 	public static String ForS = "^\\s*for";
 	public static String stringIDS = "StringID\\d+"; 
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
@@ -27,6 +27,7 @@ public class Patterns {
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
 	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
+	public static String empty = "^\\*s$";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
