@@ -8,6 +8,8 @@ import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
+import parser.ParseUtils;
+import parser.Patterns;
 public class Assignment extends Expression {
 	 Statement first;
 	 Statement second;

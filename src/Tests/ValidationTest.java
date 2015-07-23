@@ -1,23 +1,14 @@
 package Tests;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+
 import org.junit.Test;
 
 import exception.InvalidOperator;
 import exception.WrongWhileException;
-import expression.Expression;
-import expression.ExpressionParser;
-import expression.If;
-import expression.Invocation;
 
 public class ValidationTest {
 

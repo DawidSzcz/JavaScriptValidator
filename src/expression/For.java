@@ -1,6 +1,7 @@
 package expression;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
@@ -9,10 +10,11 @@ import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 import exception.WrongForException;
+import parser.ExpressionParser;
+import parser.Patterns;
 
 public class For extends ComplexExpression{
-	Expression assignment;
-	Statement condition[] = new Statement[2];
+	Expression[] forConditions = new Expression[3];
 
 	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
@@ -28,16 +30,22 @@ public class For extends ComplexExpression{
 		else {
 			throw new WrongForException(Error.InvalidBlock, statement);
 		}
-		String[] conditions = arguments.split(";");
+		String[] conditions = (arguments+" ").split(";");
 		if(conditions.length == 3)
 		{
-			try {
-				assignment = new Assignment(conditions[0], line, this.strings);
-			} catch (WrongAssignmentException e) {
-				this.addError(e.getError());
-			}
-			this.condition[0]  = new Statement(conditions[1]);
-			this.condition[1]  = new Statement(conditions[2]);
+			for(int i = 0; i < 3; i++)
+				if(!conditions[i].matches(Patterns.empty))
+				{
+					List<Expression> list = expressionParser.parseExpressions(conditions[i]);
+					if(list.size() != 1)
+						throw new WrongForException(Error.InvalidForCondition, statement);
+					else
+						forConditions[i] = list.get(0);
+				}
+				else
+					forConditions[i] = new EmptyExpression();
+					
+					
 		}
 		else
 			throw new WrongForException(Error.WrongNumberOfArguments, statement);
@@ -60,20 +68,27 @@ public class For extends ComplexExpression{
 
 	@Override
 	public boolean isValid() {
-		if(!super.isValid())
-			return false;
-		try{
-			assignment.isValid();
-			condition[0].isValid();
-			condition[1].isValid();
-		}catch(InvalidOperator e){
-			this.addError(e.getError());
-			return false;
-		}catch(InvalidFunction e){
-			this.addError(e.getError());
-			return false;
-		}
+		//Wykomentowane bo wszyskie elementy condition i tak sa walidowane w parserze
+//		boolean isValid = super.isValid();
+//		for(Expression e : forConditions)
+//			if(!e.isValid())
+//				isValid = false;
+//		return isValid;
 		return true;
+	}
+	@Override
+	public boolean hasErrors() {
+		for(Expression e : forConditions)
+			if(e.hasErrors())
+				return true;
+		return false;
+	}
+	@Override
+	public List<Error> getErrors() {
+		List<Error> errs= super.getErrors();
+		for(Expression e : forConditions)
+			errs.addAll(e.getErrors());
+		return errs;
 	}
 
 }

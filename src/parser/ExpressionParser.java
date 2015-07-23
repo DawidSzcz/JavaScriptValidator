@@ -1,4 +1,4 @@
-package expression;
+package parser;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import ValidatorM.ValidationM;
 import enums.Error;
 import exception.JSValidatorException;
 import exception.WrongElseException;
-
+import expression.*;
 import javafx.util.Pair;
 
 public class ExpressionParser {
@@ -44,7 +44,7 @@ public class ExpressionParser {
 		}
 		return new Program(wholeProgram, 0 , parseExpressions(input), strings);
 	}
-	List<Expression> parseExpressions(String input) throws IOException {
+	public List<Expression> parseExpressions(String input) throws IOException {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
 		Matcher matcher;
@@ -87,16 +87,16 @@ public class ExpressionParser {
 												if (statement.contains("}"))
 													exp.addError(Error.UnexpectedClosingBracket);
 											}
+
+				exps.add(exp);
+				currentLine = exp.setLine(instructions);
 			} catch (JSValidatorException e) {
 				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
 				exp.addError(e.getError());
 				exps.add(exp);
 				exps.addAll(secondExpression(exp, statement));
-				continue;
 			}
-			currentLine = exp.setLine(instructions);
 			exp.isValid();
-			exps.add(exp);
 		}
 		return exps;
 	}
@@ -107,7 +107,7 @@ public class ExpressionParser {
 			return parseExpressions(statement.split("\\{")[1]);
 		}
 		Matcher match = Patterns.checkOpenning.matcher(statement);
-		if (match.find()) {
+		if (match.find()){
 			exp.addError(Error.MissingOpenningBracket);
 			match = Patterns.line.matcher(statement);
 			match.find();

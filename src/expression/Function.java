@@ -12,6 +12,8 @@ import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongFunctionException;
+import parser.ExpressionParser;
+import parser.Patterns;
 
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 
