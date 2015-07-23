@@ -28,6 +28,7 @@ public class Patterns {
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
 	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
 	public static String empty = "^\\*s$";
+	public static String beginComplex = "^\\s*%s\\s*\\(";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);

@@ -16,7 +16,10 @@ public enum Error {
 	InvalExpresionInParenthesis("Inval Expresion In Parenthesis"), 
 	InvalidElseName("Invalid Else Name"), 
 	InvalidElseIf("Invalid If in ElseIf"), 
-	InvalidForCondition("Invalid For Condition");
+	InvalidForCondition("Invalid For Condition"),
+	IvalidBeginning("Invalid beggining of complex statement"), 
+	ForbidenCharacterInHeader("Forbiden character in header"), 
+	InvalidCondition("Invalid Condition");
 	
 	public final String content;
 	Error(String str)

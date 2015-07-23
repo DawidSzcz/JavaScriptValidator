@@ -3,11 +3,15 @@ package parser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import enums.Error;
+import exception.WrongComplexException;
 import javafx.util.Pair;
 
 public class ParseUtils {
@@ -72,6 +76,45 @@ public class ParseUtils {
 			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
 		}
 		return javaScriptTextString;
+	}
+	public static Pair<String, String> findCondition(String instruction, String in) throws WrongComplexException
+	{
+		List<Character>forbiden;
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
+		int opened = 1;
+		String condition, statements;
+		if(checkBeginning.find())
+			in = in.replace(checkBeginning.group(), "");
+		else 
+			throw new WrongComplexException(Error.IvalidBeginning, in);
+		
+		switch(instruction){
+		case "for":
+			forbiden = Arrays.asList('{', '}');
+			break;
+		case "function":
+			forbiden = new LinkedList<Character>();
+			break;
+		default:
+			forbiden = Arrays.asList('{', '}', ';');
+		}
+		for(int i = 0; i < in.length(); i++)
+		{
+			if(forbiden.contains(in.charAt(i)))
+				throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
+			if(in.charAt(i) == '(')
+				opened++;
+			if(in.charAt(i) == ')')
+				opened--;
+			if(opened == 0)
+			{
+				condition = in.substring(0, i);
+				statements = in.substring(i+1);
+				return new Pair<String, String>(condition, statements);
+			}
+		}
+		throw new WrongComplexException(Error.InvalidCondition, in);
+
 	}
 }
 
