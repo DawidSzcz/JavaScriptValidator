@@ -9,6 +9,9 @@ import java.util.regex.Matcher;
 import enums.Error;
 import exception.WrongElseException;
 import exception.WrongIfException;
+import parser.ExpressionParser;
+import parser.ParseUtils;
+import parser.Patterns;
 
 public class Else extends If
 {

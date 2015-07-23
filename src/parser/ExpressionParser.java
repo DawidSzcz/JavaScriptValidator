@@ -1,4 +1,4 @@
-package expression;
+package parser;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,7 +13,7 @@ import ValidatorM.ValidationM;
 import enums.Error;
 import exception.JSValidatorException;
 import exception.WrongElseException;
-
+import expression.*;
 import javafx.util.Pair;
 
 public class ExpressionParser {
@@ -44,7 +44,7 @@ public class ExpressionParser {
 		}
 		return new Program(wholeProgram, 0 , parseExpressions(input), strings);
 	}
-	List<Expression> parseExpressions(String input) throws IOException {
+	public List<Expression> parseExpressions(String input) throws IOException {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
 		Matcher matcher;

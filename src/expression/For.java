@@ -10,6 +10,8 @@ import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 import exception.WrongForException;
+import parser.ExpressionParser;
+import parser.Patterns;
 
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];

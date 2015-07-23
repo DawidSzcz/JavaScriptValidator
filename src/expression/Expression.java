@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import parser.ParseUtils;
+import parser.Patterns;
 
 public abstract class Expression {
 	protected String name;

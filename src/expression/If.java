@@ -9,6 +9,8 @@ import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongIfException;
+import parser.ExpressionParser;
+import parser.Patterns;
 
 public class If extends ComplexExpression{
 	Statement condition;

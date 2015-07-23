@@ -9,6 +9,8 @@ import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongWhileException;
+import parser.ExpressionParser;
+import parser.Patterns;
 
 public class While extends ComplexExpression{
 	Statement  condition;
