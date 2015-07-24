@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import enums.Error;
+import exception.EnterInStringError;
 import exception.WrongComplexException;
 import javafx.util.Pair;
 
@@ -44,19 +45,46 @@ public class ParseUtils {
 		}
 		return randomString;
 	}
-	public static Pair<String, Map<String, String>> takeOutStrings(String input) {
-		Matcher m = Patterns.string.matcher(input);
-		Map<String, String> map = new HashMap();
-		while(m.find())
-		{
-			String string = m.group();
-			String id = "StringID" + uniqueId(input);
-			map.put(id, string);
-			input = input.replace(string, id);
-			m = Patterns.string.matcher(input);
+	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText) throws EnterInStringError {
+		Boolean isInString = false;
+		String stringInTexst = "";
+		char doubleQuotes='"';
+		char quotes= '\'';
+		Map<String, String> stringMap = new HashMap<>();
+		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
+			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
+				if (javaScriptText.charAt(iterator) == '"'){
+					quotes='"';
+				}
+				if (javaScriptText.charAt(iterator) == '\''){
+					doubleQuotes='\'';
+				}
+				if (!isInString) {
+					isInString = true;
+				} else {
+					isInString = false;
+					stringInTexst+=javaScriptText.charAt(iterator);
+					String uniqueId= ParseUtils.uniqueId(javaScriptText);
+					stringMap.put("StringID"+uniqueId, stringInTexst);
+					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" /*+uniqueId */);
+					stringInTexst = "";
+					doubleQuotes='"';
+					quotes='\'';
+					iterator = 0;
+				}
+			}
+			if (isInString) {
+				if (javaScriptText.charAt(iterator)!='\n'){
+					stringInTexst+=javaScriptText.charAt(iterator);
+				}else {
+					throw new EnterInStringError(enums.Error.EnterInString,stringInTexst);
+				}
+			}
 		}
-		return new Pair<String, Map<String, String>>(input, map);
+
+		return  new Pair<String, Map<String, String>>(javaScriptText, stringMap);
 	}
+	
 	public static String removeComments(String javaScriptTextString) 
 	{
 		Matcher m = Patterns.comment.matcher(javaScriptTextString);

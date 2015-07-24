@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 
 import ValidatorM.ValidationM;
 import enums.Error;
+import exception.EnterInStringError;
 import exception.JSValidatorException;
 import exception.WrongElseException;
 import expression.*;
@@ -27,9 +28,15 @@ public class ExpressionParser {
 	{
 		instructions = Arrays.asList(input.split("\n"));
 		input = ParseUtils.removeComments(input);
-		Pair<String, Map<String, String>> pair = ParseUtils.takeOutStrings(input);
-		this.input = pair.getKey();
-		strings = pair.getValue();
+		Pair<String, Map<String, String>> pair;
+		try {
+			pair = ParseUtils.takeOutStrings(input);
+			this.input = pair.getKey();
+			strings = pair.getValue();
+		} catch (EnterInStringError e) {
+			e.printStackTrace();
+		}
+
 	}
 	public Expression parse() throws IOException {
 		String wholeProgram = input;

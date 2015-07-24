@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 	public static String ElseS = "^\\s*else";
-	public static String splitS = ";+\\s*\n"; // Dopisane /n trzeba sie teraz bedzie gimnastykowac z podwojnymi instrukcjami; 
+	public static String splitS = ";+\\s*"; // Dopisane /n trzeba sie teraz bedzie gimnastykowac z podwojnymi instrukcjami; 
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";

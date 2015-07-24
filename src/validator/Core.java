@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import enums.Error;
+import exception.EnterInStringError;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionIterator;
@@ -24,7 +25,7 @@ import parser.ExpressionParser;
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		PrintWriter out = response.getWriter();
 		ExpressionParser parser = new ExpressionParser(request.getParameter("javaScript"));

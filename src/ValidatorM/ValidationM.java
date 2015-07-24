@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import exception.EnterInStringError;
 import javafx.util.Pair;
 import parser.ParseUtils;
 
@@ -132,30 +133,44 @@ public class ValidationM {
 		return errorMassage;
 	}
 
-	public static Pair<Map<String, String>, String> takeOutStrings(String javaScriptText) {
+	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText) throws EnterInStringError {
 		Boolean isInString = false;
-		String stringToHashMap = "";
-		Map<String, String> idToString = new HashMap<>();
+		String stringInTexst = "";
+		char doubleQuotes='"';
+		char quotes= '\'';
+		Map<String, String> stringMap = new HashMap<>();
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
-			if (javaScriptText.charAt(iterator) == '"') {
+			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
+				if (javaScriptText.charAt(iterator) == '"'){
+					quotes='"';
+				}
+				if (javaScriptText.charAt(iterator) == '\''){
+					doubleQuotes='\'';
+				}
 				if (!isInString) {
 					isInString = true;
 				} else {
 					isInString = false;
-					stringToHashMap+=javaScriptText.charAt(iterator);
+					stringInTexst+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
-					idToString.put("StringID"+uniqueId, stringToHashMap);
-					javaScriptText=javaScriptText.replace(stringToHashMap, "StringID"+uniqueId);
-					stringToHashMap = "";
+					stringMap.put("StringID"+uniqueId, stringInTexst);
+					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" /*+uniqueId */);
+					stringInTexst = "";
+					doubleQuotes='"';
+					quotes='\'';
 					iterator = 0;
 				}
 			}
 			if (isInString) {
-				stringToHashMap+=javaScriptText.charAt(iterator);
+				if (javaScriptText.charAt(iterator)!='\n'){
+					stringInTexst+=javaScriptText.charAt(iterator);
+				}else {
+					throw new EnterInStringError(enums.Error.EnterInString,stringInTexst);
+				}
 			}
 		}
 
-		return new Pair<Map<String, String>, String>(idToString, javaScriptText);
+		return  new Pair<String, Map<String, String>>(javaScriptText, stringMap);
 	}
 
 }

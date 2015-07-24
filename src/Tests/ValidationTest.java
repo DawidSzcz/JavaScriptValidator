@@ -1,19 +1,20 @@
 package Tests;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
 
 import java.io.IOException;
 
 import org.junit.Test;
 
+import exception.EnterInStringError;
 import exception.InvalidOperator;
 import exception.WrongWhileException;
+import ValidatorM.ValidationM;
 
 public class ValidationTest {
 
 	@Test
-
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
 		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
@@ -80,4 +81,5 @@ public class ValidationTest {
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
 	}
+
 }
