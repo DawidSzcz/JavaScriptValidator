@@ -9,8 +9,11 @@ import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
+import exception.WrongComplexException;
 import exception.WrongForException;
+import javafx.util.Pair;
 import parser.ExpressionParser;
+import parser.ParseUtils;
 import parser.Patterns;
 
 public class For extends ComplexExpression{
@@ -18,19 +21,11 @@ public class For extends ComplexExpression{
 
 	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
-		Matcher arg = Patterns.arg.matcher(statement);
-		Matcher states = Patterns.states.matcher(statement);
-		String arguments,statements; 
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongForException(Error.InvalidArguments, statement);
-		if (states.find())
-			statements = states.group();
-		else {
-			throw new WrongForException(Error.InvalidBlock, statement);
-		}
-		String[] conditions = (arguments+" ").split(";");
+		try{
+		Pair<String, String> divided = ParseUtils.findCondition("for", statement);
+
+		String[] conditions = (divided.getKey()+" ").split(";");
+		
 		if(conditions.length == 3)
 		{
 			for(int i = 0; i < 3; i++)
@@ -43,13 +38,16 @@ public class For extends ComplexExpression{
 						forConditions[i] = list.get(0);
 				}
 				else
-					forConditions[i] = new EmptyExpression();
-					
-					
+					forConditions[i] = new EmptyExpression();			
 		}
 		else
 			throw new WrongForException(Error.WrongNumberOfArguments, statement);
-		this.statements = expressionParser.parseExpressions(statements);
+		this.statements = expressionParser.parseExpressions(divided.getValue());
+		}catch(WrongComplexException e)
+		{
+			this.addError(e.getError());
+			throw new WrongForException(e.getError(), e.getStatement());
+		}
 		
 	}
 

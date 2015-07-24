@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import enums.Error;
 import exception.WrongComplexException;
+import exception.WrongForException;
 import javafx.util.Pair;
 
 public class ParseUtils {
@@ -109,7 +110,11 @@ public class ParseUtils {
 			if(opened == 0)
 			{
 				condition = in.substring(0, i);
-				statements = in.substring(i+1);
+				Matcher states = Patterns.states.matcher(in.substring(i+1));
+				if (states.find())
+					statements = states.group();
+				else 
+					throw new WrongComplexException(Error.InvalidBlock, in);
 				return new Pair<String, String>(condition, statements);
 			}
 		}

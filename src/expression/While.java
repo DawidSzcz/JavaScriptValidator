@@ -8,8 +8,12 @@ import java.util.regex.Matcher;
 import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
+import exception.WrongComplexException;
+import exception.WrongForException;
 import exception.WrongWhileException;
+import javafx.util.Pair;
 import parser.ExpressionParser;
+import parser.ParseUtils;
 import parser.Patterns;
 
 public class While extends ComplexExpression{
@@ -17,20 +21,14 @@ public class While extends ComplexExpression{
 	public While(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongWhileException, IOException 
 	{
 		super(statement, currentLine, strings);
-		Matcher arg = Patterns.arg.matcher(statement);
-		Matcher states = Patterns.states.matcher(statement);
-		String arguments, statements;
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongWhileException(Error.InvalidArguments, statement);
-		if (states.find())
-			statements = states.group();
-		else {
-			throw new WrongWhileException(Error.InvalidBlock, statement);
+		try{
+			Pair<String, String> divided = ParseUtils.findCondition("while", statement);
+			condition = new Statement(divided.getKey());
+			this.statements = expressionParser.parseExpressions(divided.getValue());
+		}catch(WrongComplexException e){
+			this.addError(e.getError());
+			throw new WrongWhileException(e.getError(), e.getStatement());
 		}
-		condition = new Statement(arguments);
-		this.statements = expressionParser.parseExpressions(statements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

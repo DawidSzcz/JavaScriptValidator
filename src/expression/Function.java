@@ -11,8 +11,12 @@ import java.util.regex.Matcher;
 import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
+import exception.WrongComplexException;
+import exception.WrongForException;
 import exception.WrongFunctionException;
+import javafx.util.Pair;
 import parser.ExpressionParser;
+import parser.ParseUtils;
 import parser.Patterns;
 
 public class Function extends ComplexExpression {
@@ -21,28 +25,18 @@ public class Function extends ComplexExpression {
 	{
 		super(statement, currentLine, strings);
 		List <String> args;
-		String statements;
-		Matcher matcherArguments = Patterns.arg.matcher(statement);
-		Matcher matcherStatement= Patterns.states.matcher(statement);
+		try{
+		Pair<String, String> divided = ParseUtils.findCondition("function\\s+[_\\$a-zA-Z]+[_\\$\\w]*", statement);
 		
-		if (matcherArguments.find()){
-			args=Arrays.asList(matcherArguments.group().split(","));
-		}
-		else{
-			throw new WrongFunctionException(enums.Error.InvalidArguments,statement);
-		}
-		
-		if (matcherStatement.find()){
-			statements = matcherStatement.group();
-		}
-		else{
-			throw new WrongFunctionException(enums.Error.InvalidBlock,statement);
-		}
-		this.statements = expressionParser.parseExpressions(statements);
-		for (String arg:args){
+		args=Arrays.asList(divided.getKey());
+		for (String arg:args)
 			arguments.add(new Statement(arg));
-		}
 		
+		this.statements = expressionParser.parseExpressions(divided.getValue());
+		}catch(WrongComplexException e){
+			this.addError(e.getError());
+			throw new WrongFunctionException(e.getError(), e.getStatement());
+		}
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
