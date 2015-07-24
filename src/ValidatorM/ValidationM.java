@@ -169,7 +169,6 @@ public class ValidationM {
 				}
 			}
 		}
-
 		return  new Pair<String, Map<String, String>>(javaScriptText, stringMap);
 	}
 

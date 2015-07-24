@@ -24,8 +24,16 @@ public class UtilTests
 	public void testComplexExpressionDivision() throws WrongComplexException
 	{
 		String input1 = "if(a){b;}";
-		Pair p = ParseUtils.findCondition("if", input1);
-		assertEquals("a", p.getKey());
-		assertEquals("{b;}", p.getValue());
+		String input2 = "for(1; 2; 3)\n{a; b; c;}";
+		String input3 = "if(a){\nb;\n}\n}\n";
+		Pair p1 = ParseUtils.findCondition("if", input1);
+		Pair p2 = ParseUtils.findCondition("for", input2);
+		Pair<String, String> p3 = ParseUtils.findCondition("if", input3);
+		assertEquals("a", p1.getKey());
+		assertEquals("b;", p1.getValue());
+		assertEquals("1; 2; 3", p2.getKey());
+		assertEquals("a; b; c;", p2.getValue());
+		assertEquals("a", p3.getKey());
+		assertEquals("\nb;\n}\n", p3.getValue());
 	}
 }

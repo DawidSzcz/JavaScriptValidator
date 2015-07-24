@@ -8,27 +8,26 @@ import java.util.regex.Matcher;
 import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
+import exception.WrongComplexException;
+import exception.WrongForException;
 import exception.WrongIfException;
+import javafx.util.Pair;
 import parser.ExpressionParser;
+import parser.ParseUtils;
 import parser.Patterns;
 
 public class If extends ComplexExpression{
 	Statement condition;
 	public If(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
 		super(statement, currentLine, strings);
-		Matcher arg = Patterns.arg.matcher(statement);
-		Matcher states = Patterns.states.matcher(statement);
-		String arguments, statements;
-		if (arg.find())
-			arguments = arg.group();
-		else
-			throw new WrongIfException(Error.InvalidArguments, statement);
-		if (states.find())
-			statements = states.group();
-		else
-			throw new WrongIfException(Error.InvalidBlock, statement);
-		condition = new Statement(arguments);
-		this.statements = expressionParser.parseExpressions(statements);
+		try{
+		Pair<String, String> divided = ParseUtils.findCondition("if", statement);
+		condition = new Statement(divided.getKey());
+		this.statements = expressionParser.parseExpressions(divided.getValue());
+		}catch(WrongComplexException e){
+			this.addError(e.getError());
+			throw new WrongIfException(e.getError(), e.getStatement());
+		}
 	}
 	public If(String name, int currentLine, Statement condition2, Map<String, String> strings, List<Expression> statements) {
 		super(name, currentLine, strings);

@@ -81,5 +81,4 @@ public class ValidationTest {
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
 	}
-
 }
