@@ -46,12 +46,11 @@ public class ParseUtils {
 		}
 		return randomString;
 	}
-	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText) throws EnterInStringError {
+	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText, Map<String, String> stringMap) throws EnterInStringError {
 		Boolean isInString = false;
 		String stringInTexst = "";
 		char doubleQuotes='"';
 		char quotes= '\'';
-		Map<String, String> stringMap = new HashMap<>();
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
 			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
 				if (javaScriptText.charAt(iterator) == '"'){
@@ -63,15 +62,16 @@ public class ParseUtils {
 				if (!isInString) {
 					isInString = true;
 				} else {
-					isInString = false;
+					//isInString = false;
 					stringInTexst+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
 					stringMap.put("StringID"+uniqueId, stringInTexst);
-					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" /*+uniqueId */);
+					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" +uniqueId);
 					stringInTexst = "";
-					doubleQuotes='"';
-					quotes='\'';
-					iterator = 0;
+					break;
+					//doubleQuotes='"';
+					//quotes='\'';
+					//iterator = 0;
 				}
 			}
 			if (isInString) {
@@ -89,7 +89,7 @@ public class ParseUtils {
 	public static String removeComments(String javaScriptTextString) 
 	{
 		Matcher m = Patterns.comment.matcher(javaScriptTextString);
-		while(m.find())
+		if(m.find())
 		{
 			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
 			m = Patterns.comment.matcher(javaScriptTextString);
@@ -148,6 +148,25 @@ public class ParseUtils {
 		}
 		throw new WrongComplexException(Error.InvalidCondition, in);
 
+	}
+	public static Pair<String, Map<String, String>> takeOutStringsAndComents (String javaScriptText){
+		Pair<String, Map<String, String>> pair;
+		Map<String, String> stringMap = new HashMap<>();
+		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
+		while(matcherStringsAndComents.find()){
+			if(matcherStringsAndComents.group().equals("//")||matcherStringsAndComents.group().equals("/*")){
+				javaScriptText=removeComments(javaScriptText);
+			}else{
+				try {
+					pair=takeOutStrings(javaScriptText, stringMap);
+					javaScriptText=pair.getKey();
+					stringMap=pair.getValue();
+				} catch (EnterInStringError e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return new Pair<String, Map<String, String>> (javaScriptText, stringMap);
 	}
 }
 

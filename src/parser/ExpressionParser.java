@@ -27,16 +27,10 @@ public class ExpressionParser {
 	public ExpressionParser(String input)
 	{
 		instructions = Arrays.asList(input.split("\n"));
-		input = ParseUtils.removeComments(input);
-		Pair<String, Map<String, String>> pair;
-		try {
-			pair = ParseUtils.takeOutStrings(input);
+		Pair<String, Map<String, String>> pair=ParseUtils.takeOutStringsAndComents(input);
 			this.input = pair.getKey();
 			strings = pair.getValue();
-		} catch (EnterInStringError e) {
-			e.printStackTrace();
-		}
-
+		
 	}
 	public Expression parse() throws IOException {
 		String wholeProgram = input;

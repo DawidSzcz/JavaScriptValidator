@@ -154,7 +154,7 @@ public class ValidationM {
 					stringInTexst+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
 					stringMap.put("StringID"+uniqueId, stringInTexst);
-					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" /*+uniqueId */);
+					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" +uniqueId );
 					stringInTexst = "";
 					doubleQuotes='"';
 					quotes='\'';
