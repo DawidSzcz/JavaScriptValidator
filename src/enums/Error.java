@@ -19,7 +19,8 @@ public enum Error {
 	InvalidForCondition("Invalid For Condition"),
 	IvalidBeginning("Invalid beggining of complex statement"), 
 	ForbidenCharacterInHeader("Forbiden character in header"), 
-	InvalidCondition("Invalid Condition");
+	InvalidCondition("Invalid Condition"),
+	EnterInString("Enter in string");
 	
 	public final String content;
 	Error(String str)
