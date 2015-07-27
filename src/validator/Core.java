@@ -34,6 +34,7 @@ public class Core extends HttpServlet {
 	}
 	private String makeResponse(List<String> rows, Expression program)
 	{
+		@SuppressWarnings("unused")
 		HashMap<Integer, List<Error>> error = program.getAllErrors();
 		String body = "";
 		ExpressionIterator iterator = new ExpressionIterator(program);

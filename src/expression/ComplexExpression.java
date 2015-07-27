@@ -13,11 +13,6 @@ public abstract class ComplexExpression extends Expression {
 		super(name, currentLine, strings);
 	}
 	protected List<Expression> statements;
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public HashMap<Integer, List<Error>> getAllErrors() {

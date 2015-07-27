@@ -21,7 +21,9 @@ public enum Error {
 	ForbidenCharacterInHeader("Forbiden character in header"), 
 	InvalidCondition("Invalid Condition"),
 	MissingTryBeforeCatch("Missing ty before catch"),
-	InvalidString("String is invalid");
+	InvalidString("String is invalid"), 
+	EnterInString("String is not properly terminated"), 
+	InvalidEscape("Invalid escape sequence in string");
 	
 	public final String content;
 	Error(String str)

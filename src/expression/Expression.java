@@ -73,7 +73,7 @@ public abstract class Expression {
 		while(m.find())
 		{
 			String id = m.group();
-			wholeName = wholeName.replace(id, strings.get(id).string);
+			wholeName = wholeName.replace(id, strings.get(id).getString());
 		}
 		return wholeName;
 	}

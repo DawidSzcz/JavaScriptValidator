@@ -8,12 +8,15 @@ import java.io.IOException;
 import org.junit.Test;
 
 import exception.InvalidOperator;
+import exception.WrongComplexException;
 import exception.WrongWhileException;
+import parser.ParseUtils;
 import ValidatorM.ValidationM;
+import enums.Instruction;
 
 public class ValidationTest {
 
-	@Test
+	@Test()
 	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
 
 		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
@@ -79,5 +82,9 @@ public class ValidationTest {
 		assertTrue(TestUtils.testStatement("x(x(a,b, c),b, c(d,e))"));
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
+	}
+	@Test(expected  = WrongComplexException.class)
+	public void foo() throws WrongComplexException{
+		ParseUtils.splitBlock(Instruction.CATCH, "catch(s){s;}");
 	}
 }

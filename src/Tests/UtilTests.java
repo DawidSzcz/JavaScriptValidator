@@ -18,6 +18,7 @@ import enums.Instruction;
 import exception.WrongComplexException;
 import javafx.util.Pair;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 
 public class UtilTests 
 {
@@ -36,5 +37,13 @@ public class UtilTests
 		assertEquals("a; b; c;", p2.getValue());
 		assertEquals("a", p3.getKey());
 		assertEquals("\nb;\n}\n", p3.getValue());
+	}
+	@Test
+	public void commentsAndStrings() 
+	{
+		Triple trip =ParseUtils.removeStrAndCom("//ssssdasdas");
+		assertEquals(trip.comments.size(), 1);
+		assertEquals(trip.strings.size(), 0);
+		
 	}
 }

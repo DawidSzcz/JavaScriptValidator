@@ -1,27 +1,28 @@
 package Atoms;
 
+import java.util.List;
+
 import enums.Error;
 
 public class StringContainer  {
-	public Error error;
-	public String string;
-	public StringContainer(String string) {
-	error = null;
-	this.string = string;
-}
-/*	
-	public Error getError() {
-		return error;
+	private List<Error> errors;
+	private String content;
+	public StringContainer(String string) 
+	{
+		this.content = string;
 	}
-	public void setError(Error set){
-		error=set;
+	public List<Error> getErrors() {
+		return errors;
+	}
+	public void addError(Error error){
+		errors.add(error);
 	}
 
 	public String getString() {
-		return string;
+		return content;
 	}
-	public void setString(String set){
-		string=set;
+	public void addErrors(List<Error> errors2) {
+		errors.addAll(errors);
+		
 	}
-*/
 }
