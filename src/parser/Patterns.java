@@ -11,14 +11,16 @@ public class Patterns {
 	public static String complexS = "(if)|(while)|(function)|(for)";
 	public static String IfS = "^\\s*if";
 	public static String WhileS = "^\\s*while";
+	public static String TryS = "^\\s*try";
+	public static String CatchS = "^\\s*catch";
 	public static String FunctionS = "^\\s*function";
-	public static String blockS = "(^|\\s+)(((if|while|function)[^;\\{]+|for[^\\{]+)|else)[\\s]*\\{[^\\}\\{]+\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
+	public static String blockS = "(^|\\s+)(((if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
 	public static String checkOpenningS = "\\)\\s*\n+\\s*\\w";
-	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*"; // Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
+	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+\"\']+)*"; // Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
 	public static String lineS = "[\\{\\}\\w]+[^\n\r;]*";
 	public static String ForS = "^\\s*for";
 	public static String stringIDS = "StringID\\d+"; 
@@ -28,7 +30,7 @@ public class Patterns {
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
 	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
 	public static String empty = "^\\*s$";
-	public static String beginComplex = "^\\s*%s\\s*\\(";
+	public static String beginComplex = "^\\s*%s";
 
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
@@ -44,7 +46,7 @@ public class Patterns {
 	public static Pattern sinState = Pattern.compile(singleStatement);
 	public static Pattern invocation = Pattern.compile(invocationS);
 	public static Pattern checkOpenning = Pattern.compile(checkOpenningS);
-	public static Pattern line = Pattern.compile(lineS);
+	public static Pattern secondLine = Pattern.compile(lineS);
 	public static Pattern For = Pattern.compile(ForS);
 	public static Pattern Else = Pattern.compile(ElseS);
 	public static Pattern stringID = Pattern.compile(stringIDS);
@@ -53,5 +55,7 @@ public class Patterns {
 	public static Pattern string = Pattern.compile(stringS);
 	public static Pattern escapeWhiteSpace =Pattern.compile(escapeWhiteSpaceS, Pattern.DOTALL);
 	public static Pattern elseIf = Pattern.compile(elseIfS);
+	public static Pattern Try = Pattern.compile(TryS);
+	public static Pattern Catch = Pattern.compile(CatchS);
 
 }

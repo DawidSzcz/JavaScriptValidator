@@ -34,7 +34,7 @@ public class ExpressionParser {
 			this.input = pair.getKey();
 			strings = pair.getValue();
 		} catch (EnterInStringError e) {
-			e.printStackTrace();
+			System.out.println("stalo sie cos zlego");
 		}
 
 	}
@@ -67,6 +67,8 @@ public class ExpressionParser {
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);
 			Matcher matcherFor = Patterns.For.matcher(statement);
 			Matcher matcherElse = Patterns.Else.matcher(statement);
+			Matcher matcherTry = Patterns.Try.matcher(statement);
+			Matcher matcherCatch = Patterns.Catch.matcher(statement);
 			
 			Expression exp;
 			
@@ -77,23 +79,34 @@ public class ExpressionParser {
 					}catch(Exception e){
 						throw new WrongElseException(Error.MissingIfBeforeElse, statement);
 					}
-				else if (matcherIf.find())
-						exp = new If(statement, currentLine, strings, this);
-					else if (matcherFunc.find())
-							exp = new Function(statement, currentLine, strings, this);
-						else if (matcherWhile.find())
-								exp = new While(statement, currentLine, strings, this);
-							else if (matcherFor.find())
-									exp = new For(statement, currentLine, strings, this);
-								else if (matcherAssign.find())
-										exp = new Assignment(statement, currentLine, strings);
-									else if (matcherInvo.find())
-											exp = new Invocation(statement, currentLine, strings);
-										else {
-												exp = new UnknownExpression(statement, currentLine, strings);
-												if (statement.contains("}"))
-													exp.addError(Error.UnexpectedClosingBracket);
-											}
+
+				else if (matcherCatch.find()){
+					try{
+						((Try)exps.get(exps.size()-1)).insertCatch(new Catch(statement, currentLine, strings, this));
+						exp = exps.remove(exps.size()-1);
+					}catch(Exception e){
+						throw new WrongElseException(Error.MissingTryBeforeCatch, statement);
+					}
+				}
+					else if (matcherIf.find())
+							exp = new If(statement, currentLine, strings, this);
+						else if (matcherFunc.find())
+								exp = new Function(statement, currentLine, strings, this);
+							else if (matcherWhile.find())
+									exp = new While(statement, currentLine, strings, this);
+								else if (matcherFor.find())
+										exp = new For(statement, currentLine, strings, this);
+									else if (matcherTry.find())
+											exp = new Try(statement, currentLine, strings, this);
+										else if (matcherAssign.find())
+												exp = new Assignment(statement, currentLine, strings);
+											else if (matcherInvo.find())
+													exp = new Invocation(statement, currentLine, strings);
+												else {
+														exp = new UnknownExpression(statement, currentLine, strings);
+														if (statement.contains("}"))
+															exp.addError(Error.UnexpectedClosingBracket);
+													}
 
 				exps.add(exp);
 				currentLine = exp.setLine(instructions);
@@ -116,7 +129,7 @@ public class ExpressionParser {
 		Matcher match = Patterns.checkOpenning.matcher(statement);
 		if (match.find()){
 			exp.addError(Error.MissingOpenningBracket);
-			match = Patterns.line.matcher(statement);
+			match = Patterns.secondLine.matcher(statement);
 			match.find();
 			match.find();
 			return parseExpressions(match.group());

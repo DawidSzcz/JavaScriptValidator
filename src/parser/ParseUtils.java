@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import enums.Error;
+import enums.Instruction;
 import exception.EnterInStringError;
 import exception.WrongComplexException;
 import javafx.util.Pair;
@@ -67,7 +68,7 @@ public class ParseUtils {
 					stringInTexst+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
 					stringMap.put("StringID"+uniqueId, stringInTexst);
-					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" /*+uniqueId */);
+					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" +uniqueId );
 					stringInTexst = "";
 					doubleQuotes='"';
 					quotes='\'';
@@ -106,47 +107,64 @@ public class ParseUtils {
 		}
 		return javaScriptTextString;
 	}
-	public static Pair<String, String> findCondition(String instruction, String in) throws WrongComplexException
+	public static Pair<String, String> splitBlock(Instruction instruction, String in) throws WrongComplexException
 	{
 		List<Character>forbiden;
+		String header;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
 		int opened = 1;
 		String condition, statements;
 		if(checkBeginning.find())
-			in = in.replace(checkBeginning.group(), "");
+		{
+			header = checkBeginning.group();
+			in = in.replace(header, "");
+		}
 		else 
 			throw new WrongComplexException(Error.IvalidBeginning, in);
 		
 		switch(instruction){
-		case "for":
+		case FOR:
 			forbiden = Arrays.asList('{', '}');
 			break;
-		case "function":
+		case FUNCITON:
 			forbiden = new LinkedList<Character>();
 			break;
 		default:
 			forbiden = Arrays.asList('{', '}', ';');
 		}
-		for(int i = 0; i < in.length(); i++)
+		if( !instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE))
 		{
-			if(forbiden.contains(in.charAt(i)))
-				throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
-			if(in.charAt(i) == '(')
-				opened++;
-			if(in.charAt(i) == ')')
-				opened--;
-			if(opened == 0)
+			for(int i = 0; i < in.length(); i++)
 			{
-				condition = in.substring(0, i);
-				Matcher states = Patterns.states.matcher(in.substring(i+1));
-				if (states.find())
-					statements = states.group();
-				else 
-					throw new WrongComplexException(Error.InvalidBlock, in);
-				return new Pair<String, String>(condition, statements);
+				if(forbiden.contains(in.charAt(i)))
+					throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
+				if(in.charAt(i) == '(')
+					opened++;
+				if(in.charAt(i) == ')')
+					opened--;
+				if(opened == 0)
+				{
+					condition = in.substring(0, i);
+					Matcher states = Patterns.states.matcher(in.substring(i+1));
+					if (states.find())
+						statements = states.group();
+					else 
+						throw new WrongComplexException(Error.InvalidBlock, in);
+					return new Pair<String, String>(condition, statements);
+				}
 			}
+			throw new WrongComplexException(Error.InvalidCondition, in);
 		}
-		throw new WrongComplexException(Error.InvalidCondition, in);
+		else
+		{
+			Matcher states = Patterns.states.matcher(in);
+			if (states.find())
+				statements = states.group();
+			else 
+				throw new WrongComplexException(Error.InvalidBlock, in);
+			return new Pair<String, String>(header, statements);
+			
+		}
 
 	}
 }

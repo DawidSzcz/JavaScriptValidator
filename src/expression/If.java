@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongComplexException;
@@ -21,11 +22,10 @@ public class If extends ComplexExpression{
 	public If(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
 		super(statement, currentLine, strings);
 		try{
-		Pair<String, String> divided = ParseUtils.findCondition("if", statement);
+		Pair<String, String> divided = ParseUtils.splitBlock(Instruction.IF, statement);
 		condition = new Statement(divided.getKey());
 		this.statements = expressionParser.parseExpressions(divided.getValue());
 		}catch(WrongComplexException e){
-			this.addError(e.getError());
 			throw new WrongIfException(e.getError(), e.getStatement());
 		}
 	}

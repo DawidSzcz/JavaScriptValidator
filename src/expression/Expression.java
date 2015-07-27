@@ -48,7 +48,6 @@ public abstract class Expression {
 	public boolean match(String s)
 	{
 		s = ParseUtils.removeCommentsFromLine(s);
-		Matcher match = Patterns.line.matcher(s);
 		try{
 			s = ParseUtils.cleanLine(s);
 		}catch(IllegalStateException e){

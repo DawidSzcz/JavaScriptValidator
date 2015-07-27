@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongComplexException;
@@ -26,7 +27,7 @@ public class Function extends ComplexExpression {
 		super(statement, currentLine, strings);
 		List <String> args;
 		try{
-		Pair<String, String> divided = ParseUtils.findCondition("function\\s+[_\\$a-zA-Z]+[_\\$\\w]*", statement);
+		Pair<String, String> divided = ParseUtils.splitBlock(Instruction.FUNCITON, statement);
 		
 		args=Arrays.asList(divided.getKey());
 		for (String arg:args)
@@ -56,16 +57,10 @@ public class Function extends ComplexExpression {
 		}
 		for(Statement condtioniterator:arguments){
 			try {
-				if (!condtioniterator.isValid()){
-					return false;
-				}
+				condtioniterator.isValid();
 			} catch (InvalidOperator e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				return false;
 			} catch (InvalidFunction e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				return false;
 			}
 		}

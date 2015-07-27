@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
@@ -22,7 +23,7 @@ public class For extends ComplexExpression{
 	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
 		try{
-		Pair<String, String> divided = ParseUtils.findCondition("for", statement);
+		Pair<String, String> divided = ParseUtils.splitBlock(Instruction.FOR, statement);
 
 		String[] conditions = (divided.getKey()+" ").split(";");
 		

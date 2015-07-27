@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongComplexException;
@@ -22,7 +23,7 @@ public class While extends ComplexExpression{
 	{
 		super(statement, currentLine, strings);
 		try{
-			Pair<String, String> divided = ParseUtils.findCondition("while", statement);
+			Pair<String, String> divided = ParseUtils.splitBlock(Instruction.WHILE, statement);
 			condition = new Statement(divided.getKey());
 			this.statements = expressionParser.parseExpressions(divided.getValue());
 		}catch(WrongComplexException e){
