@@ -15,11 +15,12 @@ import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
 
-	public For(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
+	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
 		try{
 		Pair<String, String> divided = ParseUtils.findCondition("for", statement);

@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 
 import ValidatorM.ValidationM;
 import enums.Error;
-import exception.EnterInStringError;
 import exception.JSValidatorException;
 import exception.WrongElseException;
 import expression.*;
@@ -20,14 +19,14 @@ import javafx.util.Pair;
 public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();
 	private List<String> instructions;
-	private Map<String, String> strings;
+	private Map<String, StringContainer> strings;
 	private String input;
 	private int currentLine = 0;
 	
 	public ExpressionParser(String input)
 	{
 		instructions = Arrays.asList(input.split("\n"));
-		Pair<String, Map<String, String>> pair=ParseUtils.takeOutStringsAndComents(input);
+		Pair<String, Map<String, StringContainer>> pair=ParseUtils.takeOutStringsAndComents(input);
 			this.input = pair.getKey();
 			strings = pair.getValue();
 		

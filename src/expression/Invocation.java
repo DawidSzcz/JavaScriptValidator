@@ -5,10 +5,11 @@ import java.util.Map;
 
 import exception.InvalidFunction;
 import exception.InvalidOperator;
+import parser.StringContainer;
 
 public class Invocation extends Expression {
 	Statement invocation;
-	public Invocation(String str, int currentLine, Map<String, String> strings) {
+	public Invocation(String str, int currentLine, Map<String, StringContainer> strings) {
 		super(str, currentLine, strings);
 		invocation = new Statement(str);
 	}

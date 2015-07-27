@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import enums.Error;
+import parser.StringContainer;
 
 public class UnknownExpression extends Expression 
 {
-	public UnknownExpression(String str, int currentLine, Map<String, String> strings) {
+	public UnknownExpression(String str, int currentLine, Map<String, StringContainer> strings) {
 		super(str, currentLine, strings);
 	}
 	@Override

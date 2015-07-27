@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import exception.EnterInStringError;
 import exception.InvalidOperator;
 import exception.WrongWhileException;
 import ValidatorM.ValidationM;
