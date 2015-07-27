@@ -9,15 +9,16 @@ import java.util.regex.Matcher;
 import enums.Error;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 
 public abstract class Expression {
 	protected String name;
 	protected int line;
-	protected Map<String, String> strings;
+	protected Map<String, StringContainer> strings;
 	protected int formerLine;
 	List<enums.Error> errors = new LinkedList<>();
 	
-	public Expression(String name, int currentLine, Map<String, String> strings) 
+	public Expression(String name, int currentLine, Map<String, StringContainer> strings) 
 	{
 		this.formerLine = currentLine;
 		this.strings = strings;
@@ -72,7 +73,7 @@ public abstract class Expression {
 		while(m.find())
 		{
 			String id = m.group();
-			wholeName = wholeName.replace(id, strings.get(id));
+			wholeName = wholeName.replace(id, strings.get(id).string);
 		}
 		return wholeName;
 	}

@@ -1,7 +1,6 @@
 
 package parser;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,7 +12,6 @@ import java.util.regex.Pattern;
 
 import enums.Error;
 import enums.Instruction;
-import exception.EnterInStringError;
 import exception.WrongComplexException;
 import javafx.util.Pair;
 
@@ -47,12 +45,11 @@ public class ParseUtils {
 		}
 		return randomString;
 	}
-	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText) throws EnterInStringError {
+	public static Pair<String, Map<String,StringContainer>> takeOutStrings(String javaScriptText, Map<String, StringContainer> stringMap) {
+		StringContainer stringInTexst= new StringContainer ("");
 		Boolean isInString = false;
-		String stringInTexst = "";
 		char doubleQuotes='"';
 		char quotes= '\'';
-		Map<String, String> stringMap = new HashMap<>();
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
 			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
 				if (javaScriptText.charAt(iterator) == '"'){
@@ -64,33 +61,32 @@ public class ParseUtils {
 				if (!isInString) {
 					isInString = true;
 				} else {
-					isInString = false;
-					stringInTexst+=javaScriptText.charAt(iterator);
+					//isInString = false;
+					stringInTexst.string+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
-					stringMap.put("StringID"+uniqueId, stringInTexst);
-					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" +uniqueId );
-					stringInTexst = "";
-					doubleQuotes='"';
-					quotes='\'';
-					iterator = 0;
+					stringMap.put("StringID"+uniqueId,stringInTexst);
+					javaScriptText=javaScriptText.replace(stringInTexst.string, "StringID" +uniqueId);
+					break;
 				}
 			}
 			if (isInString) {
 				if (javaScriptText.charAt(iterator)!='\n'){
-					stringInTexst+=javaScriptText.charAt(iterator);
+					stringInTexst.string+=javaScriptText.charAt(iterator);
 				}else {
-					throw new EnterInStringError(enums.Error.EnterInString,stringInTexst);
+
+					stringInTexst.error=Error.InvalidString;
 				}
 			}
 		}
+		stringInTexst.error=Error.InvalidString;
 
-		return  new Pair<String, Map<String, String>>(javaScriptText, stringMap);
+		return  new Pair<String, Map<String,StringContainer>>(javaScriptText, stringMap);
 	}
 	
 	public static String removeComments(String javaScriptTextString) 
 	{
 		Matcher m = Patterns.comment.matcher(javaScriptTextString);
-		while(m.find())
+		if(m.find())
 		{
 			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
 			m = Patterns.comment.matcher(javaScriptTextString);
@@ -166,6 +162,22 @@ public class ParseUtils {
 			
 		}
 
+	}
+	public static Pair<String, Map<String, StringContainer>> takeOutStringsAndComents (String javaScriptText){
+		Pair<String, Map<String, StringContainer>> pair;
+		Map<String, StringContainer> stringMap = new HashMap<>();
+		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
+		while(matcherStringsAndComents.find()){
+			if(matcherStringsAndComents.group().equals("//")||matcherStringsAndComents.group().equals("/*")){
+				javaScriptText=removeComments(javaScriptText);
+			}else{				
+					pair=takeOutStrings(javaScriptText, stringMap);
+					javaScriptText=pair.getKey();
+					stringMap=pair.getValue();
+
+			}
+		}
+		return new Pair<String, Map<String, StringContainer>> (javaScriptText, stringMap);
 	}
 }
 

@@ -20,8 +20,8 @@ public enum Error {
 	IvalidBeginning("Invalid beggining of complex statement"), 
 	ForbidenCharacterInHeader("Forbiden character in header"), 
 	InvalidCondition("Invalid Condition"),
-	EnterInString("Enter in string"), 
-	MissingTryBeforeCatch("Missing ty before catch");
+	MissingTryBeforeCatch("Missing ty before catch"),
+	InvalidString("String is invalid");
 	
 	public final String content;
 	Error(String str)

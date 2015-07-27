@@ -12,12 +12,13 @@ import exception.WrongTryException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.StringContainer;
 
 public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongTryException 
+	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongTryException 
 	{
 		super(name, currentLine, strings);
 		try{

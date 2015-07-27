@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import enums.Error;
+import parser.StringContainer;
 
 public abstract class ComplexExpression extends Expression {
 
-	public ComplexExpression(String name, int currentLine, Map<String, String> strings) {
+	public ComplexExpression(String name, int currentLine, Map<String, StringContainer> strings) {
 		super(name, currentLine, strings);
 	}
 	protected List<Expression> statements;

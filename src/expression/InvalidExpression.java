@@ -7,10 +7,11 @@ import java.util.Map;
 
 import enums.Error;
 import exception.UnknownException;
+import parser.StringContainer;
 
 public class InvalidExpression extends Expression{
 
-	public InvalidExpression(String str, int currentLine, Map<String, String> strings) 
+	public InvalidExpression(String str, int currentLine, Map<String, StringContainer> strings) 
 	{
 		super(str, currentLine, strings);
 	}

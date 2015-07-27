@@ -31,7 +31,7 @@ public class Patterns {
 	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
 	public static String empty = "^\\*s$";
 	public static String beginComplex = "^\\s*%s";
-
+	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
 	public static Pattern head = Pattern.compile(headerS);
@@ -57,5 +57,6 @@ public class Patterns {
 	public static Pattern elseIf = Pattern.compile(elseIfS);
 	public static Pattern Try = Pattern.compile(TryS);
 	public static Pattern Catch = Pattern.compile(CatchS);
+	public static Pattern stringsAndComents = Pattern.compile(stringsAndComentsS);
 
 }

@@ -16,10 +16,11 @@ import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 
 public class While extends ComplexExpression{
 	Statement  condition;
-	public While(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongWhileException, IOException 
+	public While(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongWhileException, IOException 
 	{
 		super(statement, currentLine, strings);
 		try{

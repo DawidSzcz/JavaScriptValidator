@@ -9,11 +9,12 @@ import exception.WrongComplexException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.StringContainer;
 
 public class Catch extends ComplexExpression {
 
 	private Statement condition;
-	public Catch(String name, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws IOException, WrongCatchException {
+	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongCatchException {
 		super(name, currentLine, strings);
 		try {
 			Pair<String, String> divided = ParseUtils.splitBlock(Instruction.CATCH, name);
