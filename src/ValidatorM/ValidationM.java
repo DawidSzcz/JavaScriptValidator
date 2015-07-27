@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import exception.EnterInStringError;
 import javafx.util.Pair;
 import parser.ParseUtils;
 
@@ -133,7 +132,7 @@ public class ValidationM {
 		return errorMassage;
 	}
 
-	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText) throws EnterInStringError {
+	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText)/* throws EnterInStringError */{
 		Boolean isInString = false;
 		String stringInTexst = "";
 		char doubleQuotes='"';
@@ -165,7 +164,7 @@ public class ValidationM {
 				if (javaScriptText.charAt(iterator)!='\n'){
 					stringInTexst+=javaScriptText.charAt(iterator);
 				}else {
-					throw new EnterInStringError(enums.Error.EnterInString,stringInTexst);
+					//throw new EnterInStringError(enums.Error.EnterInString,stringInTexst);
 				}
 			}
 		}

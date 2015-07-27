@@ -3,14 +3,15 @@ package expression;
 import java.util.Map;
 
 import exception.UnknownException;
+import parser.StringContainer;
 
 public class NullExpression extends Expression{
 
-	public NullExpression(String name, int currentLine, Map<String, String> strings) {
+	public NullExpression(String name, int currentLine, Map<String, StringContainer> strings) {
 		super(name, currentLine, strings);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
 		if(index == 0)

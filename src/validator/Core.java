@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import enums.Error;
-import exception.EnterInStringError;
 import exception.WrongWhileException;
 import expression.Expression;
 import expression.ExpressionIterator;

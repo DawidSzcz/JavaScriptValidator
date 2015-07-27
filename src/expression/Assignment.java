@@ -10,10 +10,11 @@ import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 public class Assignment extends Expression {
 	 Statement first;
 	 Statement second;
-	public Assignment(String statement, int currentLine, Map<String, String> strings) throws WrongAssignmentException {
+	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings) throws WrongAssignmentException {
 		super(statement, currentLine, strings);
 		statement = ParseUtils.cleanLine(statement);
 		String side[] = statement.split(Patterns.assignDivisionS);

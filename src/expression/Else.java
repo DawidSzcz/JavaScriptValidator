@@ -12,13 +12,14 @@ import exception.WrongIfException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 
 public class Else extends If
 {
 	List<Expression> elseStatements;
 	String elseName;
 	int elseLine;
-	public Else(String statement, int currentLine, If If, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException, WrongElseException 
+	public Else(String statement, int currentLine, If If, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongIfException, IOException, WrongElseException 
 	{
 		super((If).getName(), currentLine, (If).getCondition(), strings, (If).getStatements());
 		line = If.line;
@@ -36,7 +37,7 @@ public class Else extends If
 				throw new WrongIfException(Error.InvalidBlock, statement);
 			}
 		try{
-			elseName = ParseUtils.cleanLine(name);
+			elseName = ParseUtils.cleanLine(statement);
 		}catch(IllegalStateException e)
 		{
 			this.addError(Error.InvalidElseName);

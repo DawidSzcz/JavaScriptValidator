@@ -18,10 +18,11 @@ import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 
-	public Function(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongFunctionException, IOException 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongFunctionException, IOException 
 	{
 		super(statement, currentLine, strings);
 		List <String> args;
@@ -60,12 +61,8 @@ public class Function extends ComplexExpression {
 					return false;
 				}
 			} catch (InvalidOperator e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				return false;
 			} catch (InvalidFunction e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				return false;
 			}
 		}

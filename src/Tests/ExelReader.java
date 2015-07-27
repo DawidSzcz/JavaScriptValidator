@@ -14,6 +14,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 public class ExelReader {
 	// "operacje.xls"
 	// "testy.xls"
+	// bledneoperacje.xls
 	public static void exelToTxt() {
 		try {
 			File file = new File("operacje.xls");

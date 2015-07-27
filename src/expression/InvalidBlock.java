@@ -7,12 +7,13 @@ import java.util.Map;
 
 import enums.Error;
 import exception.UnknownException;
+import parser.StringContainer;
 
 public class InvalidBlock extends ComplexExpression {
 
 	List<String> states = new LinkedList<>();
 	
-	public InvalidBlock(String block, int currentLine, Map<String, String> strings) throws UnknownException
+	public InvalidBlock(String block, int currentLine, Map<String, StringContainer> strings) throws UnknownException
 	{
 		super(block, currentLine, strings);
 		states = Arrays.asList(block.split("\\{|\\;"));

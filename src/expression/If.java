@@ -15,10 +15,11 @@ import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import parser.StringContainer;
 
 public class If extends ComplexExpression{
 	Statement condition;
-	public If(String statement, int currentLine, Map<String, String> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
+	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
 		super(statement, currentLine, strings);
 		try{
 		Pair<String, String> divided = ParseUtils.findCondition("if", statement);
@@ -29,7 +30,7 @@ public class If extends ComplexExpression{
 			throw new WrongIfException(e.getError(), e.getStatement());
 		}
 	}
-	public If(String name, int currentLine, Statement condition2, Map<String, String> strings, List<Expression> statements) {
+	public If(String name, int currentLine, Statement condition2, Map<String, StringContainer> strings, List<Expression> statements) {
 		super(name, currentLine, strings);
 		this.condition = condition2;
 		this.statements= statements;

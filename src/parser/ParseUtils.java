@@ -12,7 +12,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import enums.Error;
-import exception.EnterInStringError;
 import exception.WrongComplexException;
 import javafx.util.Pair;
 
@@ -46,9 +45,9 @@ public class ParseUtils {
 		}
 		return randomString;
 	}
-	public static Pair<String, Map<String, String>> takeOutStrings(String javaScriptText, Map<String, String> stringMap) throws EnterInStringError {
+	public static Pair<String, Map<String,StringContainer>> takeOutStrings(String javaScriptText, Map<String, StringContainer> stringMap) {
+		StringContainer stringInTexst= new StringContainer ("");
 		Boolean isInString = false;
-		String stringInTexst = "";
 		char doubleQuotes='"';
 		char quotes= '\'';
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
@@ -63,11 +62,10 @@ public class ParseUtils {
 					isInString = true;
 				} else {
 					//isInString = false;
-					stringInTexst+=javaScriptText.charAt(iterator);
+					stringInTexst.string+=javaScriptText.charAt(iterator);
 					String uniqueId= ParseUtils.uniqueId(javaScriptText);
-					stringMap.put("StringID"+uniqueId, stringInTexst);
-					javaScriptText=javaScriptText.replace(stringInTexst, "StringID" +uniqueId);
-					stringInTexst = "";
+					stringMap.put("StringID"+uniqueId,stringInTexst);
+					javaScriptText=javaScriptText.replace(stringInTexst.string, "StringID" +uniqueId);
 					break;
 					//doubleQuotes='"';
 					//quotes='\'';
@@ -76,14 +74,14 @@ public class ParseUtils {
 			}
 			if (isInString) {
 				if (javaScriptText.charAt(iterator)!='\n'){
-					stringInTexst+=javaScriptText.charAt(iterator);
+					stringInTexst.string+=javaScriptText.charAt(iterator);
 				}else {
-					throw new EnterInStringError(enums.Error.EnterInString,stringInTexst);
+					stringInTexst.error=Error.InvalidString;
 				}
 			}
 		}
-
-		return  new Pair<String, Map<String, String>>(javaScriptText, stringMap);
+		stringInTexst.error=Error.InvalidString;
+		return  new Pair<String, Map<String,StringContainer>>(javaScriptText, stringMap);
 	}
 	
 	public static String removeComments(String javaScriptTextString) 
@@ -149,24 +147,21 @@ public class ParseUtils {
 		throw new WrongComplexException(Error.InvalidCondition, in);
 
 	}
-	public static Pair<String, Map<String, String>> takeOutStringsAndComents (String javaScriptText){
-		Pair<String, Map<String, String>> pair;
-		Map<String, String> stringMap = new HashMap<>();
+	public static Pair<String, Map<String, StringContainer>> takeOutStringsAndComents (String javaScriptText){
+		Pair<String, Map<String, StringContainer>> pair;
+		Map<String, StringContainer> stringMap = new HashMap<>();
 		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
 		while(matcherStringsAndComents.find()){
 			if(matcherStringsAndComents.group().equals("//")||matcherStringsAndComents.group().equals("/*")){
 				javaScriptText=removeComments(javaScriptText);
-			}else{
-				try {
+			}else{				
 					pair=takeOutStrings(javaScriptText, stringMap);
 					javaScriptText=pair.getKey();
 					stringMap=pair.getValue();
-				} catch (EnterInStringError e) {
-					e.printStackTrace();
-				}
+
 			}
 		}
-		return new Pair<String, Map<String, String>> (javaScriptText, stringMap);
+		return new Pair<String, Map<String, StringContainer>> (javaScriptText, stringMap);
 	}
 }
 
