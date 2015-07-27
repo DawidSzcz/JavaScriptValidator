@@ -76,11 +76,13 @@ public class ParseUtils {
 				if (javaScriptText.charAt(iterator)!='\n'){
 					stringInTexst.string+=javaScriptText.charAt(iterator);
 				}else {
+
 					stringInTexst.error=Error.InvalidString;
 				}
 			}
 		}
 		stringInTexst.error=Error.InvalidString;
+
 		return  new Pair<String, Map<String,StringContainer>>(javaScriptText, stringMap);
 	}
 	
