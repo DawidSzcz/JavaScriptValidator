@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Atoms.Statement;
+import Atoms.StringContainer;
 import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 import parser.ParseUtils;
 import parser.Patterns;
-import parser.StringContainer;
 public class Assignment extends Expression {
 	 Statement first;
 	 Statement second;

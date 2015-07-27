@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import Atoms.Statement;
+import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import exception.InvalidFunction;
@@ -19,7 +21,6 @@ import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
-import parser.StringContainer;
 
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 

@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import Atoms.StringContainer;
 import enums.Error;
 import exception.WrongElseException;
 import exception.WrongIfException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
-import parser.StringContainer;
 
 public class Else extends If
 {

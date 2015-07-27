@@ -1,4 +1,4 @@
-package expression;
+package Atoms;
 
 public class Hash {
 

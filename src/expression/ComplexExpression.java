@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Atoms.StringContainer;
 import enums.Error;
-import parser.StringContainer;
 
 public abstract class ComplexExpression extends Expression {
 

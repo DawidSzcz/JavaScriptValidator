@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import exception.WrongComplexException;

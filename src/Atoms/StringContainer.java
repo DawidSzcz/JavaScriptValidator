@@ -1,4 +1,4 @@
-package parser;
+package Atoms;
 
 import enums.Error;
 

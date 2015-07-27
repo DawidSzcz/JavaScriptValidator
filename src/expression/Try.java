@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import Atoms.Statement;
+import Atoms.StringContainer;
 import enums.Instruction;
 import exception.WrongComplexException;
 import exception.WrongIfException;
@@ -12,7 +14,6 @@ import exception.WrongTryException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
-import parser.StringContainer;
 
 public class Try extends ComplexExpression
 {

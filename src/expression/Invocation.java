@@ -3,9 +3,10 @@ package expression;
 
 import java.util.Map;
 
+import Atoms.Statement;
+import Atoms.StringContainer;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
-import parser.StringContainer;
 
 public class Invocation extends Expression {
 	Statement invocation;
