@@ -1,4 +1,4 @@
-package expression;
+package Atoms;
 
 import exception.InvalidFunction;
 import exception.InvalidOperator;

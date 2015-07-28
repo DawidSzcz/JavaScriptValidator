@@ -5,9 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import Atoms.StringContainer;
 import enums.Error;
 import exception.UnknownException;
-import parser.StringContainer;
 
 public class InvalidExpression extends Expression{
 

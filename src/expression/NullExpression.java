@@ -2,8 +2,8 @@ package expression;
 
 import java.util.Map;
 
+import Atoms.StringContainer;
 import exception.UnknownException;
-import parser.StringContainer;
 
 public class NullExpression extends Expression{
 

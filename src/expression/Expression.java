@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import Atoms.StringContainer;
 import enums.Error;
 import parser.ParseUtils;
 import parser.Patterns;
-import parser.StringContainer;
 
 public abstract class Expression {
 	protected String name;
@@ -73,7 +73,7 @@ public abstract class Expression {
 		while(m.find())
 		{
 			String id = m.group();
-			wholeName = wholeName.replace(id, strings.get(id).string);
+			wholeName = wholeName.replace(id, strings.get(id).getString());
 		}
 		return wholeName;
 	}

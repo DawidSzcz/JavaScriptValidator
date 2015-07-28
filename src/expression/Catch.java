@@ -3,13 +3,14 @@ package expression;
 import java.io.IOException;
 import java.util.Map;
 
+import Atoms.Statement;
+import Atoms.StringContainer;
 import enums.Instruction;
 import exception.WrongCatchException;
 import exception.WrongComplexException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
-import parser.StringContainer;
 
 public class Catch extends ComplexExpression {
 

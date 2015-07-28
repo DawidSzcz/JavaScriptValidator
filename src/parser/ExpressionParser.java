@@ -9,12 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import Atoms.Comment;
+import Atoms.StringContainer;
 import ValidatorM.ValidationM;
 import enums.Error;
 import exception.JSValidatorException;
 import exception.WrongElseException;
 import expression.*;
 import javafx.util.Pair;
+import parser.ParseUtils.Triple;
 
 public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();
@@ -26,9 +29,9 @@ public class ExpressionParser {
 	public ExpressionParser(String input)
 	{
 		instructions = Arrays.asList(input.split("\n"));
-		Pair<String, Map<String, StringContainer>> pair=ParseUtils.takeOutStringsAndComents(input);
-			this.input = pair.getKey();
-			strings = pair.getValue();
+		Pair <String, Map<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
+		this.input = pair.getKey();
+		strings = pair.getValue();
 	}
 	public Expression parse() throws IOException {
 		String wholeProgram = input;

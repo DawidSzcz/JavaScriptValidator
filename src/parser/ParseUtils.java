@@ -1,6 +1,7 @@
 
 package parser;
 
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,9 +16,39 @@ import enums.Instruction;
 import exception.WrongComplexException;
 import javafx.util.Pair;
 
-public class ParseUtils {
 
-	public static String cleanLine(String statement) throws IllegalStateException {
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import Atoms.Comment;
+import Atoms.StringContainer;
+import enums.Error;
+import enums.Instruction;
+import exception.WrongComplexException;
+import javafx.util.Pair;
+
+public class ParseUtils {
+	private static List<Character> allowedCharacters = Arrays.asList('\'', '"', 'f', 'n', '\\', 'r', 't', 'b');
+	public static class Triple{
+		public final String inputProgram;
+		public final Map<String, Comment> comments;
+		public final Map<String, StringContainer> strings;
+		public Triple(String in, Map<String, Comment> com, Map<String, StringContainer> str)
+		{
+			inputProgram = in;
+			comments = com;
+			strings = str;
+		}
+	}
+	public static String cleanLine(String statement) throws IllegalStateException
+	{
+
 		statement = statement.replace("\\s+", " ");
 		Matcher matcher = Patterns.escapeWhiteSpace.matcher(statement);
 		if (!matcher.find())
@@ -56,7 +87,7 @@ public class ParseUtils {
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
 			
 			if (iterator+1==javaScriptText.length()||isInString)
-				stringInTexst.error = Error.InvalidString;
+				stringInTexst.addError(Error.InvalidString);
 			
 			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
 				if (javaScriptText.charAt(iterator) == '"') {
@@ -79,7 +110,7 @@ public class ParseUtils {
 			if (isInString) {
 				stringInTexst.string += javaScriptText.charAt(iterator);
 				if (javaScriptText.charAt(iterator) == '\n') {
-					stringInTexst.error = Error.InvalidString;
+					stringInTexst.addError(Error.InvalidString);
 				}
 				if (javaScriptText.charAt(iterator) == '\\' && iterator + 1 < javaScriptText.length()) {
 					if (javaScriptText.charAt(iterator + 1) == '\\' || javaScriptText.charAt(iterator + 1) == 'n'
@@ -92,7 +123,7 @@ public class ParseUtils {
 						stringInTexst.string += javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1);
 						++iterator;
 					} else {
-						stringInTexst.error = Error.InvalidString;
+						stringInTexst.addError(Error.InvalidString);
 					}
 				}
 			}
@@ -136,8 +167,8 @@ public class ParseUtils {
 			
 		}
 		return javaScriptTextString;
-
 	}
+
 
 	public static String removeCommentsFromLine(String javaScriptTextString) {
 		Matcher m = Patterns.commentLine.matcher(javaScriptTextString);
