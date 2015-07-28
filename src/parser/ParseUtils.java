@@ -30,23 +30,23 @@ public class ParseUtils {
 			strings = str;
 		}
 	}
-	public static String cleanLine(String statement) throws IllegalStateException
-	{
-		statement = statement.replace("\\s+", " ");
-		Matcher matcher = Patterns.escapeWhiteSpace.matcher(statement);
-		if(!matcher.find())
-			throw new IllegalStateException();
-		return matcher.group();
-	}
-	public static int getLine(List<String> instructions, String group) {
-		group = cleanLine(group);
-		for(int i = 0; i < instructions.size(); i++)
-			try{
-				if(group.contains(cleanLine(instructions.get(i))))
-					return i + 1;
-			}catch(IllegalStateException e){}
-		return -2;
-	}
+//	public static String cleanLine(String statement) throws IllegalStateException
+//	{
+//		statement = statement.replace("[ \t\r]+", " ");
+//		Matcher matcher = Patterns.escapeWhiteSpace.matcher(statement);
+//		if(!matcher.find())
+//			throw new IllegalStateException();
+//		return matcher.group();
+//	}
+//	public static int getLine(List<String> instructions, String group) {
+//		group = cleanLine(group);
+//		for(int i = 0; i < instructions.size(); i++)
+//			try{
+//				if(group.contains(cleanLine(instructions.get(i))))
+//					return i + 1;
+//			}catch(IllegalStateException e){}
+//		return -2;
+//	}
 	public static String uniqueId(String in) {
 		Random rand = new Random();
 		long x = rand.nextLong();
@@ -96,34 +96,27 @@ public class ParseUtils {
 //		return  new Pair<String, Map<String,StringContainer>>(javaScriptText, stringMap);
 //	}
 	
-	public static ParseUtils.Triple removeStrAndCom(String jSText) 
+	public static Pair<String, HashMap<String, StringContainer>> removeStrAndCom(String jSText) 
 	{
-		boolean inlineComment =false, starComment = false, string= false;
+		boolean inlineComment = false, starComment = false, string= false;
 		char stringDelimiter = '"';
-		int line = 0, startLine = 0;
 		List<Error> errors = new LinkedList<Error>();
 		String finalString = "", currentString = "";
-		HashMap<String, Comment> comments = new HashMap<String, Comment>();
 		HashMap<String, StringContainer> strings = new HashMap<String, StringContainer>();
 		for(int i = 0; i< jSText.length(); i++)
 		{
 			char c = jSText.charAt(i);
 			if(!inlineComment && !starComment && !string)
 			{
-				if(c == '\n')
-					line++;
-				if(c == '/' && i != jSText.length() -1&& jSText.charAt(i+1) == '/')
+				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '/')
 				{
 					inlineComment = true;
-					currentString = "//";
 					i++;
 					continue;
 				}
 				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '*')
 				{
 					starComment = true;
-					currentString = "/*";
-					startLine = line;
 					i++;
 					continue;
 				}
@@ -138,25 +131,17 @@ public class ParseUtils {
 			}
 			else
 			{
-				if(inlineComment && (c == '\n' || i == jSText.length() -1))
+				if(inlineComment && c == '\n')
 				{
 					inlineComment = false;
-					//String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-					//finalString += uniqueId;
-					//comments.put(uniqueId, new Comment(currentString + c, line, line));
-					line++;
-					currentString = "";
+					finalString += '\n';
 					continue;
 				}
 				if(starComment && c == '*' && jSText.charAt(i+1) == '/')
 				{
 					starComment = false;
-					if(line != startLine)
-					{
-						String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-						finalString += uniqueId;
-						comments.put(uniqueId, new Comment(currentString +"*/", startLine, line));
-					}
+					finalString += currentString;
+					currentString = "";
 					i++;
 					continue;
 				}
@@ -169,6 +154,7 @@ public class ParseUtils {
 					strC.addErrors(errors);
 					errors.clear();
 					strings.put(uniqueId, strC);
+					currentString = "";
 					continue;
 				}
 				if(string && c == '\n')
@@ -196,7 +182,8 @@ public class ParseUtils {
 						errors.add(Error.InvalidEscape);
 						
 				}
-				currentString += c;
+				if(string || c == '\n')
+					currentString += c;
 			}
 		}
 		if(string)
@@ -211,16 +198,16 @@ public class ParseUtils {
 			strings.put(uniqueId, invalid);
 			finalString += uniqueId;
 		}
-		if(starComment)
-		{
-			starComment = false;
-			String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-			finalString += uniqueId;
-			Comment comm = new Comment(currentString, startLine, line);
-			comm.addError();
-			comments.put(uniqueId, comm);
-		}
-		return new Triple(finalString, comments, strings);
+//		if(starComment)
+//		{
+//			starComment = false;
+//			String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
+//			finalString += uniqueId;
+//			Comment comm = new Comment(currentString, startLine, line);
+//			comm.addError();
+//			comments.put(uniqueId, comm);
+//		}
+		return new Pair(finalString, strings);
 	}
 
 	public static String removeCommentsFromLine(String javaScriptTextString) {
@@ -307,6 +294,28 @@ public class ParseUtils {
 //		}
 //		return new Pair<String, Map<String, StringContainer>> (javaScriptText, stringMap);
 //	}
+
+	public static int getLines(String statement) {
+		int newLines = 0;
+		for(int i = 0; i < 0; i++)
+			if(statement.charAt(i) == '\n')
+				newLines++;
+		return newLines;
+	}
+
+	public static Pair<String, HashMap<String, String>> removeBlocks(String input) {
+		HashMap<String, String> blocks = new HashMap<String, String>();
+		Matcher mat = Patterns.block.matcher(input);
+		while (mat.find()) {
+			String block = mat.group();
+			String uniqueId = "BlockID"+ParseUtils.uniqueId(input);
+			if (input.contains(block))
+				input = input.replace(block, uniqueId + ";");
+			blocks.put(uniqueId, block);
+			mat = Patterns.block.matcher(input);
+		}
+		return new Pair(input, blocks);
+	}
 }
 
 
