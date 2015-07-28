@@ -248,10 +248,10 @@ public class ParseUtils {
 		String commentedText="";
 		for (int iterator = 0; iterator < javaScriptTextString.length(); iterator++) {
 			if (javaScriptTextString.charAt(iterator)=='/' && iterator+1!=javaScriptTextString.length()){
-				if(javaScriptTextString.charAt(iterator+1)=='/'){
+				if(javaScriptTextString.charAt(iterator+1)=='/' && !starComment){
 					lineComment =true;
 				}
-				if(javaScriptTextString.charAt(iterator+1)=='*'){
+				if(javaScriptTextString.charAt(iterator+1)=='*' && !lineComment){
 					starComment =true;
 				}
 			}
