@@ -7,12 +7,14 @@ import Atoms.Statement;
 import Atoms.StringContainer;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
+import parser.ParseUtils;
 
 public class Invocation extends Expression {
 	Statement invocation;
 	public Invocation(String str, int currentLine, Map<String, StringContainer> strings) {
 		super(str, currentLine, strings);
 		invocation = new Statement(str);
+		line = currentLine + ParseUtils.getLinesBNS(str);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

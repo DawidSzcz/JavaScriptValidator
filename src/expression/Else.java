@@ -8,10 +8,14 @@ import java.util.regex.Matcher;
 
 import Atoms.StringContainer;
 import enums.Error;
+import enums.Instruction;
+import exception.WrongComplexException;
 import exception.WrongElseException;
 import exception.WrongIfException;
+import exception.WrongTryException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class Else extends If
@@ -23,26 +27,17 @@ public class Else extends If
 	{
 		super((If).getName(), currentLine, (If).getCondition(), strings, (If).getStatements());
 		line = If.line;
-		Matcher states = Patterns.states.matcher(statement);
-		Matcher elseIf = Patterns.elseIf.matcher(statement);
-		String statements;
-		if (states.find())
-			statements = states.group();
-		else if(elseIf.find())
-			{
-				statements = elseIf.group();
-			}
-			else
-			{
-				throw new WrongIfException(Error.InvalidBlock, statement);
-			}
 		try{
-			elseName = ParseUtils.cleanLine(statement);
-		}catch(IllegalStateException e)
+			Triple divided = ParseUtils.splitBlock(Instruction.ELSE, statement);
+			elseLine = currentLine + divided.lines;
+			elseName = divided.header;
+			
+			elseStatements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lineBeforeStatement);
+		}catch(WrongComplexException e)
 		{
-			this.addError(Error.InvalidElseName);
+			this.addError(e.getError());
+			throw new WrongElseException(e.getError(), e.getStatement());
 		}
-		elseStatements = expressionParser.parseExpressions(statements);
 	}
 	public String toString()
 	{
@@ -58,16 +53,16 @@ public class Else extends If
 			else
 				return elseStatements.get(i - statements.size() - 2);
 	}
-	@Override
-	public boolean match(String s) {
-		s = ParseUtils.removeCommentsFromLine(s);
-		try{
-			s = ParseUtils.cleanLine(s);
-		}catch(IllegalStateException e){
-			return false;
-		}
-		return (super.match(s)|| elseName.contains(s));
-	}
+//	@Override
+//	public boolean match(String s) {
+//		s = ParseUtils.removeCommentsFromLine(s);
+//		try{
+//			s = ParseUtils.cleanLine(s);
+//		}catch(IllegalStateException e){
+//			return false;
+//		}
+//		return (super.match(s)|| elseName.contains(s));
+//	}
 	@Override
 	public HashMap<Integer, List<Error>> getAllErrors() {
 		HashMap<Integer, List<Error>> hash = super.getAllErrors();
@@ -92,19 +87,19 @@ public class Else extends If
 				return false;
 		return true;
 	}
-	@Override
-	public int setLine(List<String> instructions) {
-		for(int i = formerLine +1; i < instructions.size(); i++)
-		{
-			String line = instructions.get(i);
-			line = ParseUtils.removeCommentsFromLine(line);
-			if(name.contains(line))
-			{
-				this.elseLine= i+1;
-				return elseLine;
-			}
-		}
-		this.elseLine = -2;
-		return formerLine;
-	}
+//	@Override
+//	public int setLine(List<String> instructions) {
+//		for(int i = formerLine +1; i < instructions.size(); i++)
+//		{
+//			String line = instructions.get(i);
+//			line = ParseUtils.removeCommentsFromLine(line);
+//			if(name.contains(line))
+//			{
+//				this.elseLine= i+1;
+//				return elseLine;
+//			}
+//		}
+//		this.elseLine = -2;
+//		return formerLine;
+//	}
 }

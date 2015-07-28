@@ -20,6 +20,7 @@ import exception.WrongFunctionException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class Function extends ComplexExpression {
@@ -29,13 +30,13 @@ public class Function extends ComplexExpression {
 		super(statement, currentLine, strings);
 		List <String> args;
 		try{
-		Pair<String, String> divided = ParseUtils.splitBlock(Instruction.FUNCITON, statement);
-		
-		args=Arrays.asList(divided.getKey());
+		Triple divided = ParseUtils.splitBlock(Instruction.FUNCITON, statement);
+		line = currentLine + divided.lineBeforeStatement; 
+		args=Arrays.asList(divided.header);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
 		
-		this.statements = expressionParser.parseExpressions(divided.getValue());
+		this.statements = expressionParser.parseExpressions(divided.statements, divided.lines + currentLine);
 		}catch(WrongComplexException e){
 			this.addError(e.getError());
 			throw new WrongFunctionException(e.getError(), e.getStatement());
@@ -53,10 +54,8 @@ public class Function extends ComplexExpression {
 		return "Function";
 	}
 	@Override
-	public boolean isValid() {
-		if (!super.isValid()){
-			return false;
-		}
+	public boolean isValid() 
+	{
 		for(Statement condtioniterator:arguments){
 			try {
 				condtioniterator.isValid();

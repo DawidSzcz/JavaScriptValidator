@@ -46,16 +46,16 @@ public abstract class Expression {
 	{
 		errors.add(err);
 	}
-	public boolean match(String s)
-	{
-		s = ParseUtils.removeCommentsFromLine(s);
-		try{
-			s = ParseUtils.cleanLine(s);
-		}catch(IllegalStateException e){
-			return false;
-		}
-		return translateName().contains(s);
-	}
+//	public boolean match(String s)
+//	{
+//		s = ParseUtils.removeCommentsFromLine(s);
+//		try{
+//			s = ParseUtils.cleanLine(s);
+//		}catch(IllegalStateException e){
+//			return false;
+//		}
+//		return translateName().contains(s);
+//	}
 	public int getLine()
 	{
 		return line;
@@ -77,25 +77,25 @@ public abstract class Expression {
 		}
 		return wholeName;
 	}
-	public int setLine(List<String> instructions) {
-		for(int i = formerLine; i < instructions.size(); i++)
-		{
-			try{
-				String line = ParseUtils.cleanLine(instructions.get(i));
-				Matcher m = Patterns.commentLine.matcher(line);
-				while(m.find())
-					line = line.replace(m.group(), "");
-				if(match(line))
-				{
-					this.line= i+1;
-					return this.line;
-				}
-
-			}catch(IllegalStateException e){
-				
-			}
-		}
-		this.line = -2;
-		return formerLine;
-	}
+//	public int setLine(List<String> instructions) {
+//		for(int i = formerLine; i < instructions.size(); i++)
+//		{
+//			try{
+//				String line = ParseUtils.cleanLine(instructions.get(i));
+//				Matcher m = Patterns.commentLine.matcher(line);
+//				while(m.find())
+//					line = line.replace(m.group(), "");
+//				if(match(line))
+//				{
+//					this.line= i+1;
+//					return this.line;
+//				}
+//
+//			}catch(IllegalStateException e){
+//				
+//			}
+//		}
+//		this.line = -2;
+//		return formerLine;
+//	}
 }

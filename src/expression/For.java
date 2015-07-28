@@ -16,6 +16,7 @@ import exception.WrongForException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class For extends ComplexExpression{
@@ -24,16 +25,16 @@ public class For extends ComplexExpression{
 	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
 		super(statement, currentLine, strings);
 		try{
-		Pair<String, String> divided = ParseUtils.splitBlock(Instruction.FOR, statement);
-
-		String[] conditions = (divided.getKey()+" ").split(";");
+			Triple divided = ParseUtils.splitBlock(Instruction.FOR, statement);
+			line = currentLine + divided.lineBeforeStatement;
+			String[] conditions = (divided.header+" ").split(";");
 		
 		if(conditions.length == 3)
 		{
 			for(int i = 0; i < 3; i++)
 				if(!conditions[i].matches(Patterns.empty))
 				{
-					List<Expression> list = expressionParser.parseExpressions(conditions[i]);
+					List<Expression> list = expressionParser.parseExpressions(conditions[i], 0);
 					if(list.size() != 1)
 						throw new WrongForException(Error.InvalidForCondition, statement);
 					else
@@ -44,7 +45,7 @@ public class For extends ComplexExpression{
 		}
 		else
 			throw new WrongForException(Error.WrongNumberOfArguments, statement);
-		this.statements = expressionParser.parseExpressions(divided.getValue());
+		this.statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lines);
 		}catch(WrongComplexException e)
 		{
 			this.addError(e.getError());
@@ -68,13 +69,11 @@ public class For extends ComplexExpression{
 
 	@Override
 	public boolean isValid() {
-		//Wykomentowane bo wszyskie elementy condition i tak sa walidowane w parserze
-//		boolean isValid = super.isValid();
-//		for(Expression e : forConditions)
-//			if(!e.isValid())
-//				isValid = false;
-//		return isValid;
-		return true;
+	boolean isValid = true;
+	for(Expression e : forConditions)
+		if(!e.isValid())
+			isValid = false;
+	return isValid;
 	}
 	@Override
 	public boolean hasErrors() {

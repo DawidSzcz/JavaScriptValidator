@@ -17,6 +17,7 @@ import exception.WrongWhileException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class While extends ComplexExpression{
@@ -25,9 +26,10 @@ public class While extends ComplexExpression{
 	{
 		super(statement, currentLine, strings);
 		try{
-			Pair<String, String> divided = ParseUtils.splitBlock(Instruction.WHILE, statement);
-			condition = new Statement(divided.getKey());
-			this.statements = expressionParser.parseExpressions(divided.getValue());
+			Triple divided = ParseUtils.splitBlock(Instruction.WHILE, statement);
+			line = currentLine + divided.lines;
+			condition = new Statement(divided.header);
+			this.statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lineBeforeStatement);
 		}catch(WrongComplexException e){
 			this.addError(e.getError());
 			throw new WrongWhileException(e.getError(), e.getStatement());
@@ -46,8 +48,6 @@ public class While extends ComplexExpression{
 	}
 	@Override
 	public boolean isValid() {
-		if(!super.isValid())
-			return false;
 		try{
 			return condition.isValid();
 		}catch(InvalidOperator e)

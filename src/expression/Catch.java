@@ -11,6 +11,7 @@ import exception.WrongComplexException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 
 public class Catch extends ComplexExpression {
 
@@ -18,9 +19,10 @@ public class Catch extends ComplexExpression {
 	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongCatchException {
 		super(name, currentLine, strings);
 		try {
-			Pair<String, String> divided = ParseUtils.splitBlock(Instruction.CATCH, name);
-			condition = new Statement(divided.getKey());
-			statements = expressionParser.parseExpressions(divided.getValue());
+			Triple divided = ParseUtils.splitBlock(Instruction.CATCH, name);
+			condition = new Statement(divided.header);
+			line = currentLine + divided.lineBeforeStatement;
+			statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lines);
 		} catch (WrongComplexException e) {
 			throw new WrongCatchException(e.getError(), e.getMessage());
 		}

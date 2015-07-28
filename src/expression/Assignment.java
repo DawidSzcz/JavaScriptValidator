@@ -17,8 +17,8 @@ public class Assignment extends Expression {
 	 Statement second;
 	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings) throws WrongAssignmentException {
 		super(statement, currentLine, strings);
-		statement = ParseUtils.cleanLine(statement);
 		String side[] = statement.split(Patterns.assignDivisionS);
+		line = currentLine + ParseUtils.getLinesBNS(statement);
 		if(side.length == 2)
 		{
 			first = new Statement(side[0]);

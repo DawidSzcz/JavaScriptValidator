@@ -17,6 +17,7 @@ import exception.WrongIfException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class If extends ComplexExpression{
@@ -24,9 +25,10 @@ public class If extends ComplexExpression{
 	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
 		super(statement, currentLine, strings);
 		try{
-		Pair<String, String> divided = ParseUtils.splitBlock(Instruction.IF, statement);
-		condition = new Statement(divided.getKey());
-		this.statements = expressionParser.parseExpressions(divided.getValue());
+		Triple divided = ParseUtils.splitBlock(Instruction.IF, statement);
+		line = currentLine + divided.lineBeforeStatement;
+		condition = new Statement(divided.header);
+		this.statements = expressionParser.parseExpressions(divided.statements, currentLine+ divided.lines);
 		}catch(WrongComplexException e){
 			throw new WrongIfException(e.getError(), e.getStatement());
 		}
@@ -62,8 +64,6 @@ public class If extends ComplexExpression{
 	}
 	@Override
 	public boolean isValid() {
-		if(!super.isValid())
-			return false;
 		try{
 			condition.isValid();
 		}catch(InvalidOperator e)

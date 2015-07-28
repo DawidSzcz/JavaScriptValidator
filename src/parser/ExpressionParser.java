@@ -24,7 +24,6 @@ public class ExpressionParser {
 	private List<String> instructions;
 	private Map<String, StringContainer> strings;
 	private String input;
-	private int currentLine = 1;
 	
 	public ExpressionParser(String input)
 	{
@@ -40,16 +39,17 @@ public class ExpressionParser {
 		blocks = pair.getValue();
 		input = pair.getKey();
 		
-		return new Program(wholeProgram, 0 , parseExpressions(input), strings);
+		return new Program(wholeProgram, 0 , parseExpressions(input, 1), strings);
 	}
-	public List<Expression> parseExpressions(String input) throws IOException {
+	public List<Expression> parseExpressions(String input, int currentLine) throws IOException {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
 		Matcher matcher;
 		for (String statement : statements) {
 			matcher = Patterns.id.matcher(statement);
 			if (matcher.find()) {
-				statement = blocks.get(matcher.group());
+				String blockID = ParseUtils.cleanLine(matcher.group());
+				statement = statement.replace(blockID,blocks.get(blockID));
 			}
 			Matcher matcherIf = Patterns.If.matcher(statement);
 			Matcher matcherFunc = Patterns.function.matcher(statement);
@@ -115,7 +115,7 @@ public class ExpressionParser {
 	private List<Expression> secondExpression(Expression exp, String statement) throws IOException {
 		if (statement.contains("{")) {
 			exp.addError(Error.UnexpectedOpeningBracket);
-			return parseExpressions(statement.split("\\{")[1]);
+			return parseExpressions(statement.split("\\{")[1], 0);
 		}
 		Matcher match = Patterns.checkOpenning.matcher(statement);
 		if (match.find()){
@@ -123,7 +123,7 @@ public class ExpressionParser {
 			match = Patterns.secondLine.matcher(statement);
 			match.find();
 			match.find();
-			return parseExpressions(match.group());
+			return parseExpressions(match.group(), 0);
 		}
 		return new LinkedList<Expression>();
 	}

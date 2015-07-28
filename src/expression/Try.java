@@ -14,6 +14,7 @@ import exception.WrongTryException;
 import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
+import parser.ParseUtils.Triple;
 
 public class Try extends ComplexExpression
 {
@@ -23,9 +24,10 @@ public class Try extends ComplexExpression
 	{
 		super(name, currentLine, strings);
 		try{
-			Pair<String, String> divided = ParseUtils.splitBlock(Instruction.TRY, name);
-			condition = new Statement(divided.getKey());
-			statements = expressionParser.parseExpressions(divided.getValue());
+			Triple divided = ParseUtils.splitBlock(Instruction.TRY, name);
+			line = currentLine + divided.lines;
+			condition = new Statement(divided.header);
+			statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lineBeforeStatement);
 			
 		}catch(WrongComplexException e){
 			throw new WrongTryException(e.getError(), e.getStatement());			

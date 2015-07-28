@@ -32,15 +32,15 @@ public class UtilTests
 		String input1 = "if(a){b;}";
 		String input2 = "for(1; 2; 3)\n{a; b; c;}";
 		String input3 = "if(a){\nb;\n}\n}\n";
-		Pair p1 = ParseUtils.splitBlock(Instruction.IF, input1);
-		Pair p2 = ParseUtils.splitBlock(Instruction.FOR, input2);
-		Pair<String, String> p3 = ParseUtils.splitBlock(Instruction.IF, input3);
-		assertEquals("a", p1.getKey());
-		assertEquals("b;", p1.getValue());
-		assertEquals("1; 2; 3", p2.getKey());
-		assertEquals("a; b; c;", p2.getValue());
-		assertEquals("a", p3.getKey());
-		assertEquals("\nb;\n}\n", p3.getValue());
+		Triple p1 = ParseUtils.splitBlock(Instruction.IF, input1);
+		Triple p2 = ParseUtils.splitBlock(Instruction.FOR, input2);
+		Triple p3 = ParseUtils.splitBlock(Instruction.IF, input3);
+		assertEquals("a", p1.header);
+		assertEquals("b;", p1.statements);
+		assertEquals("1; 2; 3", p2.header);
+		assertEquals("a; b; c;", p2.statements);
+		assertEquals("a", p3.header);
+		assertEquals("\nb;\n}\n", p3.statements);
 	}
 	@Test
 	public void commentsAndStrings() 
@@ -83,9 +83,8 @@ public class UtilTests
 		assertEquals(trip2.getValue().size(), 0);
 		Pair<String, Map<String, StringContainer>> trip3 =ParseUtils.takeOutStringsAndComents("\"dasda'dasd'dasdasd\"");
 		assertTrue(trip3.getKey().matches("^StringID\\d+$"));
-		assertEquals(trip3.getValue().size(), 1);
-		Pair<String, Map<String, StringContainer>> trip4 =ParseUtils.takeOutStringsAndComents("/*dasd\n\nsd//as\n*/ds/* dsad */ada");
-		assertTrue(trip4.getKey().matches("^\n\n\ndsada$"));
+		Pair<String, Map<String, StringContainer>> trip4 =ParseUtils.takeOutStringsAndComents("/*dasd\n\nsd//as\n*/ds\n/* \ndsad */ada");
+		assertTrue(trip4.getKey().matches("^\n\n\nds\n\nada$"));
 		assertEquals(trip4.getValue().size(), 0);
 	}
 }
