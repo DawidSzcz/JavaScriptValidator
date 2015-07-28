@@ -12,6 +12,10 @@ public class StringContainer  {
 	{
 		this.string = string;
 	}
+	public String setString(String string){
+	 	this.string=string;
+	 	return this.string;
+	}
 	public List<Error> getErrors() {
 		return errors;
 	}

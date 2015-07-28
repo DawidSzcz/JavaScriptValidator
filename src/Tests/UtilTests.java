@@ -76,16 +76,26 @@ public class UtilTests
 	@Test
 	public void commentsAndStringsMarek() 
 	{
-		Pair<String, Map<String, StringContainer>>trip =ParseUtils.takeOutStringsAndComents("//ssssdasdas\ndsads");
+		Pair<String, HashMap<String, StringContainer>>trip =ParseUtils.takeOutStringsAndComents("//ssssdasdas\ndsads");
 		assertEquals(trip.getKey(), "\ndsads");
-		Pair<String, Map<String, StringContainer>> trip2=ParseUtils.takeOutStringsAndComents("//ssssdas\"as");
+		Pair<String, HashMap<String, StringContainer>> trip2=ParseUtils.takeOutStringsAndComents("//ssssdas\"as");
 		assertEquals(trip2.getKey(), "\n");
 		assertEquals(trip2.getValue().size(), 0);
-		Pair<String, Map<String, StringContainer>> trip3 =ParseUtils.takeOutStringsAndComents("\"dasda'dasd'dasdasd\"");
+		Pair<String, HashMap<String, StringContainer>> trip3 =ParseUtils.takeOutStringsAndComents("\"dasda'dasd'dasdasd\"");
 		assertTrue(trip3.getKey().matches("^StringID\\d+$"));
 		assertEquals(trip3.getValue().size(), 1);
-		Pair<String, Map<String, StringContainer>> trip4 =ParseUtils.takeOutStringsAndComents("/*dasd\n\nsd//as\n*/ds/* dsad */ada");
+		Pair<String, HashMap<String, StringContainer>> trip4 =ParseUtils.takeOutStringsAndComents("/*dasd\n\nsd//as\n*/ds/* dsad */ada");
 		assertTrue(trip4.getKey().matches("^\n\n\ndsada$"));
 		assertEquals(trip4.getValue().size(), 0);
+		Pair<String, HashMap<String, StringContainer>> trip5 =ParseUtils.takeOutStringsAndComents("dasd \" asdasdasdasdadasd");
+//		assertTrue(trip5.getValue().get(0).getErrors()));
+		assertEquals(trip5.getValue().size(), 1);
+		Pair<String, HashMap<String, StringContainer>> trip6 =ParseUtils.takeOutStringsAndComents("dasd \" asdasd\\s\\rdasdadasd");
+		for(String key :trip6.getValue().keySet()){
+			assertEquals(trip6.getValue().get(key).errors.size(),2);
+			assertEquals(trip6.getValue().get(key).errors.get(0), enums.Error.InvalidEscape);
+			assertEquals(trip6.getValue().get(key).errors.get(1), enums.Error.EnterInString);
+		}
+
 	}
 }
