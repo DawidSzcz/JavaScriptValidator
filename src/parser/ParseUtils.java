@@ -141,9 +141,9 @@ public class ParseUtils {
 				if(inlineComment && (c == '\n' || i == jSText.length() -1))
 				{
 					inlineComment = false;
-					String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId + c;
-					comments.put(uniqueId, new Comment(currentString, line, line));
+					//String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
+					//finalString += uniqueId;
+					//comments.put(uniqueId, new Comment(currentString + c, line, line));
 					line++;
 					currentString = "";
 					continue;
@@ -151,18 +151,12 @@ public class ParseUtils {
 				if(starComment && c == '*' && jSText.charAt(i+1) == '/')
 				{
 					starComment = false;
-					String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId;
-					comments.put(uniqueId, new Comment(currentString +"*/", startLine, line));
-					i++;
-					continue;
-				}
-				if(string && c == stringDelimiter)
-				{
-					string = false;
-					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId;
-					strings.put(uniqueId, new StringContainer(currentString + stringDelimiter));
+					if(line != startLine)
+					{
+						String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
+						finalString += uniqueId;
+						comments.put(uniqueId, new Comment(currentString +"*/", startLine, line));
+					}
 					i++;
 					continue;
 				}
@@ -175,7 +169,6 @@ public class ParseUtils {
 					strC.addErrors(errors);
 					errors.clear();
 					strings.put(uniqueId, strC);
-					i++;
 					continue;
 				}
 				if(string && c == '\n')

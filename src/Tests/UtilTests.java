@@ -44,6 +44,11 @@ public class UtilTests
 		Triple trip =ParseUtils.removeStrAndCom("//ssssdasdas");
 		assertEquals(trip.comments.size(), 1);
 		assertEquals(trip.strings.size(), 0);
-		
+		Triple trip2 =ParseUtils.removeStrAndCom("//ssssdas\"as");
+		Triple trip3 =ParseUtils.removeStrAndCom("\"dasda'dasd'dasdasd\"");
+		assertEquals(trip2.comments.size(), 1);
+		assertEquals(trip2.strings.size(), 0);
+		assertEquals(trip3.comments.size(), 0);
+		assertEquals(trip3.strings.size(), 1);
 	}
 }

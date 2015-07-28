@@ -1,11 +1,12 @@
 package Atoms;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import enums.Error;
 
 public class StringContainer  {
-	private List<Error> errors;
+	private List<Error> errors = new LinkedList<>();
 	private String content;
 	public StringContainer(String string) 
 	{
@@ -22,7 +23,7 @@ public class StringContainer  {
 		return content;
 	}
 	public void addErrors(List<Error> errors2) {
-		errors.addAll(errors);
+		errors.addAll(errors2);
 		
 	}
 }
