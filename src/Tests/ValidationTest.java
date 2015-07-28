@@ -4,13 +4,16 @@ import static org.junit.Assert.*;
 
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.junit.Test;
+import javafx.util.Pair;
 
 import exception.InvalidOperator;
 import exception.WrongComplexException;
 import exception.WrongWhileException;
 import parser.ParseUtils;
+
 import ValidatorM.ValidationM;
 import enums.Instruction;
 

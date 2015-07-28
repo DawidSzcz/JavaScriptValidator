@@ -7,10 +7,10 @@ import enums.Error;
 
 public class StringContainer  {
 	private List<Error> errors = new LinkedList<>();
-	private String content;
+	public String string;
 	public StringContainer(String string) 
 	{
-		this.content = string;
+		this.string = string;
 	}
 	public List<Error> getErrors() {
 		return errors;
@@ -20,7 +20,7 @@ public class StringContainer  {
 	}
 
 	public String getString() {
-		return content;
+		return string;
 	}
 	public void addErrors(List<Error> errors2) {
 		errors.addAll(errors2);
