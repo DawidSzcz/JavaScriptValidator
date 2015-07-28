@@ -81,7 +81,7 @@ public class ParseUtils {
 		char doubleQuotes = '"';
 		char quotes = '\'';
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
-			
+			String uniqueId = ParseUtils.uniqueId(javaScriptText);
 			if (iterator+1==javaScriptText.length()||isInString)
 				stringInTexst.addError(Error.InvalidString);
 			
@@ -97,7 +97,6 @@ public class ParseUtils {
 				} else {
 					// isInString = false;
 					stringInTexst.string += javaScriptText.charAt(iterator);
-					String uniqueId = ParseUtils.uniqueId(javaScriptText);
 					stringMap.put("StringID" + uniqueId, stringInTexst);
 					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
 					break;
@@ -106,7 +105,9 @@ public class ParseUtils {
 			if (isInString) {
 				stringInTexst.string += javaScriptText.charAt(iterator);
 				if (javaScriptText.charAt(iterator) == '\n') {
-					stringInTexst.addError(Error.InvalidString);
+					stringInTexst.addError(Error.EnterInString);
+					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
+					break;
 				}
 				if (javaScriptText.charAt(iterator) == '\\' && iterator + 1 < javaScriptText.length()) {
 					if (javaScriptText.charAt(iterator + 1) == '\\' || javaScriptText.charAt(iterator + 1) == 'n'
@@ -119,7 +120,7 @@ public class ParseUtils {
 						stringInTexst.string += javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1);
 						++iterator;
 					} else {
-						stringInTexst.addError(Error.InvalidString);
+						stringInTexst.addError(Error.InvalidEscape);
 					}
 				}
 			}
