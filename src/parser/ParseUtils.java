@@ -102,10 +102,38 @@ public class ParseUtils {
 	}
 
 	public static String removeComments(String javaScriptTextString) {
-		Matcher m = Patterns.comment.matcher(javaScriptTextString);
-		if (m.find()) {
-			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
-			m = Patterns.comment.matcher(javaScriptTextString);
+		boolean lineComment = false;
+		boolean starComment = false;
+		String enterCounter="";
+		String commentedText="";
+		for (int iterator = 0; iterator < javaScriptTextString.length(); iterator++) {
+			if (javaScriptTextString.charAt(iterator)=='/' && iterator+1!=javaScriptTextString.length()){
+				if(javaScriptTextString.charAt(iterator+1)=='/'){
+					lineComment =true;
+				}
+				if(javaScriptTextString.charAt(iterator+1)=='*'){
+					starComment =true;
+				}
+			}
+			if (lineComment){
+				commentedText+=javaScriptTextString.charAt(iterator);
+				if(javaScriptTextString.charAt(iterator)=='\n'){
+					javaScriptTextString=javaScriptTextString.replace(commentedText, "\n");
+					break;//lineComment=false;
+				}
+
+			}
+			if (starComment){
+				commentedText+=javaScriptTextString.charAt(iterator);
+				if(javaScriptTextString.charAt(iterator)=='\n'){
+					enterCounter+='\n';
+				}
+				if( iterator>0 && javaScriptTextString.charAt(iterator-1)=='*'&& javaScriptTextString.charAt(iterator)=='/'){
+					javaScriptTextString=javaScriptTextString.replace(commentedText,enterCounter );
+					break;//starComment=false;
+				}
+			}
+			
 		}
 		return javaScriptTextString;
 
