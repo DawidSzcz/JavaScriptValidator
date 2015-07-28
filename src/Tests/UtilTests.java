@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,15 +45,15 @@ public class UtilTests
 	@Test
 	public void commentsAndStrings() 
 	{
-		Pair<String, HashMap<String, StringContainer>>trip =ParseUtils.removeStrAndCom("//ssssdasdas");
-		assertEquals(trip.getKey(), "");
+		Pair<String, HashMap<String, StringContainer>>trip =ParseUtils.removeStrAndCom("//ssssdasdas\ndsads");
+		assertEquals(trip.getKey(), "\ndsads");
 		Pair<String, HashMap<String, StringContainer>> trip2=ParseUtils.removeStrAndCom("//ssssdas\"as");
 		assertEquals(trip2.getKey(), "");
 		assertEquals(trip2.getValue().size(), 0);
 		Pair<String, HashMap<String, StringContainer>> trip3 =ParseUtils.removeStrAndCom("\"dasda'dasd'dasdasd\"");
 		assertTrue(trip3.getKey().matches("^StringID\\d+$"));
 		assertEquals(trip3.getValue().size(), 1);
-		Pair<String, HashMap<String, StringContainer>> trip4 =ParseUtils.removeStrAndCom("/*dasd\n\nsdas\n*/ds/* dsad */ada");
+		Pair<String, HashMap<String, StringContainer>> trip4 =ParseUtils.removeStrAndCom("/*dasd\n\nsd//as\n*/ds/* dsad */ada");
 		assertTrue(trip4.getKey().matches("^\n\n\ndsada$"));
 		assertEquals(trip4.getValue().size(), 0);
 	}
@@ -71,5 +72,20 @@ public class UtilTests
 		Pair<String, HashMap<String, String>> trip4 =ParseUtils.removeBlocks("\n\nif(sss)\n\n  \t{\t\nelse{das}d\n}da\nd");
 		assertEquals(trip4.getValue().size(), 2);
 		assertTrue(trip4.getKey().matches("^\n\nBlockID\\d+;da\nd$"));
+	}
+	@Test
+	public void commentsAndStringsMarek() 
+	{
+		Pair<String, Map<String, StringContainer>>trip =ParseUtils.takeOutStringsAndComents("//ssssdasdas\ndsads");
+		assertEquals(trip.getKey(), "\ndsads");
+		Pair<String, Map<String, StringContainer>> trip2=ParseUtils.takeOutStringsAndComents("//ssssdas\"as");
+		assertEquals(trip2.getKey(), "\n");
+		assertEquals(trip2.getValue().size(), 0);
+		Pair<String, Map<String, StringContainer>> trip3 =ParseUtils.takeOutStringsAndComents("\"dasda'dasd'dasdasd\"");
+		assertTrue(trip3.getKey().matches("^StringID\\d+$"));
+		assertEquals(trip3.getValue().size(), 1);
+		Pair<String, Map<String, StringContainer>> trip4 =ParseUtils.takeOutStringsAndComents("/*dasd\n\nsd//as\n*/ds/* dsad */ada");
+		assertTrue(trip4.getKey().matches("^\n\n\ndsada$"));
+		assertEquals(trip4.getValue().size(), 0);
 	}
 }

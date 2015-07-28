@@ -257,7 +257,7 @@ public class ParseUtils {
 			}
 			if (lineComment){
 				commentedText+=javaScriptTextString.charAt(iterator);
-				if(javaScriptTextString.charAt(iterator)=='\n'){
+				if(javaScriptTextString.charAt(iterator)=='\n' || iterator == javaScriptTextString.length() -1){
 					javaScriptTextString=javaScriptTextString.replace(commentedText, "\n");
 					break;//lineComment=false;
 				}
