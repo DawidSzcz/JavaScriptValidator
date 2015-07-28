@@ -24,26 +24,22 @@ public class ExpressionParser {
 	private List<String> instructions;
 	private Map<String, StringContainer> strings;
 	private String input;
-	private int currentLine = 0;
+	private int currentLine = 1;
 	
 	public ExpressionParser(String input)
 	{
 		instructions = Arrays.asList(input.split("\n"));
+		//Pair <String, HashMap<String, StringContainer>> pair =ParseUtils.removeStrAndCom(input);
 		Pair <String, Map<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
 		this.input = pair.getKey();
 		strings = pair.getValue();
 	}
 	public Expression parse() throws IOException {
 		String wholeProgram = input;
-		Matcher mat = Patterns.block.matcher(input);
-		while (mat.find()) {
-			String block = mat.group();
-			String uniqueId = "BlockID"+ParseUtils.uniqueId(input);
-			if (input.contains(block))
-				input = input.replace(block, uniqueId + ";\n");
-			blocks.put(uniqueId, block);
-			mat = Patterns.block.matcher(input);
-		}
+		Pair<String, HashMap<String, String>> pair = ParseUtils.removeBlocks(input);
+		blocks = pair.getValue();
+		input = pair.getKey();
+		
 		return new Program(wholeProgram, 0 , parseExpressions(input), strings);
 	}
 	public List<Expression> parseExpressions(String input) throws IOException {
@@ -53,7 +49,7 @@ public class ExpressionParser {
 		for (String statement : statements) {
 			matcher = Patterns.id.matcher(statement);
 			if (matcher.find()) {
-				statement = blocks.get(ParseUtils.cleanLine(matcher.group()));
+				statement = blocks.get(matcher.group());
 			}
 			Matcher matcherIf = Patterns.If.matcher(statement);
 			Matcher matcherFunc = Patterns.function.matcher(statement);
@@ -104,7 +100,7 @@ public class ExpressionParser {
 													}
 
 				exps.add(exp);
-				currentLine = exp.setLine(instructions);
+				currentLine+=ParseUtils.getLines(statement);
 			} catch (JSValidatorException e) {
 				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
 				exp.addError(e.getError());
