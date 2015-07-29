@@ -13,7 +13,7 @@ public class InvalidExpression extends Expression{
 
 	public InvalidExpression(String str, int currentLine, Map<String, StringContainer> strings) 
 	{
-		super(str, currentLine, strings);
+		super(str, strings);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

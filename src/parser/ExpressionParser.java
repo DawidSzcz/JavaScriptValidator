@@ -21,27 +21,24 @@ import parser.ParseUtils.Triple;
 
 public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();
-	private List<String> instructions;
 	private Map<String, StringContainer> strings;
 	private String input;
 	
 	public ExpressionParser(String input)
 	{
-		instructions = Arrays.asList(input.split("\n"));
 		//Pair <String, HashMap<String, StringContainer>> pair =ParseUtils.removeStrAndCom(input);
 		Pair <String, Map<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
 		this.input = pair.getKey();
 		strings = pair.getValue();
 	}
-	public Expression parse() throws IOException {
-		String wholeProgram = input;
+	public List<Expression> parse() {
 		Pair<String, HashMap<String, String>> pair = ParseUtils.removeBlocks(input);
 		blocks = pair.getValue();
 		input = pair.getKey();
 		
-		return new Program(wholeProgram, 0 , parseExpressions(input, 1), strings);
+		return parseExpressions(input, 1);
 	}
-	public List<Expression> parseExpressions(String input, int currentLine) throws IOException {
+	public List<Expression> parseExpressions(String input, int currentLine) {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
 		Matcher matcher;
@@ -64,13 +61,11 @@ public class ExpressionParser {
 			Expression exp;
 			
 			try {
-				if(matcherElse.find())
-					try{
-						exp =new Else(statement, currentLine, (If)exps.remove(exps.size()-1), strings, this);
-					}catch(Exception e){
-						throw new WrongElseException(Error.MissingIfBeforeElse, statement);
-					}
-
+				if(matcherElse.find()){
+					exp =new Else(statement, currentLine, strings, this);
+					if(!(exps.get(exps.size()-1) instanceof If))
+						exp.addError(Error.MissingIfBeforeElse);
+				}
 				else if (matcherCatch.find()){
 					try{
 						((Try)exps.get(exps.size()-1)).insertCatch(new Catch(statement, currentLine, strings, this));
@@ -94,13 +89,15 @@ public class ExpressionParser {
 											else if (matcherInvo.find())
 													exp = new Invocation(statement, currentLine, strings);
 												else {
+														if(statement.matches("\\s+"))
+															continue;
 														exp = new UnknownExpression(statement, currentLine, strings);
 														if (statement.contains("}"))
 															exp.addError(Error.UnexpectedClosingBracket);
 													}
 
 				exps.add(exp);
-				currentLine+=ParseUtils.getLines(statement);
+				currentLine+=ParseUtils.getLines(statement, blocks);
 			} catch (JSValidatorException e) {
 				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
 				exp.addError(e.getError());
@@ -112,7 +109,7 @@ public class ExpressionParser {
 		return exps;
 	}
 
-	private List<Expression> secondExpression(Expression exp, String statement) throws IOException {
+	private List<Expression> secondExpression(Expression exp, String statement) {
 		if (statement.contains("{")) {
 			exp.addError(Error.UnexpectedOpeningBracket);
 			return parseExpressions(statement.split("\\{")[1], 0);

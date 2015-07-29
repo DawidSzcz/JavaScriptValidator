@@ -1,34 +1,27 @@
 package expression;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
-import exception.WrongAssignmentException;
 import exception.WrongComplexException;
 import exception.WrongForException;
-import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
-import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
-
-	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongForException {
-		super(statement, currentLine, strings);
-		try{
-			Triple divided = ParseUtils.splitBlock(Instruction.FOR, statement);
-			line = currentLine + divided.lineBeforeStatement;
-			String[] conditions = (divided.header+" ").split(";");
-		
+	String[] conditions;
+	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongForException 
+	{
+		super(statement, Instruction.FOR, currentLine, strings);
 		if(conditions.length == 3)
 		{
 			for(int i = 0; i < 3; i++)
@@ -44,14 +37,11 @@ public class For extends ComplexExpression{
 					forConditions[i] = new EmptyExpression();			
 		}
 		else
-			throw new WrongForException(Error.WrongNumberOfArguments, statement);
-		this.statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lines);
-		}catch(WrongComplexException e)
 		{
-			this.addError(e.getError());
-			throw new WrongForException(e.getError(), e.getStatement());
+			this.addError(Error.WrongNumberOfArguments);
 		}
-		
+		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+			
 	}
 
 	@Override
@@ -88,6 +78,50 @@ public class For extends ComplexExpression{
 		for(Expression e : forConditions)
 			errs.addAll(e.getErrors());
 		return errs;
+	}
+	@Override
+	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+		List<Character> forbiden = Arrays.asList('{', '}');
+		String header;
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
+		int opened = 1;
+		int instructionArea = 0, lineBeforeStatement;
+		if (checkBeginning.find()) {
+			header = checkBeginning.group();
+			in = in.replace(header, "");
+			lineBeforeStatement = ParseUtils.getLines(header);
+			this.line = currentLine + lineBeforeStatement;
+		} else
+			throw new WrongComplexException(Error.IvalidBeginning, in);
+
+		for (int i = 0; i < in.length(); i++) {
+			if (forbiden.contains(in.charAt(i)))
+				throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
+			if (in.charAt(i) == '\n')
+				instructionArea++;
+			if (in.charAt(i) == '(')
+				opened++;
+			if (in.charAt(i) == ')')
+				opened--;
+			if(opened < 0)
+			{
+				throw new WrongComplexException(Error.InvalidParenthesis, in);
+			}
+			if (opened == 0) 
+			{
+				conditions = (this.condition.getName()+" ").split(";");
+				Matcher states = Patterns.states.matcher(in.substring(i + 1));
+				if (states.find())
+				{
+					this.area = instructionArea;
+					this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
+					this.content = states.group();
+				}
+				else
+					throw new WrongComplexException(Error.InvalidBlock, in);
+			}
+		}
+		throw new WrongComplexException(Error.InvalidCondition, in);
 	}
 
 }

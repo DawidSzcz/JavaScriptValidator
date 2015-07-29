@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 import Atoms.StringContainer;
-import enums.Error;
+import enums.Instruction;
+import exception.WrongComplexException;
+import parser.ExpressionParser;
 
 public class Program extends ComplexExpression 
 {
-	public Program(String name, int currentLine, List<Expression>stats, Map<String, StringContainer> strings) {
-		super(name, currentLine, strings);
-		statements = stats;
-		line = 0;
+	public Program(String input) {
+		super(input, Instruction.PROGRAM, 1, null);
+		ExpressionParser parser = new ExpressionParser(input);
+		statements = parser.parse();
 	}
 
 	@Override
@@ -25,10 +27,21 @@ public class Program extends ComplexExpression
 		return "Program";
 	}
 	public boolean isValid() {
-		for(Expression exp : statements)
-			if(!exp.isValid())
-				return false;
+//		for(Expression exp : statements)
+//			if(!exp.isValid())
+//				return false;
 		return true;
+	}
+	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+		line = currentLine;
+		this.content = in;
+	}
+	public Map<Integer, List<Expression>> mapExpression()
+	{
+		Map<Integer, List<Expression>> instructions = new HashMap<Integer, List<Expression>>();
+		for(Expression exp : statements)
+			exp.addtoInstructions(instructions);
+		return instructions;
 	}
 
 }

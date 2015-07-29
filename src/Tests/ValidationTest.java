@@ -86,8 +86,4 @@ public class ValidationTest {
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
 	}
-	@Test(expected  = WrongComplexException.class)
-	public void foo() throws WrongComplexException{
-		ParseUtils.splitBlock(Instruction.CATCH, "catch(s){s;}");
-	}
 }

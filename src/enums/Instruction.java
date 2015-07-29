@@ -8,7 +8,8 @@ public enum Instruction {
 	FOR("for\\s*\\("),
 	WHILE("while\\s*\\("),
 	CATCH("catch\\s*\\("),
-	FUNCITON("function\\s+[_\\$a-zA-Z]+[_\\$\\w]*\\s*\\(");
+	FUNCITON("function\\s+[_\\$a-zA-Z]+[_\\$\\w]*\\s*\\("),
+	PROGRAM("");
 	
 	public final String content;
 	Instruction(String str)

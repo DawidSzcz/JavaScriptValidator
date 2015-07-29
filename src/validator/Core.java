@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 
 import javax.servlet.ServletException;
@@ -27,34 +28,25 @@ public class Core extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		PrintWriter out = response.getWriter();
-		ExpressionParser parser = new ExpressionParser(request.getParameter("javaScript"));
-		Expression program = parser.parse();
+		Program program = new Program(request.getParameter("javaScript"));
 		List<String> rows = Arrays.asList(request.getParameter("javaScript").split("\n"));
 		out.println(String.format(ValidUtils.html, makeResponse(rows, program)));
 	}
-	private String makeResponse(List<String> rows, Expression program)
+	private String makeResponse(List<String> rows, Program program)
 	{
 		@SuppressWarnings("unused")
 		HashMap<Integer, List<Error>> error = program.getAllErrors();
 		String body = "";
-		ExpressionIterator iterator = new ExpressionIterator(program);
-		Expression next = iterator.next();
+		Map<Integer, List<Expression>> map = program.mapExpression();
 		Expression prev = null;
 		String actualTree = "";
 		for(int i = 0; i < rows.size(); i++)
 		{
-			if(next.getLine() == i+1)
-			{
-				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), next.hasErrors() ? "error" : "noError", next.hasErrors() ? ValidUtils.prepareErrors(next) : iterator.getTree());
-				prev = next;
-				actualTree = iterator.getTree();
-				next = iterator.next();
-			}
+			List<Expression> list = map.get(i+1);
+			if(list != null)
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), list.get(0).hasErrors() ? "error" : "noError", list.get(0).hasErrors() ? ValidUtils.prepareErrors(list.get(0)) : list.get(0));
 			else
-				/*if(prev != null && prev.match(rows.get(i)))
-					body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), prev.hasErrors() ? "error" : "noError", prev.hasErrors() ? ValidUtils.prepareErrors(prev) : actualTree);
-				else*/
-					body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), "plain", "plain");
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), ValidUtils.htmlValidReplace(rows.get(i)), "plain", "plain");
 		}
 		return body;
 	}

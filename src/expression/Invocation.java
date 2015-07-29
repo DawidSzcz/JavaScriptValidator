@@ -12,7 +12,7 @@ import parser.ParseUtils;
 public class Invocation extends Expression {
 	Statement invocation;
 	public Invocation(String str, int currentLine, Map<String, StringContainer> strings) {
-		super(str, currentLine, strings);
+		super(str, strings);
 		invocation = new Statement(str);
 		line = currentLine + ParseUtils.getLinesBNS(str);
 	}

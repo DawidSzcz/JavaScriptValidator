@@ -5,7 +5,7 @@ import java.util.Map;
 public class EmptyExpression extends Expression {
 
 	public EmptyExpression() {
-		super("Empty", 0, null);
+		super("Empty", null);
 		// TODO Auto-generated constructor stub
 	}
 

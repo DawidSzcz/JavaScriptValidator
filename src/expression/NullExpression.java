@@ -8,7 +8,7 @@ import exception.UnknownException;
 public class NullExpression extends Expression{
 
 	public NullExpression(String name, int currentLine, Map<String, StringContainer> strings) {
-		super(name, currentLine, strings);
+		super(name, strings);
 		// TODO Auto-generated constructor stub
 	}
 	

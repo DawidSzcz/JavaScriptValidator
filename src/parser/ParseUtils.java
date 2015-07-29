@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,13 +40,13 @@ public class ParseUtils {
 		public final String header;
 		public final String statements;
 		public final int lines;
-		public final int lineBeforeStatement;
+		public final int linesBeforeStatement;
 		public Triple(String h, String s, int l, int lbs)
 		{
 			header = h;
 			statements = s;
 			lines = l;
-			lineBeforeStatement = lbs;
+			linesBeforeStatement = lbs;
 		}
 	}
 	public static String cleanLine(String statement) throws IllegalStateException
@@ -291,81 +292,24 @@ public class ParseUtils {
 		return javaScriptTextString;
 	}
 
-	public static Triple splitBlock(Instruction instruction, String in) throws WrongComplexException {
-		List<Character> forbiden;
-		String header;
-		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
-		int opened = 1;
-		int line, lineBeforeStatement;
-		String condition, statements;
-		if (checkBeginning.find()) {
-			header = checkBeginning.group();
-			in = in.replace(header, "");
-			lineBeforeStatement = line = ParseUtils.getLines(header);
-		} else
-			throw new WrongComplexException(Error.IvalidBeginning, in);
-
-		switch (instruction) {
-		case FOR:
-			forbiden = Arrays.asList('{', '}');
-			break;
-		case FUNCITON:
-			forbiden = new LinkedList<Character>();
-			break;
-		default:
-			forbiden = Arrays.asList('{', '}', ';');
-		}
-		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
-			for (int i = 0; i < in.length(); i++) {
-				if (forbiden.contains(in.charAt(i)))
-					throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
-				if (in.charAt(i) == '\n')
-					line++;
-				if (in.charAt(i) == '(')
-					opened++;
-				if (in.charAt(i) == ')')
-					opened--;
-				if(opened < 0)
-				{
-					throw new WrongComplexException(Error.InvalidParenthesis, in);
-				}
-				if (opened == 0) 
-				{
-					condition = in.substring(0, i);
-					Matcher states = Patterns.states.matcher(in.substring(i + 1));
-					if (states.find())
-					{
-						line+= ParseUtils.getLinesBNS(in.substring(i + 1));
-						statements = states.group();
-					}
-					else
-						throw new WrongComplexException(Error.InvalidBlock, in);
-					return new Triple(condition, statements, line, lineBeforeStatement);
-				}
-			}
-			throw new WrongComplexException(Error.InvalidCondition, in);
-		} else {
-			Matcher states = Patterns.states.matcher(in);
-			if (states.find())
-			{
-				line+= ParseUtils.getLinesBNS(in);
-				statements = states.group();
-			}
-			else
-				throw new WrongComplexException(Error.InvalidBlock, in);
-			return new Triple(header, statements, line, lineBeforeStatement);
-
-		}
-
-	}
-
 
 	public static int getLinesBNS(String substring) {
-		Matcher space = Pattern.compile("[\\s\\{]+").matcher(substring);
+		Matcher space = Pattern.compile("^\\s+").matcher(substring);
 		
 		return space.find() ? getLines(space.group()) : 0;
 	}
-
+	public static int getLines(String statement, HashMap<String, String> blocks) {
+		Object[] keys = blocks.keySet().toArray();
+		for(int i = 0; i < keys.length; i++)
+		{
+			if(statement.contains((String)keys[i]))
+			{
+				statement= statement.replaceAll((String)keys[i], blocks.get((String)keys[i]));
+				i = 0;
+			}
+		}
+		return  getLines(statement);
+	}
 	public static int getLines(String statement) {
 		int newLines = 0;
 		for(int i = 0; i < statement.length(); i++)

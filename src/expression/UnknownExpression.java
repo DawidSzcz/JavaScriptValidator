@@ -11,7 +11,7 @@ import enums.Error;
 public class UnknownExpression extends Expression 
 {
 	public UnknownExpression(String str, int currentLine, Map<String, StringContainer> strings) {
-		super(str, currentLine, strings);
+		super(str, strings);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

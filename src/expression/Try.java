@@ -20,18 +20,10 @@ public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongTryException 
+	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws  WrongTryException 
 	{
-		super(name, currentLine, strings);
-		try{
-			Triple divided = ParseUtils.splitBlock(Instruction.TRY, name);
-			line = currentLine + divided.lines;
-			condition = new Statement(divided.header);
-			statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lineBeforeStatement);
-			
-		}catch(WrongComplexException e){
-			throw new WrongTryException(e.getError(), e.getStatement());			
-		}
+		super(name, Instruction.TRY, currentLine, strings);
+		statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 
 	@Override

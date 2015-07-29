@@ -21,22 +21,9 @@ import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class If extends ComplexExpression{
-	Statement condition;
-	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongIfException, IOException {
-		super(statement, currentLine, strings);
-		try{
-		Triple divided = ParseUtils.splitBlock(Instruction.IF, statement);
-		line = currentLine + divided.lineBeforeStatement;
-		condition = new Statement(divided.header);
-		this.statements = expressionParser.parseExpressions(divided.statements, currentLine+ divided.lines);
-		}catch(WrongComplexException e){
-			throw new WrongIfException(e.getError(), e.getStatement());
-		}
-	}
-	public If(String name, int currentLine, Statement condition2, Map<String, StringContainer> strings, List<Expression> statements) {
-		super(name, currentLine, strings);
-		this.condition = condition2;
-		this.statements= statements;
+	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongIfException {
+		super(statement, Instruction.IF, currentLine, strings);
+		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

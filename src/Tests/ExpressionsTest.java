@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import expression.Program;
 import parser.ExpressionParser;
 
 
@@ -57,9 +59,9 @@ public class ExpressionsTest {
 	@Test
 	public void test() throws IOException 
 	{
-		ExpressionParser parser = new ExpressionParser(data);
-		boolean x = parser.parse().getAllErrors().size() == 0;
-		assertEquals(x, result);
+		Program program = new Program(data);
+		HashMap<Integer, List<enums.Error>> errors = program.getAllErrors();
+		assertEquals(errors.size() == 0, result);
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Atoms.Statement;
 import Atoms.StringContainer;
@@ -25,22 +26,14 @@ import parser.Patterns;
 
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongFunctionException, IOException 
+	List <String> args;
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongFunctionException 
 	{
-		super(statement, currentLine, strings);
-		List <String> args;
-		try{
-		Triple divided = ParseUtils.splitBlock(Instruction.FUNCITON, statement);
-		line = currentLine + divided.lineBeforeStatement; 
-		args=Arrays.asList(divided.header);
+		super(statement, Instruction.FOR, currentLine, strings);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
 		
-		this.statements = expressionParser.parseExpressions(divided.statements, divided.lines + currentLine);
-		}catch(WrongComplexException e){
-			this.addError(e.getError());
-			throw new WrongFunctionException(e.getError(), e.getStatement());
-		}
+		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -66,5 +59,46 @@ public class Function extends ComplexExpression {
 			}
 		}
 		return true;
+	}
+	@Override
+	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+		String header;
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
+		int opened = 1;
+		int instructionArea = 0, lineBeforeStatement;
+		if (checkBeginning.find()) {
+			header = checkBeginning.group();
+			in = in.replace(header, "");
+			lineBeforeStatement = ParseUtils.getLines(header);
+			this.line = currentLine + lineBeforeStatement;
+		} else
+			throw new WrongComplexException(Error.IvalidBeginning, in);
+		for (int i = 0; i < in.length(); i++) {
+			if (in.charAt(i) == '\n')
+				instructionArea++;
+			if (in.charAt(i) == '(')
+				opened++;
+			if (in.charAt(i) == ')')
+				opened--;
+			if(opened < 0)
+			{
+				throw new WrongComplexException(Error.InvalidParenthesis, in);
+			}
+			if (opened == 0) 
+				{
+				args=Arrays.asList(in.substring(0, i));
+				Matcher states = Patterns.states.matcher(in.substring(i + 1));
+				if (states.find())
+				{
+					this.area = instructionArea;
+					this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
+					this.content = states.group();
+				}
+				else
+					throw new WrongComplexException(Error.InvalidBlock, in);
+			}
+		}
+		throw new WrongComplexException(Error.InvalidCondition, in);
+
 	}
 }

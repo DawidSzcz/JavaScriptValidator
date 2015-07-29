@@ -26,22 +26,22 @@ import parser.ParseUtils.Triple;
 
 public class UtilTests 
 {
-	@Test
-	public void testComplexExpressionDivision() throws WrongComplexException
-	{
-		String input1 = "if(a){b;}";
-		String input2 = "for(1; 2; 3)\n{a; b; c;}";
-		String input3 = "if(a){\nb;\n}\n}\n";
-		Triple p1 = ParseUtils.splitBlock(Instruction.IF, input1);
-		Triple p2 = ParseUtils.splitBlock(Instruction.FOR, input2);
-		Triple p3 = ParseUtils.splitBlock(Instruction.IF, input3);
-		assertEquals("a", p1.header);
-		assertEquals("b;", p1.statements);
-		assertEquals("1; 2; 3", p2.header);
-		assertEquals("a; b; c;", p2.statements);
-		assertEquals("a", p3.header);
-		assertEquals("\nb;\n}\n", p3.statements);
-	}
+//	@Test
+//	public void testComplexExpressionDivision() throws WrongComplexException
+//	{
+//		String input1 = "if(a){b;}";
+//		String input2 = "for(1; 2; 3)\n{a; b; c;}";
+//		String input3 = "if(a){\nb;\n}\n}\n";
+//		Triple p1 = ParseUtils.splitBlock(Instruction.IF, input1);
+//		Triple p2 = ParseUtils.splitBlock(Instruction.FOR, input2);
+//		Triple p3 = ParseUtils.splitBlock(Instruction.IF, input3);
+//		assertEquals("a", p1.header);
+//		assertEquals("b;", p1.statements);
+//		assertEquals("1; 2; 3", p2.header);
+//		assertEquals("a; b; c;", p2.statements);
+//		assertEquals("a", p3.header);
+//		assertEquals("\nb;\n}\n", p3.statements);
+//	}
 	@Test
 	public void commentsAndStrings() 
 	{

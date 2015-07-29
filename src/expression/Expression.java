@@ -14,13 +14,12 @@ import parser.Patterns;
 public abstract class Expression {
 	protected String name;
 	protected int line;
+	protected int area;
 	protected Map<String, StringContainer> strings;
-	protected int formerLine;
 	List<enums.Error> errors = new LinkedList<>();
 	
-	public Expression(String name, int currentLine, Map<String, StringContainer> strings) 
+	public Expression(String name, Map<String, StringContainer> strings) 
 	{
-		this.formerLine = currentLine;
 		this.strings = strings;
 		try{
 			this.name = ParseUtils.cleanLine(name);
@@ -46,16 +45,16 @@ public abstract class Expression {
 	{
 		errors.add(err);
 	}
-//	public boolean match(String s)
-//	{
-//		s = ParseUtils.removeCommentsFromLine(s);
-//		try{
-//			s = ParseUtils.cleanLine(s);
-//		}catch(IllegalStateException e){
-//			return false;
-//		}
-//		return translateName().contains(s);
-//	}
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions)
+	{
+		for(int i = line; i <=line +area; i++)
+			try{
+				instructions.get(i).add(this);
+			}catch(NullPointerException e){
+				instructions.put(i, new LinkedList<Expression>());
+				instructions.get(i).add(this);
+			}
+	}
 	public int getLine()
 	{
 		return line;
@@ -77,25 +76,4 @@ public abstract class Expression {
 		}
 		return wholeName;
 	}
-//	public int setLine(List<String> instructions) {
-//		for(int i = formerLine; i < instructions.size(); i++)
-//		{
-//			try{
-//				String line = ParseUtils.cleanLine(instructions.get(i));
-//				Matcher m = Patterns.commentLine.matcher(line);
-//				while(m.find())
-//					line = line.replace(m.group(), "");
-//				if(match(line))
-//				{
-//					this.line= i+1;
-//					return this.line;
-//				}
-//
-//			}catch(IllegalStateException e){
-//				
-//			}
-//		}
-//		this.line = -2;
-//		return formerLine;
-//	}
 }

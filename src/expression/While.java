@@ -21,19 +21,11 @@ import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class While extends ComplexExpression{
-	Statement  condition;
-	public While(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongWhileException, IOException 
+	public While(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongWhileException 
 	{
-		super(statement, currentLine, strings);
-		try{
-			Triple divided = ParseUtils.splitBlock(Instruction.WHILE, statement);
-			line = currentLine + divided.lines;
-			condition = new Statement(divided.header);
-			this.statements = expressionParser.parseExpressions(divided.statements, currentLine + divided.lineBeforeStatement);
-		}catch(WrongComplexException e){
-			this.addError(e.getError());
-			throw new WrongWhileException(e.getError(), e.getStatement());
-		}
+		super(statement, Instruction.WHILE, currentLine, strings);
+		
+		this.statements = expressionParser.parseExpressions(this.content, this.beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
