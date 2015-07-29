@@ -6,13 +6,16 @@ import java.util.Map;
 import Atoms.StringContainer;
 import enums.Instruction;
 import exception.WrongCatchException;
+import exception.WrongComplexException;
 import parser.ExpressionParser;
 
 public class Catch extends ComplexExpression {
 
-	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws IOException, WrongCatchException {
+	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException {
 		super(name, Instruction.CATCH, currentLine, strings);
-		statements = expressionParser.parseExpressions(content, beginOfStatements);
+		//Do zmiany
+		if(content != null)
+			statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 
 	@Override

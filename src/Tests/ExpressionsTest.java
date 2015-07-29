@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import exception.WrongComplexException;
 import expression.Program;
 import parser.ExpressionParser;
 
@@ -57,7 +58,7 @@ public class ExpressionsTest {
 		return parametrs;
 	}
 	@Test
-	public void test() throws IOException 
+	public void test() throws WrongComplexException
 	{
 		Program program = new Program(data);
 		HashMap<Integer, List<enums.Error>> errors = program.getAllErrors();

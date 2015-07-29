@@ -100,9 +100,10 @@ public class ExpressionParser {
 				currentLine+=ParseUtils.getLines(statement, blocks);
 			} catch (JSValidatorException e) {
 				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
+				currentLine+=ParseUtils.getLines(statement, blocks);
 				exp.addError(e.getError());
 				exps.add(exp);
-				exps.addAll(secondExpression(exp, statement));
+				//exps.addAll(secondExpression(exp, statement));
 			}
 			exp.isValid();
 		}

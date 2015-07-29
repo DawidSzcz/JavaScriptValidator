@@ -20,7 +20,7 @@ import parser.Patterns;
 
 public class Else extends ComplexExpression
 {
-	public Else(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongIfException, WrongElseException 
+	public Else(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException
 	{
 		super(statement, Instruction.ELSE, currentLine,strings);
 		statements = expressionParser.parseExpressions(content, beginOfStatements);

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
@@ -19,7 +20,7 @@ import parser.Patterns;
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
 	String[] conditions;
-	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongForException 
+	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException
 	{
 		super(statement, Instruction.FOR, currentLine, strings);
 		if(conditions.length == 3)
@@ -29,7 +30,7 @@ public class For extends ComplexExpression{
 				{
 					List<Expression> list = expressionParser.parseExpressions(conditions[i], 0);
 					if(list.size() != 1)
-						throw new WrongForException(Error.InvalidForCondition, statement);
+						this.addError(Error.InvalidArguments);
 					else
 						forConditions[i] = list.get(0);
 				}
@@ -40,7 +41,9 @@ public class For extends ComplexExpression{
 		{
 			this.addError(Error.WrongNumberOfArguments);
 		}
-		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+		//Do zmiany
+		if(content != null)
+			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 			
 	}
 
@@ -81,6 +84,7 @@ public class For extends ComplexExpression{
 	}
 	@Override
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+		String wholeInstruction = in;
 		List<Character> forbiden = Arrays.asList('{', '}');
 		String header;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
@@ -92,11 +96,11 @@ public class For extends ComplexExpression{
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
 		} else
-			throw new WrongComplexException(Error.IvalidBeginning, in);
+			throw new WrongComplexException(Error.IvalidBeginning, wholeInstruction);
 
 		for (int i = 0; i < in.length(); i++) {
 			if (forbiden.contains(in.charAt(i)))
-				throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
+				throw new WrongComplexException(Error.ForbidenCharacterInHeader, wholeInstruction);
 			if (in.charAt(i) == '\n')
 				instructionArea++;
 			if (in.charAt(i) == '(')
@@ -105,23 +109,24 @@ public class For extends ComplexExpression{
 				opened--;
 			if(opened < 0)
 			{
-				throw new WrongComplexException(Error.InvalidParenthesis, in);
+				throw new WrongComplexException(Error.InvalidParenthesis, wholeInstruction);
 			}
 			if (opened == 0) 
 			{
-				conditions = (this.condition.getName()+" ").split(";");
+				conditions = in.substring(0, i).split(";");
 				Matcher states = Patterns.states.matcher(in.substring(i + 1));
 				if (states.find())
 				{
 					this.area = instructionArea;
 					this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
 					this.content = states.group();
+					return;
 				}
 				else
-					throw new WrongComplexException(Error.InvalidBlock, in);
+					throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
 			}
 		}
-		throw new WrongComplexException(Error.InvalidCondition, in);
+		throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
 	}
 
 }

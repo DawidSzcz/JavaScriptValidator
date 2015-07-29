@@ -20,10 +20,10 @@ public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws  WrongTryException 
+	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws  WrongComplexException
 	{
 		super(name, Instruction.TRY, currentLine, strings);
-		statements = expressionParser.parseExpressions(content, beginOfStatements);
+			statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 
 	@Override

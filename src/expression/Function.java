@@ -27,13 +27,12 @@ import parser.Patterns;
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 
 	List <String> args;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongFunctionException 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException 
 	{
 		super(statement, Instruction.FOR, currentLine, strings);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
-		
-		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -62,6 +61,7 @@ public class Function extends ComplexExpression {
 	}
 	@Override
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+		String wholeInstruction = in;
 		String header;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
 		int opened = 1;
@@ -72,7 +72,7 @@ public class Function extends ComplexExpression {
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
 		} else
-			throw new WrongComplexException(Error.IvalidBeginning, in);
+			throw new WrongComplexException(Error.IvalidBeginning, wholeInstruction);
 		for (int i = 0; i < in.length(); i++) {
 			if (in.charAt(i) == '\n')
 				instructionArea++;
@@ -82,7 +82,7 @@ public class Function extends ComplexExpression {
 				opened--;
 			if(opened < 0)
 			{
-				throw new WrongComplexException(Error.InvalidParenthesis, in);
+				throw new WrongComplexException(Error.InvalidParenthesis, wholeInstruction);
 			}
 			if (opened == 0) 
 				{
@@ -93,12 +93,13 @@ public class Function extends ComplexExpression {
 					this.area = instructionArea;
 					this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
 					this.content = states.group();
+					return;
 				}
 				else
-					throw new WrongComplexException(Error.InvalidBlock, in);
+					throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
 			}
 		}
-		throw new WrongComplexException(Error.InvalidCondition, in);
+		throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
 
 	}
 }

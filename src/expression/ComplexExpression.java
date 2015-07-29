@@ -26,14 +26,10 @@ public abstract class ComplexExpression extends Expression {
 	protected Statement  condition;
 	protected String content;
 	
-	public ComplexExpression(String in, Instruction instruction, int currentLine,  Map<String, StringContainer> strings) {
+	public ComplexExpression(String in, Instruction instruction, int currentLine,  Map<String, StringContainer> strings) throws WrongComplexException {
 		super(in, strings);
-		try{
-			splitBlock(instruction, currentLine, in);
-		}catch(WrongComplexException e)
-		{
-			System.err.println("sth wrong" + e.getError()+ "\n" + in);
-		}
+		splitBlock(instruction, currentLine, in);
+
 	}
 	@Override
 	public HashMap<Integer, List<Error>> getAllErrors() {
@@ -59,7 +55,9 @@ public abstract class ComplexExpression extends Expression {
 		for(Expression exp : statements)
 			exp.addtoInstructions(instructions);
 	}
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException 
+	{
+		String wholeInstruction = in;
 		List<Character> forbiden = Arrays.asList('{', '}', ';');
 		String header;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
@@ -71,12 +69,12 @@ public abstract class ComplexExpression extends Expression {
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
 		} else
-			throw new WrongComplexException(Error.IvalidBeginning, in);
+			throw new WrongComplexException(Error.IvalidBeginning, wholeInstruction);
 
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
 			for (int i = 0; i < in.length(); i++) {
 				if (forbiden.contains(in.charAt(i)))
-					throw new WrongComplexException(Error.ForbidenCharacterInHeader, in);
+					throw new WrongComplexException(Error.ForbidenCharacterInHeader, wholeInstruction);
 				if (in.charAt(i) == '\n')
 					instructionArea++;
 				if (in.charAt(i) == '(')
@@ -85,7 +83,7 @@ public abstract class ComplexExpression extends Expression {
 					opened--;
 				if(opened < 0)
 				{
-					throw new WrongComplexException(Error.InvalidParenthesis, in);
+					throw new WrongComplexException(Error.InvalidParenthesis, wholeInstruction);
 				}
 				if (opened == 0) 
 				{
@@ -99,10 +97,10 @@ public abstract class ComplexExpression extends Expression {
 						return;
 					}
 					else
-						throw new WrongComplexException(Error.InvalidBlock, in);
+						throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
 				}
 			}
-			throw new WrongComplexException(Error.InvalidCondition, in);
+			throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
 		} else {
 			Matcher states = Patterns.states.matcher(in);
 			if (states.find())
@@ -112,7 +110,7 @@ public abstract class ComplexExpression extends Expression {
 				this.content = states.group();
 			}
 			else
-				throw new WrongComplexException(Error.InvalidBlock, in);
+				throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
 		}
 
 	}
