@@ -57,15 +57,6 @@ public class ParseUtils {
 			throw new IllegalStateException();
 		return matcher.group();
 	}
-//	public static int getLine(List<String> instructions, String group) {
-//		group = cleanLine(group);
-//		for(int i = 0; i < instructions.size(); i++)
-//			try{
-//				if(group.contains(cleanLine(instructions.get(i))))
-//					return i + 1;
-//			}catch(IllegalStateException e){}
-//		return -2;
-//	}
 	public static String uniqueId(String in) {
 		Random rand = new Random();
 		long x = rand.nextLong();
@@ -77,16 +68,14 @@ public class ParseUtils {
 		return randomString;
 	}
 
-	public static Pair<String, Map<String, StringContainer>> takeOutStrings(String javaScriptText,
-			Map<String, StringContainer> stringMap) {
+	public static Pair<String, HashMap<String, StringContainer>> takeOutStrings(String javaScriptText,
+			HashMap<String, StringContainer> stringMap) {
 		StringContainer stringInTexst = new StringContainer("");
 		Boolean isInString = false;
 		char doubleQuotes = '"';
 		char quotes = '\'';
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
-			
-			if (iterator+1==javaScriptText.length()||isInString)
-				stringInTexst.addError(Error.InvalidString);
+			String uniqueId = ParseUtils.uniqueId(javaScriptText);
 			
 			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
 				if (javaScriptText.charAt(iterator) == '"') {
@@ -100,7 +89,6 @@ public class ParseUtils {
 				} else {
 					// isInString = false;
 					stringInTexst.string += javaScriptText.charAt(iterator);
-					String uniqueId = ParseUtils.uniqueId(javaScriptText);
 					stringMap.put("StringID" + uniqueId, stringInTexst);
 					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
 					break;
@@ -108,8 +96,11 @@ public class ParseUtils {
 			}
 			if (isInString) {
 				stringInTexst.string += javaScriptText.charAt(iterator);
-				if (javaScriptText.charAt(iterator) == '\n') {
-					stringInTexst.addError(Error.InvalidString);
+				if (javaScriptText.charAt(iterator) == '\n' || iterator==javaScriptText.length()-1) {
+					stringInTexst.addError(Error.EnterInString);
+					stringMap.put("StringID" + uniqueId, stringInTexst);
+					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
+					break;
 				}
 				if (javaScriptText.charAt(iterator) == '\\' && iterator + 1 < javaScriptText.length()) {
 					if (javaScriptText.charAt(iterator + 1) == '\\' || javaScriptText.charAt(iterator + 1) == 'n'
@@ -122,13 +113,120 @@ public class ParseUtils {
 						stringInTexst.string += javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1);
 						++iterator;
 					} else {
-						stringInTexst.addError(Error.InvalidString);
+						stringInTexst.addError(Error.InvalidEscape);
 					}
 				}
 			}
 		}
 
-		return new Pair<String, Map<String, StringContainer>>(javaScriptText, stringMap);
+		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+	}
+	
+	
+
+	public static String removeComments(String javaScriptTextString) {
+		boolean lineComment = false;
+		boolean starComment = false;
+		String enterCounter="";
+		String commentedText="";
+		for (int iterator = 0; iterator < javaScriptTextString.length(); iterator++) {
+			if (javaScriptTextString.charAt(iterator)=='/' && iterator+1!=javaScriptTextString.length()){
+				if(javaScriptTextString.charAt(iterator+1)=='/' && !starComment){
+					lineComment =true;
+				}
+				if(javaScriptTextString.charAt(iterator+1)=='*' && !lineComment){
+					starComment =true;
+				}
+			}
+			if (lineComment){
+				commentedText+=javaScriptTextString.charAt(iterator);
+
+				if(javaScriptTextString.charAt(iterator)=='\n' || iterator==javaScriptTextString.length()-1 ){
+
+					javaScriptTextString=javaScriptTextString.replace(commentedText, "\n");
+					break;//lineComment=false;
+				}
+
+			}
+			if (starComment){
+				commentedText+=javaScriptTextString.charAt(iterator);
+				if(javaScriptTextString.charAt(iterator)=='\n'){
+					enterCounter+='\n';
+				}
+				if( iterator>0 && javaScriptTextString.charAt(iterator-1)=='*'&& javaScriptTextString.charAt(iterator)=='/'){
+					javaScriptTextString=javaScriptTextString.replace(commentedText,enterCounter );
+					break;//starComment=false;
+				}
+			}
+			
+		}
+		return javaScriptTextString;
+	}
+
+
+	public static String removeCommentsFromLine(String javaScriptTextString) {
+		Matcher m = Patterns.commentLine.matcher(javaScriptTextString);
+		while (m.find()) {
+			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
+		}
+		return javaScriptTextString;
+	}
+
+
+	public static int getLinesBNS(String substring) {
+		Matcher space = Pattern.compile("^\\s+").matcher(substring);
+		
+		return space.find() ? getLines(space.group()) : 0;
+	}
+	public static int getLines(String statement, HashMap<String, String> blocks) {
+		Object[] keys = blocks.keySet().toArray();
+		for(int i = 0; i < keys.length; i++)
+		{
+			if(statement.contains((String)keys[i]))
+			{
+				statement= statement.replaceAll((String)keys[i], blocks.get((String)keys[i]));
+				i = 0;
+			}
+		}
+		return  getLines(statement);
+	}
+	public static int getLines(String statement) {
+		int newLines = 0;
+		for(int i = 0; i < statement.length(); i++)
+			if(statement.charAt(i) == '\n')
+				newLines++;
+		return newLines;
+	}
+
+	public static Pair<String, HashMap<String, String>> removeBlocks(String input) {
+		HashMap<String, String> blocks = new HashMap<String, String>();
+		Matcher mat = Patterns.block.matcher(input);
+		while (mat.find()) {
+			String block = mat.group();
+			String uniqueId = "BlockID"+ParseUtils.uniqueId(input);
+			if (input.contains(block))
+				input = input.replace(block, uniqueId + ";");
+			blocks.put(uniqueId, block);
+			mat = Patterns.block.matcher(input);
+		}
+		return new Pair(input, blocks);
+	}
+	public static Pair<String, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptText) {
+		Pair<String, HashMap<String, StringContainer>> pair;
+		HashMap<String, StringContainer> stringMap = new HashMap<>();
+		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
+		while (matcherStringsAndComents.find()) {
+			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
+				javaScriptText = removeComments(javaScriptText);
+			} else {
+				pair = takeOutStrings(javaScriptText, stringMap);
+				javaScriptText = pair.getKey();
+				stringMap = pair.getValue();
+
+			}
+			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
+		}
+		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
 	}
 	public static Pair<String, HashMap<String, StringContainer>> removeStrAndCom(String jSText) 
 	{
@@ -242,110 +340,5 @@ public class ParseUtils {
 //			comments.put(uniqueId, comm);
 //		}
 		return new Pair(finalString, strings);
-	}
-
-	public static String removeComments(String javaScriptTextString) {
-		boolean lineComment = false;
-		boolean starComment = false;
-		String enterCounter="";
-		String commentedText="";
-		for (int iterator = 0; iterator < javaScriptTextString.length(); iterator++) {
-			if (javaScriptTextString.charAt(iterator)=='/' && iterator+1!=javaScriptTextString.length()){
-				if(javaScriptTextString.charAt(iterator+1)=='/' && !starComment){
-					lineComment =true;
-				}
-				if(javaScriptTextString.charAt(iterator+1)=='*' && !lineComment){
-					starComment =true;
-				}
-			}
-			if (lineComment){
-				commentedText+=javaScriptTextString.charAt(iterator);
-
-				if(javaScriptTextString.charAt(iterator)=='\n' || iterator==javaScriptTextString.length()-1 ){
-
-					javaScriptTextString=javaScriptTextString.replace(commentedText, "\n");
-					break;//lineComment=false;
-				}
-
-			}
-			if (starComment){
-				commentedText+=javaScriptTextString.charAt(iterator);
-				if(javaScriptTextString.charAt(iterator)=='\n'){
-					enterCounter+='\n';
-				}
-				if( iterator>0 && javaScriptTextString.charAt(iterator-1)=='*'&& javaScriptTextString.charAt(iterator)=='/'){
-					javaScriptTextString=javaScriptTextString.replace(commentedText,enterCounter );
-					break;//starComment=false;
-				}
-			}
-			
-		}
-		return javaScriptTextString;
-	}
-
-
-	public static String removeCommentsFromLine(String javaScriptTextString) {
-		Matcher m = Patterns.commentLine.matcher(javaScriptTextString);
-		while (m.find()) {
-			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
-		}
-		return javaScriptTextString;
-	}
-
-
-	public static int getLinesBNS(String substring) {
-		Matcher space = Pattern.compile("^\\s+").matcher(substring);
-		
-		return space.find() ? getLines(space.group()) : 0;
-	}
-	public static int getLines(String statement, HashMap<String, String> blocks) {
-		Object[] keys = blocks.keySet().toArray();
-		for(int i = 0; i < keys.length; i++)
-		{
-			if(statement.contains((String)keys[i]))
-			{
-				statement= statement.replaceAll((String)keys[i], blocks.get((String)keys[i]));
-				i = 0;
-			}
-		}
-		return  getLines(statement);
-	}
-	public static int getLines(String statement) {
-		int newLines = 0;
-		for(int i = 0; i < statement.length(); i++)
-			if(statement.charAt(i) == '\n')
-				newLines++;
-		return newLines;
-	}
-
-	public static Pair<String, HashMap<String, String>> removeBlocks(String input) {
-		HashMap<String, String> blocks = new HashMap<String, String>();
-		Matcher mat = Patterns.block.matcher(input);
-		while (mat.find()) {
-			String block = mat.group();
-			String uniqueId = "BlockID"+ParseUtils.uniqueId(input);
-			if (input.contains(block))
-				input = input.replace(block, uniqueId + ";");
-			blocks.put(uniqueId, block);
-			mat = Patterns.block.matcher(input);
-		}
-		return new Pair(input, blocks);
-	}
-	public static Pair<String, Map<String, StringContainer>> takeOutStringsAndComents(String javaScriptText) {
-		Pair<String, Map<String, StringContainer>> pair;
-		Map<String, StringContainer> stringMap = new HashMap<>();
-		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
-		while (matcherStringsAndComents.find()) {
-			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
-				javaScriptText = removeComments(javaScriptText);
-			} else {
-				pair = takeOutStrings(javaScriptText, stringMap);
-				javaScriptText = pair.getKey();
-				stringMap = pair.getValue();
-
-			}
-			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
-		}
-		return new Pair<String, Map<String, StringContainer>>(javaScriptText, stringMap);
 	}
 }

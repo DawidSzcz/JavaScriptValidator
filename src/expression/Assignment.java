@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,45 +13,59 @@ import exception.InvalidOperator;
 import exception.WrongAssignmentException;
 import parser.ParseUtils;
 import parser.Patterns;
-public class Assignment extends Expression {
-	 Statement first;
-	 Statement second;
-	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings) throws WrongAssignmentException {
-		super(statement, strings);
+
+
+public class Assignment extends SimpeExpresion {
+	List<Statement> variables=new ArrayList<Statement>();
+	Statement argument;
+
+	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings)
+			throws WrongAssignmentException {
+		super(statement, currentLine, strings);
+		statement = ParseUtils.cleanLine(statement);
 		String side[] = statement.split(Patterns.assignDivisionS);
 		line = currentLine + ParseUtils.getLinesBNS(statement);
-		if(side.length == 2)
-		{
-			first = new Statement(side[0]);
-			second = new Statement(side[1]);
+		if (side.length >= 2) {
+			argument = new Statement(side[side.length - 1]);
+			for (int i = side.length - 2; i >= 0; i--) {
+				variables.add(new Statement(ParseUtils.cleanLine(side[i])));
+			}
 		}
+
 		else
 			throw new WrongAssignmentException(Error.WrongAssignment, statement);
 	}
+
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
+		if (index == 0)
 			return this;
 		else
 			throw new IndexOutOfBoundsException();
 	}
-	public String toString()
-	{
+
+	public String toString() {
 		return "Assignment";
 	}
+
 	@Override
 	public boolean isValid() {
-		try{
-			first.isValid();
-			second.isValid();
-		}catch(InvalidOperator e)
-		{
-			this.addError(e.getError());
+		super.isPortOpen(argument,variables);
+		if (super.isValid()) {
+			try {
+				for (Statement vsriable : variables) {
+					vsriable.isValid();
+				}
+				argument.isValid();
+			} catch (InvalidOperator e) {
+				this.addError(e.getError());
+				return false;
+			} catch (InvalidFunction e) {
+				this.addError(e.getError());
+				return false;
+			}
+			return true;
+		} else
 			return false;
-		}catch(InvalidFunction e){
-			this.addError(e.getError());
-			return false;
-		}
-		return true;
 	}
 }

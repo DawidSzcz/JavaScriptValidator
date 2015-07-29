@@ -22,9 +22,10 @@ public enum Error {
 	InvalidCondition("Invalid Condition"),
 	MissingTryBeforeCatch("Missing ty before catch"),
 	InvalidString("String is invalid"), 
-	EnterInString("String is not properly terminated"), 
-	InvalidEscape("Invalid escape sequence in string"), 
-	InvalidParenthesis("Invalid parenthasis");
+	EnterInString("String is not properly terminated"),
+	InvalidParenthesis("Invalid parenthasis"),
+	InvalidEscape("Invalid escape sequence in string"),
+	SqlPortIsNotOpen("Sql port isn't open");
 	
 	public final String content;
 	Error(String str)

@@ -27,7 +27,7 @@ public class ExpressionParser {
 	public ExpressionParser(String input)
 	{
 		//Pair <String, HashMap<String, StringContainer>> pair =ParseUtils.removeStrAndCom(input);
-		Pair <String, Map<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
+		Pair <String, HashMap<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
 		this.input = pair.getKey();
 		strings = pair.getValue();
 	}

@@ -33,6 +33,8 @@ public class Patterns {
 	public static String empty = "^\\*s$";
 	public static String beginComplex = "^\\s*%s";
 	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
+	public static String sqlExecuteStetmentFunctionS = "\\w+\\.executeStatement\\(\\s*[_$A-Za-z]\\w*\\s*\\)";
+	public static String sqlGetPortFunctionS = "\\.getTytanDBPortFeature\\(\\)";
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
 	public static Pattern head = Pattern.compile(headerS);
@@ -59,5 +61,6 @@ public class Patterns {
 	public static Pattern Try = Pattern.compile(TryS);
 	public static Pattern Catch = Pattern.compile(CatchS);
 	public static Pattern stringsAndComents = Pattern.compile(stringsAndComentsS);
-
+	public static Pattern sqlExecuteStetmentFunction = Pattern.compile(sqlExecuteStetmentFunctionS);
+	public static Pattern sqlGetPortFunction = Pattern.compile(sqlGetPortFunctionS);
 }
