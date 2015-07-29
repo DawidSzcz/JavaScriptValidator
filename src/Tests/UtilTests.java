@@ -19,6 +19,7 @@ import org.junit.runners.Parameterized;
 import Atoms.StringContainer;
 import enums.Instruction;
 import exception.WrongComplexException;
+import expression.Invocation;
 import javafx.util.Pair;
 import operator.Patterns;
 import parser.ParseUtils;
@@ -41,21 +42,6 @@ public class UtilTests
 		assertEquals("a; b; c;", p2.getValue());
 		assertEquals("a", p3.getKey());
 		assertEquals("\nb;\n}\n", p3.getValue());
-	}
-	@Test
-	public void commentsAndStrings() 
-	{
-		Pair<String, HashMap<String, StringContainer>>trip =ParseUtils.removeStrAndCom("//ssssdasdas\ndsads");
-		assertEquals(trip.getKey(), "\ndsads");
-		Pair<String, HashMap<String, StringContainer>> trip2=ParseUtils.removeStrAndCom("//ssssdas\"as");
-		assertEquals(trip2.getKey(), "");
-		assertEquals(trip2.getValue().size(), 0);
-		Pair<String, HashMap<String, StringContainer>> trip3 =ParseUtils.removeStrAndCom("\"dasda'dasd'dasdasd\"");
-		assertTrue(trip3.getKey().matches("^StringID\\d+$"));
-		assertEquals(trip3.getValue().size(), 1);
-		Pair<String, HashMap<String, StringContainer>> trip4 =ParseUtils.removeStrAndCom("/*dasd\n\nsd//as\n*/ds/* dsad */ada");
-		assertTrue(trip4.getKey().matches("^\n\n\ndsada$"));
-		assertEquals(trip4.getValue().size(), 0);
 	}
 	@Test
 	public void removingblock() 
@@ -91,11 +77,31 @@ public class UtilTests
 //		assertTrue(trip5.getValue().get(0).getErrors()));
 		assertEquals(trip5.getValue().size(), 1);
 		Pair<String, HashMap<String, StringContainer>> trip6 =ParseUtils.takeOutStringsAndComents("dasd \" asdasd\\s\\rdasdadasd");
-		for(String key :trip6.getValue().keySet()){
-			assertEquals(trip6.getValue().get(key).errors.size(),2);
-			assertEquals(trip6.getValue().get(key).errors.get(0), enums.Error.InvalidEscape);
-			assertEquals(trip6.getValue().get(key).errors.get(1), enums.Error.EnterInString);
-		}
+//		for(String key :trip6.getValue().keySet()){
+//			assertEquals(trip6.getValue().get(key).errors.size(),2);
+//			assertEquals(trip6.getValue().get(key).errors.get(0), enums.Error.InvalidEscape);
+//			assertEquals(trip6.getValue().get(key).errors.get(1), enums.Error.EnterInString);
+//		}
 
+	}
+	@Test
+	public void sqlValidationTest(){
+		Map<String, StringContainer>smap=null;
+		
+		String expresion0="addsadsas";
+		String expresion1="dbPort.executeStatement(strSQL)";
+		String expresion2="_featureManager.getTytanDBPortFeature()";
+		String expresion3="dbPort.executeStatement(strSQL)";
+		Invocation invocation0 = new Invocation(expresion0,0,smap);
+		Invocation invocation1 = new Invocation(expresion1,1,smap);
+		Invocation invocation2 = new Invocation(expresion2,2,smap);
+		Invocation invocation3 = new Invocation(expresion3,3,smap);
+		assertTrue(invocation0.isValid());
+		assertFalse(invocation1.isValid());
+		assertTrue(invocation2.isValid());
+		assertTrue(invocation3.isValid());
+		
+
+		
 	}
 }

@@ -46,23 +46,23 @@ public class ParseUtils {
 			strings = str;
 		}
 	}
-//	public static String cleanLine(String statement) throws IllegalStateException
-//	{
-//		statement = statement.replace("[ \t\r]+", " ");
-//		Matcher matcher = Patterns.escapeWhiteSpace.matcher(statement);
-//		if(!matcher.find())
-//			throw new IllegalStateException();
-//		return matcher.group();
-//	}
-//	public static int getLine(List<String> instructions, String group) {
-//		group = cleanLine(group);
-//		for(int i = 0; i < instructions.size(); i++)
-//			try{
-//				if(group.contains(cleanLine(instructions.get(i))))
-//					return i + 1;
-//			}catch(IllegalStateException e){}
-//		return -2;
-//	}
+	public static String cleanLine(String statement) throws IllegalStateException
+	{
+		statement = statement.replace("[ \t\r]+", " ");
+		Matcher matcher = Patterns.escapeWhiteSpace.matcher(statement);
+		if(!matcher.find())
+			throw new IllegalStateException();
+		return matcher.group();
+	}
+	public static int getLine(List<String> instructions, String group) {
+		group = cleanLine(group);
+		for(int i = 0; i < instructions.size(); i++)
+			try{
+				if(group.contains(cleanLine(instructions.get(i))))
+					return i + 1;
+			}catch(IllegalStateException e){}
+		return -2;
+	}
 	public static String uniqueId(String in) {
 		Random rand = new Random();
 		long x = rand.nextLong();
@@ -128,119 +128,7 @@ public class ParseUtils {
 		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
 	}
 	
-	public static Pair<String, HashMap<String, StringContainer>> removeStrAndCom(String jSText) 
-	{
-		boolean inlineComment = false, starComment = false, string= false;
-		char stringDelimiter = '"';
-		List<Error> errors = new LinkedList<Error>();
-		String finalString = "", currentString = "";
-		HashMap<String, StringContainer> strings = new HashMap<String, StringContainer>();
-		for(int i = 0; i< jSText.length(); i++)
-		{
-			char c = jSText.charAt(i);
-			if(!inlineComment && !starComment && !string)
-			{
-				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '/')
-				{
-					inlineComment = true;
-					i++;
-					continue;
-				}
-				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '*')
-				{
-					starComment = true;
-					i++;
-					continue;
-				}
-				if(c == '"' || c == '\'')
-				{
-					string = true;
-					currentString = ""+c;
-					stringDelimiter = c;
-					continue;
-				}
-				finalString += c;
-			}
-			else
-			{
-				if(inlineComment && c == '\n')
-				{
-					inlineComment = false;
-					finalString += '\n';
-					continue;
-				}
-				if(starComment && c == '*' && jSText.charAt(i+1) == '/')
-				{
-					starComment = false;
-					finalString += currentString;
-					currentString = "";
-					i++;
-					continue;
-				}
-				if(string && c == stringDelimiter)
-				{
-					string = false;
-					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId;
-					StringContainer strC = new StringContainer(currentString + stringDelimiter);
-					strC.addErrors(errors);
-					errors.clear();
-					strings.put(uniqueId, strC);
-					currentString = "";
-					continue;
-				}
-				if(string && c == '\n')
-				{
-					string = false;
-					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId;
-					StringContainer invalid = new StringContainer(currentString);
-					invalid.addError(Error.EnterInString);
-					invalid.addErrors(errors);
-					errors.clear();
-					strings.put(uniqueId, invalid);
-					finalString += uniqueId + c;
-					continue;
-				}
-				if(string && c == '\\')
-				{
-					if(i < jSText.length() -1 && allowedCharacters.contains(jSText.charAt(i+1)))
-					{
-						currentString += c + jSText.charAt(i+1);
-						i++;
-						continue;
-					}
-					else
-						errors.add(Error.InvalidEscape);
-						
-				}
-				if(string || c == '\n')
-					currentString += c;
-			}
-		}
-		if(string)
-		{
-			string = false;
-			String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-			finalString += uniqueId;
-			StringContainer invalid = new StringContainer(currentString);
-			invalid.addError(Error.EnterInString);
-			invalid.addErrors(errors);
-			errors.clear();
-			strings.put(uniqueId, invalid);
-			finalString += uniqueId;
-		}
-//		if(starComment)
-//		{
-//			starComment = false;
-//			String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-//			finalString += uniqueId;
-//			Comment comm = new Comment(currentString, startLine, line);
-//			comm.addError();
-//			comments.put(uniqueId, comm);
-//		}
-		return new Pair(finalString, strings);
-	}
+	
 
 	public static String removeComments(String javaScriptTextString) {
 		boolean lineComment = false;
@@ -381,5 +269,118 @@ public class ParseUtils {
 			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
 		}
 		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+	}
+	public static Pair<String, HashMap<String, StringContainer>> removeStrAndCom(String jSText) 
+	{
+		boolean inlineComment = false, starComment = false, string= false;
+		char stringDelimiter = '"';
+		List<Error> errors = new LinkedList<Error>();
+		String finalString = "", currentString = "";
+		HashMap<String, StringContainer> strings = new HashMap<String, StringContainer>();
+		for(int i = 0; i< jSText.length(); i++)
+		{
+			char c = jSText.charAt(i);
+			if(!inlineComment && !starComment && !string)
+			{
+				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '/')
+				{
+					inlineComment = true;
+					i++;
+					continue;
+				}
+				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '*')
+				{
+					starComment = true;
+					i++;
+					continue;
+				}
+				if(c == '"' || c == '\'')
+				{
+					string = true;
+					currentString = ""+c;
+					stringDelimiter = c;
+					continue;
+				}
+				finalString += c;
+			}
+			else
+			{
+				if(inlineComment && c == '\n')
+				{
+					inlineComment = false;
+					finalString += '\n';
+					continue;
+				}
+				if(starComment && c == '*' && jSText.charAt(i+1) == '/')
+				{
+					starComment = false;
+					finalString += currentString;
+					currentString = "";
+					i++;
+					continue;
+				}
+				if(string && c == stringDelimiter)
+				{
+					string = false;
+					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
+					finalString += uniqueId;
+					StringContainer strC = new StringContainer(currentString + stringDelimiter);
+					strC.addErrors(errors);
+					errors.clear();
+					strings.put(uniqueId, strC);
+					currentString = "";
+					continue;
+				}
+				if(string && c == '\n')
+				{
+					string = false;
+					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
+					finalString += uniqueId;
+					StringContainer invalid = new StringContainer(currentString);
+					invalid.addError(Error.EnterInString);
+					invalid.addErrors(errors);
+					errors.clear();
+					strings.put(uniqueId, invalid);
+					finalString += uniqueId + c;
+					continue;
+				}
+				if(string && c == '\\')
+				{
+					if(i < jSText.length() -1 && allowedCharacters.contains(jSText.charAt(i+1)))
+					{
+						currentString += c + jSText.charAt(i+1);
+						i++;
+						continue;
+					}
+					else
+						errors.add(Error.InvalidEscape);
+						
+				}
+				if(string || c == '\n')
+					currentString += c;
+			}
+		}
+		if(string)
+		{
+			string = false;
+			String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
+			finalString += uniqueId;
+			StringContainer invalid = new StringContainer(currentString);
+			invalid.addError(Error.EnterInString);
+			invalid.addErrors(errors);
+			errors.clear();
+			strings.put(uniqueId, invalid);
+			finalString += uniqueId;
+		}
+//		if(starComment)
+//		{
+//			starComment = false;
+//			String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
+//			finalString += uniqueId;
+//			Comment comm = new Comment(currentString, startLine, line);
+//			comm.addError();
+//			comments.put(uniqueId, comm);
+//		}
+		return new Pair(finalString, strings);
 	}
 }

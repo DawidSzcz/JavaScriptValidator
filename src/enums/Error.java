@@ -23,7 +23,8 @@ public enum Error {
 	MissingTryBeforeCatch("Missing ty before catch"),
 	InvalidString("String is invalid"), 
 	EnterInString("String is not properly terminated"), 
-	InvalidEscape("Invalid escape sequence in string");
+	InvalidEscape("Invalid escape sequence in string"),
+	SqlPortIsNotOpen("Sql port isn't open");
 	
 	public final String content;
 	Error(String str)
