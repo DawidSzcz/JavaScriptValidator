@@ -33,7 +33,7 @@ public class Patterns {
 	public static String empty = "^\\*s$";
 	public static String beginComplex = "^\\s*%s";
 	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
-	public static String sqlExecuteStetmentFunctionS = "\\.executeStatement\\(\\s*[_$A-Za-z]\\w*\\s*\\)";
+	public static String sqlExecuteStetmentFunctionS = "\\w+\\.executeStatement\\(\\s*[_$A-Za-z]\\w*\\s*\\)";
 	public static String sqlGetPortFunctionS = "\\.getTytanDBPortFeature\\(\\)";
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);

@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,7 @@ import parser.ParseUtils;
 import parser.Patterns;
 
 public class Assignment extends SimpeExpresion {
-	List<Statement> variables;
+	List<Statement> variables=new ArrayList<Statement>();
 	Statement argument;
 
 	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings)
@@ -25,7 +26,7 @@ public class Assignment extends SimpeExpresion {
 		if (side.length >= 2) {
 			argument = new Statement(side[side.length - 1]);
 			for (int i = side.length - 2; i >= 0; i--) {
-				variables.add(new Statement(side[i]));
+				variables.add(new Statement(ParseUtils.cleanLine(side[i])));
 			}
 
 		}
@@ -48,6 +49,7 @@ public class Assignment extends SimpeExpresion {
 
 	@Override
 	public boolean isValid() {
+		super.isPortOpen(argument,variables);
 		if (super.isValid()) {
 			try {
 				for (Statement vsriable : variables) {

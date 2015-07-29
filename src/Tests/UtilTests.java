@@ -18,7 +18,9 @@ import org.junit.runners.Parameterized;
 
 import Atoms.StringContainer;
 import enums.Instruction;
+import exception.WrongAssignmentException;
 import exception.WrongComplexException;
+import expression.Assignment;
 import expression.Invocation;
 import javafx.util.Pair;
 import operator.Patterns;
@@ -88,18 +90,31 @@ public class UtilTests
 	public void sqlValidationTest(){
 		Map<String, StringContainer>smap=null;
 		
-		String expresion0="addsadsas";
-		String expresion1="dbPort.executeStatement(strSQL)";
-		String expresion2="_featureManager.getTytanDBPortFeature()";
-		String expresion3="dbPort.executeStatement(strSQL)";
-		Invocation invocation0 = new Invocation(expresion0,0,smap);
-		Invocation invocation1 = new Invocation(expresion1,1,smap);
-		Invocation invocation2 = new Invocation(expresion2,2,smap);
-		Invocation invocation3 = new Invocation(expresion3,3,smap);
-		assertTrue(invocation0.isValid());
-		assertFalse(invocation1.isValid());
-		assertTrue(invocation2.isValid());
-		assertTrue(invocation3.isValid());
+		String AssigString ="dbProt= dupa = _featureManager.getTytanDBPortFeature()";
+		String AssigString2 ="query = dbProt.executeStatement(strSQL)";
+		String AssigString3 ="";
+		try {
+			Assignment Assig= new Assignment(AssigString,0,smap);
+			Assignment Assig2= new Assignment(AssigString2,1,smap);
+//			Assignment Assig3= new Assignment(AssigString3,2,smap);
+			assertTrue(Assig.isValid());
+			assertTrue(Assig2.isValid());
+//			assertTrue(Assig3.isValid());
+		} catch (WrongAssignmentException e) {
+			e.printStackTrace();
+		}
+//		String expresion0="addsadsas";
+//		String expresion1="dbPort.executeStatement(strSQL)";
+//		String expresion2="_featureManager.getTytanDBPortFeature()";
+//		String expresion3="dbPort.executeStatement(strSQL)";
+//		Invocation invocation0 = new Invocation(expresion0,0,smap);
+//		Invocation invocation1 = new Invocation(expresion1,1,smap);
+//		Invocation invocation2 = new Invocation(expresion2,2,smap);
+//		Invocation invocation3 = new Invocation(expresion3,3,smap);
+//		assertTrue(invocation0.isValid());
+//		assertFalse(invocation1.isValid());
+//		assertTrue(invocation2.isValid());
+//		assertTrue(invocation3.isValid());
 		
 
 		
