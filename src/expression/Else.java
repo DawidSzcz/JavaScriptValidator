@@ -23,6 +23,11 @@ public class Else extends ComplexExpression
 	public Else(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException
 	{
 		super(statement, Instruction.ELSE, currentLine,strings);
+		Matcher matcherElseIf = Patterns.elseIf.matcher(statement);
+		if(matcherElseIf.find()){
+			statement=statement.replaceFirst("else", "");
+			super.splitBlock(Instruction.IF, currentLine, statement);
+		}
 		statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	public String toString()
