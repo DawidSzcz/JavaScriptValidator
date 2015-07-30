@@ -29,7 +29,7 @@ public class Function extends ComplexExpression {
 	List <String> args;
 	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException 
 	{
-		super(statement, Instruction.FOR, currentLine, strings);
+		super(statement, Instruction.FUNCITON, currentLine, strings);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
 			this.statements = expressionParser.parseExpressions(content, beginOfStatements);

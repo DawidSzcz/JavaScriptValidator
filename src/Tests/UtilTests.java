@@ -90,8 +90,8 @@ public class UtilTests
 	public void sqlValidationTest(){
 		Map<String, StringContainer>smap=null;
 		
-		String AssigString ="dbProt= dupa = _featureManager.getTytanDBPortFeature()";
-		String AssigString2 ="query = dbProt.executeStatement(strSQL)";
+		String AssigString ="var dbpf=_featureManager.getTytanDBPortFeature()";
+		String AssigString2 ="rs=dbpf.executeStatement(query)";
 		String AssigString3 ="";
 		try {
 			Assignment Assig= new Assignment(AssigString,0,smap);

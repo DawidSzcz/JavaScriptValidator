@@ -8,7 +8,6 @@ public class Patterns {
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";
-	public static String complexS = "(if)|(while)|(function)|(for)";
 	public static String IfS = "^\\s*if";
 	public static String WhileS = "^\\s*while";
 	public static String TryS = "^\\s*try";
@@ -30,7 +29,7 @@ public class Patterns {
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
 	public static String elseIfS = "(?<=else)\\s*BlockID-?\\d+\\s*$";
-	public static String empty = "^\\*s$";
+	public static String empty = "^\\s*$";
 	public static String beginComplex = "^\\s*%s";
 	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
 	public static String sqlExecuteStetmentFunctionS = "\\w+\\.executeStatement\\(\\s*[_$A-Za-z]\\w*\\s*\\)";
@@ -38,7 +37,6 @@ public class Patterns {
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
 	public static Pattern head = Pattern.compile(headerS);
-	public static Pattern complex = Pattern.compile(complexS);
 	public static Pattern block = Pattern.compile(blockS);
 	public static Pattern assign = Pattern.compile(assignDivisionS);
 	public static Pattern If = Pattern.compile(IfS);

@@ -113,7 +113,7 @@ public class For extends ComplexExpression{
 			}
 			if (opened == 0) 
 			{
-				conditions = in.substring(0, i).split(";");
+				conditions = (in.substring(0, i)+" ").split(";"); //bez slacji for (i=cos ; i<cos;) nie przechodzi 
 				Matcher states = Patterns.states.matcher(in.substring(i + 1));
 				if (states.find())
 				{

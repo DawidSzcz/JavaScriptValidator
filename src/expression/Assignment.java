@@ -26,6 +26,7 @@ public class Assignment extends SimpeExpresion {
 		String side[] = statement.split(Patterns.assignDivisionS);
 		line = currentLine + ParseUtils.getLinesBNS(statement);
 		if (side.length >= 2) {
+			side[0]=side[0].replace("var", "");
 			argument = new Statement(side[side.length - 1]);
 			for (int i = side.length - 2; i >= 0; i--) {
 				variables.add(new Statement(ParseUtils.cleanLine(side[i])));
