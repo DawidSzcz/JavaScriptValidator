@@ -72,7 +72,7 @@ public class Function extends ComplexExpression {
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
 		} else
-			throw new WrongComplexException(Error.IvalidBeginning, wholeInstruction);
+			throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
 		for (int i = 0; i < in.length(); i++) {
 			if (in.charAt(i) == '\n')
 				instructionArea++;

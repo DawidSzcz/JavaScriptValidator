@@ -29,16 +29,25 @@ public class ValidUtils {
 		}
 		return result*5;
 	}
-	public static String prepareErrors(Expression exp)
+	public static String prepareErrors(Expression exp,String language)
 	{
 		List<Error> errors = exp.getErrors();
-		if(errors.size() == 1)
-			return errors.get(0).toString();
+		if(errors.size() == 1){
+			if (language.equals("English")){
+				return errors.get(0).enContent;
+			}else{
+			return errors.get(0).plContent;
+			}
+		}
 		else
 		{
 			String data = "<select >\n";
-			for(Error message : errors)
-				data += "<option>\n" + message.toString() + "</option>";
+			for(Error message : errors){
+				if (language.equals("English"))
+					data += "<option>\n" + message.enContent + "</option>";
+				else
+					data += "<option>\n" + message.plContent + "</option>";
+			}
 			return data + "\n</select>";
 		}
 	}

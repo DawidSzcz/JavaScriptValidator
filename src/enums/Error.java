@@ -1,40 +1,49 @@
 package enums;
 
 public enum Error {
-	InvalidBlock("InvalidBlock"),
-	InvalidArguments("InvalidArguments"),
-	UnexpectedOpeningBracket("Unexpected opening bracket"),
-	UnexpectedClosingBracket("Unexpected closing bracket"),	
-	UnparsedLine("Unparsed line"),
-	MissingOpenningBracket("Missing opening bracket"),
-	WrongNumberOfArguments("Wrong number of arguments"),
-	WrongAssignment("Wrong assignment"),
-	MissingIfBeforeElse("MissingIfBeforeElse"),
-	InvalidOperator("Invalid operator"),
-	InvalidFunction("Invalid function"),
-	InvalExpresionInSqareBracket("Inval expresion in sqare bracket"),
-	InvalExpresionInParenthesis("Inval Expresion In Parenthesis"), 
-	InvalidElseName("Invalid Else Name"), 
-	InvalidElseIf("Invalid If in ElseIf"), 
-	InvalidForCondition("Invalid For Condition"),
-	IvalidBeginning("Invalid beggining of complex statement"), 
-	ForbidenCharacterInHeader("Forbiden character in header"), 
-	InvalidCondition("Invalid Condition"),
-	MissingTryBeforeCatch("Missing ty before catch"),
-	InvalidString("String is invalid"), 
-	EnterInString("String is not properly terminated"),
-	InvalidParenthesis("Invalid parenthasis"),
-	InvalidEscape("Invalid escape sequence in string"),
-	SqlPortIsNotOpen("Sql port isn't open");
+	InvalidBlock("InvalidBlock","Nieprawidlowy blok"),
+	InvalidArguments("InvalidArguments","Nieprawidlowy argument"),
+	UnexpectedOpeningBracket("Unexpected opening bracket","Nieoczekiwany nawias otwierajacy"),
+	UnexpectedClosingBracket("Unexpected closing bracket","Nieoczekiwany nawias zamykajacy"),	
+	UnparsedLine("Unparsed line","Nieprzetworzona linia"),
+	MissingOpenningBracket("Missing opening bracket","Nie ma otwierajacego nawiasu"),
+	WrongNumberOfArguments("Wrong number of arguments","Nie prawidlowy numer w argumencie"),
+	WrongAssignment("Wrong assignment","Nieprawidlowa operacja"),
+	MissingIfBeforeElse("MissingIfBeforeElse","Brakuje \"if\" przed \"else\""),
+	InvalidOperator("Invalid operator","Nieprawidlowy operator"),
+	InvalidFunction("Invalid function","Nieprawidlowa funkcja"),
+	InvalExpresionInSquareBracket("Inval expresion in square bracket","Nieprawidlowe wyrazenie w nawiasie kwadratowym"),
+	InvalExpresionInParenthesis("Inval Expresion In Parenthesis","Nieprawidlowe wyrazenie w nawiasie okraglym"), 
+	InvalidElseName("Invalid Else Name","Nieprawidlowa nazwa else-a"), 
+	InvalidElseIf("Invalid If in ElseIf","Nielrawid³owy \"if\" w \"else if\""), 
+	InvalidForCondition("Invalid For Condition"," Nieprawidlowy \"for\""),
+	InvalidBeginning("Invalid beggining of complex statement","Nieprawidlowy pocz¹tek"), 
+	ForbidenCharacterInHeader("Forbiden character in header","Brak litery w naglowku"), 
+	InvalidCondition("Invalid Condition","Nielrawd³owy warunek"),
+	MissingTryBeforeCatch("Missing try before catch","Nie znaleŸono \"try\" przed \"catch\""),
+	InvalidString("String is invalid","Nieprawidlowy String"), 
+	EnterInString("String is not properly terminated","String jest niezakoñczony"),
+	InvalidParenthesis("Invalid parenthasis","Niepoprawny nawias"),
+	InvalidEscape("Invalid escape sequence in string","Nieprawidlowe wjscie ze Stringa"),
+	SqlPortIsNotOpen("Sql port isn't open","port SQL-a nie zostal otwarty");
 	
-	public final String content;
-	Error(String str)
+	public final String enContent;
+	public final String plContent;
+	Error(String en, String pl)
 	{
-		content = str;
+		enContent = en;
+		plContent = pl;
 	}
-	public String toString()
-	{
-		return content;
-	}
+//	public String getEn() {
+//        return enContent;
+//    }
+//
+//    public String getPl() {
+//        return plContent;
+//    }
+//	public String toString()
+//	{
+//		return enContent;
+//	}
 	
 }

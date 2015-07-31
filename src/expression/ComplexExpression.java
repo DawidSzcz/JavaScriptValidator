@@ -69,7 +69,7 @@ public abstract class ComplexExpression extends Expression {
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
 		} else
-			throw new WrongComplexException(Error.IvalidBeginning, wholeInstruction);
+			throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
 
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
 			for (int i = 0; i < in.length(); i++) {

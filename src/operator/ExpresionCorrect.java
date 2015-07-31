@@ -31,7 +31,7 @@ public class ExpresionCorrect {
 			subexpression = functiontValidator(subexpression);
 			subexpression = bracketValidator(subexpression);			
 			if (!isExpresionCorect(subexpression)) {
-				throw new InvalidOperator(enums.Error.InvalExpresionInSqareBracket, expression);
+				throw new InvalidOperator(enums.Error.InvalExpresionInSquareBracket, expression);
 			} else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
