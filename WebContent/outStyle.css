@@ -21,7 +21,9 @@ table
 }
 select
 {
-	background-color: red;
-	font-weight: bold;
 	width: 100%;	
+}
+.noError select 
+{
+	background-color: green;
 }
