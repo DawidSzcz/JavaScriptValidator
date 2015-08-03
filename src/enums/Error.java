@@ -25,7 +25,8 @@ public enum Error {
 	EnterInString("String is not properly terminated","String jest niezakoñczony"),
 	InvalidParenthesis("Invalid parenthasis","Niepoprawny nawias"),
 	InvalidEscape("Invalid escape sequence in string","Nieprawidlowe wjscie ze Stringa"),
-	SqlPortIsNotOpen("Sql port isn't open","port SQL-a nie zostal otwarty");
+	SqlPortIsNotOpen("Sql port isn't open","port SQL-a nie zostal otwarty"),
+	NullSteatment("Null Steatment","puste wyrazenie");
 	
 	public final String enContent;
 	public final String plContent;
