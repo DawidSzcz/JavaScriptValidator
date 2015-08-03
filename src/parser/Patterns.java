@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 	public static String ElseS = "^\\s*else";
-	public static String splitS = ";";
+	public static String splitS = "(;[\t \r]*)+";
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";
@@ -13,7 +13,7 @@ public class Patterns {
 	public static String TryS = "^\\s*try";
 	public static String CatchS = "^\\s*catch";
 	public static String FunctionS = "^\\s*function";
-	public static String blockS = "(^|(?<=\n)|[ \t]+)(((if|else\\s+if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
+	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|else\\s+if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
