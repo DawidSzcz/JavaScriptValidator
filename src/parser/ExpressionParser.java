@@ -63,7 +63,7 @@ public class ExpressionParser {
 			try {
 				if(matcherElse.find()){
 					exp =new Else(statement, currentLine, strings, this);
-					if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else))  // Do poprawy
+					if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
 						exp.addError(Error.MissingIfBeforeElse);
 				}
 				else if (matcherCatch.find()){

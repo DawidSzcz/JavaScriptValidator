@@ -20,11 +20,13 @@ import parser.Patterns;
 
 public class Else extends ComplexExpression
 {
+	private boolean elseIf= false;
 	public Else(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException
 	{
 		super(statement, Instruction.ELSE, currentLine,strings);
 		Matcher matcherElseIf = Patterns.elseIf.matcher(statement);
 		if(matcherElseIf.find()){
+			elseIf = true; 
 			statement=statement.replaceFirst("else", "");
 			super.splitBlock(Instruction.IF, currentLine, statement);
 		}
@@ -41,6 +43,10 @@ public class Else extends ComplexExpression
 			return this;
 		else 
 			return statements.get(i);
+	}
+	public boolean isElseIf()
+	{
+		return elseIf;
 	}
 
 	@Override

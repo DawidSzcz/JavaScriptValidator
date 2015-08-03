@@ -58,7 +58,7 @@ public abstract class ComplexExpression extends Expression {
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException 
 	{
 		String wholeInstruction = in;
-		List<Character> forbiden = Arrays.asList('{', '}', ';');
+		List<Character> forbidden = Arrays.asList('{', '}', ';');
 		String header;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
 		int opened = 1;
@@ -73,7 +73,7 @@ public abstract class ComplexExpression extends Expression {
 
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
 			for (int i = 0; i < in.length(); i++) {
-				if (forbiden.contains(in.charAt(i)))
+				if (forbidden.contains(in.charAt(i)))
 					throw new WrongComplexException(Error.ForbidenCharacterInHeader, wholeInstruction);
 				if (in.charAt(i) == '\n')
 					instructionArea++;
