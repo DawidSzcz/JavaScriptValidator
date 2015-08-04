@@ -1,23 +1,25 @@
 package parser;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
 import java.util.Map;
 import java.util.regex.Matcher;
 
-import Atoms.Comment;
 import Atoms.StringContainer;
-import ValidatorM.ValidationM;
 import enums.Error;
-import exception.JSValidatorException;
-import exception.WrongElseException;
-import expression.*;
+import expression.Assignment;
+import expression.Catch;
+import expression.Else;
+import expression.Expression;
+import expression.For;
+import expression.Function;
+import expression.If;
+import expression.Invocation;
+import expression.Try;
+import expression.UnknownExpression;
+import expression.While;
 import javafx.util.Pair;
-import parser.ParseUtils.Triple;
 
 public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();

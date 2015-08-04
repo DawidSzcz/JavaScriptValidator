@@ -1,6 +1,5 @@
 package expression;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -8,13 +7,7 @@ import java.util.Map;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Instruction;
-import exception.WrongComplexException;
-import exception.WrongIfException;
-import exception.WrongTryException;
-import javafx.util.Pair;
 import parser.ExpressionParser;
-import parser.ParseUtils;
-import parser.ParseUtils.Triple;
 
 public class Try extends ComplexExpression
 {
@@ -23,7 +16,8 @@ public class Try extends ComplexExpression
 	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser)
 	{
 		super(name, Instruction.TRY, currentLine, strings);
-		statements = expressionParser.parseExpressions(content, beginOfStatements);
+		if(content != null)
+			statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 
 	@Override

@@ -3,25 +3,17 @@ package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import enums.Error;
 import exception.WrongComplexException;
-import exception.WrongWhileException;
 import expression.Expression;
-import expression.ExpressionIterator;
 import expression.Program;
-import parser.ExpressionParser;
 
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;

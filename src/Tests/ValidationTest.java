@@ -1,26 +1,18 @@
 package Tests;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.junit.Test;
-import javafx.util.Pair;
 
 import exception.InvalidOperator;
-import exception.WrongComplexException;
-import exception.WrongWhileException;
-import parser.ParseUtils;
-
-import ValidatorM.ValidationM;
-import enums.Instruction;
 
 public class ValidationTest {
 
 	@Test()
-	public void testOperatorCprrect() throws IOException, WrongWhileException, InvalidOperator {
+	public void testOperatorCprrect() throws IOException,  InvalidOperator {
 
 		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
 		assertTrue(TestUtils.testStatement("vr_Row.getParameterByName(stringid13213).setValue(vt_codes[vr_Row.getParameterByName(stringid123).getValue()])"));

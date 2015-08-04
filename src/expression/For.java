@@ -1,18 +1,15 @@
 package expression;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import exception.WrongComplexException;
-import exception.WrongForException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
@@ -73,7 +70,7 @@ public class For extends ComplexExpression{
 		for(Expression e : forConditions)
 			if(e.hasErrors())
 				return true;
-		return false;
+		return !errors.isEmpty();
 	}
 	@Override
 	public List<Error> getErrors() {
@@ -95,8 +92,20 @@ public class For extends ComplexExpression{
 			in = in.replace(header, "");
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
-		} else
-			throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		}
+		else
+		{
+			checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction), Pattern.CASE_INSENSITIVE).matcher(in); 
+			if (checkBeginning.find()) {
+				this.addError(Error.RestrictedLowerCase);
+				header = checkBeginning.group();
+				in = in.replace(header, "");
+				lineBeforeStatement = ParseUtils.getLines(header);
+				this.line = currentLine + lineBeforeStatement;
+			} 
+			else
+				throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		}
 
 		for (int i = 0; i < in.length(); i++) {
 			if (forbiden.contains(in.charAt(i)))
