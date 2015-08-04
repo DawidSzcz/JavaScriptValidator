@@ -27,7 +27,7 @@ public class Patterns {
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
-	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*)(?![\\<\\>\\!\\=])";
+	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*=)(?![\\<\\>\\!\\=])";
 	public static String elseIfS = "else\\s*if\\s*\\(";
 	public static String empty = "^\\s*$";
 	public static String beginComplexS = "^\\s*%s";

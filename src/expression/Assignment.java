@@ -16,17 +16,31 @@ import parser.Patterns;
 
 
 public class Assignment extends SimpeExpresion {
-	List<Statement> variables=new ArrayList<Statement>();
-	Statement argument;
+	List<Statement> arguments=new ArrayList<Statement>();
+	Statement variable;
 
 	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings){
 		super(statement, currentLine, strings);
+		if (statement.substring(statement.length()-1).equals("=")){
+			statement=statement+" ";
+		}
 		String side[] = statement.split(Patterns.assignDivisionS);
 		if (side.length >= 2) {
 			side[0]=side[0].replace("var", "");
-			argument = new Statement(side[side.length - 1]);
-			for (int i = side.length - 2; i >= 0; i--) {
-				variables.add(new Statement(ParseUtils.cleanLine(side[i])));
+			try{
+				variable = new Statement(ParseUtils.cleanLine(side[0]));
+			}catch(IllegalStateException e){
+				errors.add(enums.Error.NullSteatment);
+				variable = new Statement(ParseUtils.cleanLine("null"));
+			}
+			for (int i = side.length-1 ; i > 0; i--) {
+				try{
+				arguments.add(new Statement(ParseUtils.cleanLine(side[i])));
+				}
+				catch(IllegalStateException e){
+					errors.add(enums.Error.NullSteatment);
+					arguments.add(new Statement(ParseUtils.cleanLine("null")));
+				}
 			}
 		}
 
@@ -51,13 +65,13 @@ public class Assignment extends SimpeExpresion {
 
 	@Override
 	public boolean isValid() {
-		super.isPortOpen(argument,variables);
+		super.isPortOpen(variable,arguments);
 		if (super.isValid()) {
 			try {
-				for (Statement vsriable : variables) {
+				for (Statement vsriable : arguments) {
 					vsriable.isValid();
 				}
-				argument.isValid();
+				variable.isValid();
 			} catch (InvalidOperator e) {
 				this.addError(e.getError());
 				return false;
