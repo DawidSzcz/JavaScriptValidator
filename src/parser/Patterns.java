@@ -12,7 +12,7 @@ public class Patterns {
 	public static String WhileS = "^\\s*while\\s*[\\(\\)]+";
 	public static String TryS = "^\\s*try";
 	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
-	public static String FunctionS = "^\\s*function\\s*[\\(\\)]+";
+	public static String FunctionS = "^\\s*function[\\s\\(\\)]+";
 	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|else\\s+if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
