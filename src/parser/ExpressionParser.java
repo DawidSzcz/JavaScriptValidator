@@ -46,7 +46,8 @@ public class ExpressionParser {
 			matcher = Patterns.id.matcher(statement);
 			if (matcher.find()) {
 				String blockID = ParseUtils.cleanLine(matcher.group());
-				statement = statement.replace(blockID,blocks.get(blockID));
+				if(blocks.containsKey(blockID))
+					statement = statement.replace(blockID,blocks.get(blockID));
 			}
 			Matcher matcherIf = Patterns.If.matcher(statement);
 			Matcher matcherFunc = Patterns.function.matcher(statement);
