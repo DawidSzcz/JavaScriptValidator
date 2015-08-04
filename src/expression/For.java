@@ -20,7 +20,7 @@ import parser.Patterns;
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
 	String[] conditions;
-	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException
+	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser)
 	{
 		super(statement, Instruction.FOR, currentLine, strings);
 		if(conditions.length == 3)
@@ -87,7 +87,7 @@ public class For extends ComplexExpression{
 		String wholeInstruction = in;
 		List<Character> forbiden = Arrays.asList('{', '}');
 		String header;
-		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction)).matcher(in);
 		int opened = 1;
 		int instructionArea = 0, lineBeforeStatement;
 		if (checkBeginning.find()) {

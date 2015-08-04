@@ -1,8 +1,6 @@
 package expression;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,23 +14,19 @@ import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import exception.WrongComplexException;
-import exception.WrongForException;
-import exception.WrongFunctionException;
-import javafx.util.Pair;
 import parser.ExpressionParser;
 import parser.ParseUtils;
-import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 
 	List <String> args;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) 
 	{
 		super(statement, Instruction.FUNCITON, currentLine, strings);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
-			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -63,7 +57,7 @@ public class Function extends ComplexExpression {
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
 		String wholeInstruction = in;
 		String header;
-		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction)).matcher(in);
 		int opened = 1;
 		int instructionArea = 0, lineBeforeStatement;
 		if (checkBeginning.find()) {

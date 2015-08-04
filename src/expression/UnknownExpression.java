@@ -7,11 +7,13 @@ import java.util.Map;
 
 import Atoms.StringContainer;
 import enums.Error;
+import parser.ParseUtils;
 
 public class UnknownExpression extends Expression 
 {
 	public UnknownExpression(String str, int currentLine, Map<String, StringContainer> strings) {
 		super(str, strings);
+		line = currentLine + ParseUtils.getLinesBNS(str);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

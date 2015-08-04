@@ -19,8 +19,7 @@ public class Assignment extends SimpeExpresion {
 	List<Statement> variables=new ArrayList<Statement>();
 	Statement argument;
 
-	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings)
-			throws WrongAssignmentException {
+	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings){
 		super(statement, currentLine, strings);
 		String side[] = statement.split(Patterns.assignDivisionS);
 		if (side.length >= 2) {
@@ -33,9 +32,8 @@ public class Assignment extends SimpeExpresion {
 
 		else
 		{
-
 			statement = ParseUtils.cleanLine(statement);
-			throw new WrongAssignmentException(Error.WrongAssignment, statement);
+			this.addError(Error.WrongAssignment);
 		}
 	}
 

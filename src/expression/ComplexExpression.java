@@ -14,6 +14,7 @@ import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
+import exception.JSValidatorException;
 import exception.WrongComplexException;
 import parser.ParseUtils;
 import parser.Patterns;
@@ -23,24 +24,42 @@ public abstract class ComplexExpression extends Expression {
 
 	protected List<Expression> statements;
 	protected int beginOfStatements;
-	protected Statement  condition;
+	protected Statement condition;
 	protected String content;
-	
-	public ComplexExpression(String in, Instruction instruction, int currentLine,  Map<String, StringContainer> strings) throws WrongComplexException {
+
+	public ComplexExpression(String in, Instruction instruction, int currentLine,	Map<String, StringContainer> strings) {
 		super(in, strings);
-		splitBlock(instruction, currentLine, in);
+		try {
+			splitBlock(instruction, currentLine, in);
+		} catch (WrongComplexException e) {
+			Matcher match = Patterns.checkOpenning.matcher(in);
+			if (in.contains("{")) 
+			{
+				addError(Error.UnexpectedOpeningBracket);
+				content = in.split("\\{")[1];
+			}
+			else if (match.find()) 
+			{
+				addError(Error.MissingOpenningBracket);
+				match = Patterns.secondLine.matcher(in);
+				match.find();
+				match.find();
+				content = match.group();
+			}
+			beginOfStatements = currentLine + ParseUtils.getLinesBNS(in);
+			this.addError(e.getError());
+		}
 
 	}
+
 	@Override
 	public HashMap<Integer, List<Error>> getAllErrors() {
 		HashMap<Integer, List<Error>> hash = new HashMap<>();
-		if(!errors.isEmpty())
+		if (!errors.isEmpty())
 			hash.put(line, getErrors());
-		for(Expression exp : statements)
-		{
-			for(Integer l: exp.getAllErrors().keySet())
-			{
-				if(!hash.keySet().contains(l))
+		for (Expression exp : statements) {
+			for (Integer l : exp.getAllErrors().keySet()) {
+				if (!hash.keySet().contains(l))
 					hash.put(l, exp.getAllErrors().get(l));
 				else
 					hash.get(l).addAll(exp.getAllErrors().get(l));
@@ -48,19 +67,19 @@ public abstract class ComplexExpression extends Expression {
 		}
 		return hash;
 	}
+
 	@Override
-	public void addtoInstructions(Map<Integer, List<Expression>> instructions)
-	{
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions) {
 		super.addtoInstructions(instructions);
-		for(Expression exp : statements)
+		for (Expression exp : statements)
 			exp.addtoInstructions(instructions);
 	}
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException 
-	{
+
+	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
 		String wholeInstruction = in;
 		List<Character> forbidden = Arrays.asList('{', '}', ';');
 		String header;
-		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplex, instruction)).matcher(in);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction)).matcher(in);
 		int opened = 1;
 		int instructionArea = 0, lineBeforeStatement;
 		if (checkBeginning.find()) {
@@ -68,8 +87,20 @@ public abstract class ComplexExpression extends Expression {
 			in = in.replace(header, "");
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
-		} else
-			throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		} 
+		else
+		{
+			checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction), Pattern.CASE_INSENSITIVE).matcher(in); 
+			if (checkBeginning.find()) {
+				this.addError(Error.RestrictedLowerCase);
+				header = checkBeginning.group();
+				in = in.replace(header, "");
+				lineBeforeStatement = ParseUtils.getLines(header);
+				this.line = currentLine + lineBeforeStatement;
+			} 
+			else
+				throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		}
 
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
 			for (int i = 0; i < in.length(); i++) {
@@ -81,38 +112,32 @@ public abstract class ComplexExpression extends Expression {
 					opened++;
 				if (in.charAt(i) == ')')
 					opened--;
-				if(opened < 0)
-				{
+				if (opened < 0) {
 					throw new WrongComplexException(Error.InvalidParenthesis, wholeInstruction);
 				}
-				if (opened == 0) 
-				{
+				if (opened == 0) {
 					condition = new Statement(in.substring(0, i));
 					Matcher states = Patterns.states.matcher(in.substring(i + 1));
-					if (states.find())
-					{
+					if (states.find()) {
 						this.area = instructionArea;
 						this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
 						this.content = states.group();
 						return;
-					}
-					else
+					} else
 						throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
 				}
 			}
 			throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
 		} else {
 			Matcher states = Patterns.states.matcher(in);
-			if (states.find())
-			{
-				this.area= 1;
+			if (states.find()) {
+				this.area = 1;
 				this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in);
 				this.content = states.group();
-			}
-			else
+			} else
 				throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
 		}
 
 	}
-	
+
 }

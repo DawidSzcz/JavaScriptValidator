@@ -11,7 +11,7 @@ import parser.ExpressionParser;
 
 public class Catch extends ComplexExpression {
 
-	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException {
+	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser){
 		super(name, Instruction.CATCH, currentLine, strings);
 		//Do zmiany
 		if(content != null)

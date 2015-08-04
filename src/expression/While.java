@@ -21,7 +21,7 @@ import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class While extends ComplexExpression{
-	public While(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException 
+	public While(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) 
 	{
 		super(statement, Instruction.WHILE, currentLine, strings);
 		this.statements = expressionParser.parseExpressions(this.content, this.beginOfStatements);

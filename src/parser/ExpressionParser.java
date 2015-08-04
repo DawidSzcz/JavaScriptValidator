@@ -60,75 +60,50 @@ public class ExpressionParser {
 			
 			Expression exp;
 			
-			try {
-				if(statement.matches("\\s+"))
-				{
-					currentLine += ParseUtils.getLines(statement);
-					continue;
-				}
-				else if(matcherElse.find()){
-						exp =new Else(statement, currentLine, strings, this);
-						if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
-							exp.addError(Error.MissingIfBeforeElse);
-					}
-					else if (matcherCatch.find()){
-						try{
-							((Try)exps.get(exps.size()-1)).insertCatch(new Catch(statement, currentLine, strings, this));
-							exp = exps.remove(exps.size()-1);
-						}catch(Exception e){
-							throw new WrongElseException(Error.MissingTryBeforeCatch, statement);
-						}
-					}
-						else if (matcherIf.find())
-								exp = new If(statement, currentLine, strings, this);
-							else if (matcherFunc.find())
-									exp = new Function(statement, currentLine, strings, this);
-								else if (matcherWhile.find())
-										exp = new While(statement, currentLine, strings, this);
-									else if (matcherFor.find())
-											exp = new For(statement, currentLine, strings, this);
-										else if (matcherTry.find())
-												exp = new Try(statement, currentLine, strings, this);
-											else if (matcherAssign.find())
-													exp = new Assignment(statement, currentLine, strings);
-												else if (matcherInvo.find())
-														exp = new Invocation(statement, currentLine, strings);
-													else {
-															if(statement.matches("\\s+"))
-																continue;
-															exp = new UnknownExpression(statement, currentLine, strings);
-															if (statement.contains("}"))
-																exp.addError(Error.UnexpectedClosingBracket);
-														}
-	
-					exps.add(exp);
-					currentLine+=ParseUtils.getLines(statement, blocks);
-			} catch (JSValidatorException e) {
-				exp = new InvalidExpression(e.getStatement(), currentLine, strings);
-				currentLine+=ParseUtils.getLines(statement, blocks);
-				exp.addError(e.getError());
-				exps.add(exp);
-				//exps.addAll(secondExpression(exp, statement));
+			if(matcherElse.find())
+			{
+				exp =new Else(statement, currentLine, strings, this);
+				if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
+					exp.addError(Error.MissingIfBeforeElse);
 			}
+			else if (matcherCatch.find())
+			{
+				exp = new Catch(statement, currentLine, strings, this);
+				try{
+					((Try)exps.get(exps.size()-1)).insertCatch((Catch)exp);
+					exp = exps.remove(exps.size()-1);
+				}catch(Exception e){
+					exp.addError(Error.MissingTryBeforeCatch);
+				}
+			}
+				else if (matcherIf.find())
+						exp = new If(statement, currentLine, strings, this);
+					else if (matcherFunc.find())
+							exp = new Function(statement, currentLine, strings, this);
+						else if (matcherWhile.find())
+								exp = new While(statement, currentLine, strings, this);
+							else if (matcherFor.find())
+									exp = new For(statement, currentLine, strings, this);
+								else if (matcherTry.find())
+										exp = new Try(statement, currentLine, strings, this);
+									else if (matcherAssign.find())
+											exp = new Assignment(statement, currentLine, strings);
+										else if (matcherInvo.find())
+												exp = new Invocation(statement, currentLine, strings);
+											else {
+													if(statement.matches("\\s+"))
+														continue;
+													exp = new UnknownExpression(statement, currentLine, strings);
+													if (statement.contains("}"))
+														exp.addError(Error.UnexpectedClosingBracket);
+												}
+			exps.add(exp);
+			currentLine+=ParseUtils.getLines(statement, blocks);
 			exp.isValid();
 		}
 		return exps;
 	}
 
-	private List<Expression> secondExpression(Expression exp, String statement) {
-		if (statement.contains("{")) {
-			exp.addError(Error.UnexpectedOpeningBracket);
-			return parseExpressions(statement.split("\\{")[1], 0);
-		}
-		Matcher match = Patterns.checkOpenning.matcher(statement);
-		if (match.find()){
-			exp.addError(Error.MissingOpenningBracket);
-			match = Patterns.secondLine.matcher(statement);
-			match.find();
-			match.find();
-			return parseExpressions(match.group(), 0);
-		}
-		return new LinkedList<Expression>();
-	}
+
 
 }

@@ -1,38 +1,17 @@
 
 package parser;
 
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import enums.Error;
-import enums.Instruction;
-import exception.WrongComplexException;
-import javafx.util.Pair;
-
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Atoms.Comment;
 import Atoms.StringContainer;
-import enums.Error;
-import enums.Instruction;
-import exception.WrongComplexException;
 import javafx.util.Pair;
+import enums.Error;
 
 public class ParseUtils {
 	private static List<Character> allowedCharacters = Arrays.asList('\'', '"', 'f', 'n', '\\', 'r', 't', 'b');
@@ -209,7 +188,7 @@ public class ParseUtils {
 			blocks.put(uniqueId, block);
 			mat = Patterns.block.matcher(input);
 		}
-		return new Pair(input, blocks);
+		return new Pair<String, HashMap<String, String>>(input, blocks);
 	}
 	public static Pair<String, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptText) {
 		Pair<String, HashMap<String, StringContainer>> pair;
@@ -339,6 +318,21 @@ public class ParseUtils {
 //			comm.addError();
 //			comments.put(uniqueId, comm);
 //		}
-		return new Pair(finalString, strings);
+		return new Pair<String, HashMap<String, StringContainer>>(finalString, strings);
 	}
 }
+//private List<Expression> secondExpression(Expression exp, String statement) {
+//	if (statement.contains("{")) {
+//		exp.addError(Error.UnexpectedOpeningBracket);
+//		return parseExpressions(statement.split("\\{")[1], 0);
+//	}
+//	Matcher match = Patterns.checkOpenning.matcher(statement);
+//	if (match.find()){
+//		exp.addError(Error.MissingOpenningBracket);
+//		match = Patterns.secondLine.matcher(statement);
+//		match.find();
+//		match.find();
+//		return parseExpressions(match.group(), 0);
+//	}
+//	return new LinkedList<Expression>();
+//}

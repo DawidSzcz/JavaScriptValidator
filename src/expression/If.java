@@ -21,7 +21,7 @@ import parser.ParseUtils.Triple;
 import parser.Patterns;
 
 public class If extends ComplexExpression{
-	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException {
+	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) {
 		super(statement, Instruction.IF, currentLine, strings);
 		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}

@@ -21,14 +21,18 @@ import parser.Patterns;
 public class Else extends ComplexExpression
 {
 	private boolean elseIf= false;
-	public Else(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) throws WrongComplexException
+	public Else(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser)
 	{
 		super(statement, Instruction.ELSE, currentLine,strings);
 		Matcher matcherElseIf = Patterns.elseIf.matcher(statement);
 		if(matcherElseIf.find()){
 			elseIf = true; 
 			statement=statement.replaceFirst("else", "");
-			super.splitBlock(Instruction.IF, currentLine, statement);
+			try{
+				super.splitBlock(Instruction.IF, currentLine, statement);
+			}catch(WrongComplexException e){
+				this.addError(e.getError());
+			}
 		}
 		statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
