@@ -8,11 +8,11 @@ public class Patterns {
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";
-	public static String IfS = "^\\s*if";
-	public static String WhileS = "^\\s*while";
+	public static String IfS = "^\\s*if\\s*[\\(\\)]+";
+	public static String WhileS = "^\\s*while\\s*[\\(\\)]+";
 	public static String TryS = "^\\s*try";
-	public static String CatchS = "^\\s*catch";
-	public static String FunctionS = "^\\s*function";
+	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
+	public static String FunctionS = "^\\s*function\\s*[\\(\\)]+";
 	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|else\\s+if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
@@ -22,7 +22,7 @@ public class Patterns {
 	public static String checkOpenningS = "\\)(?![\t \r]*(\n|\\w))";
 	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+\"\']+)*"; // Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
 	public static String lineS = "[\\{\\}\\w]+[^\n\r;]*";
-	public static String ForS = "^\\s*for";
+	public static String ForS = "^\\s*for\\s*[\\(\\)]+";
 	public static String stringIDS = "StringID\\d+"; 
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";

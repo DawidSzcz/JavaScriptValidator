@@ -15,6 +15,7 @@ import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import exception.JSValidatorException;
+import exception.WrongBlockException;
 import exception.WrongComplexException;
 import parser.ParseUtils;
 import parser.Patterns;
@@ -31,7 +32,14 @@ public abstract class ComplexExpression extends Expression {
 		super(in, strings);
 		try {
 			splitBlock(instruction, currentLine, in);
-		} catch (WrongComplexException e) {
+		}catch (WrongBlockException e) {
+			this.addError(e.getError());
+			this.content = e.content;
+			this.beginOfStatements = e.nextStatement;
+			this.line = e.line;
+			this.area = e.area;
+		} 
+		catch (WrongComplexException e) {
 			Matcher match = Patterns.checkOpenning.matcher(in);
 			if (in.contains("{")) 
 			{
@@ -79,6 +87,7 @@ public abstract class ComplexExpression extends Expression {
 		String wholeInstruction = in;
 		List<Character> forbidden = Arrays.asList('{', '}', ';');
 		String header;
+		int i = 0;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction)).matcher(in);
 		int opened = 1;
 		int instructionArea = 0, lineBeforeStatement;
@@ -103,7 +112,7 @@ public abstract class ComplexExpression extends Expression {
 		}
 
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
-			for (int i = 0; i < in.length(); i++) {
+			for (i = 0; i < in.length(); i++) {
 				if (forbidden.contains(in.charAt(i)))
 					throw new WrongComplexException(Error.ForbidenCharacterInHeader, wholeInstruction);
 				if (in.charAt(i) == '\n')
@@ -124,7 +133,7 @@ public abstract class ComplexExpression extends Expression {
 						this.content = states.group();
 						return;
 					} else
-						throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
+						throw new WrongBlockException(wholeInstruction, in.substring(i + 1), this.line, this.area, this.line + this.area );
 				}
 			}
 			throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
@@ -135,7 +144,7 @@ public abstract class ComplexExpression extends Expression {
 				this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in);
 				this.content = states.group();
 			} else
-				throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
+				throw new WrongBlockException(wholeInstruction, in.substring(i + 1), this.line, this.area, this.line + this.area );
 		}
 
 	}
