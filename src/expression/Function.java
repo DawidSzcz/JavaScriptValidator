@@ -26,7 +26,8 @@ public class Function extends ComplexExpression {
 		super(statement, Instruction.FUNCITON, currentLine, strings);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
-		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+		if(content != null)
+			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -65,8 +66,20 @@ public class Function extends ComplexExpression {
 			in = in.replace(header, "");
 			lineBeforeStatement = ParseUtils.getLines(header);
 			this.line = currentLine + lineBeforeStatement;
-		} else
-			throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		} 		
+		else
+		{
+			checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction), Pattern.CASE_INSENSITIVE).matcher(in); 
+			if (checkBeginning.find()) {
+				this.addError(Error.RestrictedLowerCase);
+				header = checkBeginning.group();
+				in = in.replace(header, "");
+				lineBeforeStatement = ParseUtils.getLines(header);
+				this.line = currentLine + lineBeforeStatement;
+			} 
+			else
+				throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		}
 		for (int i = 0; i < in.length(); i++) {
 			if (in.charAt(i) == '\n')
 				instructionArea++;

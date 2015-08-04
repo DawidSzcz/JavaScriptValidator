@@ -309,16 +309,13 @@ public class ParseUtils {
 			strings.put(uniqueId, invalid);
 			finalString += uniqueId;
 		}
-//		if(starComment)
-//		{
-//			starComment = false;
-//			String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-//			finalString += uniqueId;
-//			Comment comm = new Comment(currentString, startLine, line);
-//			comm.addError();
-//			comments.put(uniqueId, comm);
-//		}
+
 		return new Pair<String, HashMap<String, StringContainer>>(finalString, strings);
+	}
+	public static boolean checkBetweenCondStates(String substring, String content) 
+	{
+		String between = substring.substring(0, substring.indexOf(content));
+		return !Pattern.compile("[\\w\\(\\)\\$_]+").matcher(between).find();
 	}
 }
 //private List<Expression> secondExpression(Expression exp, String statement) {
@@ -335,4 +332,13 @@ public class ParseUtils {
 //		return parseExpressions(match.group(), 0);
 //	}
 //	return new LinkedList<Expression>();
+//}
+//if(starComment)
+//{
+//	starComment = false;
+//	String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
+//	finalString += uniqueId;
+//	Comment comm = new Comment(currentString, startLine, line);
+//	comm.addError();
+//	comments.put(uniqueId, comm);
 //}

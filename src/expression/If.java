@@ -1,29 +1,20 @@
 package expression;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 import Atoms.Statement;
 import Atoms.StringContainer;
-import enums.Error;
 import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
-import exception.WrongComplexException;
-import exception.WrongForException;
-import exception.WrongIfException;
-import javafx.util.Pair;
 import parser.ExpressionParser;
-import parser.ParseUtils;
-import parser.ParseUtils.Triple;
-import parser.Patterns;
 
 public class If extends ComplexExpression{
 	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) {
 		super(statement, Instruction.IF, currentLine, strings);
-		this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+		if(content != null)
+			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

@@ -17,6 +17,7 @@ import enums.Instruction;
 import exception.JSValidatorException;
 import exception.WrongBlockException;
 import exception.WrongComplexException;
+import exception.WrongConditionException;
 import parser.ParseUtils;
 import parser.Patterns;
 import parser.ParseUtils.Triple;
@@ -39,23 +40,15 @@ public abstract class ComplexExpression extends Expression {
 			this.line = e.line;
 			this.area = e.area;
 		} 
-		catch (WrongComplexException e) {
-			Matcher match = Patterns.checkOpenning.matcher(in);
-			if (in.contains("{")) 
-			{
-				addError(Error.UnexpectedOpeningBracket);
-				content = in.split("\\{")[1];
-			}
-			else if (match.find()) 
-			{
-				addError(Error.MissingOpenningBracket);
-				match = Patterns.secondLine.matcher(in);
-				match.find();
-				match.find();
-				content = match.group();
-			}
-			beginOfStatements = currentLine + ParseUtils.getLinesBNS(in);
+		catch (WrongConditionException e) {
+			this.line = e.line;
+			this.content = null;
+			this.condition = null;
 			this.addError(e.getError());
+		}
+		catch(WrongComplexException e)
+		{
+			System.err.println("URGENT URGENT URGENT !");
 		}
 
 	}
@@ -79,8 +72,9 @@ public abstract class ComplexExpression extends Expression {
 	@Override
 	public void addtoInstructions(Map<Integer, List<Expression>> instructions) {
 		super.addtoInstructions(instructions);
-		for (Expression exp : statements)
-			exp.addtoInstructions(instructions);
+		if(statements != null)
+			for (Expression exp : statements)
+				exp.addtoInstructions(instructions);
 	}
 
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
@@ -114,7 +108,7 @@ public abstract class ComplexExpression extends Expression {
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {
 			for (i = 0; i < in.length(); i++) {
 				if (forbidden.contains(in.charAt(i)))
-					throw new WrongComplexException(Error.ForbidenCharacterInHeader, wholeInstruction);
+					throw new WrongConditionException(Error.ForbidenCharacterInHeader, wholeInstruction, this.line);
 				if (in.charAt(i) == '\n')
 					instructionArea++;
 				if (in.charAt(i) == '(')
@@ -122,7 +116,7 @@ public abstract class ComplexExpression extends Expression {
 				if (in.charAt(i) == ')')
 					opened--;
 				if (opened < 0) {
-					throw new WrongComplexException(Error.InvalidParenthesis, wholeInstruction);
+					throw new WrongConditionException(Error.InvalidParenthesis, wholeInstruction, this.line);
 				}
 				if (opened == 0) {
 					condition = new Statement(in.substring(0, i));
@@ -131,12 +125,14 @@ public abstract class ComplexExpression extends Expression {
 						this.area = instructionArea;
 						this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
 						this.content = states.group();
+						if(!ParseUtils.checkBetweenCondStates(in.substring(i + 1), this.content))
+							this.addError(Error.InvalidCondition);
 						return;
 					} else
-						throw new WrongBlockException(wholeInstruction, in.substring(i + 1), this.line, this.area, this.line + this.area );
+						throw new WrongBlockException(wholeInstruction, in.substring(i + 1), this.line, this.area);
 				}
 			}
-			throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
+			throw new WrongConditionException(Error.InvalidCondition, wholeInstruction, this.line);
 		} else {
 			Matcher states = Patterns.states.matcher(in);
 			if (states.find()) {
@@ -144,7 +140,7 @@ public abstract class ComplexExpression extends Expression {
 				this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in);
 				this.content = states.group();
 			} else
-				throw new WrongBlockException(wholeInstruction, in.substring(i + 1), this.line, this.area, this.line + this.area );
+				throw new WrongBlockException(wholeInstruction, in.substring(i + 1), this.line, this.area);
 		}
 
 	}
