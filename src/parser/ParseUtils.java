@@ -151,7 +151,11 @@ public class ParseUtils {
 		return javaScriptTextString;
 	}
 
-
+	public static int getArea(String in)
+	{
+		in = cleanLine(in);
+		return getLines(in, new HashMap<String, String>());
+	}
 	public static int getLinesBNS(String substring) {
 		Matcher space = Pattern.compile("^\\s+").matcher(substring);
 		

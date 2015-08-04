@@ -22,7 +22,7 @@ public class SimpeExpresion extends Expression {
 	{
 		super(name, strings);
 		line = currentLine + ParseUtils.getLinesBNS(name);
-		area = ParseUtils.getLines(name) - ParseUtils.getLinesBNS(name);
+		area = ParseUtils.getArea(name); // stare : ParseUtils.getLines(name) - ParseUtils.getLinesBNS(name);
 	}
 
 	protected void isPortOpen(Statement argument, List<Statement> variables) {
