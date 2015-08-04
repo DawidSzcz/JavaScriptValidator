@@ -22,7 +22,10 @@ public class Assignment extends SimpeExpresion {
 	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings)
 			throws WrongAssignmentException {
 		super(statement, currentLine, strings);
-		String side[] = (statement+" ").split(Patterns.assignDivisionS);	//jesli na koncu jest operator przypisania to slit nie podzieli do poprawienia
+		if (statement.substring(statement.length()-1).equals("=")){
+			statement=statement+" ";
+		}
+		String side[] = statement.split(Patterns.assignDivisionS);
 		if (side.length >= 2) {
 			side[0]=side[0].replace("var", "");
 			try{
