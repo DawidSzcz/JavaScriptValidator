@@ -158,6 +158,11 @@ public class ParseUtils {
 				if (iterator==javaScriptText.string.length()-1){
 					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
 					javaScriptText.addError(Error.MissingAndOfComment);
+					for (int i=0; javaScriptText.string.charAt(i)=='/' && javaScriptText.string.charAt(i+1)=='*'; i++){
+						if (javaScriptText.string.charAt(i)=='\n'){
+							javaScriptText.addline();
+						}
+					}
 				}
 			}
 		}

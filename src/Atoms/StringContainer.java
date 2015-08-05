@@ -7,10 +7,12 @@ import enums.Error;
 
 public class StringContainer  {
 	private List<Error> errors = new LinkedList<>();
+	private int line;
 	public String string;
 	public StringContainer(String string) 
 	{
 		this.string = string;
+		int line=0;
 	}
 	public String setString(String string){
 	 	this.string=string;
@@ -28,6 +30,11 @@ public class StringContainer  {
 	}
 	public void addErrors(List<Error> errors2) {
 		errors.addAll(errors2);
+		
+	}
+	public void addline() {
+		line=line++;
+		// TODO Auto-generated method stub
 		
 	}
 }
