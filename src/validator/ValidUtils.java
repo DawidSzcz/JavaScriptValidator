@@ -70,7 +70,7 @@ public class ValidUtils {
 		javaScirptText = javaScirptText.replace("&", "&#x26;");
 		javaScirptText = javaScirptText.replace("<", "&#x3C;");
 		javaScirptText = javaScirptText.replace(">", "&#x3E;");
-		javaScirptText = javaScirptText.replace("\"", "&#x22;");
+		//javaScirptText = javaScirptText.replace("\"", "&#x22;");
 		return javaScirptText;
 	}
 
@@ -124,7 +124,7 @@ public class ValidUtils {
 				{
 					starComment = true;
 					i++;
-					finalString += comment+"//";
+					finalString += comment+"/*";
 					continue;
 				}
 				if(c == '"' || c == '\'')

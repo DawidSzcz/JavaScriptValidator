@@ -27,3 +27,16 @@ select
 {
 	background-color: green;
 }
+.comment
+{
+	color: green;
+}
+.string
+{
+	color: blue;
+}
+.restricted
+{
+	color: red;
+	font-weight: bold;
+}
