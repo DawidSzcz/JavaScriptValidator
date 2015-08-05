@@ -23,7 +23,7 @@ public class Core extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 		Program program = new Program(request.getParameter("javaScript"));
-		List<String> rows = Arrays.asList((ValidUtils.color(request.getParameter("javaScript"))).split("\n"));
+		List<String> rows = Arrays.asList(ValidUtils.color(ValidUtils.htmlValidReplace(request.getParameter("javaScript"))).split("\n"));
 		String language = request.getParameter("language");
 		out.println(String.format(ValidUtils.html, makeResponse(rows, program, language)));
 		}catch(WrongComplexException e){}

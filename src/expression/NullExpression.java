@@ -3,7 +3,6 @@ package expression;
 import java.util.Map;
 
 import Atoms.StringContainer;
-import exception.UnknownException;
 
 public class NullExpression extends Expression{
 

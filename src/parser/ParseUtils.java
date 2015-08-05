@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Atoms.InputContainer;
 import Atoms.StringContainer;
 import javafx.util.Pair;
 import enums.Error;
@@ -47,6 +48,25 @@ public class ParseUtils {
 		return randomString;
 	}
 
+	public static Pair<InputContainer, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptTextString) {
+		Pair<String, HashMap<String, StringContainer>> pair;
+		InputContainer  javaScriptText= new InputContainer(javaScriptTextString);
+		HashMap<String, StringContainer> stringMap = new HashMap<>();
+		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
+		while (matcherStringsAndComents.find()) {
+			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
+				javaScriptText = removeComments(javaScriptText);
+			} else {
+				pair = takeOutStrings(javaScriptText.string, stringMap);
+				javaScriptText.string = pair.getKey();
+				stringMap = pair.getValue();
+
+			}
+			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
+		}
+		return new Pair<InputContainer, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+	}
+	
 	public static Pair<String, HashMap<String, StringContainer>> takeOutStrings(String javaScriptText,
 			HashMap<String, StringContainer> stringMap) {
 		StringContainer stringInTexst = new StringContainer("");
@@ -69,7 +89,7 @@ public class ParseUtils {
 					// isInString = false;
 					stringInTexst.string += javaScriptText.charAt(iterator);
 					stringMap.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
+					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId+" ");
 					break;
 				}
 			}
@@ -103,43 +123,52 @@ public class ParseUtils {
 	
 	
 
-	public static String removeComments(String javaScriptTextString) {
+	public static InputContainer removeComments(InputContainer javaScriptText) {
 		boolean lineComment = false;
 		boolean starComment = false;
 		String enterCounter="";
 		String commentedText="";
-		for (int iterator = 0; iterator < javaScriptTextString.length(); iterator++) {
-			if (javaScriptTextString.charAt(iterator)=='/' && iterator+1!=javaScriptTextString.length()){
-				if(javaScriptTextString.charAt(iterator+1)=='/' && !starComment){
+		for (int iterator = 0; iterator < javaScriptText.string.length(); iterator++) {
+			if (javaScriptText.string.charAt(iterator)=='/' && iterator+1!=javaScriptText.string.length()){
+				if(javaScriptText.string.charAt(iterator+1)=='/' && !starComment){
 					lineComment =true;
 				}
-				if(javaScriptTextString.charAt(iterator+1)=='*' && !lineComment){
+				if(javaScriptText.string.charAt(iterator+1)=='*' && !lineComment){
 					starComment =true;
 				}
 			}
 			if (lineComment){
-				commentedText+=javaScriptTextString.charAt(iterator);
+				commentedText+=javaScriptText.string.charAt(iterator);
 
-				if(javaScriptTextString.charAt(iterator)=='\n' || iterator==javaScriptTextString.length()-1 ){
+				if(javaScriptText.string.charAt(iterator)=='\n' || iterator==javaScriptText.string.length()-1 ){
 
-					javaScriptTextString=javaScriptTextString.replace(commentedText, "\n");
+					javaScriptText.string=javaScriptText.string.replace(commentedText, "\n");
 					break;//lineComment=false;
 				}
 
 			}
 			if (starComment){
-				commentedText+=javaScriptTextString.charAt(iterator);
-				if(javaScriptTextString.charAt(iterator)=='\n'){
+				commentedText+=javaScriptText.string.charAt(iterator);
+				if(javaScriptText.string.charAt(iterator)=='\n'){
 					enterCounter+='\n';
 				}
-				if( iterator>0 && javaScriptTextString.charAt(iterator-1)=='*'&& javaScriptTextString.charAt(iterator)=='/'){
-					javaScriptTextString=javaScriptTextString.replace(commentedText,enterCounter );
+				if( iterator>0 && javaScriptText.string.charAt(iterator-1)=='*'&& javaScriptText.string.charAt(iterator)=='/'){
+					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
 					break;//starComment=false;
 				}
+				if (iterator==javaScriptText.string.length()-1){
+					for (int i=0; javaScriptText.string.charAt(i)!='/' || javaScriptText.string.charAt(i+1)!='*'; i++){
+						if (javaScriptText.string.charAt(i)=='\n'){
+							javaScriptText.addline();
+						}
+					}
+					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
+					javaScriptText.addError(Error.MissingAndOfComment);
+
+				}
 			}
-			
 		}
-		return javaScriptTextString;
+		return javaScriptText;
 	}
 
 
@@ -180,7 +209,6 @@ public class ParseUtils {
 				newLines++;
 		return newLines;
 	}
-
 	public static Pair<String, HashMap<String, String>> removeBlocks(String input) {
 		HashMap<String, String> blocks = new HashMap<String, String>();
 		Matcher mat = Patterns.block.matcher(input);
@@ -193,25 +221,7 @@ public class ParseUtils {
 			mat = Patterns.block.matcher(input);
 		}
 		return new Pair<String, HashMap<String, String>>(input, blocks);
-	}
-	public static Pair<String, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptText) {
-		Pair<String, HashMap<String, StringContainer>> pair;
-		HashMap<String, StringContainer> stringMap = new HashMap<>();
-		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
-		while (matcherStringsAndComents.find()) {
-			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
-				javaScriptText = removeComments(javaScriptText);
-			} else {
-				pair = takeOutStrings(javaScriptText, stringMap);
-				javaScriptText = pair.getKey();
-				stringMap = pair.getValue();
-
-			}
-			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
-		}
-		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
-	}
-
+	}	
 	public static boolean checkBetweenCondStates(String substring, String content) 
 	{
 		String between = substring.substring(0, substring.indexOf(content));

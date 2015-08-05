@@ -1,7 +1,5 @@
 package expression;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
 
 import javafx.util.Pair;

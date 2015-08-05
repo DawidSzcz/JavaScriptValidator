@@ -71,6 +71,9 @@ public class ExpresionCorrect {
 		Matcher macherBracket;
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
+			if (macherBracket.group().equals("")){
+				throw new InvalidOperator(enums.Error.NullInBracket, expression);
+			}
 			if (!isExpresionCorect(macherBracket.group()))
 				throw new InvalidOperator(enums.Error.InvalExpresionInParenthesis, expression);
 			else

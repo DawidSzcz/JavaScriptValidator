@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Atoms.StringContainer;
 import enums.Instruction;
 import exception.WrongComplexException;
 import parser.ExpressionParser;
@@ -13,6 +12,7 @@ public class Program extends ComplexExpression
 {
 	public Program(String input) throws WrongComplexException {
 		super(input, Instruction.PROGRAM, 1, null);
+		SimpeExpresion.openPorts.clear();
 		ExpressionParser parser = new ExpressionParser(input);
 		statements = parser.parse();
 	}
@@ -27,9 +27,6 @@ public class Program extends ComplexExpression
 		return "Program";
 	}
 	public boolean isValid() {
-//		for(Expression exp : statements)
-//			if(!exp.isValid())
-//				return false;
 		return true;
 	}
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
