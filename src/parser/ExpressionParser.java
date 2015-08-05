@@ -38,7 +38,8 @@ public class ExpressionParser {
 		blocks = pair.getValue();
 		input.string = pair.getKey();
 		
-		return parseExpressions(input.string, 1);
+		List<Expression> list = parseExpressions(input.string, 1);
+		if(input)
 	}
 	public List<Expression> parseExpressions(String input, int currentLine) {
 		List<Expression> exps = new LinkedList<>();

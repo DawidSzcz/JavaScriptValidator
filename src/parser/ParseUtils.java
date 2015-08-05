@@ -216,4 +216,9 @@ public class ParseUtils {
 		}
 		return new Pair<String, HashMap<String, String>>(input, blocks);
 	}	
+	public static boolean checkBetweenCondStates(String substring, String content) 
+	{
+		String between = substring.substring(0, substring.indexOf(content));
+		return !Pattern.compile("[\\w\\(\\)\\$_]+").matcher(between).find();
+	}
 }
