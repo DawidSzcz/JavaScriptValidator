@@ -43,12 +43,10 @@ public class If extends ComplexExpression{
 	@Override
 	public boolean isValid() {
 		try{
-			condition.isValid();
-		}catch(InvalidOperator e)
+			if(condition != null)
+				condition.isValid();
+		}catch(InvalidOperator | InvalidFunction e)
 		{
-			this.addError(e.getError());
-			return false;
-		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}
