@@ -28,7 +28,8 @@ public enum Error {
 	RestrictedLowerCase("Lower case is mandatory in restricted Words", "S³owa kluczowe powinny zawieraæ wy³¹cznie ma³e litery"),
 	SqlPortIsNotOpen("Sql port isn't open","port SQL-a nie zostal otwarty"),
 	NullSteatment("Null Steatment","puste wyrazenie"),
-	NullInBracket("No expresion in bracket","niema wyrazenia w nawiasach");
+	NullInBracket("No expresion in bracket","niema wyrazenia w nawiasach"),
+	MissingAndOfComment("Missing and of comment","nie ma konca komentarza");
 	
 	public final String enContent;
 	public final String plContent;

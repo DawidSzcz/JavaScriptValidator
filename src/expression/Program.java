@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Atoms.StringContainer;
 import enums.Instruction;
 import exception.WrongComplexException;
 import parser.ExpressionParser;
@@ -28,9 +27,6 @@ public class Program extends ComplexExpression
 		return "Program";
 	}
 	public boolean isValid() {
-//		for(Expression exp : statements)
-//			if(!exp.isValid())
-//				return false;
 		return true;
 	}
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {

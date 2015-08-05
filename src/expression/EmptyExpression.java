@@ -1,7 +1,5 @@
 package expression;
 
-import java.util.Map;
-
 public class EmptyExpression extends Expression {
 
 	public EmptyExpression() {

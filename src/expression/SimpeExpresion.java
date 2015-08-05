@@ -1,7 +1,6 @@
 package expression;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -10,7 +9,6 @@ import parser.ParseUtils;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
-import exception.InvalidOperator;
 import parser.Patterns;
 
 public class SimpeExpresion extends Expression {

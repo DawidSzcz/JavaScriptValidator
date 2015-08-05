@@ -6,7 +6,6 @@ import Atoms.Statement;
 import Atoms.StringContainer;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
-import parser.ParseUtils;
 
 public class Invocation extends SimpeExpresion {
 	Statement invocation;
