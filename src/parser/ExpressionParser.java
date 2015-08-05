@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 
+import Atoms.InputContainer;
 import Atoms.StringContainer;
 import enums.Error;
 import expression.Assignment;
@@ -15,6 +16,7 @@ import expression.Expression;
 import expression.For;
 import expression.Function;
 import expression.If;
+import expression.InvalidComment;
 import expression.Invocation;
 import expression.Try;
 import expression.UnknownExpression;
@@ -24,22 +26,25 @@ import javafx.util.Pair;
 public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();
 	private Map<String, StringContainer> strings;
-	private StringContainer input;
+	private InputContainer input;
 	
 	public ExpressionParser(String input)
 	{
 		//Pair <String, HashMap<String, StringContainer>> pair =ParseUtils.removeStrAndCom(input);
-		Pair <StringContainer, HashMap<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
+		Pair <InputContainer, HashMap<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
 		this.input = pair.getKey();
 		strings = pair.getValue();
 	}
 	public List<Expression> parse() {
 		Pair<String, HashMap<String, String>> pair = ParseUtils.removeBlocks(input.string);
 		blocks = pair.getValue();
+		String wholeProgram = input.string;
 		input.string = pair.getKey();
 		
 		List<Expression> list = parseExpressions(input.string, 1);
-		if(input)
+		if(input.getErrors().size() != 0)
+			list.add(new InvalidComment(wholeProgram, input.getErrors(), input.getLine()));
+		return list;
 	}
 	public List<Expression> parseExpressions(String input, int currentLine) {
 		List<Expression> exps = new LinkedList<>();

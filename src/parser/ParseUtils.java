@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Atoms.InputContainer;
 import Atoms.StringContainer;
 import javafx.util.Pair;
 import enums.Error;
@@ -47,9 +48,9 @@ public class ParseUtils {
 		return randomString;
 	}
 
-	public static Pair<StringContainer, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptTextString) {
+	public static Pair<InputContainer, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptTextString) {
 		Pair<String, HashMap<String, StringContainer>> pair;
-		StringContainer  javaScriptText= new StringContainer(javaScriptTextString);
+		InputContainer  javaScriptText= new InputContainer(javaScriptTextString);
 		HashMap<String, StringContainer> stringMap = new HashMap<>();
 		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
 		while (matcherStringsAndComents.find()) {
@@ -63,7 +64,7 @@ public class ParseUtils {
 			}
 			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
 		}
-		return new Pair<StringContainer, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+		return new Pair<InputContainer, HashMap<String, StringContainer>>(javaScriptText, stringMap);
 	}
 	
 	public static Pair<String, HashMap<String, StringContainer>> takeOutStrings(String javaScriptText,
@@ -122,7 +123,7 @@ public class ParseUtils {
 	
 	
 
-	public static StringContainer removeComments(StringContainer javaScriptText) {
+	public static InputContainer removeComments(InputContainer javaScriptText) {
 		boolean lineComment = false;
 		boolean starComment = false;
 		String enterCounter="";
@@ -156,8 +157,14 @@ public class ParseUtils {
 					break;//starComment=false;
 				}
 				if (iterator==javaScriptText.string.length()-1){
+					for (int i=0; javaScriptText.string.charAt(i)!='/' || javaScriptText.string.charAt(i+1)!='*'; i++){
+						if (javaScriptText.string.charAt(i)=='\n'){
+							javaScriptText.addline();
+						}
+					}
 					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
 					javaScriptText.addError(Error.MissingAndOfComment);
+
 				}
 			}
 		}

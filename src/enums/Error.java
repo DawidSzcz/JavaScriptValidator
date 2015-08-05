@@ -29,7 +29,7 @@ public enum Error {
 	SqlPortIsNotOpen("Sql port isn't open","port SQL-a nie zostal otwarty"),
 	NullSteatment("Null Steatment","puste wyrazenie"),
 	NullInBracket("No expresion in bracket","niema wyrazenia w nawiasach"),
-	MissingAndOfComment("Missing and of comment","nie ma konca komentarza");
+	MissingAndOfComment("Missing end of comment","Brakuje konca komentarza");
 	
 	public final String enContent;
 	public final String plContent;
