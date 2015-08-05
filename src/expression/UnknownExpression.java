@@ -1,12 +1,8 @@
 package expression;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import Atoms.StringContainer;
-import enums.Error;
 import parser.ParseUtils;
 
 public class UnknownExpression extends Expression 

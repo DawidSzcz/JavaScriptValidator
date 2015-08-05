@@ -1,7 +1,6 @@
 package expression;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ import Atoms.StringContainer;
 import enums.Error;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
-import exception.WrongAssignmentException;
 import parser.ParseUtils;
 import parser.Patterns;
 

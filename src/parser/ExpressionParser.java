@@ -24,21 +24,21 @@ import javafx.util.Pair;
 public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();
 	private Map<String, StringContainer> strings;
-	private String input;
+	private StringContainer input;
 	
 	public ExpressionParser(String input)
 	{
 		//Pair <String, HashMap<String, StringContainer>> pair =ParseUtils.removeStrAndCom(input);
-		Pair <String, HashMap<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
+		Pair <StringContainer, HashMap<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
 		this.input = pair.getKey();
 		strings = pair.getValue();
 	}
 	public List<Expression> parse() {
-		Pair<String, HashMap<String, String>> pair = ParseUtils.removeBlocks(input);
+		Pair<String, HashMap<String, String>> pair = ParseUtils.removeBlocks(input.string);
 		blocks = pair.getValue();
-		input = pair.getKey();
+		input.string = pair.getKey();
 		
-		return parseExpressions(input, 1);
+		return parseExpressions(input.string, 1);
 	}
 	public List<Expression> parseExpressions(String input, int currentLine) {
 		List<Expression> exps = new LinkedList<>();

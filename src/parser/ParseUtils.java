@@ -47,6 +47,25 @@ public class ParseUtils {
 		return randomString;
 	}
 
+	public static Pair<StringContainer, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptTextString) {
+		Pair<String, HashMap<String, StringContainer>> pair;
+		StringContainer  javaScriptText= new StringContainer(javaScriptTextString);
+		HashMap<String, StringContainer> stringMap = new HashMap<>();
+		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
+		while (matcherStringsAndComents.find()) {
+			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
+				javaScriptText = removeComments(javaScriptText);
+			} else {
+				pair = takeOutStrings(javaScriptText.string, stringMap);
+				javaScriptText.string = pair.getKey();
+				stringMap = pair.getValue();
+
+			}
+			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
+		}
+		return new Pair<StringContainer, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+	}
+	
 	public static Pair<String, HashMap<String, StringContainer>> takeOutStrings(String javaScriptText,
 			HashMap<String, StringContainer> stringMap) {
 		StringContainer stringInTexst = new StringContainer("");
@@ -69,7 +88,7 @@ public class ParseUtils {
 					// isInString = false;
 					stringInTexst.string += javaScriptText.charAt(iterator);
 					stringMap.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
+					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId+" ");
 					break;
 				}
 			}
@@ -103,43 +122,46 @@ public class ParseUtils {
 	
 	
 
-	public static String removeComments(String javaScriptTextString) {
+	public static StringContainer removeComments(StringContainer javaScriptText) {
 		boolean lineComment = false;
 		boolean starComment = false;
 		String enterCounter="";
 		String commentedText="";
-		for (int iterator = 0; iterator < javaScriptTextString.length(); iterator++) {
-			if (javaScriptTextString.charAt(iterator)=='/' && iterator+1!=javaScriptTextString.length()){
-				if(javaScriptTextString.charAt(iterator+1)=='/' && !starComment){
+		for (int iterator = 0; iterator < javaScriptText.string.length(); iterator++) {
+			if (javaScriptText.string.charAt(iterator)=='/' && iterator+1!=javaScriptText.string.length()){
+				if(javaScriptText.string.charAt(iterator+1)=='/' && !starComment){
 					lineComment =true;
 				}
-				if(javaScriptTextString.charAt(iterator+1)=='*' && !lineComment){
+				if(javaScriptText.string.charAt(iterator+1)=='*' && !lineComment){
 					starComment =true;
 				}
 			}
 			if (lineComment){
-				commentedText+=javaScriptTextString.charAt(iterator);
+				commentedText+=javaScriptText.string.charAt(iterator);
 
-				if(javaScriptTextString.charAt(iterator)=='\n' || iterator==javaScriptTextString.length()-1 ){
+				if(javaScriptText.string.charAt(iterator)=='\n' || iterator==javaScriptText.string.length()-1 ){
 
-					javaScriptTextString=javaScriptTextString.replace(commentedText, "\n");
+					javaScriptText.string=javaScriptText.string.replace(commentedText, "\n");
 					break;//lineComment=false;
 				}
 
 			}
 			if (starComment){
-				commentedText+=javaScriptTextString.charAt(iterator);
-				if(javaScriptTextString.charAt(iterator)=='\n'){
+				commentedText+=javaScriptText.string.charAt(iterator);
+				if(javaScriptText.string.charAt(iterator)=='\n'){
 					enterCounter+='\n';
 				}
-				if( iterator>0 && javaScriptTextString.charAt(iterator-1)=='*'&& javaScriptTextString.charAt(iterator)=='/'){
-					javaScriptTextString=javaScriptTextString.replace(commentedText,enterCounter );
+				if( iterator>0 && javaScriptText.string.charAt(iterator-1)=='*'&& javaScriptText.string.charAt(iterator)=='/'){
+					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
 					break;//starComment=false;
 				}
+				if (iterator==javaScriptText.string.length()-1){
+					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
+					javaScriptText.addError(Error.MissingAndOfComment);
+				}
 			}
-			
 		}
-		return javaScriptTextString;
+		return javaScriptText;
 	}
 
 
@@ -193,156 +215,5 @@ public class ParseUtils {
 			mat = Patterns.block.matcher(input);
 		}
 		return new Pair<String, HashMap<String, String>>(input, blocks);
-	}
-	public static Pair<String, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptText) {
-		Pair<String, HashMap<String, StringContainer>> pair;
-		HashMap<String, StringContainer> stringMap = new HashMap<>();
-		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
-		while (matcherStringsAndComents.find()) {
-			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
-				javaScriptText = removeComments(javaScriptText);
-			} else {
-				pair = takeOutStrings(javaScriptText, stringMap);
-				javaScriptText = pair.getKey();
-				stringMap = pair.getValue();
-
-			}
-			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText);
-		}
-		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
-	}
-	public static Pair<String, HashMap<String, StringContainer>> removeStrAndCom(String jSText) 
-	{
-		boolean inlineComment = false, starComment = false, string= false;
-		char stringDelimiter = '"';
-		List<Error> errors = new LinkedList<Error>();
-		String finalString = "", currentString = "";
-		HashMap<String, StringContainer> strings = new HashMap<String, StringContainer>();
-		for(int i = 0; i< jSText.length(); i++)
-		{
-			char c = jSText.charAt(i);
-			if(!inlineComment && !starComment && !string)
-			{
-				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '/')
-				{
-					inlineComment = true;
-					i++;
-					continue;
-				}
-				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '*')
-				{
-					starComment = true;
-					i++;
-					continue;
-				}
-				if(c == '"' || c == '\'')
-				{
-					string = true;
-					currentString = ""+c;
-					stringDelimiter = c;
-					continue;
-				}
-				finalString += c;
-			}
-			else
-			{
-				if(inlineComment && c == '\n')
-				{
-					inlineComment = false;
-					finalString += '\n';
-					continue;
-				}
-				if(starComment && c == '*' && jSText.charAt(i+1) == '/')
-				{
-					starComment = false;
-					finalString += currentString;
-					currentString = "";
-					i++;
-					continue;
-				}
-				if(string && c == stringDelimiter)
-				{
-					string = false;
-					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId;
-					StringContainer strC = new StringContainer(currentString + stringDelimiter);
-					strC.addErrors(errors);
-					errors.clear();
-					strings.put(uniqueId, strC);
-					currentString = "";
-					continue;
-				}
-				if(string && c == '\n')
-				{
-					string = false;
-					String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-					finalString += uniqueId;
-					StringContainer invalid = new StringContainer(currentString);
-					invalid.addError(Error.EnterInString);
-					invalid.addErrors(errors);
-					errors.clear();
-					strings.put(uniqueId, invalid);
-					finalString += uniqueId + c;
-					continue;
-				}
-				if(string && c == '\\')
-				{
-					if(i < jSText.length() -1 && allowedCharacters.contains(jSText.charAt(i+1)))
-					{
-						currentString += c + jSText.charAt(i+1);
-						i++;
-						continue;
-					}
-					else
-						errors.add(Error.InvalidEscape);
-						
-				}
-				if(string || c == '\n')
-					currentString += c;
-			}
-		}
-		if(string)
-		{
-			string = false;
-			String uniqueId = "StringID"+ParseUtils.uniqueId(finalString + jSText);
-			finalString += uniqueId;
-			StringContainer invalid = new StringContainer(currentString);
-			invalid.addError(Error.EnterInString);
-			invalid.addErrors(errors);
-			errors.clear();
-			strings.put(uniqueId, invalid);
-			finalString += uniqueId;
-		}
-
-		return new Pair<String, HashMap<String, StringContainer>>(finalString, strings);
-	}
-	public static boolean checkBetweenCondStates(String substring, String content) 
-	{
-		String between = substring.substring(0, substring.indexOf(content));
-		return !Pattern.compile("[\\w\\(\\)\\$_]+").matcher(between).find();
-	}
+	}	
 }
-//private List<Expression> secondExpression(Expression exp, String statement) {
-//	if (statement.contains("{")) {
-//		exp.addError(Error.UnexpectedOpeningBracket);
-//		return parseExpressions(statement.split("\\{")[1], 0);
-//	}
-//	Matcher match = Patterns.checkOpenning.matcher(statement);
-//	if (match.find()){
-//		exp.addError(Error.MissingOpenningBracket);
-//		match = Patterns.secondLine.matcher(statement);
-//		match.find();
-//		match.find();
-//		return parseExpressions(match.group(), 0);
-//	}
-//	return new LinkedList<Expression>();
-//}
-//if(starComment)
-//{
-//	starComment = false;
-//	String uniqueId = "CommentID"+ParseUtils.uniqueId(finalString + jSText);
-//	finalString += uniqueId;
-//	Comment comm = new Comment(currentString, startLine, line);
-//	comm.addError();
-//	comments.put(uniqueId, comm);
-//}

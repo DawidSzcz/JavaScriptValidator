@@ -1,12 +1,9 @@
 package expression;
 
-import java.io.IOException;
 import java.util.Map;
 
 import Atoms.StringContainer;
 import enums.Instruction;
-import exception.WrongCatchException;
-import exception.WrongComplexException;
 import parser.ExpressionParser;
 
 public class Catch extends ComplexExpression {
