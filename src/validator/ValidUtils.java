@@ -1,10 +1,15 @@
 package validator;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import Atoms.StringContainer;
 import enums.Error;
 import expression.Expression;
+import javafx.util.Pair;
+import parser.ParseUtils;
 
 public class ValidUtils {
 
@@ -12,6 +17,21 @@ public class ValidUtils {
 			+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"outStyle.css\">" + "</head>" + "<body> " + "<table>"
 			+ "<tr><th>Lp.</th><th>Code</th><th>Errors</th></tr>" + "%s<table>" + "</body>";
 	public static final String row = "<tr><td class=\"lp\">%d</td><td style=\"padding-left:%dpx\" class=\"code\">%s</td><td class=\"%s\">%s</td></tr>";
+	
+	public static List<Character> special = Arrays.asList('{','}', '(', ')', ' ', '\t', '\n', ';');
+	public static List<String> restrictedWords = Arrays.asList(
+		"abstract", "arguments", "boolean", "break", "byte",
+		"case", "catch", "char", "class", "const", 
+		"continue", "debugger", "default", "delete", "do", 
+		"double", "else", "enum", "eval", "export", "extends", "false", "final", "finally", "float", 
+		"for", "function", "goto", "if", "implements", "import", 
+		"in", "instanceof", "int", "interface", 
+		"let", "long", "native", "new", "null", 
+		"package", "private", "protected", "public", "return", 
+		"short", "static", "super", "switch", "synchronized", 
+		"this", "throw", "throws", "transient", "true", 
+		"try", "typeof", "var", "void", "volatile", 
+		"while", "with", "yield");
 
 	public static int countSpace(String row) {
 		int result = 0;
@@ -70,4 +90,97 @@ public class ValidUtils {
 		return false;
 	}
 
+	public static String color(String jSText) 
+	{
+		String comment = "<span class=\"comment\">", str = "<span class=\"string\">", spanEnd = "</span>", restr = "<span class=\"restricted\">";
+		boolean inlineComment = false, starComment = false, string= false;
+		char stringDelimiter = '"';
+		String finalString = "";
+		for(int i = 0; i< jSText.length(); i++)
+		{
+			char c = jSText.charAt(i);
+			if(!inlineComment && !starComment && !string)
+			{
+				if(i == 0 || special.contains(jSText.charAt(i-1)))
+				{
+					String temp = jSText.substring(i);
+					for(String restricted : restrictedWords)
+						if(temp.startsWith(restricted)&& special.contains(temp.charAt(restricted.length())))
+						{
+							finalString+= restr + restricted + spanEnd;
+							i+= restricted.length();
+							c = jSText.charAt(i);
+							break;
+						}
+				}
+				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '/')
+				{
+					inlineComment = true;
+					i++;
+					finalString += comment+"//";
+					continue;
+				}
+				if(c == '/' && i != jSText.length() -1 && jSText.charAt(i+1) == '*')
+				{
+					starComment = true;
+					i++;
+					finalString += comment+"//";
+					continue;
+				}
+				if(c == '"' || c == '\'')
+				{
+					string = true;
+					finalString += str+c;
+					stringDelimiter = c;
+					continue;
+				}
+				finalString += c;
+			}
+			else
+			{
+				if(inlineComment && c == '\n')
+				{
+					inlineComment = false;
+					finalString += spanEnd+'\n';
+					continue;
+				}
+				if(starComment && c == '*' && jSText.charAt(i+1) == '/')
+				{
+					starComment = false;
+					finalString += "*/"+spanEnd;
+					i++;
+					continue;
+				}
+				if(string && c == stringDelimiter)
+				{
+					string = false;
+					finalString += c+spanEnd;
+					continue;
+				}
+				if(string && c == '\n')
+				{
+					string = false;
+					finalString += c+spanEnd;
+					continue;
+				}
+				if(string && c == '\\' && i < jSText.length() -1 && jSText.charAt(i+1) == stringDelimiter)
+				{
+					finalString += c + stringDelimiter;
+					i++;
+					continue;
+						
+				}
+				if(starComment && c == '\n')
+				{
+					finalString+=spanEnd+c+comment;
+					continue;
+				}
+				finalString+=c;
+				
+			}
+		}
+		if(string || starComment || inlineComment)
+			finalString += spanEnd;
+		return finalString;
+	}
 }
