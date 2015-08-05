@@ -13,6 +13,7 @@ public class Program extends ComplexExpression
 {
 	public Program(String input) throws WrongComplexException {
 		super(input, Instruction.PROGRAM, 1, null);
+		SimpeExpresion.openPorts.clear();
 		ExpressionParser parser = new ExpressionParser(input);
 		statements = parser.parse();
 	}
