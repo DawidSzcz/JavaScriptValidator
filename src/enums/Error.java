@@ -29,7 +29,8 @@ public enum Error {
 	SqlPortIsNotOpen("Sql port isn't open","port SQL-a nie zostal otwarty"),
 	NullSteatment("Null Steatment","puste wyrazenie"),
 	NullInBracket("No expresion in bracket","niema wyrazenia w nawiasach"),
-	MissingAndOfComment("Missing end of comment","Brakuje konca komentarza");
+	MissingAndOfComment("Missing end of comment","Brakuje konca komentarza"),
+	IncorectExpresionWithUnderscore("Incorect expresion with underscore","Niepoprawne wyra¿enie z podkreslnikiem");
 	
 	public final String enContent;
 	public final String plContent;

@@ -14,7 +14,7 @@ import parser.Patterns;
 public class SimpeExpresion extends Expression {
 
 	// static boolean isPortOpen=false;
-	static List<Statement> openPorts = new ArrayList<Statement>();
+	//static List<Statement> openPorts = new ArrayList<Statement>();
 
 	public SimpeExpresion(String name, int currentLine, Map<String, StringContainer> strings) 
 	{
@@ -26,7 +26,7 @@ public class SimpeExpresion extends Expression {
 	protected void isPortOpen(Statement argument, List<Statement> variables) {
 		Matcher matcherPortFunktion = Patterns.sqlGetPortFunction.matcher(argument.getName());
 		if (matcherPortFunktion.find()) {
-			openPorts.addAll(variables);
+			validator.Context.openPorts.addAll(variables);
 		}
 	}
 
@@ -50,7 +50,7 @@ public class SimpeExpresion extends Expression {
 			String[] variableSplit = matcherExecuteStetmentFunction.group().split(".executeStatement");
 			String variableExeciut = variableSplit[0];
 			variableExeciut = ParseUtils.cleanLine(variableExeciut);
-			for (Statement openPort : openPorts) {
+			for (Statement openPort : validator.Context.openPorts) {
 				if (openPort.getName().equals(variableExeciut)) {
 					return true;
 				}
