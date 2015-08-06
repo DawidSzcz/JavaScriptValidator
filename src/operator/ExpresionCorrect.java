@@ -10,7 +10,8 @@ public class ExpresionCorrect {
 	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
 
 		expression = expression.replaceAll(Patterns.typeof, "variable");
-		underscoreValidator(expression); 
+		if(validator.Context.variableWithUnderscoreValid)
+			underscoreValidator(expression); 
 		expression = expression.replaceAll(Patterns.New, "variable");
 		expression = expression.replaceAll(Patterns.Var, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");

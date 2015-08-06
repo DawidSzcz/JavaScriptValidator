@@ -22,6 +22,7 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		try{
+		Context.variableWithUnderscoreValid=request.getParameter("underscore")!=null;
 		Program program = new Program(request.getParameter("javaScript"));
 		List<String> rows = Arrays.asList(ValidUtils.color(ValidUtils.htmlValidReplace(request.getParameter("javaScript"))).split("\n"));
 		String language = request.getParameter("language");
