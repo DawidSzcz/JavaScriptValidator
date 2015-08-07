@@ -13,11 +13,9 @@ public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser)
+	public Try(String name, int currentLine, Map<String, StringContainer> strings)
 	{
 		super(name, Instruction.TRY, currentLine, strings);
-		if(content != null)
-			statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 
 	@Override
@@ -31,7 +29,7 @@ public class Try extends ComplexExpression
 
 	@Override
 	public String toString() {
-		return "TRY";
+		return branch + "TRY";
 	}
 
 	@Override

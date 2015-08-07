@@ -21,13 +21,11 @@ import parser.Patterns;
 public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList(); 
 	List <String> args;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings) 
 	{
 		super(statement, Instruction.FUNCITON, currentLine, strings);
 		for (String arg:args)
-			arguments.add(new Statement(arg));
-		if(content != null)
-			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+			arguments.add(new Statement(arg));		
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -38,7 +36,7 @@ public class Function extends ComplexExpression {
 	}
 	@Override
 	public String toString() {
-		return "Function";
+		return branch + "Function";
 	}
 	@Override
 	public boolean isValid() 

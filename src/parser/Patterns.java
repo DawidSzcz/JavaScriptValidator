@@ -13,7 +13,7 @@ public class Patterns {
 	public static String TryS = "^\\s*try";
 	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
 	public static String FunctionS = "^\\s*function[\\s\\(\\)]+";
-	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|else\\s+if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
+	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).+(?=\\})";
@@ -28,7 +28,7 @@ public class Patterns {
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*=)(?![\\<\\>\\!\\=])";
-	public static String elseIfS = "else\\s*if\\s*\\(";
+	//public static String elseIfS = "else\\s+if\\s*\\(";
 	public static String empty = "^\\s*$";
 	public static String beginComplexS = "^\\s*%s";
 	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
@@ -55,7 +55,7 @@ public class Patterns {
 	public static Pattern commentLine = Pattern.compile(commentLineS);
 	public static Pattern string = Pattern.compile(stringS);
 	public static Pattern escapeWhiteSpace =Pattern.compile(escapeWhiteSpaceS, Pattern.DOTALL);
-	public static Pattern elseIf = Pattern.compile(elseIfS);
+	//public static Pattern elseIf = Pattern.compile(elseIfS);
 	public static Pattern Try = Pattern.compile(TryS, Pattern.CASE_INSENSITIVE);
 	public static Pattern Catch = Pattern.compile(CatchS, Pattern.CASE_INSENSITIVE);
 	public static Pattern stringsAndComents = Pattern.compile(stringsAndComentsS);

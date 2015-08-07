@@ -9,12 +9,13 @@ import enums.Instruction;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 import parser.ExpressionParser;
+import validator.Context;
 
 public class If extends ComplexExpression{
-	public If(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) {
+	public If(String statement, int currentLine, Map<String, StringContainer> strings) {
 		super(statement, Instruction.IF, currentLine, strings);
 		if(content != null)
-			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
+			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -26,7 +27,7 @@ public class If extends ComplexExpression{
 	}
 	@Override
 	public String toString() {
-		return "IF ";
+		return branch + "IF ";
 	}
 	protected Statement getCondition()
 	{

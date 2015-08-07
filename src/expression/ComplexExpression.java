@@ -16,6 +16,7 @@ import exception.WrongComplexException;
 import exception.WrongConditionException;
 import parser.ParseUtils;
 import parser.Patterns;
+import validator.Context;
 
 public abstract class ComplexExpression extends Expression {
 
@@ -45,6 +46,9 @@ public abstract class ComplexExpression extends Expression {
 		{
 			System.err.println("URGENT URGENT URGENT !");
 		}
+		//Do zmiany
+		if(content != null && instruction !=  Instruction.PROGRAM)
+			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements);
 
 	}
 
@@ -65,11 +69,11 @@ public abstract class ComplexExpression extends Expression {
 	}
 
 	@Override
-	public void addtoInstructions(Map<Integer, List<Expression>> instructions) {
-		super.addtoInstructions(instructions);
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions, String branch) {
+		super.addtoInstructions(instructions, branch);
 		if(statements != null)
 			for (Expression exp : statements)
-				exp.addtoInstructions(instructions);
+				exp.addtoInstructions(instructions, this.toString()+ " ");
 	}
 
 	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {

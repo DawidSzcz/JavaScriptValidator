@@ -13,11 +13,12 @@ import exception.WrongComplexException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import validator.Context;
 
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
 	String[] conditions;
-	public For(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser)
+	public For(String statement, int currentLine, Map<String, StringContainer> strings)
 	{
 		super(statement, Instruction.FOR, currentLine, strings);
 		if(conditions.length == 3)
@@ -25,7 +26,7 @@ public class For extends ComplexExpression{
 			for(int i = 0; i < 3; i++)
 				if(!conditions[i].matches(Patterns.empty))
 				{
-					List<Expression> list = expressionParser.parseExpressions(conditions[i], 0);
+					List<Expression> list = Context.expressionParser.parseExpressions(conditions[i], 0);
 					if(list.size() != 1)
 						this.addError(Error.InvalidArguments);
 					else
@@ -38,9 +39,6 @@ public class For extends ComplexExpression{
 		{
 			this.addError(Error.WrongNumberOfArguments);
 		}
-		//Do zmiany
-		if(content != null)
-			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 			
 	}
 
@@ -54,21 +52,21 @@ public class For extends ComplexExpression{
 
 	@Override
 	public String toString() {
-		return "For";
+		return branch + "For";
 	}
 
 	@Override
 	public boolean isValid() {
 	boolean isValid = true;
 	for(Expression e : forConditions)
-		if(!e.isValid())
+		if(e == null || !e.isValid())
 			isValid = false;
 	return isValid;
 	}
 	@Override
 	public boolean hasErrors() {
 		for(Expression e : forConditions)
-			if(e.hasErrors())
+			if(e == null || e.hasErrors())
 				return true;
 		return !errors.isEmpty();
 	}
@@ -76,7 +74,10 @@ public class For extends ComplexExpression{
 	public List<Error> getErrors() {
 		List<Error> errs= super.getErrors();
 		for(Expression e : forConditions)
-			errs.addAll(e.getErrors());
+		{
+			if(e != null)
+				errs.addAll(e.getErrors());
+		}
 		return errs;
 	}
 	@Override

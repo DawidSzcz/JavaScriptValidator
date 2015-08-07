@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import exception.WrongComplexException;
 import expression.Expression;
 import expression.Program;
+import parser.ExpressionParser;
 
 public class Core extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -22,6 +23,8 @@ public class Core extends HttpServlet {
 	{
 		PrintWriter out = response.getWriter();
 		try{
+		Context.clear();
+		Context.expressionParser = new ExpressionParser(request.getParameter("javaScript"));
 		Program program = new Program(request.getParameter("javaScript"));
 		List<String> rows = Arrays.asList(ValidUtils.color(ValidUtils.htmlValidReplace(request.getParameter("javaScript"))).split("\n"));
 		String language = request.getParameter("language");
@@ -38,7 +41,7 @@ public class Core extends HttpServlet {
 		{
 			List<Expression> list = map.get(i+1);
 			if(list != null)
-				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), list.get(0).hasErrors() ? "error" : "noError", ValidUtils.hasErrors(list) ? ValidUtils.prepareErrors(list, language) : ValidUtils.prepareExpressions(list, language));
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), ValidUtils.hasErrors(list) ? "error" : "noError", ValidUtils.hasErrors(list) ? ValidUtils.prepareErrors(list, language) : ValidUtils.prepareExpressions(list, language));
 			else
 				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
 		}

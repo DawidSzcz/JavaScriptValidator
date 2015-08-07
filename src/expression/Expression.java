@@ -16,6 +16,7 @@ public abstract class Expression {
 	protected int line;
 	protected int area;
 	protected Map<String, StringContainer> strings;
+	protected String branch = "";
 	List<enums.Error> errors = new LinkedList<>();
 	
 	public Expression(String name, Map<String, StringContainer> strings) 
@@ -45,8 +46,9 @@ public abstract class Expression {
 	{
 		errors.add(err);
 	}
-	public void addtoInstructions(Map<Integer, List<Expression>> instructions)
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions, String branch)
 	{
+		this.branch = branch;
 		for(int i = line; i <=line +area; i++)
 			try{
 				instructions.get(i).add(this);
