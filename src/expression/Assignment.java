@@ -60,7 +60,7 @@ public class Assignment extends SimpeExpresion {
 	}
 
 	public String toString() {
-		return "Assignment";
+		return branch + "Assignment";
 	}
 
 	@Override

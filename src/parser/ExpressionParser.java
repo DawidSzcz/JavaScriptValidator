@@ -27,20 +27,20 @@ public class ExpressionParser {
 	private HashMap<String, String> blocks = new HashMap<>();
 	private Map<String, StringContainer> strings;
 	private InputContainer input;
+	private String wholeProgram;
 	
 	public ExpressionParser(String input)
 	{
 		//Pair <String, HashMap<String, StringContainer>> pair =ParseUtils.removeStrAndCom(input);
 		Pair <InputContainer, HashMap<String,StringContainer>>pair=ParseUtils.takeOutStringsAndComents(input);
 		this.input = pair.getKey();
+		wholeProgram = this.input.string;
+		Pair<String, HashMap<String, String>> pair2 = ParseUtils.removeBlocks(this.input.string);
+		blocks = pair2.getValue();
+		this.input.string = pair2.getKey();
 		strings = pair.getValue();
 	}
-	public List<Expression> parse() {
-		Pair<String, HashMap<String, String>> pair = ParseUtils.removeBlocks(input.string);
-		blocks = pair.getValue();
-		String wholeProgram = input.string;
-		input.string = pair.getKey();
-		
+	public List<Expression> parse() {		
 		List<Expression> list = parseExpressions(input.string, 1);
 		if(input.getErrors().size() != 0)
 			list.add(new InvalidComment(wholeProgram, input.getErrors(), input.getLine()));
@@ -71,7 +71,7 @@ public class ExpressionParser {
 			
 			if(matcherElse.find())
 			{
-				exp =new Else(statement, currentLine, strings, this);
+				exp =new Else(statement, currentLine, strings);
 				if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
 					exp.addError(Error.MissingIfBeforeElse);
 			}
@@ -86,15 +86,15 @@ public class ExpressionParser {
 				}
 			}
 				else if (matcherIf.find())
-						exp = new If(statement, currentLine, strings, this);
+						exp = new If(statement, currentLine, strings);
 					else if (matcherFunc.find())
-							exp = new Function(statement, currentLine, strings, this);
+							exp = new Function(statement, currentLine, strings);
 						else if (matcherWhile.find())
-								exp = new While(statement, currentLine, strings, this);
+								exp = new While(statement, currentLine, strings);
 							else if (matcherFor.find())
-									exp = new For(statement, currentLine, strings, this);
+									exp = new For(statement, currentLine, strings);
 								else if (matcherTry.find())
-										exp = new Try(statement, currentLine, strings, this);
+										exp = new Try(statement, currentLine, strings);
 									else if (matcherAssign.find())
 											exp = new Assignment(statement, currentLine, strings);
 										else if (matcherInvo.find())

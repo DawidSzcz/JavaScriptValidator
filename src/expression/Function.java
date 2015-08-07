@@ -24,7 +24,7 @@ public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList<Statement>(); 
 	List <String> args;
 	String functionName;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings) 
 	{
 		super(statement, Instruction.FUNCITON, currentLine, strings);
 		for (String arg:args)
@@ -37,8 +37,6 @@ public class Function extends ComplexExpression {
 			list.add(args.size());
 			Context.functions.put(functionName,list);
 		}
-		if(content != null)
-			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -49,7 +47,7 @@ public class Function extends ComplexExpression {
 	}
 	@Override
 	public String toString() {
-		return "Function";
+		return branch + "Function";
 	}
 	@Override
 	public boolean isValid() 
@@ -104,7 +102,7 @@ public class Function extends ComplexExpression {
 			}
 			if (opened == 0) 
 				{
-				args=Arrays.asList(in.substring(0, i));
+				args=makeArgs(in.substring(0, i));
 				Matcher states = Patterns.states.matcher(in.substring(i + 1));
 				if (states.find())
 				{
@@ -124,5 +122,26 @@ public class Function extends ComplexExpression {
 		String name = statement.replaceAll("function", "");
 		name = parser.ParseUtils.cleanLine(name);
 		return name;
+	}
+	public List<String> makeArgs(String in)
+	{
+		List<String> list = new LinkedList<>();
+		String currentArg ="";
+		int opened = 1;
+		for (int i = 0; i < in.length(); i++) {
+			if(opened == 1 && in.charAt(i)== ',')
+			{
+				list.add(currentArg);
+				currentArg = "";
+				continue;
+			}
+			if (in.charAt(i) == '(')
+				opened++;
+			if (in.charAt(i) == ')')
+				opened--;
+			currentArg += in.charAt(i);
+		}
+		list.add(currentArg);
+		return list;
 	}
 }

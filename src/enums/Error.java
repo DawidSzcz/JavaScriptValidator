@@ -32,7 +32,8 @@ public enum Error {
 	MissingEndOfComment("Missing end of comment","Brakuje konca komentarza"),
 	IncorectExpresionWithUnderscore("Incorect expresion with underscore","Niepoprawne wyra¿enie z podkreslnikiem"),
 	FunctionIsNotDeclared("Function is not declared", "Funkcja nie zosta³a zadeklarowana"),
-	IncorrectNumberOfArguments("Incorrect number of arguments","Niepoprawna ilosc argumentow");
+	IncorrectNumberOfArguments("Incorrect number of arguments","Niepoprawna ilosc argumentow"),
+	SomethingWrongWithElseIf("Somfing wrong with elseif", "Cos sie nie zgadza w instrukcji else if");
 	
 	public final String enContent;
 	public final String plContent;

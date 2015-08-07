@@ -9,11 +9,9 @@ import exception.InvalidOperator;
 import parser.ExpressionParser;
 
 public class While extends ComplexExpression{
-	public While(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) 
+	public While(String statement, int currentLine, Map<String, StringContainer> strings) 
 	{
 		super(statement, Instruction.WHILE, currentLine, strings);
-		if(content != null)
-			this.statements = expressionParser.parseExpressions(this.content, this.beginOfStatements);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
@@ -24,7 +22,7 @@ public class While extends ComplexExpression{
 	}
 	@Override
 	public String toString() {
-		return "While";
+		return branch + "While";
 	}
 	@Override
 	public boolean isValid() {

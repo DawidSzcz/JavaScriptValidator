@@ -25,7 +25,7 @@ public class InvalidComment extends Expression
 	}
 	@Override
 	public String toString() {
-		return "Invalid Comment";
+		return branch + "Invalid Comment";
 	}
 	@Override
 	public boolean isValid() {

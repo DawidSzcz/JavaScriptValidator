@@ -25,7 +25,7 @@ public class Invocation extends SimpeExpresion {
 
 	@Override
 	public String toString() {
-		return "Invocation";
+		return branch + "Invocation";
 	}
 
 	@Override

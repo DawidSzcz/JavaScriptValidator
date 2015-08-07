@@ -11,10 +11,7 @@ import Atoms.StringContainer;
 import enums.Error;
 import parser.Patterns;
 
-public class SimpeExpresion extends Expression {
-
-	// static boolean isPortOpen=false;
-	//static List<Statement> openPorts = new ArrayList<Statement>();
+public abstract class SimpeExpresion extends Expression {
 
 	public SimpeExpresion(String name, int currentLine, Map<String, StringContainer> strings) 
 	{
@@ -28,19 +25,6 @@ public class SimpeExpresion extends Expression {
 		if (matcherPortFunktion.find()) {
 			validator.Context.openPorts.addAll(variables);
 		}
-	}
-
-	// public void
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

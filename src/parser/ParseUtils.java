@@ -227,4 +227,13 @@ public class ParseUtils {
 		String between = substring.substring(0, substring.indexOf(content));
 		return !Pattern.compile("[\\w\\(\\)\\$_]+").matcher(between).find();
 	}
+	public static String cleanWhite(String in)
+	{
+		String regX = "[^\\s]+(\\s+|$)";
+		String str = "";
+		Matcher match = Pattern.compile(regX).matcher(in);
+		while(match.find())
+			str += match.group().trim() +" ";
+		return str;
+	}
 }

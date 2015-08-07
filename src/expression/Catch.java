@@ -24,7 +24,7 @@ public class Catch extends ComplexExpression {
 
 	@Override
 	public String toString() {
-		return "CATCH";
+		return branch + "CATCH";
 	}
 
 	@Override
