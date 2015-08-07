@@ -23,11 +23,11 @@ import expression.Program;
 
 
 @RunWith(Parameterized.class)
-public class ExpressionsTest {
+public class ExpressionTest {
 	String url;
 	String data;
 	boolean result;
-	public ExpressionsTest(String u, String d, Boolean r) {
+	public ExpressionTest(String u, String d, Boolean r) {
 		url = u; data = d; result = r;
 	}
 	@Parameterized.Parameters

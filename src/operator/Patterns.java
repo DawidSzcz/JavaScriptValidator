@@ -4,16 +4,16 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 
-	public static String variable = "[_$A-Za-z][_$A-Za-z0-9]*|^\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*";
+	public static String variable = "([_$A-Za-z][_$A-Za-z0-9]*|^\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*)";
 	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w\\)\\]-])\\s*-[0-9]+";
 	public static String New = "((?<=\\W)|^)new\\s+\\w+";
 	public static String Var = "((?<=\\W)|^)var\\s+[_$A-Za-z]\\w*";
 	public static String typeof = "((?<=\\W)|^)typeof\\s+\\w+";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
-	public static String functionS = "(variable\\.)*variable\\s*(\\([^\\)\\(]*\\))";
+	public static String functionS = "("+variable+"\\.)*"+variable+"\\s*(\\([^\\)\\(]*\\))";
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
-	public static String splitFunctionArgumentsS = "^[^,]+(?=,)|(?<=,)[^,]+(?=,)|(?<=,)[^,]+$";
+//	public static String splitFunctionArgumentsS = "^[^,]+(?=,)|(?<=,)[^,]+(?=,)|(?<=,)[^,]+$";
 	public static String questionMarkS = "(number|variable)\\s*\\?\\s*(number|variable)\\s*:\\s*(number|variable)";
 	private static String threePlusS = "\\+\\+\\+";
 	private static String threeMinusS = "\\-\\-\\-";
@@ -48,7 +48,7 @@ public class Patterns {
 	public static Pattern expressionInSquareBracket = Pattern.compile(expressionInSquareBracketS);
 	public static Pattern operator1expression = Pattern.compile(operator1expressionS);
 	public static Pattern operator2expressions = Pattern.compile(operator2expressionsS);
-	public static Pattern splitFunctionArguments = Pattern.compile(splitFunctionArgumentsS);
+//	public static Pattern splitFunctionArguments = Pattern.compile(splitFunctionArgumentsS);
 	public static Pattern questionMark = Pattern.compile(questionMarkS);
 	public static Pattern threePlus = Pattern.compile(threePlusS);
 	public static Pattern threeMinus = Pattern.compile(threeMinusS);

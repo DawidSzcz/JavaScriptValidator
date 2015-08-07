@@ -9,6 +9,7 @@ public class ExpresionCorrect {
 
 	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
 
+		expression = functiontValidator(expression);
 		expression = expression.replaceAll(Patterns.typeof, "variable");
 		if(validator.Context.variableWithUnderscoreValid)
 			underscoreValidator(expression); 
@@ -17,7 +18,6 @@ public class ExpresionCorrect {
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
-		expression = functiontValidator(expression);
 		expression = bracketValidator(expression);
 		if (!isExpresionCorect(expression)) {
 			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
@@ -47,21 +47,13 @@ public class ExpresionCorrect {
 		while (macherFunction.find()) {
 			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
 			if (macherBracket.find()) {
-				String argunets = macherBracket.group();
-				Matcher matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
-				if (matcherArgument.find()) {
-					do {
-						if (!isExpresionCorect(matcherArgument.group())) {
+				String[] arguments = macherBracket.group().split(",");
+	//			isFunctionExist(macherFunction.group(),arguments);
+				for (String argument:arguments) {
+						if (!isExpresionCorect(argument)) {
 							throw new InvalidFunction(enums.Error.InvalidFunction, expression);
-						} else {
-							argunets = argunets.replace(matcherArgument.group() + ",", "");
-							matcherArgument = Patterns.splitFunctionArguments.matcher(argunets);
 						}
-					} while (matcherArgument.find());
-				}
-				if (!isExpresionCorect(argunets) && !macherBracket.group().equals("")) {
-					throw new InvalidOperator(enums.Error.InvalidOperator, expression);
-				}
+				}			
 			}
 			expression = expression.replace(macherFunction.group(), "variable");
 			macherFunction = Patterns.function.matcher(expression);
@@ -134,5 +126,23 @@ public class ExpresionCorrect {
 		if (matcherExpressionWithUnderscore.find()){
 			throw new InvalidOperator(enums.Error.IncorectExpresionWithUnderscore, expression);
 		}
+	}
+	private static void isFunctionExist(String funktion, String[] arguments) throws InvalidFunction {
+		String name = funktion.substring(0, funktion.indexOf('('));
+		name = parser.ParseUtils.cleanLine(name);
+		boolean isNumerArgumentCorect=false;
+		if(validator.Context.functions.get(name)!=null){
+			for(int arg:validator.Context.functions.get(name)){
+				if(arg==arguments.length){
+					isNumerArgumentCorect=true;
+				}
+			}
+			if(!isNumerArgumentCorect){
+				throw new InvalidFunction(enums.Error.IncorrectNumberOfArguments, funktion);
+			}
+		}else{
+			throw new InvalidFunction(enums.Error.FunctionIsNotDeclared, funktion);
+		}
+		
 	}
 }

@@ -163,7 +163,7 @@ public class ParseUtils {
 						}
 					}
 					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
-					javaScriptText.addError(Error.MissingAndOfComment);
+					javaScriptText.addError(Error.MissingEndOfComment);
 
 				}
 			}

@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,15 +18,25 @@ import exception.WrongComplexException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
+import validator.Context;
 
 public class Function extends ComplexExpression {
-	List<Statement>  arguments = new LinkedList(); 
+	List<Statement>  arguments = new LinkedList<Statement>(); 
 	List <String> args;
+	String functionName;
 	public Function(String statement, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser) 
 	{
 		super(statement, Instruction.FUNCITON, currentLine, strings);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
+		functionName = getName(statement);
+		if (Context.functions.containsKey(functionName)){
+			Context.functions.get(functionName).add(args.size());
+		}else{
+			List<Integer> list = new ArrayList<Integer>();
+			list.add(args.size());
+			Context.functions.put(functionName,list);
+		}
 		if(content != null)
 			this.statements = expressionParser.parseExpressions(content, beginOfStatements);
 	}
@@ -107,6 +118,11 @@ public class Function extends ComplexExpression {
 			}
 		}
 		throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
-
+	}
+	private String getName(String statement){
+		statement = statement.substring(0, statement.indexOf('('));
+		String name = statement.replaceAll("function", "");
+		name = parser.ParseUtils.cleanLine(name);
+		return name;
 	}
 }
