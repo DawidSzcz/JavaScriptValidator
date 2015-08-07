@@ -91,7 +91,7 @@ public class Function extends ComplexExpression {
 			}
 			if (opened == 0) 
 				{
-				args=Arrays.asList(in.substring(0, i));
+				args=makeArgs(in.substring(0, i));
 				Matcher states = Patterns.states.matcher(in.substring(i + 1));
 				if (states.find())
 				{
@@ -105,6 +105,26 @@ public class Function extends ComplexExpression {
 			}
 		}
 		throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
-
+	}
+	public List<String> makeArgs(String in)
+	{
+		List<String> list = new LinkedList<>();
+		String currentArg ="";
+		int opened = 1;
+		for (int i = 0; i < in.length(); i++) {
+			if(opened == 1 && in.charAt(i)== ',')
+			{
+				list.add(currentArg);
+				currentArg = "";
+				continue;
+			}
+			if (in.charAt(i) == '(')
+				opened++;
+			if (in.charAt(i) == ')')
+				opened--;
+			currentArg += in.charAt(i);
+		}
+		list.add(currentArg);
+		return list;
 	}
 }

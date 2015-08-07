@@ -9,9 +9,11 @@ public class ExpresionCorrect {
 
 	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
 
+		expression = expression.replaceAll(Patterns.typeof, "variable");
+		if(validator.Context.variableWithUnderscoreValid)
+			underscoreValidator(expression); 
 		expression = expression.replaceAll(Patterns.New, "variable");
 		expression = expression.replaceAll(Patterns.Var, "variable");
-		expression = expression.replaceAll(Patterns.typeof, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
@@ -114,5 +116,23 @@ public class ExpresionCorrect {
 		else
 			return false;
 	}
+	private static void underscoreValidator(String expression) throws InvalidOperator{
 
+		expression = expression.replaceAll("hideStructureAndParameters\\([^\\(\\)]+\\)", " ");
+		expression = expression.replaceAll("checkParameter\\([^\\(\\)]+\\)", " ");
+		expression = expression.replaceAll("hideTableAndParameters\\([^\\(\\)]+\\)", " ");
+		expression = expression.replaceAll("hideTableParameters\\([^\\(\\)]+\\)", " ");
+
+		Matcher matcherExpressionWithUnderscoreAndFunction = Patterns.expressionWithUnderscoreAndFunction.matcher(expression);
+		
+		while (matcherExpressionWithUnderscoreAndFunction.find()) {
+			expression = expression.replace(matcherExpressionWithUnderscoreAndFunction.group(), "");
+			matcherExpressionWithUnderscoreAndFunction = Patterns.expressionWithUnderscoreAndFunction.matcher(expression);
+		}
+	
+		Matcher matcherExpressionWithUnderscore = Patterns.expressionWithUnderscore.matcher(expression);
+		if (matcherExpressionWithUnderscore.find()){
+			throw new InvalidOperator(enums.Error.IncorectExpresionWithUnderscore, expression);
+		}
+	}
 }

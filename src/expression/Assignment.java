@@ -11,6 +11,7 @@ import exception.InvalidFunction;
 import exception.InvalidOperator;
 import parser.ParseUtils;
 import parser.Patterns;
+import validator.Context;
 
 
 public class Assignment extends SimpeExpresion {
@@ -34,6 +35,7 @@ public class Assignment extends SimpeExpresion {
 			for (int i = side.length-2 ; i >= 0; i--) {
 				try{
 				variables.add(new Statement(ParseUtils.cleanLine(side[i])));
+				Context.variables.add(side[i]);
 				}
 				catch(IllegalStateException e){
 					errors.add(enums.Error.NullSteatment);

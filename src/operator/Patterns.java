@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 
-	public static String variable = "[_$A-Za-z]\\w*|^\\s*-[_$A-Za-z]\\w*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]\\w*";
+	public static String variable = "[_$A-Za-z][_$A-Za-z0-9]*|^\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*";
 	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w\\)\\]-])\\s*-[0-9]+";
 	public static String New = "((?<=\\W)|^)new\\s+\\w+";
 	public static String Var = "((?<=\\W)|^)var\\s+[_$A-Za-z]\\w*";
@@ -17,6 +17,8 @@ public class Patterns {
 	public static String questionMarkS = "(number|variable)\\s*\\?\\s*(number|variable)\\s*:\\s*(number|variable)";
 	private static String threePlusS = "\\+\\+\\+";
 	private static String threeMinusS = "\\-\\-\\-";
+	public static String expressionWithUnderscoreS = "\\W_[_$A-Za-z0-9]*";
+	public static String expressionWithUnderscoreAndFunctionS = "\\W_[_$A-Za-z0-9]*(\\.[_$A-Za-z0-9]*)+\\s*\\(";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
 	+ "|" + createRegex1("variable\\+\\+")
 	+ "|" + createRegex1("variable\\-\\-")
@@ -50,6 +52,8 @@ public class Patterns {
 	public static Pattern questionMark = Pattern.compile(questionMarkS);
 	public static Pattern threePlus = Pattern.compile(threePlusS);
 	public static Pattern threeMinus = Pattern.compile(threeMinusS);
+	public static Pattern expressionWithUnderscore = Pattern.compile(expressionWithUnderscoreS);
+	public static Pattern expressionWithUnderscoreAndFunction = Pattern.compile(expressionWithUnderscoreAndFunctionS);
 	
 	private static String createRegex1(String operator) {
 		return "(?<=\\W)\\s*"+operator+"\\s*(?=\\W)|^"+operator+"\\s*|\\s*"+operator+"$";

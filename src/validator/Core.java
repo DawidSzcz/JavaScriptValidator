@@ -1,4 +1,3 @@
-
 package validator;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,6 +23,7 @@ public class Core extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try{
 		Context.clear();
+		Context.variableWithUnderscoreValid=request.getParameter("underscore")!=null;
 		Context.expressionParser = new ExpressionParser(request.getParameter("javaScript"));
 		Program program = new Program(request.getParameter("javaScript"));
 		List<String> rows = Arrays.asList(ValidUtils.color(ValidUtils.htmlValidReplace(request.getParameter("javaScript"))).split("\n"));
@@ -47,5 +47,4 @@ public class Core extends HttpServlet {
 		}
 		return body;
 	}
-
 }
