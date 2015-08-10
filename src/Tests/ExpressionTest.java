@@ -23,7 +23,6 @@ import validator.Context;
 
 @RunWith(Parameterized.class)
 public class ExpressionTest {
-
 	String url;
 	String data;
 	boolean result;
@@ -59,11 +58,10 @@ public class ExpressionTest {
 	@Test
 	public void test() throws WrongComplexException
 	{
+		Context.clear();
 		Context.expressionParser = new ExpressionParser(data);
 		Program program = new Program(data);
 		HashMap<Integer, List<enums.Error>> errors = program.getAllErrors();
 		assertEquals(errors.size() == 0, result);
 	}
-
-
 }
