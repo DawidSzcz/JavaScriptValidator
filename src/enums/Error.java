@@ -31,7 +31,8 @@ public enum Error {
 	NullInBracket("No expresion in bracket","niema wyrazenia w nawiasach"),
 	MissingEndOfComment("Missing end of comment","Brakuje konca komentarza"), 
 	SomethingWrongWithElseIf("Somfing wrong with elseif", "Cos sie nie zgadza w instrukcji else if"),
-	IncorectExpresionWithUnderscore("Incorect expresion with underscore","Niepoprawne wyra¿enie z podkreslnikiem");
+	IncorectExpresionWithUnderscore("Incorect expresion with underscore","Niepoprawne wyra¿enie z podkreslnikiem"), 
+	TryWithNoCatch("Missing catch block after try", "Brakuj¹cy catch po try");
 	
 	public final String enContent;
 	public final String plContent;

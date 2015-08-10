@@ -62,7 +62,7 @@ public class Function extends ComplexExpression {
 		if (checkBeginning.find()) {
 			header = checkBeginning.group();
 			in = in.replace(header, "");
-			lineBeforeStatement = ParseUtils.getLines(header);
+			lineBeforeStatement = ParseUtils.getLinesBNS(header);
 			this.line = currentLine + lineBeforeStatement;
 		} 		
 		else
@@ -72,7 +72,7 @@ public class Function extends ComplexExpression {
 				this.addError(Error.RestrictedLowerCase);
 				header = checkBeginning.group();
 				in = in.replace(header, "");
-				lineBeforeStatement = ParseUtils.getLines(header);
+				lineBeforeStatement = ParseUtils.getLinesBNS(header);
 				this.line = currentLine + lineBeforeStatement;
 			} 
 			else
@@ -95,7 +95,7 @@ public class Function extends ComplexExpression {
 				Matcher states = Patterns.states.matcher(in.substring(i + 1));
 				if (states.find())
 				{
-					this.area = instructionArea;
+					this.area = instructionArea + ParseUtils.getLines(header) - ParseUtils.getLinesBNS(header);
 					this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
 					this.content = states.group();
 					return;

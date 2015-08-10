@@ -6,6 +6,7 @@ import java.util.Map;
 
 import Atoms.Statement;
 import Atoms.StringContainer;
+import enums.Error;
 import enums.Instruction;
 import parser.ExpressionParser;
 
@@ -34,11 +35,20 @@ public class Try extends ComplexExpression
 
 	@Override
 	public boolean isValid() {
-		return true;
+		if(!catchList.isEmpty())
+			return true;
+		this.addError(Error.TryWithNoCatch);
+		return false;
 	}
 	public void insertCatch(Catch c)
 	{
 		catchList.add(c);
+	}
+	@Override
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions, String branch) {
+		super.addtoInstructions(instructions, branch);
+		for (Catch exp : catchList)
+			exp.addtoInstructions(instructions, this.toString()+ " ");
 	}
 
 }

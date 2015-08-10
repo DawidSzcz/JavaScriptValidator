@@ -18,7 +18,7 @@ public class ValidUtils {
 			+ "<tr><th>Lp.</th><th>Code</th><th>Errors</th></tr>" + "%s<table>" + "</body>";
 	public static final String row = "<tr><td class=\"lp\">%d</td><td style=\"padding-left:%dpx\" class=\"code\">%s</td><td class=\"%s\">%s</td></tr>";
 	
-	public static List<Character> special = Arrays.asList('{','}', '(', ')', ' ', '\t', '\n', ';');
+	public static List<Character> special = Arrays.asList('{','}', '(', ')', ' ', '\t', '\n', ';', '\r');
 	public static List<String> restrictedWords = Arrays.asList(
 		"abstract", "arguments", "boolean", "break", "byte",
 		"case", "catch", "char", "class", "const", 

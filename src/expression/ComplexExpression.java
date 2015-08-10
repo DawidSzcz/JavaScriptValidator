@@ -87,7 +87,8 @@ public abstract class ComplexExpression extends Expression {
 		if (checkBeginning.find()) {
 			header = checkBeginning.group();
 			in = in.replace(header, "");
-			lineBeforeStatement = ParseUtils.getLines(header);
+			lineBeforeStatement = ParseUtils.getLinesBNS(header); 	// Wczesniej ParseUtils.getLines(header); - zmienione bo zle znajdowa³em linie dla przypadku if\n( 
+																	// kolejna zmiana w przypisaniu do area. 
 			this.line = currentLine + lineBeforeStatement;
 		} 
 		else
@@ -97,7 +98,7 @@ public abstract class ComplexExpression extends Expression {
 				this.addError(Error.RestrictedLowerCase);
 				header = checkBeginning.group();
 				in = in.replace(header, "");
-				lineBeforeStatement = ParseUtils.getLines(header);
+				lineBeforeStatement = ParseUtils.getLinesBNS(header); // j.w.
 				this.line = currentLine + lineBeforeStatement;
 			} 
 			else
@@ -121,7 +122,7 @@ public abstract class ComplexExpression extends Expression {
 					condition = new Statement(in.substring(0, i));
 					Matcher states = Patterns.states.matcher(in.substring(i + 1));
 					if (states.find()) {
-						this.area = instructionArea;
+						this.area = instructionArea + ParseUtils.getLines(header) - ParseUtils.getLinesBNS(header); // zmiana  o kteórej by³o mowione wczesniej
 						this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
 						this.content = states.group();
 						if(!ParseUtils.checkBetweenCondStates(in.substring(i + 1), this.content))
@@ -135,7 +136,7 @@ public abstract class ComplexExpression extends Expression {
 		} else {
 			Matcher states = Patterns.states.matcher(in);
 			if (states.find()) {
-				this.area = 1;
+				this.area = 0;
 				this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in);
 				this.content = states.group();
 			} else
