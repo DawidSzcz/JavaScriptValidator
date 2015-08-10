@@ -11,21 +11,32 @@ public class Context {
 	static public List<String> variables = new ArrayList<String>();
 	static public HashMap <String,List<Integer>> functions = new HashMap <String,List<Integer>>();
 	static public List<String> functionsBehindDot =new ArrayList<String>();
-	static public List<String> oneArgumentFunctions =new ArrayList<String>();
-	static public List<String> zeroArgumentFunctions =new ArrayList<String>();
 	static public boolean variableWithUnderscoreValid = false;
 	static public ExpressionParser expressionParser;
 	public static void clear(){
 		openPorts.clear();
 		variables.clear();
 		functions.clear();
+		prepareFunctions();
 		functionsBehindDot.clear();
-		oneArgumentFunctions.clear();
-		zeroArgumentFunctions.clear();
 		prepareFunctionBehindDot();
-		prepareZeroArgumentFunctions();
-		prepareOneArgumentFunctions();
 		expressionParser = null;
+	}
+	private static void prepareFunctions() {
+		List<Integer> numberOfArguments = new ArrayList<Integer>();
+		numberOfArguments.add(0);
+		functions.put("getRowsIterator",numberOfArguments);
+		numberOfArguments.clear();
+		numberOfArguments.add(1);
+		functions.put("setErrorMsg",numberOfArguments);
+		functions.put("getString",numberOfArguments);
+		functions.put("getInt",numberOfArguments);
+		functions.put("getParameterByName",numberOfArguments);
+		functions.put("setStringValue",numberOfArguments);
+		functions.put("setIntegerValue",numberOfArguments);
+		functions.put("setIntValue",numberOfArguments);
+		numberOfArguments.add(2);
+		functions.put("setValue",numberOfArguments);
 	}
 	private static void prepareFunctionBehindDot() {
 		functionsBehindDot.add("setErrorMsg");
@@ -39,19 +50,6 @@ public class Context {
 		functionsBehindDot.add("setIntegerValue");
 		functionsBehindDot.add("setIntValue");
 		functionsBehindDot.add("getRowsIterator");
-	}
-	public static void prepareZeroArgumentFunctions(){
-		zeroArgumentFunctions.add("getRowsIterator");
-	}
-	public static void prepareOneArgumentFunctions(){
-		oneArgumentFunctions.add("setErrorMsg");
-		oneArgumentFunctions.add("getString");
-		oneArgumentFunctions.add("getInt");
-		oneArgumentFunctions.add("getParameterByName");
-		oneArgumentFunctions.add("setValue");
-		oneArgumentFunctions.add("setStringValue");
-		oneArgumentFunctions.add("setIntegerValue");
-		oneArgumentFunctions.add("setIntValue");
 	}
 
 }
