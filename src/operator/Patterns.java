@@ -11,7 +11,8 @@ public class Patterns {
 	public static String typeof = "((?<=\\W)|^)typeof\\s+\\w+";
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
-	public static String functionS = "(variable\\.)*variable\\s*(\\([^\\)\\(]*\\))";
+	public static String functionExpressionS = "(variable\\.)*variable\\s*(\\([^\\)\\(]*\\))";
+	private static String functionS = "(("+variable+")\\.)*\\.?("+variable+")\\s*(\\([^\\)\\(]*\\))";
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
 //	public static String splitFunctionArgumentsS = "^[^,]+(?=,)|(?<=,)[^,]+(?=,)|(?<=,)[^,]+$";
 	public static String questionMarkS = "(number|variable)\\s*\\?\\s*(number|variable)\\s*:\\s*(number|variable)";
@@ -44,6 +45,7 @@ public class Patterns {
 	+ "|" + createRegex2("\\&\\&");
 	
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
+	public static Pattern functionExpressions = Pattern.compile(functionExpressionS);
 	public static Pattern function = Pattern.compile(functionS);
 	public static Pattern expressionInSquareBracket = Pattern.compile(expressionInSquareBracketS);
 	public static Pattern operator1expression = Pattern.compile(operator1expressionS);

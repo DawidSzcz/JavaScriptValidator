@@ -1,6 +1,7 @@
 package operator;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import exception.InvalidFunction;
 import exception.InvalidOperator;
@@ -8,8 +9,8 @@ import exception.InvalidOperator;
 public class ExpresionCorrect {
 
 	public static boolean isExpressinCorrect(String expression) throws InvalidOperator,InvalidFunction {
-
-		expression = functiontValidator(expression);
+		
+		functionValidator(expression);
 		expression = expression.replaceAll(Patterns.typeof, "variable");
 		if(validator.Context.variableWithUnderscoreValid)
 			underscoreValidator(expression); 
@@ -18,6 +19,7 @@ public class ExpresionCorrect {
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
+		expression = functiontAsExpressionValidator(expression);
 		expression = bracketValidator(expression);
 		if (!isExpresionCorect(expression)) {
 			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
@@ -30,7 +32,7 @@ public class ExpresionCorrect {
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		while (macherSquareBracket.find()) {
 			String subexpression=macherSquareBracket.group();
-			subexpression = functiontValidator(subexpression);
+			subexpression = functiontAsExpressionValidator(subexpression);
 			subexpression = bracketValidator(subexpression);			
 			if (!isExpresionCorect(subexpression)) {
 				throw new InvalidOperator(enums.Error.InvalExpresionInSquareBracket, expression);
@@ -41,14 +43,13 @@ public class ExpresionCorrect {
 		return expression;
 	}
 
-	private static String functiontValidator(String expression) throws InvalidOperator,InvalidFunction {
-		Matcher macherFunction = Patterns.function.matcher(expression);
+	private static String functiontAsExpressionValidator(String expression) throws InvalidOperator,InvalidFunction {
+		Matcher macherFunction = Patterns.functionExpressions.matcher(expression);
 		Matcher macherBracket;
 		while (macherFunction.find()) {
 			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
 			if (macherBracket.find()) {
 				String[] arguments = macherBracket.group().split(",");
-	//			isFunctionExist(macherFunction.group(),arguments);
 				for (String argument:arguments) {
 						if (!isExpresionCorect(argument)) {
 							throw new InvalidFunction(enums.Error.InvalidFunction, expression);
@@ -56,7 +57,7 @@ public class ExpresionCorrect {
 				}			
 			}
 			expression = expression.replace(macherFunction.group(), "variable");
-			macherFunction = Patterns.function.matcher(expression);
+			macherFunction = Patterns.functionExpressions.matcher(expression);
 		}
 		return expression;
 	}
@@ -127,22 +128,42 @@ public class ExpresionCorrect {
 			throw new InvalidOperator(enums.Error.IncorectExpresionWithUnderscore, expression);
 		}
 	}
-	private static void isFunctionExist(String funktion, String[] arguments) throws InvalidFunction {
-		String name = funktion.substring(0, funktion.indexOf('('));
-		name = parser.ParseUtils.cleanLine(name);
-		boolean isNumerArgumentCorect=false;
-		if(validator.Context.functions.get(name)!=null){
-			for(int arg:validator.Context.functions.get(name)){
-				if(arg==arguments.length){
-					isNumerArgumentCorect=true;
+	private static void functionValidator(String expression) throws InvalidOperator {
+		expression = expression.replaceAll("_featureManager\\.getProcessInstanceFeature\\(\\)\\.getWFLIProcessId\\(\\)", " ");
+		if (expression.indexOf("getWFLIProcessId()")!=-1){
+			throw new InvalidOperator(enums.Error.InvalidUseGetWFLIProcessId, expression);
+		}
+		String functionName;
+		String[] functionArguments;
+		Matcher macherFunction = Patterns.function.matcher(expression);
+		Matcher macherBracket;
+		while (macherFunction.find()){
+			functionName=macherFunction.group().substring(0, macherFunction.group().indexOf('(')+1);
+			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
+			macherBracket.find();
+			functionArguments=macherBracket.group().split(",");
+			for (String oneOperatorFunction:validator.Context.oneArgumentFunctions){
+				if(functionName.indexOf(oneOperatorFunction+"(")!=-1){
+					if(functionArguments.length!=1 || functionArguments[0].equals("")){
+						throw new InvalidOperator(enums.Error.IncorrectNumberOfArguments, expression);
+					}
 				}
 			}
-			if(!isNumerArgumentCorect){
-				throw new InvalidFunction(enums.Error.IncorrectNumberOfArguments, funktion);
+			for (String zeroOperatorFunction:validator.Context.zeroArgumentFunctions){
+				if(functionName.indexOf(zeroOperatorFunction+"(")!=-1){
+					if(!functionArguments[0].equals("")){
+						throw new InvalidOperator(enums.Error.IncorrectNumberOfArguments, expression);
+					}
+				}
 			}
-		}else{
-			throw new InvalidFunction(enums.Error.FunctionIsNotDeclared, funktion);
+			for (String functionBehindDot:validator.Context.functionsBehindDot){
+				if(functionName.indexOf(functionBehindDot+"(")!=-1){
+					if(functionName.indexOf('.'+functionBehindDot)==-1){
+						throw new InvalidOperator(enums.Error.MisssDotBeforFunctions, expression);
+					}
+				}
+			}
 		}
-		
 	}
+	
 }
