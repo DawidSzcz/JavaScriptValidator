@@ -75,6 +75,9 @@ public class ValidationTest {
 		assertFalse(TestUtils.testStatement("x((a,b), c)"));
 		assertFalse(TestUtils.testStatement("x((a,b, c), c)"));
 		assertTrue(TestUtils.testStatement("x(x(a,b, c),b, c(d,e))"));
+		assertTrue(TestUtils.testStatement("JavaScriptException.javaException instanceof java.lang.NumberFormatException"));
+		assertFalse(TestUtils.testStatement("JavaScriptException.javaException instanceof"));
+		assertFalse(TestUtils.testStatement("JavaScriptException.javaException instanceofjava.lang.NumberFormatException"));
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
 	}
