@@ -5,8 +5,8 @@ public enum Instruction {
 	TRY("try"),
 	ELSE("else"),
 	IF("if\\s*\\("),
-	FOR("for\\s*\\("),
-	WHILE("while\\s*\\("),
+	FOR("([\\w$_]+:\\s*)?for\\s*\\("),
+	WHILE("([\\w$_]+:\\s*)?while\\s*\\("),
 	CATCH("catch\\s*\\("),
 	FUNCITON("function\\s+[_\\$a-zA-Z]+[_\\$\\w]*\\s*\\("),
 	PROGRAM("");

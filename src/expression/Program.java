@@ -12,7 +12,7 @@ import validator.Context;
 public class Program extends ComplexExpression 
 {
 	public Program(String input) throws WrongComplexException {
-		super(input, Instruction.PROGRAM, 1, null);
+		super(input, Instruction.PROGRAM, 1, null, null);
 		statements = Context.expressionParser.parse();
 	}
 
@@ -28,7 +28,8 @@ public class Program extends ComplexExpression
 	public boolean isValid() {
 		return true;
 	}
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+	@Override
+	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> str) throws WrongComplexException {
 		line = currentLine;
 		this.content = in;
 	}

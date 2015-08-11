@@ -14,9 +14,9 @@ public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, Map<String, StringContainer> strings)
+	public Try(String name, int currentLine, Map<String, StringContainer> strings, List<String> labels)
 	{
-		super(name, Instruction.TRY, currentLine, strings);
+		super(name, Instruction.TRY, currentLine, strings, labels);
 	}
 
 	@Override

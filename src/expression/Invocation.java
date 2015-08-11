@@ -7,7 +7,7 @@ import Atoms.StringContainer;
 import exception.InvalidFunction;
 import exception.InvalidOperator;
 
-public class Invocation extends SimpeExpresion {
+public class Invocation extends SimpleExpression {
 	Statement invocation;
 
 	public Invocation(String str, int currentLine, Map<String, StringContainer> strings) {

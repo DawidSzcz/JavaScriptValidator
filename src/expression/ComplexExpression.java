@@ -2,6 +2,7 @@ package expression;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -25,10 +26,10 @@ public abstract class ComplexExpression extends Expression {
 	protected Statement condition;
 	protected String content;
 
-	public ComplexExpression(String in, Instruction instruction, int currentLine,	Map<String, StringContainer> strings) {
+	public ComplexExpression(String in, Instruction instruction, int currentLine,	Map<String, StringContainer> strings, List<String> labels) {
 		super(in, strings);
 		try {
-			splitBlock(instruction, currentLine, in);
+			splitBlock(instruction, currentLine, in, labels);
 		}catch (WrongBlockException e) {
 			this.addError(e.getError());
 			this.content = e.content;
@@ -48,7 +49,7 @@ public abstract class ComplexExpression extends Expression {
 		}
 		//Do zmiany
 		if(content != null && instruction !=  Instruction.PROGRAM)
-			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements);
+			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements, labels);
 
 	}
 
@@ -76,7 +77,7 @@ public abstract class ComplexExpression extends Expression {
 				exp.addtoInstructions(instructions, this.toString()+ " ");
 	}
 
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {
 		String wholeInstruction = in;
 		List<Character> forbidden = Arrays.asList('{', '}', ';');
 		String header;
@@ -103,6 +104,12 @@ public abstract class ComplexExpression extends Expression {
 			} 
 			else
 				throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		}
+		Matcher labelM = Patterns.label.matcher(header);
+		if(header.contains(":") && labelM.find())
+		{
+			String label = labelM.group();
+			labels.add(ParseUtils.cleanLine(label.substring(0, label.length() -1)));
 		}
 
 		if (!instruction.equals(Instruction.TRY) && !instruction.equals(Instruction.ELSE)) {

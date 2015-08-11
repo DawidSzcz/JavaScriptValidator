@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.List;
 import java.util.Map;
 
 import Atoms.StringContainer;
@@ -8,11 +9,8 @@ import parser.ExpressionParser;
 
 public class Catch extends ComplexExpression {
 
-	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser){
-		super(name, Instruction.CATCH, currentLine, strings);
-		//Do zmiany
-		if(content != null)
-			statements = expressionParser.parseExpressions(content, beginOfStatements);
+	public Catch(String name, int currentLine, Map<String, StringContainer> strings, ExpressionParser expressionParser, List<String> labels){
+		super(name, Instruction.CATCH, currentLine, strings, labels);
 	}
 
 	@Override

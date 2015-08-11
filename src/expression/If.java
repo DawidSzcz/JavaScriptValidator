@@ -12,10 +12,8 @@ import parser.ExpressionParser;
 import validator.Context;
 
 public class If extends ComplexExpression{
-	public If(String statement, int currentLine, Map<String, StringContainer> strings) {
-		super(statement, Instruction.IF, currentLine, strings);
-		if(content != null)
-			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements);
+	public If(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels) {
+		super(statement, Instruction.IF, currentLine, strings, labels);
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {

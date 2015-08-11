@@ -24,9 +24,9 @@ public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList<Statement>(); 
 	List <String> args;
 	String functionName;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings) 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels) 
 	{
-		super(statement, Instruction.FUNCITON, currentLine, strings);
+		super(statement, Instruction.FUNCITON, currentLine, strings, labels);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
 		functionName = getName(statement);
@@ -64,7 +64,7 @@ public class Function extends ComplexExpression {
 		return true;
 	}
 	@Override
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {
 		String wholeInstruction = in;
 		String header;
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction)).matcher(in);

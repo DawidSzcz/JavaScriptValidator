@@ -14,7 +14,7 @@ import parser.Patterns;
 import validator.Context;
 
 
-public class Assignment extends SimpeExpresion {
+public class Assignment extends SimpleExpression {
 	List<Statement> variables=new ArrayList<Statement>();
 	Statement argument;
 

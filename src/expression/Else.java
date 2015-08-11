@@ -20,9 +20,9 @@ import parser.Patterns;
 public class Else extends ComplexExpression
 {
 	private boolean elseIf;
-	public Else(String statement, int currentLine, Map<String, StringContainer> strings)
+	public Else(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels)
 	{
-		super(statement, Instruction.ELSE, currentLine,strings);
+		super(statement, Instruction.ELSE, currentLine,strings, labels);
 		if(elseIf && (!(this.statements.get(0) instanceof If)))
 		{
 			addError(Error.SomethingWrongWithElseIf);
@@ -52,7 +52,7 @@ public class Else extends ComplexExpression
 		return true;
 	}
 	@Override
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {
 		String wholeInstruction = in;
 		String header;
 		int i = 0;
