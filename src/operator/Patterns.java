@@ -4,11 +4,8 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 
-	public static String variable = "[_$A-Za-z][_$A-Za-z0-9]*|^\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*";
-	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w\\)\\]-])\\s*-[0-9]+";
-	public static String New = "((?<=\\W)|^)new\\s+\\w+";
-	public static String Var = "((?<=\\W)|^)var\\s+[_$A-Za-z]\\w*";
-	public static String typeof = "((?<=\\W)|^)typeof\\s+\\w+";
+	public static String variable = "([_$A-Za-z][_$A-Za-z0-9]*|^\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*)";
+	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w\\)\\]-])\\s*-[0-9]+";	
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
 	public static String functionExpressionS = "(variable\\.)*variable\\s*(\\([^\\)\\(]*\\))";
@@ -20,6 +17,7 @@ public class Patterns {
 	private static String threeMinusS = "\\-\\-\\-";
 	public static String expressionWithUnderscoreS = "\\W_[_$A-Za-z0-9]*";
 	public static String expressionWithUnderscoreAndFunctionS = "\\W_[_$A-Za-z0-9]*(\\.[_$A-Za-z0-9]*)+\\s*\\(";
+	public static String Instanceof = "("+variable+"\\.)*"+variable+"\\s+instanceof\\s+"+variable+"*(\\."+variable+")*";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
 	+ "|" + createRegex1("variable\\+\\+")
 	+ "|" + createRegex1("variable\\-\\-")
@@ -43,7 +41,16 @@ public class Patterns {
 	+ "|" + createRegex2("\\<\\<")
 	+ "|" + createRegex2("\\|\\|")
 	+ "|" + createRegex2("\\&\\&");
-	
+	public static String prefiks =createprefix("new")
+	+"|"+createprefix("var")
+	+"|"+createprefix("void")
+	+"|"+createprefix("typeof")
+	+"|"+createprefix("import")
+	+"|"+createprefix("float")
+	+"|"+createprefix("char")
+	+"|"+createprefix("byte")
+	+"|"+createprefix("int")
+	+"|"+createprefix("boolean");	
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
 	public static Pattern functionExpressions = Pattern.compile(functionExpressionS);
 	public static Pattern function = Pattern.compile(functionS);
@@ -63,5 +70,8 @@ public class Patterns {
 	// "+operator+"
 	private static String createRegex2(String operator) {
 		return "\\s*(number|variable)\\s*"+operator+"\\s*(number|variable)\\s*";
+	}
+	private static String createprefix(String prefix) {
+		return "((?<=\\W)|^)"+prefix+"\\s+[_$A-Za-z]\\w*";
 	}
 }
