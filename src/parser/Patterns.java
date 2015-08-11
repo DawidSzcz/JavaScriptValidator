@@ -16,7 +16,7 @@ public class Patterns {
 	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|while|function|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
-	public static String statementsS = "(?<=\\{).+(?=\\})";
+	public static String statementsS = "(?<=\\{).*(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
 	public static String checkOpenningS = "\\)(?![\t \r]*(\n|\\w))";

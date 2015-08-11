@@ -100,7 +100,7 @@ public class ExpressionParser {
 										else if (matcherInvo.find())
 												exp = new Invocation(statement, currentLine, strings);
 											else {
-													if(statement.matches("\\s+"))
+													if(statement.matches("\\s*"))
 														continue;
 													exp = new UnknownExpression(statement, currentLine, strings);
 													if (statement.contains("}"))
@@ -108,7 +108,6 @@ public class ExpressionParser {
 												}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
-			exp.isValid();
 		}
 		return exps;
 	}
