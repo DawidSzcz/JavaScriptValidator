@@ -61,6 +61,7 @@ public class ExpressionTest {
 		Context.clear();
 		Context.expressionParser = new ExpressionParser(data);
 		Program program = new Program(data);
+		program.mapExpression();
 		HashMap<Integer, List<enums.Error>> errors = program.getAllErrors();
 		assertEquals(errors.size() == 0, result);
 	}
