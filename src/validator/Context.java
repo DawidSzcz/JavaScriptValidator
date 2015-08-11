@@ -24,8 +24,10 @@ public class Context {
 	}
 	private static void prepareFunctions() {
 		List<Integer> numberOfArguments = new ArrayList<Integer>();
+		numberOfArguments.clear();
 		numberOfArguments.add(0);
 		functions.put("getRowsIterator",numberOfArguments);
+		numberOfArguments = new ArrayList<Integer>();
 		numberOfArguments.clear();
 		numberOfArguments.add(1);
 		functions.put("setErrorMsg",numberOfArguments);
@@ -35,6 +37,9 @@ public class Context {
 		functions.put("setStringValue",numberOfArguments);
 		functions.put("setIntegerValue",numberOfArguments);
 		functions.put("setIntValue",numberOfArguments);
+		numberOfArguments = new ArrayList<Integer>();
+		numberOfArguments.clear();
+		numberOfArguments.add(1);
 		numberOfArguments.add(2);
 		functions.put("setValue",numberOfArguments);
 	}
