@@ -14,6 +14,7 @@ public class ExpresionCorrect {
 		expression = expression.replaceAll(Patterns.typeof, "variable");
 		if (validator.Context.variableWithUnderscoreValid)
 			underscoreValidator(expression);
+		
 		expression = expression.replaceAll(Patterns.New, "variable");
 		expression = expression.replaceAll(Patterns.Var, "variable");
 		expression = expression.replaceAll(Patterns.variable, "variable");
@@ -37,7 +38,7 @@ public class ExpresionCorrect {
 			if (!isExpresionCorect(subexpression)) {
 				throw new InvalidOperator(enums.Error.InvalExpresionInSquareBracket, expression);
 			} else
-				expression = expression.replace("[" + macherSquareBracket.group() + "]", "*variable");
+				expression = expression.replace("[" + macherSquareBracket.group() + "]", "");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		}
 		return expression;
@@ -133,8 +134,7 @@ public class ExpresionCorrect {
 	}
 
 	private static void functionValidator(String expression) throws InvalidOperator {
-		expression = expression.replaceAll("_featureManager\\.getProcessInstanceFeature\\(\\)\\.getWFLIProcessId\\(\\)",
-				" ");
+		expression = expression.replaceAll("_featureManager\\.getProcessInstanceFeature\\(\\)\\.getWFLIProcessId\\(\\)","");
 		if (expression.indexOf("getWFLIProcessId()") != -1) {
 			throw new InvalidOperator(enums.Error.InvalidUseGetWFLIProcessId, expression);
 		}
