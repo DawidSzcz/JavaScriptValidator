@@ -18,6 +18,7 @@ import expression.Function;
 import expression.If;
 import expression.InvalidComment;
 import expression.Invocation;
+import expression.Switch;
 import expression.Try;
 import expression.UnknownExpression;
 import expression.While;
@@ -66,6 +67,9 @@ public class ExpressionParser {
 			Matcher matcherElse = Patterns.Else.matcher(statement);
 			Matcher matcherTry = Patterns.Try.matcher(statement);
 			Matcher matcherCatch = Patterns.Catch.matcher(statement);
+			Matcher matcherSwich = Patterns.Switch.matcher(statement);
+			Matcher matchercase = Patterns.Case.matcher(statement);
+			
 			
 			Expression exp;
 			
@@ -85,6 +89,7 @@ public class ExpressionParser {
 					exp.addError(Error.MissingTryBeforeCatch);
 				}
 			}
+
 				else if (matcherIf.find())
 						exp = new If(statement, currentLine, strings);
 					else if (matcherFunc.find())
@@ -95,17 +100,19 @@ public class ExpressionParser {
 									exp = new For(statement, currentLine, strings);
 								else if (matcherTry.find())
 										exp = new Try(statement, currentLine, strings);
-									else if (matcherAssign.find())
-											exp = new Assignment(statement, currentLine, strings);
-										else if (matcherInvo.find())
-												exp = new Invocation(statement, currentLine, strings);
-											else {
-													if(statement.matches("\\s*"))
-														continue;
-													exp = new UnknownExpression(statement, currentLine, strings);
-													if (statement.contains("}"))
-														exp.addError(Error.UnexpectedClosingBracket);
-												}
+									else if(matcherSwich.find())
+											exp = new Switch(statement, currentLine, strings);
+										else if (matcherAssign.find())
+												exp = new Assignment(statement, currentLine, strings);
+											else if (matcherInvo.find())
+													exp = new Invocation(statement, currentLine, strings);
+												else {
+														if(statement.matches("\\s*"))
+															continue;
+														exp = new UnknownExpression(statement, currentLine, strings);
+														if (statement.contains("}"))
+															exp.addError(Error.UnexpectedClosingBracket);
+													}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
 		}

@@ -6,6 +6,7 @@ public enum Instruction {
 	ELSE("else"),
 	IF("if\\s*\\("),
 	FOR("for\\s*\\("),
+	SWITCH("switch\\s*\\("),
 	WHILE("while\\s*\\("),
 	CATCH("catch\\s*\\("),
 	FUNCITON("function\\s+[_\\$a-zA-Z]+[_\\$\\w]*\\s*\\("),
