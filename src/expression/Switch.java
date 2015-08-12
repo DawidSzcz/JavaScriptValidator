@@ -23,8 +23,8 @@ public class Switch extends ComplexExpression {
 		super.splitBlock(instruction, currentLine, in);
 		Matcher matcherCase = Patterns.Case.matcher(content);
 		if (matcherCase.find()) {
-			if (content.indexOf("//s*"+Patterns.CaseS) != 0) {
-				// error
+			if (!content.matches("^\\s*case[\\W\\w]+")) {
+				this.addError(enums.Error.IncorrectExpressionInSwitch);
 			}
 			do {
 				String caseSpace = "case;";
@@ -37,7 +37,7 @@ public class Switch extends ComplexExpression {
 				matcherCase = Patterns.Case.matcher(content);
 			} while (matcherCase.find());
 		} else {
-			// error
+			this.addError(enums.Error.NoCaseInSwitch);
 		}
 		return;
 	}

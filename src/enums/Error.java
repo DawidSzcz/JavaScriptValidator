@@ -36,7 +36,9 @@ public enum Error {
 	SomethingWrongWithElseIf("Somfing wrong with elseif", "Cos sie nie zgadza w instrukcji else if"),
 	TryWithNoCatch("Missing catch block after try", "Brakuj¹cy catch po try"),
 	MisssDotBeforFunctions("Misss dot befor functions","brakuje kropki przed funkcj¹"),
-	InvalidUseGetWFLIProcessId("Invalid use getWFLIProcessId","nieprawidlowe uzycie getWFLIProcessId");
+	InvalidUseGetWFLIProcessId("Invalid use getWFLIProcessId","nieprawidlowe uzycie getWFLIProcessId"),
+	NoCaseInSwitch("No case in switch", "switch nie posiada caseow"),
+	IncorrectExpressionInSwitch("Incorrect expression in switch","niepoprwane wyrazenie w switchu");
 
 	public final String enContent;
 	public final String plContent;
