@@ -20,6 +20,7 @@ public class Switch extends ComplexExpression {
 	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {
 		super.splitBlock(instruction, currentLine, in, labels);
 		Matcher matcherCase = Patterns.Case.matcher(content);
+		Matcher matcherDefault = Patterns.Default.matcher(content);
 		if (matcherCase.find()) {
 			if (!content.matches("^\\s*case[\\W\\w]+")) {
 				this.addError(enums.Error.IncorrectExpressionInSwitch);
@@ -36,6 +37,9 @@ public class Switch extends ComplexExpression {
 			} while (matcherCase.find());
 		} else {
 			this.addError(enums.Error.NoCaseInSwitch);
+		}
+		if (matcherDefault.find()){
+			content = content.replaceAll(matcherDefault.group(),"default;");
 		}
 		return;
 	}

@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 
 public class Patterns {
 	public static String CaseS = "(?<=\\W)case\\s+\\d+\\s*:";
+	public static String DefaultS = "(?<=\\W)default\\s*:";
 	public static String SwitchS = "^\\s*switch\\s*[\\(\\)]+";
 	public static String ElseS = "^\\s*else";
 	public static String splitS = "(;[\t \r]*)+|(?<=\\})|(?<=\\{)";
@@ -70,6 +71,7 @@ public class Patterns {
 	public static Pattern sqlGetPortFunction = Pattern.compile(sqlGetPortFunctionS);
 	public static Pattern Switch = Pattern.compile(SwitchS);
 	public static Pattern Case = Pattern.compile(CaseS);
+	public static Pattern Default = Pattern.compile(DefaultS);
 	public static Pattern label = Pattern.compile(labelS);
 	public static Pattern control = Pattern.compile(controlS);
 }

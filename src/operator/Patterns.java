@@ -42,7 +42,7 @@ public class Patterns {
 	+ "|" + createRegex2("\\|\\|")
 	+ "|" + createRegex2("\\&\\&");
 	public static String prefiks =createprefix("new")
-	+"|"+createprefix("var")
+	+"|"+createprefix("var")+"(\\s*,\\s*[_$A-Za-z]\\w*)*"
 	+"|"+createprefix("void")
 	+"|"+createprefix("typeof")
 	+"|"+createprefix("import")
