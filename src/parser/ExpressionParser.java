@@ -106,17 +106,19 @@ public class ExpressionParser {
 										exp = new Try(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 									else if(matcherSwich.find())
 											exp = new Switch(statement, currentLine, strings, labels.subList(0, labelCount), branch);
-										else if (matcherAssign.find())
-												exp = new Assignment(statement, currentLine, strings, branch);
-											else if (matcherInvo.find())
-													exp = new Invocation(statement, currentLine, strings, branch);
-												else {
-														if(statement.matches("\\s*"))
-															continue;
-														exp = new UnknownExpression(statement, currentLine, strings, branch);
-														if (statement.contains("}"))
-															exp.addError(Error.UnexpectedClosingBracket);
-													}
+	 									else if (matcherControl.find())
+												exp = new ControlExpression(statement, currentLine, strings, labels.subList(0, labelCount), branch);
+											else if (matcherAssign.find())
+													exp = new Assignment(statement, currentLine, strings, branch);
+												else if (matcherInvo.find())
+														exp = new Invocation(statement, currentLine, strings, branch);
+													else {
+															if(statement.matches("\\s*"))
+																continue;
+															exp = new UnknownExpression(statement, currentLine, strings, branch);
+															if (statement.contains("}"))
+																exp.addError(Error.UnexpectedClosingBracket);
+														}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
 		}

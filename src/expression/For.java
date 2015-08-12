@@ -112,11 +112,8 @@ public class For extends ComplexExpression{
 		Matcher labelM = Patterns.label.matcher(header);
 		if(header.contains(":") && labelM.find())
 		{
-			List<String> lab = new LinkedList<String>();
-			lab.addAll(labels);
 			String label = labelM.group();
-			lab.add(label.substring(0, label.length() -1));
-			labels = lab;
+			labels.add(ParseUtils.cleanLine(label.substring(0, label.length() -1)));
 		}
 
 		for (int i = 0; i < in.length(); i++) {
