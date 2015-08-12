@@ -93,8 +93,8 @@ public class UtilTests
 		String AssigString ="var dbpf=_featureManager.getTytanDBPortFeature()";
 		String AssigString2 ="rs=dbpf.executeStatement(query)";
 		String AssigString3 ="";
-			Assignment Assig= new Assignment(AssigString,0,smap);
-			Assignment Assig2= new Assignment(AssigString2,1,smap);
+			Assignment Assig= new Assignment(AssigString,0,smap, "");
+			Assignment Assig2= new Assignment(AssigString2,1,smap, "");
 //			Assignment Assig3= new Assignment(AssigString3,2,smap);
 			assertTrue(Assig.isValid());
 			assertTrue(Assig2.isValid());

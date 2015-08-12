@@ -1,9 +1,10 @@
 package parser;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Patterns {
+	public static String CaseS = "(?<=\\W)case\\s+\\d+\\s*:";
+	public static String SwitchS = "^\\s*switch\\s*[\\(\\)]+";
 	public static String ElseS = "^\\s*else";
 	public static String splitS = "(;[\t \r]*)+|(?<=\\})|(?<=\\{)";
 	public static String variableS = "\\a+\\w+";
@@ -14,7 +15,7 @@ public class Patterns {
 	public static String TryS = "^\\s*try";
 	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
 	public static String FunctionS = "^\\s*function\\s+[\\w$_]+\\s*\\(";
-	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|([\\w$_]+:\\s*)?while|function|catch)[^;\\{]+|([\\w$_]+:\\s*)?for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
+	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|([\\w$_]+:\\s*)?while|function|switch|catch)[^;\\{]+|([\\w$_]+:\\s*)?for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).*(?=\\})";
@@ -67,6 +68,8 @@ public class Patterns {
 	public static Pattern stringsAndComents = Pattern.compile(stringsAndComentsS);
 	public static Pattern sqlExecuteStetmentFunction = Pattern.compile(sqlExecuteStetmentFunctionS);
 	public static Pattern sqlGetPortFunction = Pattern.compile(sqlGetPortFunctionS);
+	public static Pattern Switch = Pattern.compile(SwitchS);
+	public static Pattern Case = Pattern.compile(CaseS);
 	public static Pattern label = Pattern.compile(labelS);
 	public static Pattern control = Pattern.compile(controlS);
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 
 import Atoms.InputContainer;
-import Atoms.Label;
 import Atoms.StringContainer;
 import enums.Error;
 import expression.Assignment;
@@ -20,6 +19,7 @@ import expression.Function;
 import expression.If;
 import expression.InvalidComment;
 import expression.Invocation;
+import expression.Switch;
 import expression.Try;
 import expression.UnknownExpression;
 import expression.While;
@@ -73,6 +73,7 @@ public class ExpressionParser {
 			Matcher matcherElse = Patterns.Else.matcher(statement);
 			Matcher matcherTry = Patterns.Try.matcher(statement);
 			Matcher matcherCatch = Patterns.Catch.matcher(statement);
+			Matcher matcherSwich = Patterns.Switch.matcher(statement);	
 			Matcher matcherControl= Patterns.control.matcher(statement);
 			
 			Expression exp;
@@ -93,6 +94,7 @@ public class ExpressionParser {
 					exp.addError(Error.MissingTryBeforeCatch);
 				}
 			}
+
 				else if (matcherIf.find())
 						exp = new If(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 					else if (matcherFunc.find())
@@ -103,8 +105,8 @@ public class ExpressionParser {
 									exp = new For(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 								else if (matcherTry.find())
 										exp = new Try(statement, currentLine, strings, labels.subList(0, labelCount), branch);
-									else if (matcherControl.find())
-											exp = new ControlExpression(statement, currentLine, strings, labels.subList(0, labelCount), branch);
+									else if(matcherSwich.find())
+											exp = new Switch(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 										else if (matcherAssign.find())
 												exp = new Assignment(statement, currentLine, strings, branch);
 											else if (matcherInvo.find())

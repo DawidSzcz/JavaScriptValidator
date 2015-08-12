@@ -5,6 +5,7 @@ public enum Instruction {
 	TRY("try"),
 	ELSE("else"),
 	IF("if\\s*\\("),
+	SWITCH("([\\w$_]+:\\s*)?switch\\s*\\("),
 	FOR("([\\w$_]+:\\s*)?for\\s*\\("),
 	WHILE("([\\w$_]+:\\s*)?while\\s*\\("),
 	CATCH("catch\\s*\\("),

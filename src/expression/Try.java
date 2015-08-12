@@ -46,10 +46,10 @@ public class Try extends ComplexExpression
 		catchList.add(c);
 	}
 	@Override
-	public void addtoInstructions(Map<Integer, List<Expression>> instructions, String branch) {
-		super.addtoInstructions(instructions, branch);
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions) {
+		super.addtoInstructions(instructions);
 		for (Catch exp : catchList)
-			exp.addtoInstructions(instructions, this.toString()+ " ");
+			exp.addtoInstructions(instructions);
 	}
 
 }
