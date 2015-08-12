@@ -39,7 +39,7 @@ public class Patterns {
 	public static String sqlExecuteStetmentFunctionS = "\\w+\\.executeStatement\\(\\s*[_$A-Za-z]\\w*\\s*\\)";
 	public static String labelS = "(?<=(\n|^))\\s*[\\w_\\$]+:";
 	public static String sqlGetPortFunctionS = "\\.getTytanDBPortFeature\\(\\)";
-	public static String controlS = "(?<=(\n|^))\\s+break|continue";
+	public static String controlS = "(?<=(\n|^))\\s*break|continue";
 	
 	
 	
