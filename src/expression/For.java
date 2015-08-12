@@ -1,6 +1,7 @@
 package expression;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -18,15 +19,16 @@ import validator.Context;
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
 	String[] conditions;
-	public For(String statement, int currentLine, Map<String, StringContainer> strings)
+	public For(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch)
 	{
-		super(statement, Instruction.FOR, currentLine, strings);
+		super(statement, Instruction.FOR, currentLine, strings, labels, branch + "For ");
+		this.branch = branch;
 		if(conditions.length == 3)
 		{
 			for(int i = 0; i < 3; i++)
 				if(!conditions[i].matches(Patterns.empty))
 				{
-					List<Expression> list = Context.expressionParser.parseExpressions(conditions[i], 0);
+					List<Expression> list = Context.expressionParser.parseExpressions(conditions[i], 0, new LinkedList<String>(), branch + "For ");
 					if(list.size() != 1)
 						this.addError(Error.InvalidArguments);
 					else
@@ -81,7 +83,7 @@ public class For extends ComplexExpression{
 		return errs;
 	}
 	@Override
-	public void splitBlock(Instruction instruction, int currentLine, String in) throws WrongComplexException {
+	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {
 		String wholeInstruction = in;
 		List<Character> forbiden = Arrays.asList('{', '}');
 		String header;
@@ -106,6 +108,15 @@ public class For extends ComplexExpression{
 			} 
 			else
 				throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
+		}
+		Matcher labelM = Patterns.label.matcher(header);
+		if(header.contains(":") && labelM.find())
+		{
+			List<String> lab = new LinkedList<String>();
+			lab.addAll(labels);
+			String label = labelM.group();
+			lab.add(label.substring(0, label.length() -1));
+			labels = lab;
 		}
 
 		for (int i = 0; i < in.length(); i++) {

@@ -236,4 +236,18 @@ public class ParseUtils {
 			str += match.group().trim() +" ";
 		return str;
 	}
+	public static Pair<String, List<String>> removeLabels(String string) 
+	{
+		List<String> list = new LinkedList<String>();
+		Matcher match = Patterns.label.matcher(string);
+		String label;
+		while(match.find())
+		{
+			label = ParseUtils.cleanLine(match.group());
+			list.add(label.substring(0, label.length() -1));
+			string = string.replace(label, "");
+			match = Patterns.label.matcher(string);
+		}
+		return new Pair<String, List<String>>(string, list);
+	}
 }

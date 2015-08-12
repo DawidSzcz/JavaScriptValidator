@@ -38,7 +38,9 @@ public enum Error {
 	MisssDotBeforFunctions("Misss dot befor functions","brakuje kropki przed funkcj¹"),
 	InvalidUseGetWFLIProcessId("Invalid use getWFLIProcessId","nieprawidlowe uzycie getWFLIProcessId"),
 	NoCaseInSwitch("No case in switch", "switch nie posiada caseow"),
-	IncorrectExpressionInSwitch("Incorrect expression in switch","niepoprwane wyrazenie w switchu");
+	IncorrectExpressionInSwitch("Incorrect expression in switch","niepoprwane wyrazenie w switchu"),
+	MissingLabeDeclaration("Label declaration is missing", "brakuje definicji etykiety"), 
+	ControlStatementNotInLoop("Control statement should be in loop", "Wyrazenie steruj¹ce poza pêtl¹");
 
 	public final String enContent;
 	public final String plContent;

@@ -7,8 +7,9 @@ import parser.ParseUtils;
 
 public class UnknownExpression extends Expression 
 {
-	public UnknownExpression(String str, int currentLine, Map<String, StringContainer> strings) {
+	public UnknownExpression(String str, int currentLine, Map<String, StringContainer> strings, String branch) {
 		super(str, strings);
+		this.branch = branch;
 		line = currentLine + ParseUtils.getLinesBNS(str);
 	}
 	@Override

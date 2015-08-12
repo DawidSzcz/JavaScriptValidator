@@ -11,9 +11,9 @@ import Atoms.StringContainer;
 import enums.Error;
 import parser.Patterns;
 
-public abstract class SimpeExpresion extends Expression {
+public abstract class SimpleExpression extends Expression {
 
-	public SimpeExpresion(String name, int currentLine, Map<String, StringContainer> strings) 
+	public SimpleExpression(String name, int currentLine, Map<String, StringContainer> strings) 
 	{
 		super(name, strings);
 		line = currentLine + ParseUtils.getLinesBNS(name);

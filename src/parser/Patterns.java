@@ -11,20 +11,21 @@ public class Patterns {
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String headerS = "[^\\{]+";
 	public static String IfS = "^\\s*if\\s*[\\(\\)]+";
-	public static String WhileS = "^\\s*while\\s*[\\(\\)]+";
+	public static String WhileS = "^\\s*([\\w$_]+:)?\\s*while\\s*[\\(\\)]+";
 	public static String TryS = "^\\s*try";
 	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
-	public static String FunctionS = "^\\s*function[\\s\\(\\)]+";
-	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|while|function|switch|catch)[^;\\{]+|for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
+	public static String FunctionS = "^\\s*function\\s+[\\w$_]+\\s*\\(";
+	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|([\\w$_]+:\\s*)?while|function|switch|catch)[^;\\{]+|([\\w$_]+:\\s*)?for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
 	// nie usuwam juz enterów;
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String statementsS = "(?<=\\{).*(?=\\})";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
 	public static String checkOpenningS = "\\)(?![\t \r]*(\n|\\w))";
-	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+\"\']+)*"; // Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
+	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+\"\':]+)*"; 	// Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
+																												// dodany dwukropek. oby nic nie spieprzy³
 	public static String lineS = "[\\{\\}\\w]+[^\n\r;]*";
-	public static String ForS = "^\\s*for\\s*[\\(\\)]+";
+	public static String ForS = "^\\s*([\\w$_]+:)?\\s*for\\s*[\\(]+";
 	public static String stringIDS = "StringID\\d+"; 
 	public static String commentS = "(\\/\\*([^*]|(\\*+[^*/]))*\\*+\\/)|(\\/\\/.*)";
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
@@ -35,7 +36,11 @@ public class Patterns {
 	public static String beginComplexS = "^\\s*%s";
 	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
 	public static String sqlExecuteStetmentFunctionS = "\\w+\\.executeStatement\\(\\s*[_$A-Za-z]\\w*\\s*\\)";
+	public static String labelS = "(?<=(\n|^))\\s*[\\w_\\$]+:";
 	public static String sqlGetPortFunctionS = "\\.getTytanDBPortFeature\\(\\)";
+	public static String controlS = "(?<=(\n|^))\\s+break|continue";
+	
+	
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
 	public static Pattern head = Pattern.compile(headerS);
@@ -65,4 +70,6 @@ public class Patterns {
 	public static Pattern sqlGetPortFunction = Pattern.compile(sqlGetPortFunctionS);
 	public static Pattern Switch = Pattern.compile(SwitchS);
 	public static Pattern Case = Pattern.compile(CaseS);
+	public static Pattern label = Pattern.compile(labelS);
+	public static Pattern control = Pattern.compile(controlS);
 }

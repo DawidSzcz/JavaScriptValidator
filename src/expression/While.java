@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.List;
 import java.util.Map;
 
 import Atoms.StringContainer;
@@ -9,9 +10,10 @@ import exception.InvalidOperator;
 import parser.ExpressionParser;
 
 public class While extends ComplexExpression{
-	public While(String statement, int currentLine, Map<String, StringContainer> strings) 
+	public While(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch) 
 	{
-		super(statement, Instruction.WHILE, currentLine, strings);
+		super(statement, Instruction.WHILE, currentLine, strings, labels, branch + "While ");
+		this.branch = branch;
 	}
 	@Override
 	public Expression get(int index) throws IndexOutOfBoundsException {
