@@ -33,8 +33,6 @@ public class Core extends HttpServlet {
 	}
 	private String makeResponse(List<String> rows, Program program,String language)
 	{
-		@SuppressWarnings("unused")
-//		HashMap<Integer, List<Error>> error = program.getAllErrors(); przypisuje bledy do list bledow ktore juz nalez do istniejacych expressions
 		String body = "";
 		Map<Integer, List<Expression>> map = program.mapExpression();
 		for(int i = 0; i < rows.size(); i++)

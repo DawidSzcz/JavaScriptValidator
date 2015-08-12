@@ -70,11 +70,11 @@ public abstract class ComplexExpression extends Expression {
 	}
 
 	@Override
-	public void addtoInstructions(Map<Integer, List<Expression>> instructions, String branch) {
-		super.addtoInstructions(instructions, branch);
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions) {
+		super.addtoInstructions(instructions);
 		if(statements != null)
 			for (Expression exp : statements)
-				exp.addtoInstructions(instructions, this.toString()+ " ");
+				exp.addtoInstructions(instructions);
 	}
 
 	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {

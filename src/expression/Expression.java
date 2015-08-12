@@ -46,10 +46,9 @@ public abstract class Expression {
 	{
 		errors.add(err);
 	}
-	public void addtoInstructions(Map<Integer, List<Expression>> instructions, String branch)
+	public void addtoInstructions(Map<Integer, List<Expression>> instructions)
 	{
 		this.isValid();
-		this.branch = branch;
 		for(int i = line; i <=line +area; i++)
 			try{
 				instructions.get(i).add(this);

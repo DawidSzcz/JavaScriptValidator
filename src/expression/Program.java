@@ -37,7 +37,7 @@ public class Program extends ComplexExpression
 	{
 		Map<Integer, List<Expression>> instructions = new HashMap<Integer, List<Expression>>();
 		for(Expression exp : statements)
-			exp.addtoInstructions(instructions, "");
+			exp.addtoInstructions(instructions);
 		return instructions;
 	}
 
