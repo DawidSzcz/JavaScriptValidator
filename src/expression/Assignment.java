@@ -26,7 +26,7 @@ public class Assignment extends SimpleExpression {
 		}
 		String side[] = statement.split(Patterns.assignDivisionS);
 		if (side.length >= 2) {
-			side[0]=side[0].replace("var", "");
+			//side[0]=side[0].replace("var", "");
 			try{
 				argument = new Statement(ParseUtils.cleanLine(side[side.length-1]));
 			}catch(IllegalStateException e){

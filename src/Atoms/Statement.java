@@ -14,6 +14,10 @@ public class Statement {
 	{
 		return name;
 	}
+	public void setName(String name){
+		this.name = name;
+		return;
+	}
 	public boolean isValid() throws InvalidOperator, InvalidFunction
 	{
 		return ExpresionCorrect.isExpressinCorrect(name);
