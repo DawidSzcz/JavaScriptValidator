@@ -26,7 +26,7 @@ public abstract class ComplexExpression extends Expression {
 	protected Statement condition;
 	protected String content;
 
-	public ComplexExpression(String in, Instruction instruction, int currentLine,	Map<String, StringContainer> strings, List<String> labels) {
+	public ComplexExpression(String in, Instruction instruction, int currentLine,	Map<String, StringContainer> strings, List<String> labels, String branch) {
 		super(in, strings);
 		try {
 			splitBlock(instruction, currentLine, in, labels);
@@ -49,7 +49,7 @@ public abstract class ComplexExpression extends Expression {
 		}
 		//Do zmiany
 		if(content != null && instruction !=  Instruction.PROGRAM)
-			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements, labels);
+			this.statements = Context.expressionParser.parseExpressions(content, beginOfStatements, labels, branch);
 
 	}
 

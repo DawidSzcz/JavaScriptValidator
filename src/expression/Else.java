@@ -20,9 +20,10 @@ import parser.Patterns;
 public class Else extends ComplexExpression
 {
 	private boolean elseIf;
-	public Else(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels)
+	public Else(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch)
 	{
-		super(statement, Instruction.ELSE, currentLine,strings, labels);
+		super(statement, Instruction.ELSE, currentLine,strings, labels, branch + "While ");
+		this.branch = branch;
 		if(elseIf && (!(this.statements.get(0) instanceof If)))
 		{
 			addError(Error.SomethingWrongWithElseIf);

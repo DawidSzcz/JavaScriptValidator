@@ -18,8 +18,9 @@ public class Assignment extends SimpleExpression {
 	List<Statement> variables=new ArrayList<Statement>();
 	Statement argument;
 
-	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings){
+	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings, String branch){
 		super(statement, currentLine, strings);
+		this.branch = branch;
 		if (statement.substring(statement.length()-1).equals("=")){
 			statement=statement+" ";
 		}

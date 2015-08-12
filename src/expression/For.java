@@ -19,15 +19,16 @@ import validator.Context;
 public class For extends ComplexExpression{
 	Expression[] forConditions = new Expression[3];
 	String[] conditions;
-	public For(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels)
+	public For(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch)
 	{
-		super(statement, Instruction.FOR, currentLine, strings, labels);
+		super(statement, Instruction.FOR, currentLine, strings, labels, branch + "For ");
+		this.branch = branch;
 		if(conditions.length == 3)
 		{
 			for(int i = 0; i < 3; i++)
 				if(!conditions[i].matches(Patterns.empty))
 				{
-					List<Expression> list = Context.expressionParser.parseExpressions(conditions[i], 0, new LinkedList<String>());
+					List<Expression> list = Context.expressionParser.parseExpressions(conditions[i], 0, new LinkedList<String>(), branch + "For ");
 					if(list.size() != 1)
 						this.addError(Error.InvalidArguments);
 					else

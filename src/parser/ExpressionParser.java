@@ -47,12 +47,12 @@ public class ExpressionParser {
 		//labels = removedLabels.getValue();
 	}
 	public List<Expression> parse() {		
-		List<Expression> list = parseExpressions(input.string, 1, new LinkedList<String>());
+		List<Expression> list = parseExpressions(input.string, 1, new LinkedList<String>(), "");
 		if(input.getErrors().size() != 0)
 			list.add(new InvalidComment(wholeProgram, input.getErrors(), input.getLine()));
 		return list;
 	}
-	public List<Expression> parseExpressions(String input, int currentLine, List<String> labels) {
+	public List<Expression> parseExpressions(String input, int currentLine, List<String> labels, String branch) {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
 		Matcher matcher;
@@ -79,13 +79,13 @@ public class ExpressionParser {
 			
 			if(matcherElse.find())
 			{
-				exp =new Else(statement, currentLine, strings, labels);
+				exp =new Else(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 				if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
 					exp.addError(Error.MissingIfBeforeElse);
 			}
 			else if (matcherCatch.find())
 			{
-				exp = new Catch(statement, currentLine, strings, this, labels);
+				exp = new Catch(statement, currentLine, strings, this, labels.subList(0, labelCount), branch);
 				try{
 					((Try)exps.get(exps.size()-1)).insertCatch((Catch)exp);
 					exp = exps.remove(exps.size()-1);
@@ -94,25 +94,25 @@ public class ExpressionParser {
 				}
 			}
 				else if (matcherIf.find())
-						exp = new If(statement, currentLine, strings, labels.subList(0, labelCount));
+						exp = new If(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 					else if (matcherFunc.find())
-							exp = new Function(statement, currentLine, strings, labels.subList(0, labelCount));
+							exp = new Function(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 						else if (matcherWhile.find())
-								exp = new While(statement, currentLine, strings, labels.subList(0, labelCount));
+								exp = new While(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 							else if (matcherFor.find())
-									exp = new For(statement, currentLine, strings, labels.subList(0, labelCount));
+									exp = new For(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 								else if (matcherTry.find())
-										exp = new Try(statement, currentLine, strings, labels.subList(0, labelCount));
+										exp = new Try(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 									else if (matcherControl.find())
-											exp = new ControlExpression(statement, currentLine, strings, labels.subList(0, labelCount));
+											exp = new ControlExpression(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 										else if (matcherAssign.find())
-												exp = new Assignment(statement, currentLine, strings);
+												exp = new Assignment(statement, currentLine, strings, branch);
 											else if (matcherInvo.find())
-													exp = new Invocation(statement, currentLine, strings);
+													exp = new Invocation(statement, currentLine, strings, branch);
 												else {
 														if(statement.matches("\\s*"))
 															continue;
-														exp = new UnknownExpression(statement, currentLine, strings);
+														exp = new UnknownExpression(statement, currentLine, strings, branch);
 														if (statement.contains("}"))
 															exp.addError(Error.UnexpectedClosingBracket);
 													}

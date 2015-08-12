@@ -37,7 +37,8 @@ public enum Error {
 	TryWithNoCatch("Missing catch block after try", "Brakuj¹cy catch po try"),
 	MisssDotBeforFunctions("Misss dot befor functions","brakuje kropki przed funkcj¹"),
 	InvalidUseGetWFLIProcessId("Invalid use getWFLIProcessId","nieprawidlowe uzycie getWFLIProcessId"), 
-	MissingLabeDeclaration("Label declaration is missing", "brakuje definicji etykiety");
+	MissingLabeDeclaration("Label declaration is missing", "brakuje definicji etykiety"), 
+	ControlStatementNotInLoop("Control statement should be in loop", "Wyrazenie steruj¹ce poza pêtl¹");
 
 	public final String enContent;
 	public final String plContent;

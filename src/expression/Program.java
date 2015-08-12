@@ -12,7 +12,7 @@ import validator.Context;
 public class Program extends ComplexExpression 
 {
 	public Program(String input) throws WrongComplexException {
-		super(input, Instruction.PROGRAM, 1, null, null);
+		super(input, Instruction.PROGRAM, 1, null, null, "");
 		statements = Context.expressionParser.parse();
 	}
 

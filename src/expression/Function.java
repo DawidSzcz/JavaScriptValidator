@@ -24,9 +24,10 @@ public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList<Statement>(); 
 	List <String> args;
 	String functionName;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels) 
+	public Function(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch) 
 	{
-		super(statement, Instruction.FUNCITON, currentLine, strings, labels);
+		super(statement, Instruction.FUNCITON, currentLine, strings, labels, branch + "Function ");
+		this.branch = branch;
 		for (String arg:args)
 			arguments.add(new Statement(arg));
 		functionName = getName(statement);
