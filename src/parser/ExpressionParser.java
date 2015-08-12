@@ -94,7 +94,6 @@ public class ExpressionParser {
 					exp.addError(Error.MissingTryBeforeCatch);
 				}
 			}
-
 				else if (matcherIf.find())
 						exp = new If(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 					else if (matcherFunc.find())
