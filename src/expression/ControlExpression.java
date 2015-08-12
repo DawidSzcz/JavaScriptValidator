@@ -27,7 +27,7 @@ public class ControlExpression extends SimpleExpression {
 			if(!labels.contains(label))
 				this.addError(Error.MissingLabeDeclaration);
 		}
-		if(!(branch.contains("For") || branch.contains("While")))
+		if(!(branch.contains("For") || branch.contains("While") || (control.matches("\\s*break") && branch.contains("Switch"))))
 			this.addError(Error.ControlStatementNotInLoop);
 	}
 
