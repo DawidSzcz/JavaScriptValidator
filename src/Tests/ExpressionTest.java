@@ -55,6 +55,28 @@ public class ExpressionTest {
 		
 		return parametrs;
 	}
+	private void foo(String x){
+		x += "dsdsd";
+	}
+	private void foo(int y){
+		y += 2;
+	}
+	private void foo(List<Integer> l){
+		l.add(7);
+	}
+	@Test
+	public void ts()
+	{
+		int y = 7;
+		String x = "x";
+		List z = new LinkedList<Object>();
+		foo("x");
+		foo(y);
+		foo(z);
+		assertEquals("x", x);
+		assertEquals(y, 7);
+		assertEquals(z.size(), 1);
+	}
 	@Test
 	public void test() throws WrongComplexException
 	{

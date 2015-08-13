@@ -172,14 +172,6 @@ public class ParseUtils {
 	}
 
 
-	public static String removeCommentsFromLine(String javaScriptTextString) {
-		Matcher m = Patterns.commentLine.matcher(javaScriptTextString);
-		while (m.find()) {
-			javaScriptTextString = javaScriptTextString.replace(m.group(), "");
-		}
-		return javaScriptTextString;
-	}
-
 	public static int getArea(String in)
 	{
 		in = cleanLine(in);
