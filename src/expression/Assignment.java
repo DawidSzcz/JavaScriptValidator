@@ -21,7 +21,7 @@ public class Assignment extends SimpleExpression {
 	public Assignment(String statement, int currentLine, Map<String, StringContainer> strings, String branch){
 		super(statement, currentLine, strings);
 		this.branch = branch;
-		if (statement.substring(statement.length()-1).equals("=")){
+		if (statement.length()>0 && statement.substring(statement.length()-1).equals("=")){
 			statement=statement+" ";
 		}
 		String side[] = statement.split(Patterns.assignDivisionS);
