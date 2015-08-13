@@ -39,15 +39,9 @@ public class Switch extends ComplexExpression {
 			this.addError(enums.Error.NoCaseInSwitch);
 		}
 		if (matcherDefault.find()){
-			content = content.replaceAll(matcherDefault.group(),"default;");
+			content = content.replaceFirst(matcherDefault.group(),"default;");
 		}
 		return;
-	}
-
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

@@ -22,6 +22,7 @@ import expression.Invocation;
 import expression.Switch;
 import expression.Try;
 import expression.UnknownExpression;
+import expression.Var;
 import expression.While;
 import javafx.util.Pair;
 
@@ -75,6 +76,7 @@ public class ExpressionParser {
 			Matcher matcherCatch = Patterns.Catch.matcher(statement);
 			Matcher matcherSwich = Patterns.Switch.matcher(statement);	
 			Matcher matcherControl= Patterns.control.matcher(statement);
+			Matcher matcherVar = Patterns.Var.matcher(statement);
 			
 			Expression exp;
 			
@@ -106,19 +108,21 @@ public class ExpressionParser {
 										exp = new Try(statement, currentLine, strings, labels.subList(0, labelCount), branch);
 									else if(matcherSwich.find())
 											exp = new Switch(statement, currentLine, strings, labels.subList(0, labelCount), branch);
-	 									else if (matcherControl.find())
-												exp = new ControlExpression(statement, currentLine, strings, labels.subList(0, labelCount), branch);
-											else if (matcherAssign.find())
-													exp = new Assignment(statement, currentLine, strings, branch);
-												else if (matcherInvo.find())
-														exp = new Invocation(statement, currentLine, strings, branch);
-													else {
-															if(statement.matches("\\s*"))
-																continue;
-															exp = new UnknownExpression(statement, currentLine, strings, branch);
-															if (statement.contains("}"))
-																exp.addError(Error.UnexpectedClosingBracket);
-														}
+										else if (matcherVar.find())	
+												exp = new Var(statement, currentLine, strings, branch);
+											else if (matcherControl.find())
+													exp = new ControlExpression(statement, currentLine, strings, labels.subList(0, labelCount), branch);
+												else if (matcherAssign.find())
+														exp = new Assignment(statement, currentLine, strings, branch);
+													else if (matcherInvo.find())
+															exp = new Invocation(statement, currentLine, strings, branch);
+														else {
+																if(statement.matches("\\s*"))
+																	continue;
+																exp = new UnknownExpression(statement, currentLine, strings, branch);
+																if (statement.contains("}"))
+																	exp.addError(Error.UnexpectedClosingBracket);
+															}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
 		}

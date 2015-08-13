@@ -16,14 +16,7 @@ public class If extends ComplexExpression{
 		super(statement, Instruction.IF, currentLine, strings, labels, branch + "If ");
 		this.branch = branch;
 	}
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
-			return this;
-		else
-			return statements.get(index - 1);
-		
-	}
+
 	@Override
 	public String toString() {
 		return branch + "IF ";

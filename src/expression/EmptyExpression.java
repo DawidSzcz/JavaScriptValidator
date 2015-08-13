@@ -8,12 +8,6 @@ public class EmptyExpression extends Expression {
 	}
 
 	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String toString() {
 		return "Prosze stad wyjsc";
 	}

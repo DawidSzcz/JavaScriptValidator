@@ -17,11 +17,6 @@ public class Program extends ComplexExpression
 	}
 
 	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		return statements.get(index);
-	}
-
-	@Override
 	public String toString() {
 		return "Program";
 	}

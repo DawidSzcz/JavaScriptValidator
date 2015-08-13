@@ -21,15 +21,6 @@ public class Try extends ComplexExpression
 	}
 
 	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
-			return this;
-		if(index <= this.statements.size())
-			return statements.get(index-1);
-		return catchList.get(index- statements.size() -1 ).get(0);
-	}
-
-	@Override
 	public String toString() {
 		return branch + "TRY";
 	}

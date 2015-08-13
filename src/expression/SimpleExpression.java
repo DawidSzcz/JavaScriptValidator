@@ -21,9 +21,9 @@ public abstract class SimpleExpression extends Expression {
 	}
 
 	protected void isPortOpen(Statement argument, List<Statement> variables) {
-		variables.get(variables.size()-1).setName(variables.get(variables.size()-1).getName().replaceAll("var\\s*", ""));
 		Matcher matcherPortFunktion = Patterns.sqlGetPortFunction.matcher(argument.getName());
 		if (matcherPortFunktion.find()) {
+			variables.get(variables.size()-1).setName(variables.get(variables.size()-1).getName().replaceAll("var\\s*", ""));
 			validator.Context.openPorts.addAll(variables);
 		}
 	}

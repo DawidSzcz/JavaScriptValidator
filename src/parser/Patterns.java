@@ -74,4 +74,5 @@ public class Patterns {
 	public static Pattern Default = Pattern.compile(DefaultS);
 	public static Pattern label = Pattern.compile(labelS);
 	public static Pattern control = Pattern.compile(controlS);
+	public static Pattern Var = Pattern.compile(enums.Instruction.VAR.toString());
 }

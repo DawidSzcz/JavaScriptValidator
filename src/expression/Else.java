@@ -35,14 +35,7 @@ public class Else extends ComplexExpression
 	{
 		return branch+"Else";
 	}
-	@Override
-	public Expression get(int i) throws IndexOutOfBoundsException
-	{
-		if(i == 0)
-			return this;
-		else 
-			return statements.get(i);
-	}
+
 	public boolean isElseIf()
 	{
 		return elseIf;

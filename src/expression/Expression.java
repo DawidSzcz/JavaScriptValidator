@@ -29,8 +29,7 @@ public abstract class Expression {
 			this.name ="Unparsed";
 		}
 	}
-	public abstract Expression get(int index) throws IndexOutOfBoundsException;
-
+	
 	public abstract String toString();
 	public abstract boolean isValid();
 	
