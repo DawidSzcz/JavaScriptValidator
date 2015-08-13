@@ -44,13 +44,6 @@ public class For extends ComplexExpression{
 			
 	}
 
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
-			return this;
-		else
-			return statements.get(index - 1);
-	}
 
 	@Override
 	public String toString() {

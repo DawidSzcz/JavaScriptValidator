@@ -10,14 +10,6 @@ public class NullExpression extends Expression{
 		super(name, strings);
 		// TODO Auto-generated constructor stub
 	}
-	
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
-			return this;
-		else 
-			throw new IndexOutOfBoundsException();
-	}
 
 	@Override
 	public String toString() {

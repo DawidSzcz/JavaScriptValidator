@@ -26,7 +26,6 @@ public class Assignment extends SimpleExpression {
 		}
 		String side[] = statement.split(Patterns.assignDivisionS);
 		if (side.length >= 2) {
-			side[0]=side[0].replace("var", "");
 			try{
 				argument = new Statement(ParseUtils.cleanLine(side[side.length-1]));
 			}catch(IllegalStateException e){
@@ -50,14 +49,6 @@ public class Assignment extends SimpleExpression {
 			statement = ParseUtils.cleanLine(statement);
 			this.addError(Error.WrongAssignment);
 		}
-	}
-
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if (index == 0)
-			return this;
-		else
-			throw new IndexOutOfBoundsException();
 	}
 
 	public String toString() {

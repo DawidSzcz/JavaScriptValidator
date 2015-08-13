@@ -39,13 +39,7 @@ public class Function extends ComplexExpression {
 			Context.functions.put(functionName,list);
 		}
 	}
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
-			return this;
-		else
-			return statements.get(index -1);
-	}
+
 	@Override
 	public String toString() {
 		return branch + "Function";

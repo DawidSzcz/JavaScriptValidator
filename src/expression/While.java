@@ -15,13 +15,7 @@ public class While extends ComplexExpression{
 		super(statement, Instruction.WHILE, currentLine, strings, labels, branch + "While ");
 		this.branch = branch;
 	}
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		if(index == 0)
-			return this;
-		else
-			return statements.get(index - 1);
-	}
+
 	@Override
 	public String toString() {
 		return branch + "While";

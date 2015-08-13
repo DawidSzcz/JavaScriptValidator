@@ -18,11 +18,7 @@ public class InvalidComment extends Expression
 		for(Error e : errors)
 			this.addError(e);
 	}
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	@Override
 	public String toString() {
 		return branch + "Invalid Comment";

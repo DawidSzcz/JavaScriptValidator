@@ -31,11 +31,7 @@ public class ControlExpression extends SimpleExpression {
 			this.addError(Error.ControlStatementNotInLoop);
 	}
 
-	@Override
-	public Expression get(int index) throws IndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public String toString() {
