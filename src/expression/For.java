@@ -23,7 +23,7 @@ public class For extends ComplexExpression{
 	{
 		super(statement, currentLine);
 		this.branch = branch;
-		conditions = condition.getName().split(";");
+		conditions = (condition.getName()+" ").split(";");
 		if(conditions.length == 3)
 		{
 			for(int i = 0; i < 3; i++)
