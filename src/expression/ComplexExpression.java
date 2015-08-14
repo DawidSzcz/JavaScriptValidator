@@ -58,7 +58,7 @@ public abstract class ComplexExpression extends Expression {
 	}
 	public void insertBlock( List<Expression> block)
 	{
-		this.statements = block;
+		this.statements = block != null ? block : new LinkedList<Expression>();
 	}
 	@Override
 	public void addtoInstructions(Map<Integer, List<Expression>> instructions) {

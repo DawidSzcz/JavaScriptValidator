@@ -25,9 +25,10 @@ public class Patterns {
 									+"|" + Instruction.FUNCTION
 									+"|" + Instruction.CATCH
 									+"|" + Instruction.FOR 
-									+")|((" + Instruction.ELSE
+									+"|" + Instruction.ELSE
+									+"(?=\\s*(\\{|if))"
 									+"|" + Instruction.TRY
-									+")(?=\\s*\\{))"; 
+									+"(?=\\s*\\{))"; 
 	public static String identiferS = "^\\s*BlockID-?\\d+";
 	public static String headerIDS = "^\\s*(if|else|try|catch|switch|for|while|function)-?\\d+";
 	public static String statementsS = "(?<=\\{).*(?=\\})";

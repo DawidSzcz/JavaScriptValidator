@@ -86,7 +86,14 @@ public class ExpressionParser {
 					}
 				}
 					else if (head.startsWith("if"))
-							exp = new If(statement, currentLine, branch);
+					{
+						exp = new If(statement, currentLine, branch);
+						if(exps.size() > 0 && exps.get(exps.size() -1) instanceof Else && ((Else)exps.get(exps.size() -1)).isEmpty())
+						{
+							((Else)exps.get(exps.size() -1)).addIf(exp);
+							exp = exps.remove(exps.size() -1);
+						}
+					}
 						else if (head.startsWith("function"))
 								exp = new Function(statement, currentLine, branch);
 							else if (head.startsWith("while"))

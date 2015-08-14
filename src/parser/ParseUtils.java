@@ -238,7 +238,7 @@ public class ParseUtils {
 		{
 			String head = MatchH.group();
 			String condition = "";
-			if(!(head.equals("try") || head.equals("else")))
+			if(!(head.matches("\\s*try") || head.matches("\\s*else")))
 			{
 				int opened = 1;
 				for (int i = input.indexOf(head) + head.length(); i < input.length(); i++) 
