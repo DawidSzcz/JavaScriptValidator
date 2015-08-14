@@ -12,8 +12,7 @@ import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import exception.WrongComplexException;
 import parser.ExpressionParser;
 import parser.ParseUtils;
@@ -52,9 +51,7 @@ public class Function extends ComplexExpression {
 		for(Statement condtioniterator:arguments){
 			try {
 				condtioniterator.isValid();
-			} catch (InvalidOperator e) {
-				return false;
-			} catch (InvalidFunction e) {
+			} catch (InvalidExpression e) {
 				return false;
 			}
 		}

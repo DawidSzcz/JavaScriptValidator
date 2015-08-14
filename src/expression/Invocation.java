@@ -4,8 +4,7 @@ import java.util.Map;
 
 import Atoms.Statement;
 import Atoms.StringContainer;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 
 public class Invocation extends SimpleExpression {
 	Statement invocation;
@@ -26,10 +25,7 @@ public class Invocation extends SimpleExpression {
 		if (super.isValid()) {
 			try {
 				invocation.isValid();
-			} catch (InvalidOperator e) {
-				this.addError(e.getError());
-				return false;
-			} catch (InvalidFunction e) {
+			} catch (InvalidExpression e) {
 				this.addError(e.getError());
 				return false;
 			}

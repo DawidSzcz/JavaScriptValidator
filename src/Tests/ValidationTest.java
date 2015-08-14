@@ -7,12 +7,12 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 
 public class ValidationTest {
 
 	@Test()
-	public void testOperatorCprrect() throws IOException,  InvalidOperator {
+	public void testOperatorCprrect() throws IOException,  InvalidExpression {
 
 		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
 		assertTrue(TestUtils.testStatement("vr_Row.getParameterByName(stringid13213).setValue(vt_codes[vr_Row.getParameterByName(stringid123).getValue()])"));

@@ -1,14 +1,6 @@
 package expression;
 
-import java.util.List;
-import java.util.Map;
-
-import Atoms.StringContainer;
-import enums.Error;
-import enums.Instruction;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
-import parser.ExpressionParser;
+import exception.InvalidExpression;
 
 public class Catch extends ComplexExpression {
 
@@ -27,10 +19,8 @@ public class Catch extends ComplexExpression {
 	public boolean isValid() {
 		try {
 			condition.isValid();
-		} catch (InvalidOperator e) {
-			this.addError(Error.InvalidOperator);
-		} catch (InvalidFunction e) {
-			this.addError(Error.InvalidFunction);
+		} catch (InvalidExpression e) {
+			this.addError(e.getError());
 		}
 		return super.isValid();
 	}

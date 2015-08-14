@@ -1,5 +1,6 @@
 package expression;
 
+import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,8 +8,7 @@ import java.util.Map;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import parser.ParseUtils;
 import parser.Patterns;
 import validator.Context;
@@ -21,7 +21,7 @@ public class Assignment extends SimpleExpression {
 	public Assignment(String statement, int currentLine, String branch){
 		super(statement, currentLine);
 		this.branch = branch;
-		if (statement.substring(statement.length()-1).equals("=")){
+		if (statement.length()>0 && statement.substring(statement.length()-1).equals("=")){
 			statement=statement+" ";
 		}
 		String side[] = statement.split(Patterns.assignDivisionS);
@@ -58,16 +58,19 @@ public class Assignment extends SimpleExpression {
 	@Override
 	public boolean isValid() {
 		super.isPortOpen(argument,variables);
+		for(Statement variable:variables){
+			if(variable.getName().matches("\\s*"+operator.Patterns.number+"\\s*")){
+				errors.add(enums.Error.ExpectedVariableNotNumber);
+				return false;
+			}
+		}
 		if (super.isValid()) {
 			try {
 				for (Statement vsriable : variables) {
 					vsriable.isValid();
 				}
 				argument.isValid();
-			} catch (InvalidOperator e) {
-				this.addError(e.getError());
-				return false;
-			} catch (InvalidFunction e) {
+			} catch (InvalidExpression e) {
 				this.addError(e.getError());
 				return false;
 			}

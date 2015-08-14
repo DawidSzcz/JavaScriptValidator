@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class Patterns {
 
 	public static String variable = "([_$A-Za-z][_$A-Za-z0-9]*|^\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*|(?<=[^\\w\\)\\]-])\\s*-[_$A-Za-z]+[_$A-Za-z0-9]*)";
+	public static String forbiddenWordsS = "(^|\\W)(try|else|if|switch|for|while|catch|function|var)(\\W|$)";
 	public static String number = "[0-9]+|^\\s*-[0-9]+|(?<=[^\\w\\)\\]-])\\s*-[0-9]+";	
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
@@ -42,15 +43,14 @@ public class Patterns {
 	+ "|" + createRegex2("\\|\\|")
 	+ "|" + createRegex2("\\&\\&");
 	public static String prefiks =createprefix("new")
-	+"|"+createprefix("var")+"(\\s*,\\s*[_$A-Za-z]\\w*)*"
-	+"|"+createprefix("void")
-	+"|"+createprefix("typeof")
-	+"|"+createprefix("import")
-	+"|"+createprefix("float")
-	+"|"+createprefix("char")
-	+"|"+createprefix("byte")
-	+"|"+createprefix("int")
-	+"|"+createprefix("boolean");	
+	+ "|" + createprefix("void")
+	+ "|" + createprefix("typeof")
+	+ "|" + createprefix("import")
+	+ "|" + createprefix("float")
+	+ "|" + createprefix("char")
+	+ "|" + createprefix("byte")
+	+ "|" + createprefix("int")
+	+ "|" + createprefix("boolean");	
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
 	public static Pattern functionExpressions = Pattern.compile(functionExpressionS);
 	public static Pattern function = Pattern.compile(functionS);
@@ -63,6 +63,7 @@ public class Patterns {
 	public static Pattern threeMinus = Pattern.compile(threeMinusS);
 	public static Pattern expressionWithUnderscore = Pattern.compile(expressionWithUnderscoreS);
 	public static Pattern expressionWithUnderscoreAndFunction = Pattern.compile(expressionWithUnderscoreAndFunctionS);
+	public static Pattern forbiddenWords = Pattern.compile(forbiddenWordsS);
 	
 	private static String createRegex1(String operator) {
 		return "(?<=\\W)\\s*"+operator+"\\s*(?=\\W)|^"+operator+"\\s*|\\s*"+operator+"$";

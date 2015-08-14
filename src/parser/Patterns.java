@@ -35,8 +35,7 @@ public class Patterns {
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
 	public static String checkOpenningS = "\\)(?![\t \r]*(\n|\\w))";
-	public static String escapeWhiteSpaceS  = "[\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+\"\':]+)*"; 	// Stare: [\\$_\\w\\(\\)\\d\\{\\}]+(.+[\\w\\(\\)\\d\\[\\]_\\$\\+]+)*
-																												// dodany dwukropek. oby nic nie spieprzy³
+	public static String escapeWhiteSpaceS  = "\\S+(.*\\S+)*"; //Stare: [\\$_\\w\\(\\)\\{\\}]+(.*[\\w\\(\\)\\d\\[\\]_\\$\\+\"\':]+)*";
 	public static String lineS = "[\\{\\}\\w]+[^\n\r;]*";
 	public static String ForS = "^\\s*([\\w$_]+:)?\\s*for\\s*[\\(]+";
 	public static String stringIDS = "StringID\\d+"; 

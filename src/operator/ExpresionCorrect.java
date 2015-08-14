@@ -3,12 +3,11 @@ package operator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 
 public class ExpresionCorrect {
 
-	public static boolean isExpressinCorrect(String expression) throws InvalidOperator, InvalidFunction {
+	public static boolean isExpressinCorrect(String expression) throws InvalidExpression{
 
 		functionValidator(expression);
 		expression = restrictedWords(expression);
@@ -20,12 +19,12 @@ public class ExpresionCorrect {
 		expression = functiontAsExpressionValidator(expression);
 		expression = bracketValidator(expression);
 		if (!isExpresionCorect(expression)) {
-			throw new InvalidOperator(enums.Error.InvalidOperator, expression);
+			throw new InvalidExpression(enums.Error.InvalidOperator, expression);
 		}
 		return true;
 	}
 
-	private static String squareBracketValidator(String expression) throws InvalidOperator, InvalidFunction {
+	private static String squareBracketValidator(String expression) throws InvalidExpression{
 
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		while (macherSquareBracket.find()) {
@@ -33,7 +32,7 @@ public class ExpresionCorrect {
 			subexpression = functiontAsExpressionValidator(subexpression);
 			subexpression = bracketValidator(subexpression);
 			if (!isExpresionCorect(subexpression)) {
-				throw new InvalidOperator(enums.Error.InvalExpresionInSquareBracket, expression);
+				throw new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression);
 			} else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
@@ -41,7 +40,7 @@ public class ExpresionCorrect {
 		return expression;
 	}
 
-	private static String functiontAsExpressionValidator(String expression) throws InvalidOperator, InvalidFunction {
+	private static String functiontAsExpressionValidator(String expression) throws InvalidExpression{
 		Matcher macherFunction = Patterns.functionExpressions.matcher(expression);
 		Matcher macherBracket;
 		while (macherFunction.find()) {
@@ -50,7 +49,7 @@ public class ExpresionCorrect {
 				String[] arguments = macherBracket.group().split(",");
 				for (String argument : arguments) {
 					if (!isExpresionCorect(argument)) {
-						throw new InvalidFunction(enums.Error.InvalidFunction, expression);
+						throw new InvalidExpression(enums.Error.InvalidFunction, expression);
 					}
 				}
 			}
@@ -60,15 +59,15 @@ public class ExpresionCorrect {
 		return expression;
 	}
 
-	private static String bracketValidator(String expression) throws InvalidOperator {
+	private static String bracketValidator(String expression) throws InvalidExpression {
 		Matcher macherBracket;
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (macherBracket.group().equals("")) {
-				throw new InvalidOperator(enums.Error.NullInBracket, expression);
+				throw new InvalidExpression(enums.Error.NullInBracket, expression);
 			}
 			if (!isExpresionCorect(macherBracket.group()))
-				throw new InvalidOperator(enums.Error.InvalExpresionInParenthesis, expression);
+				throw new InvalidExpression(enums.Error.InvalExpresionInParenthesis, expression);
 			else
 				expression = expression.replace("(" + macherBracket.group() + ")", "number");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);
@@ -76,7 +75,7 @@ public class ExpresionCorrect {
 		return expression;
 	}
 
-	private static boolean isExpresionCorect(String expression) throws InvalidOperator {
+	private static boolean isExpresionCorect(String expression) throws InvalidExpression {
 
 		expression = expression.replaceAll(Patterns.complexExpressions, "variable");
 
@@ -108,7 +107,7 @@ public class ExpresionCorrect {
 			return false;
 	}
 
-	private static void underscoreValidator(String expression) throws InvalidOperator {
+	private static void underscoreValidator(String expression) throws InvalidExpression {
 
 		expression = expression.replaceAll("hideStructureAndParameters\\([^\\(\\)]+\\)", " ");
 		expression = expression.replaceAll("checkParameter\\([^\\(\\)]+\\)", " ");
@@ -126,14 +125,14 @@ public class ExpresionCorrect {
 
 		Matcher matcherExpressionWithUnderscore = Patterns.expressionWithUnderscore.matcher(expression);
 		if (matcherExpressionWithUnderscore.find()) {
-			throw new InvalidOperator(enums.Error.IncorectExpresionWithUnderscore, expression);
+			throw new InvalidExpression(enums.Error.IncorectExpresionWithUnderscore, expression);
 		}
 	}
 
-	private static void functionValidator(String expression) throws InvalidOperator {
+	private static void functionValidator(String expression) throws InvalidExpression {
 		expression = expression.replaceAll("_featureManager\\.getProcessInstanceFeature\\(\\)\\.getWFLIProcessId\\(\\)","");
 		if (expression.indexOf("getWFLIProcessId()") != -1) {
-			throw new InvalidOperator(enums.Error.InvalidUseGetWFLIProcessId, expression);
+			throw new InvalidExpression(enums.Error.InvalidUseGetWFLIProcessId, expression);
 		}
 		String functionName;
 		String[] functionArguments;
@@ -156,20 +155,24 @@ public class ExpresionCorrect {
 						}
 					}
 					if(!correctNumberOfArguments){
-						throw new InvalidOperator(enums.Error.IncorrectNumberOfArguments, expression);
+						throw new InvalidExpression(enums.Error.IncorrectNumberOfArguments, expression);
 					}
 				}
 			}
 			for (String functionBehindDot : validator.Context.functionsBehindDot) {
 				if (functionName.indexOf(functionBehindDot + "(") != -1) {
 					if (functionName.indexOf('.' + functionBehindDot) == -1) {
-						throw new InvalidOperator(enums.Error.MisssDotBeforFunctions, expression);
+						throw new InvalidExpression(enums.Error.MisssDotBeforFunctions, expression);
 					}
 				}
 			}
 		}
 	}
-	private static String restrictedWords(String expression) {
+	private static String restrictedWords(String expression) throws InvalidExpression {
+		Matcher matcherForbiddenWords= Patterns.forbiddenWords.matcher(expression);
+		if(matcherForbiddenWords.find()){
+			throw new InvalidExpression(enums.Error.UsedKeyWord, expression);
+		}
 		expression = expression.replaceAll(Patterns.prefiks, "variable");
 		expression = expression.replaceAll(Patterns.Instanceof, "variable");
 		return expression;

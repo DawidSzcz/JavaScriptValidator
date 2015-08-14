@@ -6,8 +6,7 @@ import java.util.regex.Matcher;
 
 import Atoms.StringContainer;
 import enums.Instruction;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import exception.WrongComplexException;
 import parser.Patterns;
 import validator.Context;
@@ -56,7 +55,7 @@ public class Switch extends ComplexExpression {
 		try {
 			if (condition != null)
 				condition.isValid();
-		} catch (InvalidOperator | InvalidFunction e) {
+		} catch (InvalidExpression e) {
 			this.addError(e.getError());
 			return false;
 		}

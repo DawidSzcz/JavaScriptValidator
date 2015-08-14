@@ -5,8 +5,7 @@ import java.util.Map;
 
 import Atoms.StringContainer;
 import enums.Instruction;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import parser.ExpressionParser;
 
 public class While extends ComplexExpression{
@@ -29,11 +28,8 @@ public class While extends ComplexExpression{
 			else 
 				return false;
 			return true;
-		}catch(InvalidOperator e)
+		}catch(InvalidExpression e)
 		{
-			this.addError(e.getError());
-			return false;
-		}catch(InvalidFunction e){
 			this.addError(e.getError());
 			return false;
 		}

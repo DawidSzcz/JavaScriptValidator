@@ -2,8 +2,8 @@ package exception;
 
 import enums.Error;
 
-public class InvalidOperator extends JSValidatorException {
-	public InvalidOperator(Error err, String block) {
+public class InvalidExpression extends JSValidatorException {
+	public InvalidExpression(Error err, String block) {
 		this.error = err;
 		this.block = block;
 	}

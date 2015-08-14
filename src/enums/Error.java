@@ -40,7 +40,9 @@ public enum Error {
 	NoCaseInSwitch("No case in switch", "switch nie posiada caseow"),
 	IncorrectExpressionInSwitch("Incorrect expression in switch","niepoprwane wyrazenie w switchu"),
 	MissingLabeDeclaration("Label declaration is missing", "brakuje definicji etykiety"), 
-	ControlStatementNotInLoop("Control statement should be in loop", "Wyrazenie steruj¹ce poza pêtl¹");
+	ControlStatementNotInLoop("Control statement should be in loop", "Wyrazenie steruj¹ce poza pêtl¹"),
+	UsedKeyWord("Used key word!","uzyto slowo kluczowe!"),
+	ExpectedVariableNotNumber("Expected variable not number","Lczba zamiast cyfry");
 
 	public final String enContent;
 	public final String plContent;
