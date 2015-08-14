@@ -2,17 +2,24 @@ package expression;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Atoms.StringContainer;
 import enums.Instruction;
 import exception.InvalidExpression;
 import parser.ExpressionParser;
+import parser.ParseUtils;
+import parser.Patterns;
 
 public class While extends ComplexExpression{
 	public While(String statement, int currentLine, List<String> labels, String branch) 
 	{
 		super(statement, currentLine);
 		this.branch = branch;
+		Matcher label = Patterns.label.matcher(statement);
+		if(label.find())
+			labels.add(ParseUtils.cleanLine(label.group().substring(0, label.group().length() -1)));
 	}
 
 	@Override

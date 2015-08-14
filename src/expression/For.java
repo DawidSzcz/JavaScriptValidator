@@ -23,6 +23,9 @@ public class For extends ComplexExpression{
 	{
 		super(statement, currentLine);
 		this.branch = branch;
+		Matcher label = Patterns.label.matcher(statement);
+		if(label.find())
+			labels.add(ParseUtils.cleanLine(label.group().substring(0, label.group().length() -1)));
 		conditions = (condition.getName()+" ").split(";");
 		if(conditions.length == 3)
 		{
