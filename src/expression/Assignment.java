@@ -1,5 +1,6 @@
 package expression;
 
+import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,12 @@ public class Assignment extends SimpleExpression {
 	@Override
 	public boolean isValid() {
 		super.isPortOpen(argument,variables);
+		for(Statement variable:variables){
+			if(variable.getName().matches("\\s*"+operator.Patterns.number+"\\s*")){
+				errors.add(enums.Error.ExpectedVariableNotNumber);
+				return false;
+			}
+		}
 		if (super.isValid()) {
 			try {
 				for (Statement vsriable : variables) {

@@ -105,10 +105,12 @@ public class ValidUtils {
 				{
 					String temp = jSText.substring(i);
 					for(String restricted : restrictedWords)
-						if(temp.startsWith(restricted)&& special.contains(temp.charAt(restricted.length())))
+						if(temp.startsWith(restricted)&& (temp.length() == restricted.length() || special.contains(temp.charAt(restricted.length()))))
 						{
 							finalString+= restr + restricted + spanEnd;
 							i+= restricted.length();
+							if(i == jSText.length())
+								return finalString;
 							c = jSText.charAt(i);
 							break;
 						}

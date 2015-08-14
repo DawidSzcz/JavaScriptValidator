@@ -169,7 +169,11 @@ public class ExpresionCorrect {
 			}
 		}
 	}
-	private static String restrictedWords(String expression) {
+	private static String restrictedWords(String expression) throws InvalidOperator {
+		Matcher matcherForbiddenWords= Patterns.forbiddenWords.matcher(expression);
+		if(matcherForbiddenWords.find()){
+			throw new InvalidOperator(enums.Error.UsedKeyWord, expression);
+		}
 		expression = expression.replaceAll(Patterns.prefiks, "variable");
 		expression = expression.replaceAll(Patterns.Instanceof, "variable");
 		return expression;
