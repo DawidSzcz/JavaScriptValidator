@@ -28,8 +28,8 @@ public abstract class ComplexExpression extends Expression {
 	public ComplexExpression(String in,  int currentLine) {
 		super(in, currentLine);
 		Matcher matchCondition = Patterns.condition.matcher(in);
-		Matcher matchElse = Patterns.condition.matcher(in);
-		Matcher matchTry = Patterns.condition.matcher(in);
+		Matcher matchElse = Patterns.Else.matcher(in);
+		Matcher matchTry = Patterns.Try.matcher(in);
 		if(matchCondition.find())
 			condition = new Statement(matchCondition.group());
 		else if(matchElse.find() || matchTry.find())
