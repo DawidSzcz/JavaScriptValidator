@@ -43,14 +43,14 @@ public class Patterns {
 	+ "|" + createRegex2("\\|\\|")
 	+ "|" + createRegex2("\\&\\&");
 	public static String prefiks =createprefix("new")
-	+"|"+createprefix("void")
-	+"|"+createprefix("typeof")
-	+"|"+createprefix("import")
-	+"|"+createprefix("float")
-	+"|"+createprefix("char")
-	+"|"+createprefix("byte")
-	+"|"+createprefix("int")
-	+"|"+createprefix("boolean");	
+	+ "|" + createprefix("void")
+	+ "|" + createprefix("typeof")
+	+ "|" + createprefix("import")
+	+ "|" + createprefix("float")
+	+ "|" + createprefix("char")
+	+ "|" + createprefix("byte")
+	+ "|" + createprefix("int")
+	+ "|" + createprefix("boolean");	
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
 	public static Pattern functionExpressions = Pattern.compile(functionExpressionS);
 	public static Pattern function = Pattern.compile(functionS);

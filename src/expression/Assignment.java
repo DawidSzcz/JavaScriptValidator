@@ -8,8 +8,7 @@ import java.util.Map;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import parser.ParseUtils;
 import parser.Patterns;
 import validator.Context;
@@ -71,10 +70,7 @@ public class Assignment extends SimpleExpression {
 					vsriable.isValid();
 				}
 				argument.isValid();
-			} catch (InvalidOperator e) {
-				this.addError(e.getError());
-				return false;
-			} catch (InvalidFunction e) {
+			} catch (InvalidExpression e) {
 				this.addError(e.getError());
 				return false;
 			}

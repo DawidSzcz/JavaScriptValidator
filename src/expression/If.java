@@ -6,8 +6,7 @@ import java.util.Map;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Instruction;
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import parser.ExpressionParser;
 import validator.Context;
 
@@ -38,7 +37,7 @@ public class If extends ComplexExpression{
 		try{
 			if(condition != null)
 				condition.isValid();
-		}catch(InvalidOperator | InvalidFunction e)
+		}catch(InvalidExpression e)
 		{
 			this.addError(e.getError());
 			return false;

@@ -1,7 +1,6 @@
 package Atoms;
 
-import exception.InvalidFunction;
-import exception.InvalidOperator;
+import exception.InvalidExpression;
 import operator.ExpresionCorrect;
 
 public class Statement {
@@ -18,7 +17,7 @@ public class Statement {
 		this.name = name;
 		return;
 	}
-	public boolean isValid() throws InvalidOperator, InvalidFunction
+	public boolean isValid() throws InvalidExpression
 	{
 		return ExpresionCorrect.isExpressinCorrect(name);
 	}
