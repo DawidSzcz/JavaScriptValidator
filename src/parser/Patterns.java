@@ -2,6 +2,8 @@ package parser;
 
 import java.util.regex.Pattern;
 
+import enums.Instruction;
+
 public class Patterns {
 	public static String CaseS = "(?<=\\W)case\\s+\\d+\\s*:";
 	public static String DefaultS = "(?<=\\W)default\\s*:";
@@ -10,16 +12,26 @@ public class Patterns {
 	public static String splitS = "(;[\t \r]*)+|(?<=\\})|(?<=\\{)";
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
-	public static String headerS = "[^\\{]+";
 	public static String IfS = "^\\s*if\\s*[\\(\\)]+";
 	public static String WhileS = "^\\s*([\\w$_]+:)?\\s*while\\s*[\\(\\)]+";
 	public static String TryS = "^\\s*try";
 	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
 	public static String FunctionS = "^\\s*function\\s+[\\w$_]+\\s*\\(";
-	public static String blockS = "(^|(?<=\n)|(?<=;)|[ \t]+)(((if|([\\w$_]+:\\s*)?while|function|switch|catch)[^;\\{]+|([\\w$_]+:\\s*)?for[^\\{]+)|else|try)[\\s]*\\{[^\\}\\{]*\\}"; // Dodany nie-œrednik !!! Dodany osobny przypadek dla fora z srednikiem
-	// nie usuwam juz enterów;
+	public static String blockS = "\\{[^\\}\\{]*\\}";
+	public static String headerS = "(^\\s*|\\s+)(" 
+									+ Instruction.IF 
+									+"|" + Instruction.WHILE
+									+"|" + Instruction.SWITCH
+									+"|" + Instruction.FUNCTION
+									+"|" + Instruction.CATCH
+									+"|" + Instruction.FOR 
+									+")|((" + Instruction.ELSE
+									+"|" + Instruction.TRY
+									+")(?=\\s*\\{))"; 
 	public static String identiferS = "^\\s*BlockID-?\\d+";
+	public static String headerIDS = "^\\s*(if|else|try|catch|switch|for|while|function)-?\\d+";
 	public static String statementsS = "(?<=\\{).*(?=\\})";
+	public static String conditionS = "(?<=\\().*(?=\\))";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
 	public static String checkOpenningS = "\\)(?![\t \r]*(\n|\\w))";
@@ -32,7 +44,6 @@ public class Patterns {
 	private static String commentLineS = ".*\\*\\/|(\\/\\*([^*]|(\\*+([^*/]|$)))*(\\*+\\/|$))|(\\/\\/.*)";
 	private static String stringS = "\"[^\"\n\r]*\"|'[^'\n\r]*'";
 	public static String assignDivisionS = "(?<![\\<\\>\\!\\=])(=|\\+=|-=|\\\\=|%=|\\*=)(?![\\<\\>\\!\\=])";
-	//public static String elseIfS = "else\\s+if\\s*\\(";
 	public static String empty = "^\\s*$";
 	public static String beginComplexS = "^\\s*%s";
 	public static String stringsAndComentsS = "\\\"|\\'|\\/\\/|\\/\\*";
@@ -44,32 +55,34 @@ public class Patterns {
 	
 	
 	public static Pattern arg = Pattern.compile(argumentsS, Pattern.DOTALL);
-	public static Pattern head = Pattern.compile(headerS);
-	public static Pattern block = Pattern.compile(blockS, Pattern.CASE_INSENSITIVE);
+	public static Pattern header = Pattern.compile(headerS, Pattern.CASE_INSENSITIVE);
+	public static Pattern headerId = Pattern.compile(headerIDS);
+	public static Pattern block = Pattern.compile(blockS);
 	public static Pattern assign = Pattern.compile(assignDivisionS);
-	public static Pattern If = Pattern.compile(IfS, Pattern.CASE_INSENSITIVE);
-	public static Pattern While = Pattern.compile(WhileS, Pattern.CASE_INSENSITIVE);
-	public static Pattern function = Pattern.compile(FunctionS, Pattern.CASE_INSENSITIVE);
+	public static Pattern If = Pattern.compile(Instruction.IF.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern While = Pattern.compile(Instruction.WHILE.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern function = Pattern.compile(Instruction.FUNCTION.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern Try = Pattern.compile(Instruction.TRY.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern Catch = Pattern.compile(Instruction.CATCH.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern For = Pattern.compile(Instruction.FOR.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern Else = Pattern.compile(Instruction.ELSE.toString(), Pattern.CASE_INSENSITIVE);
+	public static Pattern Switch = Pattern.compile(Instruction.SWITCH.toString(), Pattern.CASE_INSENSITIVE);
 	public static Pattern id = Pattern.compile(identiferS);
 	public static Pattern states = Pattern.compile(statementsS, Pattern.DOTALL);
+	public static Pattern condition = Pattern.compile(conditionS, Pattern.DOTALL);
 	public static Pattern sinState = Pattern.compile(singleStatement);
 	public static Pattern invocation = Pattern.compile(invocationS);
 	public static Pattern checkOpenning = Pattern.compile(checkOpenningS);
 	public static Pattern secondLine = Pattern.compile(lineS);
-	public static Pattern For = Pattern.compile(ForS, Pattern.CASE_INSENSITIVE);
-	public static Pattern Else = Pattern.compile(ElseS, Pattern.CASE_INSENSITIVE);
 	public static Pattern stringID = Pattern.compile(stringIDS);
 	public static Pattern comment = Pattern.compile(commentS);
 	public static Pattern commentLine = Pattern.compile(commentLineS);
 	public static Pattern string = Pattern.compile(stringS);
 	public static Pattern escapeWhiteSpace =Pattern.compile(escapeWhiteSpaceS, Pattern.DOTALL);
 	//public static Pattern elseIf = Pattern.compile(elseIfS);
-	public static Pattern Try = Pattern.compile(TryS, Pattern.CASE_INSENSITIVE);
-	public static Pattern Catch = Pattern.compile(CatchS, Pattern.CASE_INSENSITIVE);
 	public static Pattern stringsAndComents = Pattern.compile(stringsAndComentsS);
 	public static Pattern sqlExecuteStetmentFunction = Pattern.compile(sqlExecuteStetmentFunctionS);
 	public static Pattern sqlGetPortFunction = Pattern.compile(sqlGetPortFunctionS);
-	public static Pattern Switch = Pattern.compile(SwitchS);
 	public static Pattern Case = Pattern.compile(CaseS);
 	public static Pattern Default = Pattern.compile(DefaultS);
 	public static Pattern label = Pattern.compile(labelS);

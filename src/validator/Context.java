@@ -12,7 +12,6 @@ public class Context {
 	static public HashMap <String,List<Integer>> functions = new HashMap <String,List<Integer>>();
 	static public List<String> functionsBehindDot =new ArrayList<String>();
 	static public boolean variableWithUnderscoreValid = false;
-	static public ExpressionParser expressionParser;
 	public static void clear(){
 		openPorts.clear();
 		variables.clear();
@@ -20,11 +19,10 @@ public class Context {
 		prepareFunctions();
 		functionsBehindDot.clear();
 		prepareFunctionBehindDot();
-		expressionParser = null;
 	}
 	private static void prepareFunctions() {
 		List<Integer> numberOfArguments = new ArrayList<Integer>();
-		numberOfArguments.clear();
+		numberOfArguments.clear() ;
 		numberOfArguments.add(0);
 		functions.put("getRowsIterator",numberOfArguments);
 		numberOfArguments = new ArrayList<Integer>();

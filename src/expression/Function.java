@@ -24,10 +24,11 @@ public class Function extends ComplexExpression {
 	List<Statement>  arguments = new LinkedList<Statement>(); 
 	List <String> args;
 	String functionName;
-	public Function(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch) 
+	public Function(String statement, int currentLine, String branch) 
 	{
-		super(statement, Instruction.FUNCITON, currentLine, strings, labels, branch + "Function ");
+		super(statement, currentLine);
 		this.branch = branch;
+		args = makeArgs(statement);
 		for (String arg:args)
 			arguments.add(new Statement(arg));
 		functionName = getName(statement);
@@ -47,6 +48,7 @@ public class Function extends ComplexExpression {
 	@Override
 	public boolean isValid() 
 	{
+		super.isValid();
 		for(Statement condtioniterator:arguments){
 			try {
 				condtioniterator.isValid();
@@ -57,60 +59,6 @@ public class Function extends ComplexExpression {
 			}
 		}
 		return true;
-	}
-	@Override
-	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> labels) throws WrongComplexException {
-		String wholeInstruction = in;
-		String header;
-		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction)).matcher(in);
-		int opened = 1;
-		int instructionArea = 0, lineBeforeStatement;
-		if (checkBeginning.find()) {
-			header = checkBeginning.group();
-			in = in.replace(header, "");
-			lineBeforeStatement = ParseUtils.getLinesBNS(header);
-			this.line = currentLine + lineBeforeStatement;
-		} 		
-		else
-		{
-			checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, instruction), Pattern.CASE_INSENSITIVE).matcher(in); 
-			if (checkBeginning.find()) {
-				this.addError(Error.RestrictedLowerCase);
-				header = checkBeginning.group();
-				in = in.replace(header, "");
-				lineBeforeStatement = ParseUtils.getLinesBNS(header);
-				this.line = currentLine + lineBeforeStatement;
-			} 
-			else
-				throw new WrongComplexException(Error.InvalidBeginning, wholeInstruction);
-		}
-		for (int i = 0; i < in.length(); i++) {
-			if (in.charAt(i) == '\n')
-				instructionArea++;
-			if (in.charAt(i) == '(')
-				opened++;
-			if (in.charAt(i) == ')')
-				opened--;
-			if(opened < 0)
-			{
-				throw new WrongComplexException(Error.InvalidParenthesis, wholeInstruction);
-			}
-			if (opened == 0) 
-				{
-				args=makeArgs(in.substring(0, i));
-				Matcher states = Patterns.states.matcher(in.substring(i + 1));
-				if (states.find())
-				{
-					this.area = instructionArea + ParseUtils.getLines(header) - ParseUtils.getLinesBNS(header);
-					this.beginOfStatements = this.line + this.area + ParseUtils.getLinesBNS(in.substring(i + 1));
-					this.content = states.group();
-					return;
-				}
-				else
-					throw new WrongComplexException(Error.InvalidBlock, wholeInstruction);
-			}
-		}
-		throw new WrongComplexException(Error.InvalidCondition, wholeInstruction);
 	}
 	private String getName(String statement){
 		statement = statement.substring(0, statement.indexOf('('));

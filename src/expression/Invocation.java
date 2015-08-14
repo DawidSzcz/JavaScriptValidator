@@ -10,8 +10,8 @@ import exception.InvalidOperator;
 public class Invocation extends SimpleExpression {
 	Statement invocation;
 
-	public Invocation(String str, int currentLine, Map<String, StringContainer> strings, String branch) {
-		super(str, currentLine, strings);
+	public Invocation(String str, int currentLine, String branch) {
+		super(str, currentLine);
 		this.branch = branch;
 		invocation = new Statement(str);
 	}

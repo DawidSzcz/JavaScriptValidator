@@ -12,8 +12,8 @@ import validator.Context;
 public class Program extends ComplexExpression 
 {
 	public Program(String input) throws WrongComplexException {
-		super(input, Instruction.PROGRAM, 1, null, null, "");
-		statements = Context.expressionParser.parse();
+		super(input, 1);
+		statements = (new ExpressionParser(input)).parse();
 	}
 
 	@Override
@@ -22,11 +22,6 @@ public class Program extends ComplexExpression
 	}
 	public boolean isValid() {
 		return true;
-	}
-	@Override
-	public void splitBlock(Instruction instruction, int currentLine, String in, List<String> str) throws WrongComplexException {
-		line = currentLine;
-		this.content = in;
 	}
 	public Map<Integer, List<Expression>> mapExpression()
 	{

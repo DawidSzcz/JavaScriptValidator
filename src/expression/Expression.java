@@ -15,19 +15,19 @@ public abstract class Expression {
 	protected String name;
 	protected int line;
 	protected int area;
-	protected Map<String, StringContainer> strings;
 	protected String branch = "";
 	List<enums.Error> errors = new LinkedList<>();
 	
-	public Expression(String name, Map<String, StringContainer> strings) 
+	public Expression(String name, int currentLine) 
 	{
-		this.strings = strings;
 		try{
 			this.name = ParseUtils.cleanLine(name);
 		}catch(IllegalStateException e){
 			addError(enums.Error.UnparsedLine);
 			this.name ="Unparsed";
 		}
+		this.line = currentLine + ParseUtils.getLinesBNS(name);
+		this.area = ParseUtils.getArea(name);
 	}
 	
 	public abstract String toString();
@@ -65,16 +65,5 @@ public abstract class Expression {
 		if(!errors.isEmpty())
 			hash.put(line, getErrors());
 		return hash;
-	}
-	protected String translateName()
-	{
-		String wholeName = name;
-		Matcher m = Patterns.stringID.matcher(wholeName);
-		while(m.find())
-		{
-			String id = m.group();
-			wholeName = wholeName.replace(id, strings.get(id).getString());
-		}
-		return wholeName;
 	}
 }

@@ -14,9 +14,9 @@ public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch)
+	public Try(String name, int currentLine, String branch)
 	{
-		super(name, Instruction.TRY, currentLine, strings, labels, branch + "Try ");
+		super(name, currentLine);
 		this.branch = branch;
 	}
 
@@ -27,6 +27,7 @@ public class Try extends ComplexExpression
 
 	@Override
 	public boolean isValid() {
+		super.isValid();
 		if(!catchList.isEmpty())
 			return true;
 		this.addError(Error.TryWithNoCatch);

@@ -12,8 +12,7 @@ import parser.ParseUtils;
 public class InvalidComment extends Expression
 {
 	public InvalidComment(String program, List<Error> errors, int line) {
-		super("NVM", new HashMap<>());
-		this.line = line;
+		super("NVM", line);
 		area = ParseUtils.getLines(program) - line +1;
 		for(Error e : errors)
 			this.addError(e);

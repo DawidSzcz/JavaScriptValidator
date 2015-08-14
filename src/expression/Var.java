@@ -6,8 +6,8 @@ import Atoms.StringContainer;
 
 public class Var extends SimpleExpression{
 	String[] variables;
-	public Var(String statement, int currentLine, Map<String, StringContainer> strings, String branch) {
-		super(statement, currentLine, strings);
+	public Var(String statement, int currentLine, String branch) {
+		super(statement, currentLine);
 		this.branch=branch;
 		statement=statement.replaceFirst(enums.Instruction.VAR.toString(), "");
 		variables=statement.split(",");

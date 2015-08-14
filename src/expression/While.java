@@ -10,18 +10,19 @@ import exception.InvalidOperator;
 import parser.ExpressionParser;
 
 public class While extends ComplexExpression{
-	public While(String statement, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch) 
+	public While(String statement, int currentLine, List<String> labels, String branch) 
 	{
-		super(statement, Instruction.WHILE, currentLine, strings, labels, branch + "While ");
+		super(statement, currentLine);
 		this.branch = branch;
 	}
 
 	@Override
 	public String toString() {
-		return branch + "While";
+		return branch + "While ";
 	}
 	@Override
 	public boolean isValid() {
+		super.isValid();
 		try{
 			if(condition != null)
 				condition.isValid();

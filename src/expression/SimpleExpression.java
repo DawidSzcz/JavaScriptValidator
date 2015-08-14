@@ -13,11 +13,9 @@ import parser.Patterns;
 
 public abstract class SimpleExpression extends Expression {
 
-	public SimpleExpression(String name, int currentLine, Map<String, StringContainer> strings) 
+	public SimpleExpression(String name, int currentLine) 
 	{
-		super(name, strings);
-		line = currentLine + ParseUtils.getLinesBNS(name);
-		area = ParseUtils.getArea(name); // stare : ParseUtils.getLines(name) - ParseUtils.getLinesBNS(name);
+		super(name, currentLine);
 	}
 
 	protected void isPortOpen(Statement argument, List<Statement> variables) {

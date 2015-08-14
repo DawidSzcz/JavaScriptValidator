@@ -48,16 +48,16 @@ public class UtilTests
 	@Test
 	public void removingblock() 
 	{
-		Pair<String, HashMap<String, String>>trip =ParseUtils.removeBlocks("else{dasdasda}");
+		Pair<String, Map<String, String>>trip =ParseUtils.removeBlocks("else{dasdasda}");
 		assertEquals(trip.getValue().size(), 1);
 		assertTrue(trip.getKey().matches("^BlockID\\d+;$"));
-		Pair<String, HashMap<String, String>> trip2=ParseUtils.removeBlocks("if(ss){dasdasd}dad");
+		Pair<String, Map<String, String>> trip2=ParseUtils.removeBlocks("if(ss){dasdasd}dad");
 		assertEquals(trip2.getValue().size(), 1);
 		assertTrue(trip2.getKey().matches("^BlockID\\d+;dad$"));
-		Pair<String, HashMap<String, String>> trip3 =ParseUtils.removeBlocks("if(ss)\n{dasdasd}\ndad");
+		Pair<String, Map<String, String>> trip3 =ParseUtils.removeBlocks("if(ss)\n{dasdasd}\ndad");
 		assertEquals(trip3.getValue().size(), 1);
 		assertTrue(trip3.getKey().matches("^BlockID\\d+;\ndad$"));
-		Pair<String, HashMap<String, String>> trip4 =ParseUtils.removeBlocks("\n\nif(sss)\n\n  \t{\t\nelse{das}d\n}da\nd");
+		Pair<String, Map<String, String>> trip4 =ParseUtils.removeBlocks("\n\nif(sss)\n\n  \t{\t\nelse{das}d\n}da\nd");
 		assertEquals(trip4.getValue().size(), 2);
 		assertTrue(trip4.getKey().matches("^\n\nBlockID\\d+;da\nd$"));
 	}
@@ -88,13 +88,12 @@ public class UtilTests
 	}
 	@Test
 	public void sqlValidationTest(){
-		Map<String, StringContainer>smap=null;
 		
 		String AssigString ="var dbpf=_featureManager.getTytanDBPortFeature()";
 		String AssigString2 ="rs=dbpf.executeStatement(query)";
 		String AssigString3 ="";
-			Assignment Assig= new Assignment(AssigString,0,smap, "");
-			Assignment Assig2= new Assignment(AssigString2,1,smap, "");
+			Assignment Assig= new Assignment(AssigString,0, "");
+			Assignment Assig2= new Assignment(AssigString2,1, "");
 //			Assignment Assig3= new Assignment(AssigString3,2,smap);
 			assertTrue(Assig.isValid());
 			assertTrue(Assig2.isValid());
@@ -114,5 +113,27 @@ public class UtilTests
 		
 
 		
+	}
+	private void foo(String x){
+		x += "dsdsd";
+	}
+	private void foo(int y){
+		y += 2;
+	}
+	private void foo(List<Integer> l){
+		l.add(7);
+	}
+	@Test
+	public void ts()
+	{
+		int y = 7;
+		String x = "x";
+		List z = new LinkedList<Object>();
+		foo("x");
+		foo(y);
+		foo(z);
+		assertEquals("x", x);
+		assertEquals(y, 7);
+		assertEquals(z.size(), 1);
 	}
 }

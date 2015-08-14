@@ -13,8 +13,8 @@ public class ControlExpression extends SimpleExpression {
 
 	String label;
 	String control;
-	public ControlExpression(String name, int currentLine, Map<String, StringContainer> strings, List<String> labels, String branch) {
-		super(name, currentLine, strings);
+	public ControlExpression(String name, int currentLine, List<String> labels, String branch) {
+		super(name, currentLine);
 		this.branch = branch;
 		Matcher matchC = Patterns.control.matcher(name);
 		Matcher matchL = Patterns.label.matcher(name);

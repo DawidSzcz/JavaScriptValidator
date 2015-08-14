@@ -5,14 +5,27 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import Atoms.InputContainer;
+import Atoms.Statement;
 import Atoms.StringContainer;
 import javafx.util.Pair;
 import enums.Error;
+import enums.Instruction;
+import exception.WrongBlockException;
+import exception.WrongConditionException;
+import expression.Catch;
+import expression.Else;
+import expression.For;
+import expression.Function;
+import expression.If;
+import expression.Switch;
+import expression.Try;
+import expression.While;
 
 public class ParseUtils {
 	private static List<Character> allowedCharacters = Arrays.asList('\'', '"', 'f', 'n', '\\', 'r', 't', 'b');
@@ -182,7 +195,7 @@ public class ParseUtils {
 		
 		return space.find() ? getLines(space.group()) : 0;
 	}
-	public static int getLines(String statement, HashMap<String, String> blocks) {
+	public static int getLines(String statement, Map<String, String> blocks) {
 		Object[] keys = blocks.keySet().toArray();
 		for(int i = 0; i < keys.length; i++)
 		{
@@ -201,8 +214,11 @@ public class ParseUtils {
 				newLines++;
 		return newLines;
 	}
-	public static Pair<String, HashMap<String, String>> removeBlocks(String input) {
-		HashMap<String, String> blocks = new HashMap<String, String>();
+	public static Pair<String, Map<String, String>> removeBlocks(String input) 
+	{
+		Pair<String, Map<String, String>> headersRemoved = removeHeaders(input);
+		Map<String, String> blocks = headersRemoved.getValue();
+		input = headersRemoved.getKey();
 		Matcher mat = Patterns.block.matcher(input);
 		while (mat.find()) {
 			String block = mat.group();
@@ -212,8 +228,69 @@ public class ParseUtils {
 			blocks.put(uniqueId, block);
 			mat = Patterns.block.matcher(input);
 		}
-		return new Pair<String, HashMap<String, String>>(input, blocks);
-	}	
+		return new Pair<String, Map<String, String>>(input, blocks);
+	}
+	public static Pair<String, Map<String, String>> removeHeaders(String input) 
+	{
+		Map<String, String> map = new HashMap<>();
+		Matcher MatchH = Patterns.header.matcher(input);
+		while(MatchH.find())
+		{
+			String head = MatchH.group();
+			String condition = "";
+			if(!(head.equals("try") || head.equals("else")))
+			{
+				int opened = 1;
+				for (int i = input.indexOf(head) + head.length(); i < input.length(); i++) 
+				{
+					if (input.charAt(i) == '(')
+						opened++;
+					if (input.charAt(i) == ')')
+						opened--;
+					condition += input.charAt(i);
+					if (opened == 0) 
+						break;
+				}
+			}
+			String ID = headerId(head, input);
+			map.put(ID, head + condition);
+			input = input.replace(head + condition, ID+";");
+			MatchH = Patterns.header.matcher(input.replace(head + condition, ID));
+		}
+		return new Pair<String, Map<String, String>>(input, map);
+	}
+	private static String headerId(String statement, String input) 
+	{
+		Matcher matcherFor = Patterns.For.matcher(statement);
+		Matcher matcherElse = Patterns.Else.matcher(statement);
+		Matcher matcherTry = Patterns.Try.matcher(statement);
+		Matcher matcherCatch = Patterns.Catch.matcher(statement);
+		Matcher matcherSwich = Patterns.Switch.matcher(statement);
+		Matcher matcherIf = Patterns.If.matcher(statement);
+		Matcher matcherFunc = Patterns.function.matcher(statement);
+		Matcher matcherWhile = Patterns.While.matcher(statement);	
+		String id;
+		if(matcherElse.find())
+			id = "else";
+		else if (matcherTry.find())
+			id = "try";
+			else if (matcherIf.find())
+					id = "if";
+				else if (matcherSwich.find())
+						id = "switch";
+					else if (matcherCatch.find())
+							id = "catch";
+						else if (matcherFunc.find())
+								id = "function";
+							else if (matcherWhile.find())
+									id = "while";
+								else if(matcherFor.find())
+										id = "for";
+									else
+										id= "ohShit";
+		return id+uniqueId(input);
+	}
+	
 	public static boolean checkBetweenCondStates(String substring, String content) 
 	{
 		String between = substring.substring(0, substring.indexOf(content));
@@ -227,19 +304,5 @@ public class ParseUtils {
 		while(match.find())
 			str += match.group().trim() +" ";
 		return str;
-	}
-	public static Pair<String, List<String>> removeLabels(String string) 
-	{
-		List<String> list = new LinkedList<String>();
-		Matcher match = Patterns.label.matcher(string);
-		String label;
-		while(match.find())
-		{
-			label = ParseUtils.cleanLine(match.group());
-			list.add(label.substring(0, label.length() -1));
-			string = string.replace(label, "");
-			match = Patterns.label.matcher(string);
-		}
-		return new Pair<String, List<String>>(string, list);
 	}
 }

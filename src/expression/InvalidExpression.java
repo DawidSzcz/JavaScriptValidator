@@ -7,10 +7,9 @@ import parser.ParseUtils;
 
 public class InvalidExpression extends Expression{
 
-	public InvalidExpression(String str, int currentLine, Map<String, StringContainer> strings) 
+	public InvalidExpression(String str, int currentLine) 
 	{
-		super(str, strings);
-		line = currentLine + ParseUtils.getLinesBNS(str);
+		super(str, currentLine);
 	}
 	@Override
 	public String toString() {

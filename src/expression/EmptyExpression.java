@@ -3,7 +3,7 @@ package expression;
 public class EmptyExpression extends Expression {
 
 	public EmptyExpression() {
-		super("Empty", null);
+		super("Empty", 0);
 		// TODO Auto-generated constructor stub
 	}
 
