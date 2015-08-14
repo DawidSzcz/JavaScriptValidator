@@ -68,7 +68,7 @@ public class Function extends ComplexExpression {
 		List<String> list = new LinkedList<>();
 		String currentArg ="";
 		int opened = 1;
-		for (int i = 0; i < in.length(); i++) {
+		for (int i = in.indexOf('(')+1 ; i < in.length(); i++) {
 			if(opened == 1 && in.charAt(i)== ',')
 			{
 				list.add(currentArg);
