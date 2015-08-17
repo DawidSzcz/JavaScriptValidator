@@ -1,4 +1,4 @@
-package operator;
+package simpleExpression;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -176,6 +176,18 @@ public class ExpresionCorrect {
 		expression = expression.replaceAll(Patterns.prefiks, "variable");
 		expression = expression.replaceAll(Patterns.Instanceof, "variable");
 		return expression;
+	}
+	
+	public static boolean declarationException(String expression)  throws InvalidExpression{
+		
+		if(expression.matches("\\s*"+Patterns.variable+"\\s*")){
+			return true;
+		}
+		if(expression.matches("\\s*"+Patterns.exception+"\\s*"+Patterns.variable+"\\s*")){
+			return true;
+		}
+		
+		throw new InvalidExpression(enums.Error.IncorrectDeclaredException, expression);
 	}
 
 }

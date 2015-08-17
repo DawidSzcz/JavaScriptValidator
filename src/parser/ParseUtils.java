@@ -102,7 +102,7 @@ public class ParseUtils {
 					// isInString = false;
 					stringInTexst.string += javaScriptText.charAt(iterator);
 					stringMap.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId+" ");
+					javaScriptText = javaScriptText.replace(stringInTexst.string, " StringID" + uniqueId+" ");
 					break;
 				}
 			}

@@ -42,7 +42,8 @@ public enum Error {
 	MissingLabeDeclaration("Label declaration is missing", "brakuje definicji etykiety"), 
 	ControlStatementNotInLoop("Control statement should be in loop", "Wyrazenie steruj¹ce poza pêtl¹"),
 	UsedKeyWord("Used key word!","uzyto slowo kluczowe!"),
-	ExpectedVariableNotNumber("Expected variable not number","Lczba zamiast cyfry");
+	ExpectedVariableNotNumber("Expected variable not number","Lczba zamiast cyfry"),
+	IncorrectDeclaredException("Incorrect declared exception","Niepoprawne zadeklarowany wyj¹tek");
 
 	public final String enContent;
 	public final String plContent;

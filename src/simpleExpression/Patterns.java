@@ -1,4 +1,4 @@
-package operator;
+package simpleExpression;
 
 import java.util.regex.Pattern;
 
@@ -20,37 +20,61 @@ public class Patterns {
 	public static String expressionWithUnderscoreAndFunctionS = "\\W_[_$A-Za-z0-9]*(\\.[_$A-Za-z0-9]*)+\\s*\\(";
 	public static String Instanceof = "("+variable+"\\.)*"+variable+"\\s+instanceof\\s+"+variable+"*(\\."+variable+")*";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
-	+ "|" + createRegex1("variable\\+\\+")
-	+ "|" + createRegex1("variable\\-\\-")
-	+ "|" + createRegex1("\\-\\-variable")
-	+ "|" + createRegex1("\\~(number|variable)")
-	+ "|" + createRegex1("\\!(number|variable)");
+		+ "|" + createRegex1("variable\\+\\+")
+		+ "|" + createRegex1("variable\\-\\-")
+		+ "|" + createRegex1("\\-\\-variable")
+		+ "|" + createRegex1("\\~(number|variable)")
+		+ "|" + createRegex1("\\!(number|variable)");
 	public static String operator2expressionsS = createRegex2("\\+")
-	+ "|" + createRegex2("\\-")
-	+ "|" + createRegex2("\\*")
-	+ "|" + createRegex2("\\/")
-	+ "|" + createRegex2("\\%")
-	+ "|" + createRegex2("\\=\\=")
-	+ "|" + createRegex2("\\!\\=")
-	+ "|" + createRegex2("\\=\\=\\=")
-	+ "|" + createRegex2("\\!\\=\\=")
-	+ "|" + createRegex2("\\>")
-	+ "|" + createRegex2("\\<")
-	+ "|" + createRegex2("\\>\\=")
-	+ "|" + createRegex2("\\<\\=")
-	+ "|" + createRegex2("\\>\\>")
-	+ "|" + createRegex2("\\<\\<")
-	+ "|" + createRegex2("\\|\\|")
-	+ "|" + createRegex2("\\&\\&");
+		+ "|" + createRegex2("\\-")
+		+ "|" + createRegex2("\\*")
+		+ "|" + createRegex2("\\/")
+		+ "|" + createRegex2("\\%")
+		+ "|" + createRegex2("\\=\\=")
+		+ "|" + createRegex2("\\!\\=")
+		+ "|" + createRegex2("\\=\\=\\=")
+		+ "|" + createRegex2("\\!\\=\\=")
+		+ "|" + createRegex2("\\>")
+		+ "|" + createRegex2("\\<")
+		+ "|" + createRegex2("\\>\\=")
+		+ "|" + createRegex2("\\<\\=")
+		+ "|" + createRegex2("\\>\\>")
+		+ "|" + createRegex2("\\<\\<")
+		+ "|" + createRegex2("\\|\\|")
+		+ "|" + createRegex2("\\&\\&");
 	public static String prefiks =createprefix("new")
-	+ "|" + createprefix("void")
-	+ "|" + createprefix("typeof")
-	+ "|" + createprefix("import")
-	+ "|" + createprefix("float")
-	+ "|" + createprefix("char")
-	+ "|" + createprefix("byte")
-	+ "|" + createprefix("int")
-	+ "|" + createprefix("boolean");	
+		+ "|" + createprefix("void")
+		+ "|" + createprefix("typeof")
+		+ "|" + createprefix("import")
+		+ "|" + createprefix("float")
+		+ "|" + createprefix("char")
+		+ "|" + createprefix("byte")
+		+ "|" + createprefix("int")
+		+ "|" + createprefix("boolean");
+	public static String exception = "("+"ArithmeticException"
+		+ "|" +"ArithmeticException" 
+		+ "|" +"ArrayIndexOutOfBoundsException" 
+		+ "|" +"ArrayStoreException" 
+		+ "|" +"ClassCastException" 
+		+ "|" +"IllegalArgumentException" 
+		+ "|" +"IllegalMonitorStateException"
+		+ "|" +"IllegalStateException"
+		+ "|" +"IllegalThreadStateException"
+		+ "|" +"IndexOutOfBoundsException"
+		+ "|" +"NegativeArraySizeException"
+		+ "|" +"NullPointerException"
+		+ "|" +"NumberFormatException"
+		+ "|" +"SecurityException"
+		+ "|" +"StringIndexOutOfBounds"
+		+ "|" +"UnsupportedOperationException"
+		+ "|" +"ClassNotFoundException"
+		+ "|" +"CloneNotSupportedException"
+		+ "|" +"IllegalAccessException"
+		+ "|" +"InstantiationException"
+		+ "|" +"InterruptedException"
+		+ "|" +"NoSuchFieldException"
+		+ "|" +"NoSuchMethodException"
+		+")";
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
 	public static Pattern functionExpressions = Pattern.compile(functionExpressionS);
 	public static Pattern function = Pattern.compile(functionS);

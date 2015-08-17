@@ -23,9 +23,9 @@ import exception.WrongComplexException;
 import expression.Assignment;
 import expression.Invocation;
 import javafx.util.Pair;
-import operator.Patterns;
 import parser.ParseUtils;
 import parser.ParseUtils.Triple;
+import simpleExpression.Patterns;
 
 public class UtilTests 
 {

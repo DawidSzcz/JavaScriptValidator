@@ -59,7 +59,7 @@ public class Assignment extends SimpleExpression {
 	public boolean isValid() {
 		super.isPortOpen(argument,variables);
 		for(Statement variable:variables){
-			if(variable.getName().matches("\\s*"+operator.Patterns.number+"\\s*")){
+			if(variable.getName().matches("\\s*"+simpleExpression.Patterns.number+"\\s*")){
 				errors.add(enums.Error.ExpectedVariableNotNumber);
 				return false;
 			}

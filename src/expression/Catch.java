@@ -1,6 +1,7 @@
 package expression;
 
 import exception.InvalidExpression;
+import simpleExpression.ExpresionCorrect;
 
 public class Catch extends ComplexExpression {
 
@@ -18,7 +19,7 @@ public class Catch extends ComplexExpression {
 	@Override
 	public boolean isValid() {
 		try {
-			condition.isValid();
+			ExpresionCorrect.declarationException(condition.getName());
 		} catch (InvalidExpression e) {
 			this.addError(e.getError());
 		}

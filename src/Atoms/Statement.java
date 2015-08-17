@@ -1,7 +1,7 @@
 package Atoms;
 
 import exception.InvalidExpression;
-import operator.ExpresionCorrect;
+import simpleExpression.ExpresionCorrect;
 
 public class Statement {
 	private String name;

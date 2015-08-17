@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import operator.ExpresionCorrect;
+import simpleExpression.ExpresionCorrect;
 
 public class TestUtils {
 	public static String  readFromFile(String path) throws IOException
