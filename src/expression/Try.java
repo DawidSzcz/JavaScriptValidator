@@ -22,7 +22,10 @@ public class Try extends ComplexExpression
 
 	@Override
 	public String toString() {
-		return branch + "TRY";
+		if(catchList.isEmpty())
+			return branch + "TRY ";
+		else
+			return branch + catchList.get(catchList.size()-1).toString();
 	}
 
 	@Override
@@ -42,6 +45,22 @@ public class Try extends ComplexExpression
 		super.addtoInstructions(instructions);
 		for (Catch exp : catchList)
 			exp.addtoInstructions(instructions);
+	}
+	@Override
+	public void insertBlock(List<Expression> block)
+	{
+		if(catchList.isEmpty())
+			super.insertBlock(block);
+		else
+			catchList.get(catchList.size()-1).insertBlock(block);
+	}
+	@Override
+	public int nextLine()
+	{
+		if(catchList.isEmpty())
+			return super.nextLine();
+		else
+			return catchList.get(catchList.size()-1).nextLine();
 	}
 
 }

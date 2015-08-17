@@ -12,7 +12,7 @@ public class Catch extends ComplexExpression {
 
 	@Override
 	public String toString() {
-		return branch + "CATCH";
+		return branch + "CATCH ";
 	}
 
 	@Override

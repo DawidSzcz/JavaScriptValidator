@@ -18,7 +18,7 @@ public class Patterns {
 	public static String CatchS = "^\\s*catch\\s*[\\(\\)]+";
 	public static String FunctionS = "^\\s*function\\s+[\\w$_]+\\s*\\(";
 	public static String blockS = "\\{[^\\}\\{]*\\}";
-	public static String headerS = "(^\\s*|\\s+)(" 
+	public static String headerS = "(^\\s*|\\s+|(?<=\\}))(" 
 									+ Instruction.IF 
 									+"|" + Instruction.WHILE
 									+"|" + Instruction.SWITCH
