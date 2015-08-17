@@ -1,7 +1,6 @@
 package simpleExpression;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import exception.InvalidExpression;
 

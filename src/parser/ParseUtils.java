@@ -15,17 +15,7 @@ import Atoms.Statement;
 import Atoms.StringContainer;
 import javafx.util.Pair;
 import enums.Error;
-import enums.Instruction;
-import exception.WrongBlockException;
-import exception.WrongConditionException;
-import expression.Catch;
-import expression.Else;
-import expression.For;
-import expression.Function;
-import expression.If;
-import expression.Switch;
-import expression.Try;
-import expression.While;
+
 
 public class ParseUtils {
 	private static List<Character> allowedCharacters = Arrays.asList('\'', '"', 'f', 'n', '\\', 'r', 't', 'b');
