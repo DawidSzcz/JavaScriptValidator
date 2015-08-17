@@ -108,26 +108,17 @@ public class ExpressionParser {
 			}		
 			else if (matchBlock.find() && blocks.containsKey(ParseUtils.cleanLine(matchBlock.group()))) {
 				String blockID = ParseUtils.cleanLine(matchBlock.group());
-				Matcher states = Patterns.states.matcher(blocks.get(blockID));
-				states.find();
 				statement = statement.replace(blockID,blocks.get(blockID));
 				try{
 					exp = (ComplexExpression)exps.remove(exps.size()-1);
 				}catch(Exception e)
 				{
-					exp = new Block(states.group(), currentLine, branch);
+					exp = new Block(statement, currentLine, branch);
 				}
 				
-				((ComplexExpression)exp).insertBlock(this.parseExpressions(states.group(), ((ComplexExpression)exp).nextLine() + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
+				((ComplexExpression)exp).insertBlock(this.parseExpressions(statement, ((ComplexExpression)exp).nextLine() + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
 			}													
-				else 
-				{	
-					for(String id : blocks.keySet())
-						if(statement.contains(id))
-						{
-							
-						}
-					if (matcherVar.find())	
+				else if (matcherVar.find())	
 						exp = new Var(statement, currentLine, branch);
 					else if (matcherControl.find())
 							exp = new ControlExpression(statement, currentLine, labels.subList(0, labelCount), branch);
@@ -142,7 +133,6 @@ public class ExpressionParser {
 										if (statement.contains("}"))
 											exp.addError(Error.UnexpectedClosingBracket);
 									}
-				}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
 		}
