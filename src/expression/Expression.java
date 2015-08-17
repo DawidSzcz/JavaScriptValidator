@@ -66,4 +66,8 @@ public abstract class Expression {
 			hash.put(line, getErrors());
 		return hash;
 	}
+
+	public String getBranch() {
+		return toString();
+	}
 }

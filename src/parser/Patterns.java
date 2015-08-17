@@ -29,7 +29,7 @@ public class Patterns {
 									+"(?=\\s*(\\{|if))"
 									+"|" + Instruction.TRY
 									+"(?=\\s*\\{))"; 
-	public static String identiferS = "^\\s*BlockID-?\\d+";
+	public static String identiferS = "BlockID-?\\d+";
 	public static String headerIDS = "^\\s*(if|else|try|catch|switch|for|while|function)-?\\d+";
 	public static String statementsS = "(?<=\\{).*(?=\\})";
 	public static String conditionS = "(?<=\\().*(?=\\))";

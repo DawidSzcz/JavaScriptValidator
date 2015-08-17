@@ -21,11 +21,11 @@ public class Try extends ComplexExpression
 	}
 
 	@Override
-	public String toString() {
+	public String getBranch() {
 		if(catchList.isEmpty())
-			return branch + "TRY ";
+			return super.getBranch();
 		else
-			return branch + catchList.get(catchList.size()-1).toString();
+			return branch + catchList.get(catchList.size()-1).getBranch();
 	}
 
 	@Override
@@ -61,6 +61,11 @@ public class Try extends ComplexExpression
 			return super.nextLine();
 		else
 			return catchList.get(catchList.size()-1).nextLine();
+	}
+
+	@Override
+	public String toString() {
+		return branch + "TRY ";
 	}
 
 }
