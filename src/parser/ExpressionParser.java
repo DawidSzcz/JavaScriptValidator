@@ -120,7 +120,14 @@ public class ExpressionParser {
 				
 				((ComplexExpression)exp).insertBlock(this.parseExpressions(states.group(), ((ComplexExpression)exp).nextLine() + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
 			}													
-				else if (matcherVar.find())	
+				else 
+				{	
+					for(String id : blocks.keySet())
+						if(statement.contains(id))
+						{
+							
+						}
+					if (matcherVar.find())	
 						exp = new Var(statement, currentLine, branch);
 					else if (matcherControl.find())
 							exp = new ControlExpression(statement, currentLine, labels.subList(0, labelCount), branch);
@@ -135,6 +142,7 @@ public class ExpressionParser {
 										if (statement.contains("}"))
 											exp.addError(Error.UnexpectedClosingBracket);
 									}
+				}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
 		}
