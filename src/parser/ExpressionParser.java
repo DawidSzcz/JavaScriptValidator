@@ -109,6 +109,13 @@ public class ExpressionParser {
 			else if (matchBlock.find() && blocks.containsKey(ParseUtils.cleanLine(matchBlock.group()))) {
 				String blockID = ParseUtils.cleanLine(matchBlock.group());
 				statement = statement.replace(blockID,blocks.get(blockID));
+				String states = statement;
+				try{
+					Matcher statesMatch = Patterns.states.matcher(ParseUtils.cleanLine(statement));
+					if(statesMatch.find())
+						states = statesMatch.group();
+				}catch(IllegalStateException e){}
+				
 				try{
 					exp = (ComplexExpression)exps.remove(exps.size()-1);
 				}catch(Exception e)
@@ -116,7 +123,7 @@ public class ExpressionParser {
 					exp = new Block(statement, currentLine, branch);
 				}
 				
-				((ComplexExpression)exp).insertBlock(this.parseExpressions(statement, ((ComplexExpression)exp).nextLine() + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
+				((ComplexExpression)exp).insertBlock(this.parseExpressions(states, ((ComplexExpression)exp).nextLine() + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
 			}													
 				else if (matcherVar.find())	
 						exp = new Var(statement, currentLine, branch);
