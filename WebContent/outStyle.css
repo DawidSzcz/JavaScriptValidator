@@ -1,5 +1,10 @@
 @CHARSET "UTF-8";
 
+@font-face {
+   font-family: myFirstFont;
+   src: url('C:\Users\Comarch\workspace\JavaScriptValidator\WebContent\3Dumb.ttf') format('truetype');
+}
+
 .lp 
 {
 	width: 4%;	
@@ -39,4 +44,25 @@ select
 {
 	color: red;
 	font-weight: bold;
+}
+td
+{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: B9C5C9;
+	box-shadow: 2px 2px 3px #888888;
+	font-family: myFirstFont;
+}
+table
+{
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: solid black 4px;
+	background-color: 93A7AD;
+}
+body
+{
+	background-color: 96ABB3;
 }
