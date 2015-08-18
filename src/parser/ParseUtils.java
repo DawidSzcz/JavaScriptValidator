@@ -96,7 +96,7 @@ public class ParseUtils {
 				if (javaScriptText.charAt(iterator) == '\n' || iterator==javaScriptText.length()-1) {
 					stringInTexst.addError(Error.EnterInString);
 					Context.strings.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.getString(), "StringID" + uniqueId);
+					javaScriptText = javaScriptText.replace(stringInTexst.getString(), "StringID" + uniqueId + '\n');
 					break;
 				}
 				if (javaScriptText.charAt(iterator) == '\\' && iterator + 1 < javaScriptText.length()) {
