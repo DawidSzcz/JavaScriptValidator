@@ -9,7 +9,7 @@ public class Block extends ComplexExpression {
 	public Block(String in, int currentLine, String branch) {
 		super(in, currentLine);
 		this.branch = branch;
-		beginOfStatements = line + ParseUtils.getLinesBNS(in);
+		beginOfStatements = ParseUtils.getLinesBNS(in)-1;
 		area = 0;
 	}
 

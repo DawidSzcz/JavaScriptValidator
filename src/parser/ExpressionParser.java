@@ -117,7 +117,8 @@ public class ExpressionParser {
 				}catch(IllegalStateException e){}
 				
 				try{
-					exp = (ComplexExpression)exps.remove(exps.size()-1);
+					exp = (ComplexExpression)exps.get(exps.size()-1);
+					exps.remove(exps.size()-1);
 				}catch(Exception e)
 				{
 					exp = new Block(statement, currentLine, branch);
