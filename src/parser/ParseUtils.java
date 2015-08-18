@@ -14,6 +14,7 @@ import Atoms.InputContainer;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import javafx.util.Pair;
+import validator.Context;
 import enums.Error;
 
 
@@ -51,27 +52,21 @@ public class ParseUtils {
 		return randomString;
 	}
 
-	public static Pair<InputContainer, HashMap<String, StringContainer>> takeOutStringsAndComents(String javaScriptTextString) {
-		Pair<String, HashMap<String, StringContainer>> pair;
+	public static InputContainer takeOutStringsAndComents(String javaScriptTextString) {
 		InputContainer  javaScriptText= new InputContainer(javaScriptTextString);
-		HashMap<String, StringContainer> stringMap = new HashMap<>();
-		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
+		Matcher matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.getString());
 		while (matcherStringsAndComents.find()) {
 			if (matcherStringsAndComents.group().equals("//") || matcherStringsAndComents.group().equals("/*")) {
 				javaScriptText = removeComments(javaScriptText);
 			} else {
-				pair = takeOutStrings(javaScriptText.string, stringMap);
-				javaScriptText.string = pair.getKey();
-				stringMap = pair.getValue();
-
+				javaScriptText.setString(takeOutStrings(javaScriptText.getString()));
 			}
-			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.string);
+			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.getString());
 		}
-		return new Pair<InputContainer, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+		return javaScriptText;
 	}
 	
-	public static Pair<String, HashMap<String, StringContainer>> takeOutStrings(String javaScriptText,
-			HashMap<String, StringContainer> stringMap) {
+	public static String takeOutStrings(String javaScriptText) {
 		StringContainer stringInTexst = new StringContainer("");
 		Boolean isInString = false;
 		char doubleQuotes = '"';
@@ -90,18 +85,18 @@ public class ParseUtils {
 					isInString = true;
 				} else {
 					// isInString = false;
-					stringInTexst.string += javaScriptText.charAt(iterator);
-					stringMap.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.string, " StringID" + uniqueId+" ");
+					stringInTexst.setString(stringInTexst.getString()+javaScriptText.charAt(iterator));
+					Context.strings.put("StringID" + uniqueId, stringInTexst);
+					javaScriptText = javaScriptText.replace(stringInTexst.getString(), " StringID" + uniqueId+" ");
 					break;
 				}
 			}
 			if (isInString) {
-				stringInTexst.string += javaScriptText.charAt(iterator);
+				stringInTexst.setString(stringInTexst.getString()+javaScriptText.charAt(iterator));
 				if (javaScriptText.charAt(iterator) == '\n' || iterator==javaScriptText.length()-1) {
 					stringInTexst.addError(Error.EnterInString);
-					stringMap.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.string, "StringID" + uniqueId);
+					Context.strings.put("StringID" + uniqueId, stringInTexst);
+					javaScriptText = javaScriptText.replace(stringInTexst.getString(), "StringID" + uniqueId);
 					break;
 				}
 				if (javaScriptText.charAt(iterator) == '\\' && iterator + 1 < javaScriptText.length()) {
@@ -112,7 +107,7 @@ public class ParseUtils {
 						
 					} else if (javaScriptText.charAt(iterator + 1) == '\''
 							|| javaScriptText.charAt(iterator + 1) == '\"') {
-						stringInTexst.string += javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1);
+						stringInTexst.setString(stringInTexst.getString()+javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1));
 						++iterator;
 					} else {
 						stringInTexst.addError(Error.InvalidEscape);
@@ -121,7 +116,7 @@ public class ParseUtils {
 			}
 		}
 
-		return new Pair<String, HashMap<String, StringContainer>>(javaScriptText, stringMap);
+		return javaScriptText;
 	}
 	
 	
@@ -131,41 +126,41 @@ public class ParseUtils {
 		boolean starComment = false;
 		String enterCounter="";
 		String commentedText="";
-		for (int iterator = 0; iterator < javaScriptText.string.length(); iterator++) {
-			if (javaScriptText.string.charAt(iterator)=='/' && iterator+1!=javaScriptText.string.length()){
-				if(javaScriptText.string.charAt(iterator+1)=='/' && !starComment){
+		for (int iterator = 0; iterator < javaScriptText.getString().length(); iterator++) {
+			if (javaScriptText.getString().charAt(iterator)=='/' && iterator+1!=javaScriptText.getString().length()){
+				if(javaScriptText.getString().charAt(iterator+1)=='/' && !starComment){
 					lineComment =true;
 				}
-				if(javaScriptText.string.charAt(iterator+1)=='*' && !lineComment){
+				if(javaScriptText.getString().charAt(iterator+1)=='*' && !lineComment){
 					starComment =true;
 				}
 			}
 			if (lineComment){
-				commentedText+=javaScriptText.string.charAt(iterator);
+				commentedText+=javaScriptText.getString().charAt(iterator);
 
-				if(javaScriptText.string.charAt(iterator)=='\n' || iterator==javaScriptText.string.length()-1 ){
+				if(javaScriptText.getString().charAt(iterator)=='\n' || iterator==javaScriptText.getString().length()-1 ){
 
-					javaScriptText.string=javaScriptText.string.replace(commentedText, "\n");
+					javaScriptText.setString(javaScriptText.getString().replace(commentedText, "\n"));
 					break;//lineComment=false;
 				}
 
 			}
 			if (starComment){
-				commentedText+=javaScriptText.string.charAt(iterator);
-				if(javaScriptText.string.charAt(iterator)=='\n'){
+				commentedText+=javaScriptText.getString().charAt(iterator);
+				if(javaScriptText.getString().charAt(iterator)=='\n'){
 					enterCounter+='\n';
 				}
-				if( iterator>0 && javaScriptText.string.charAt(iterator-1)=='*'&& javaScriptText.string.charAt(iterator)=='/'){
-					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
+				if( iterator>0 && javaScriptText.getString().charAt(iterator-1)=='*'&& javaScriptText.getString().charAt(iterator)=='/'){
+					javaScriptText.setString(javaScriptText.getString().replace(commentedText,enterCounter ));
 					break;//starComment=false;
 				}
-				if (iterator==javaScriptText.string.length()-1){
-					for (int i=0; javaScriptText.string.charAt(i)!='/' || javaScriptText.string.charAt(i+1)!='*'; i++){
-						if (javaScriptText.string.charAt(i)=='\n'){
+				if (iterator==javaScriptText.getString().length()-1){
+					for (int i=0; javaScriptText.getString().charAt(i)!='/' || javaScriptText.getString().charAt(i+1)!='*'; i++){
+						if (javaScriptText.getString().charAt(i)=='\n'){
 							javaScriptText.addline();
 						}
 					}
-					javaScriptText.string=javaScriptText.string.replace(commentedText,enterCounter );
+					javaScriptText.setString(javaScriptText.getString().replace(commentedText,enterCounter ));
 					javaScriptText.addError(Error.MissingEndOfComment);
 
 				}

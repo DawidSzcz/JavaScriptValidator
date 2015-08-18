@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import Atoms.Statement;
+import Atoms.StringContainer;
 import parser.ExpressionParser;
 
 public class Context {
 	static public List<Statement> openPorts = new ArrayList<Statement>();
 	static public List<String> variables = new ArrayList<String>();
-	static public HashMap <String,List<Integer>> functions = new HashMap <String,List<Integer>>();
+	static public HashMap<String,List<Integer>> functions = new HashMap <String,List<Integer>>();
+	static public HashMap<String, StringContainer> strings = new HashMap<String, StringContainer>();
 	static public List<String> functionsBehindDot =new ArrayList<String>();
 	static public boolean variableWithUnderscoreValid = false;
 	public static void clear(){
 		openPorts.clear();
 		variables.clear();
+		strings.clear();
 		functions.clear();
 		prepareFunctions();
 		functionsBehindDot.clear();

@@ -7,7 +7,7 @@ import enums.Error;
 
 public class StringContainer  {
 	private List<Error> errors = new LinkedList<>();
-	public String string;
+	private String string;
 	public StringContainer(String string) 
 	{
 		this.string = string;
