@@ -30,24 +30,20 @@ import javafx.util.Pair;
 
 public class ExpressionParser {
 	private Map<String, String> blocks = new HashMap<>();
-	private Map<String, StringContainer> strings;
 	private InputContainer input;
 	private String wholeProgram;
 	private List<String> labels;
 	
 	public ExpressionParser(String input)
 	{
-		Pair <InputContainer, HashMap<String,StringContainer>> removedStrings=ParseUtils.takeOutStringsAndComents(input);
-		Pair<String, Map<String, String>> removedBlocks = ParseUtils.removeBlocks(removedStrings.getKey().string);
-		
-		this.input = removedStrings.getKey();
-		this.input.string = removedBlocks.getKey();
-		wholeProgram = removedStrings.getKey().string;
+		this.input=ParseUtils.takeOutStringsAndComents(input);
+		Pair<String, Map<String, String>> removedBlocks = ParseUtils.removeBlocks(this.input.getString());
+		this.input.setString(removedBlocks.getKey());
+		wholeProgram = this.input.getString();
 		blocks = removedBlocks.getValue();
-		strings = removedStrings.getValue();
 	}
 	public List<Expression> parse() {		
-		List<Expression> list = parseExpressions(input.string, 1, new LinkedList<String>(), "");
+		List<Expression> list = parseExpressions(input.getString(), 1, new LinkedList<String>(), "");
 		if(input.getErrors().size() != 0)
 			list.add(new InvalidComment(wholeProgram, input.getErrors(), input.getLine()));
 		return list;

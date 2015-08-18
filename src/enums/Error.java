@@ -10,7 +10,7 @@ public enum Error {
 	WrongNumberOfArguments("Wrong number of arguments","Nie prawidlowy numer w argumencie"),
 	WrongAssignment("Wrong assignment","Nieprawidlowa operacja"),
 	MissingIfBeforeElse("MissingIfBeforeElse","Brakuje \"if\" przed \"else\""),
-	InvalidOperator("Invalid operator","Nieprawidlowy operator"),
+	SyntaxError("Syntax error","blad skladni"),
 	InvalidFunction("Invalid function","Nieprawidlowa funkcja"),
 	InvalExpresionInSquareBracket("Inval expresion in square bracket","Nieprawidlowe wyrazenie w nawiasie kwadratowym"),
 	InvalExpresionInParenthesis("Inval Expresion In Parenthesis","Nieprawidlowe wyrazenie w nawiasie okraglym"),
@@ -43,7 +43,9 @@ public enum Error {
 	ControlStatementNotInLoop("Control statement should be in loop", "Wyrazenie steruj¹ce poza pêtl¹"),
 	UsedKeyWord("Used key word!","uzyto slowo kluczowe!"),
 	ExpectedVariableNotNumber("Expected variable not number","Lczba zamiast cyfry"),
-	IncorrectDeclaredException("Incorrect declared exception","Niepoprawne zadeklarowany wyj¹tek");
+	IncorrectDeclaredException("Incorrect declared exception","Niepoprawne zadeklarowany wyj¹tek"),
+	InvalidToken("Invalid token","brak znaku"),
+	IncorrectMark("Incorrect mark","nie poprawny znak");
 
 	public final String enContent;
 	public final String plContent;

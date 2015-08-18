@@ -52,7 +52,6 @@ public class ExpressionTest {
 			Object[] temp = {url, d, bool};
 			parametrs.add(temp);
 		}
-		
 		return parametrs;
 	}
 

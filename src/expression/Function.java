@@ -1,22 +1,13 @@
 package expression;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import Atoms.Statement;
-import Atoms.StringContainer;
-import enums.Error;
-import enums.Instruction;
+
 import exception.InvalidExpression;
-import exception.WrongComplexException;
-import parser.ExpressionParser;
-import parser.ParseUtils;
-import parser.Patterns;
+
 import validator.Context;
 
 public class Function extends ComplexExpression {

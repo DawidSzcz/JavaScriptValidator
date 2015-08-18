@@ -1,7 +1,6 @@
 package simpleExpression;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import exception.InvalidExpression;
 
@@ -19,7 +18,7 @@ public class ExpresionCorrect {
 		expression = functiontAsExpressionValidator(expression);
 		expression = bracketValidator(expression);
 		if (!isExpresionCorect(expression)) {
-			throw new InvalidExpression(enums.Error.InvalidOperator, expression);
+			throw new InvalidExpression(enums.Error.SyntaxError, expression);
 		}
 		return true;
 	}
@@ -100,10 +99,13 @@ public class ExpresionCorrect {
 			expression = expression.replace(matcherQuestionMark.group(), "variable");
 			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
 		}
+
 		expression = expression.replaceAll("\\s+", "");
 		if (expression.equals("variable") || expression.equals("number") || expression.equals(""))
 			return true;
 		else
+			if(!expression.replaceAll("variable|number", "").equals(""))
+				throw new InvalidExpression(enums.Error.IncorrectMark, expression);	
 			return false;
 	}
 
@@ -183,7 +185,7 @@ public class ExpresionCorrect {
 		if(expression.matches("\\s*"+Patterns.variable+"\\s*")){
 			return true;
 		}
-		if(expression.matches("\\s*"+Patterns.exception+"\\s*"+Patterns.variable+"\\s*")){
+		if(expression.matches("\\s*"+Patterns.exception+"\\s+"+Patterns.variable+"\\s*")){
 			return true;
 		}
 		
