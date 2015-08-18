@@ -31,7 +31,7 @@ public class Patterns {
 									+"(?=\\s*\\{))"; 
 	public static String identiferS = "BlockID-?\\d+";
 	public static String headerIDS = "^\\s*(if|else|try|catch|switch|for|while|function)-?\\d+";
-	public static String statementsS = "(?<=\\{).*(?=\\})";
+	public static String statementsS = "(?<=^\\{).*(?=\\})";
 	public static String conditionS = "(?<=\\().*(?=\\))";
 	public static String singleStatement = "\\w+";
 	public static String invocationS = "[^\\{\\}\\s]+";
