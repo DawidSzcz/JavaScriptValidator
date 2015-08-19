@@ -24,6 +24,10 @@ public class Else extends ComplexExpression
 	public Else(String statement, int currentLine, String branch)
 	{
 		super(statement, currentLine);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.ELSE)).matcher(statement);
+		if (!checkBeginning.find()) {
+			this.addError(Error.RestrictedLowerCase);
+		}
 		this.branch = branch;
 		area = 0;
 	}

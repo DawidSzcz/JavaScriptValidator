@@ -1,18 +1,22 @@
 package expression;
 
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Atoms.Statement;
-import Atoms.StringContainer;
+import enums.Error;
 import enums.Instruction;
 import exception.InvalidExpression;
-import parser.ExpressionParser;
-import validator.Context;
+import parser.Patterns;
 
 public class If extends ComplexExpression{
 	public If(String statement, int currentLine, String branch) {
 		super(statement, currentLine);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.IF)).matcher(statement);
+		if (!checkBeginning.find()) {
+			this.addError(Error.RestrictedLowerCase);
+		}
 		this.branch = branch;
 	}
 

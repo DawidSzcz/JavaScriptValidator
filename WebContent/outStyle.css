@@ -2,7 +2,7 @@
 
 @font-face {
    font-family: myFirstFont;
-   src: url('C:\Users\Comarch\workspace\JavaScriptValidator\WebContent\3Dumb.ttf') format('truetype');
+   src: url('NexaRustHandmade-Extended.otf') format('truetype');
 }
 
 .lp 
@@ -52,7 +52,6 @@ td
 	border-radius: 5px;
 	background-color: B9C5C9;
 	box-shadow: 2px 2px 3px #888888;
-	font-family: myFirstFont;
 }
 table
 {

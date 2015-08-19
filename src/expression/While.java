@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import Atoms.StringContainer;
+import enums.Error;
 import enums.Instruction;
 import exception.InvalidExpression;
 import parser.ExpressionParser;
@@ -16,6 +17,10 @@ public class While extends ComplexExpression{
 	public While(String statement, int currentLine, List<String> labels, String branch) 
 	{
 		super(statement, currentLine);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.WHILE)).matcher(statement);
+		if (!checkBeginning.find()) {
+			this.addError(Error.RestrictedLowerCase);
+		}
 		this.branch = branch;
 		Matcher label = Patterns.label.matcher(statement);
 		if(label.find())

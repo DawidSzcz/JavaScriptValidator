@@ -3,12 +3,15 @@ package expression;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import parser.ExpressionParser;
+import parser.Patterns;
 
 public class Try extends ComplexExpression
 {
@@ -17,6 +20,10 @@ public class Try extends ComplexExpression
 	public Try(String name, int currentLine, String branch)
 	{
 		super(name, currentLine);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.TRY)).matcher(name);
+		if (!checkBeginning.find()) {
+			this.addError(Error.RestrictedLowerCase);
+		}
 		this.branch = branch;
 	}
 

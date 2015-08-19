@@ -22,6 +22,11 @@ public class For extends ComplexExpression{
 	public For(String statement, int currentLine, List<String> labels, String branch, ExpressionParser parser)
 	{
 		super(statement, currentLine);
+
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.FOR)).matcher(statement);
+		if (!checkBeginning.find()) {
+			this.addError(Error.RestrictedLowerCase);
+		}
 		this.branch = branch;
 		Matcher label = Patterns.label.matcher(statement);
 		if(label.find())
