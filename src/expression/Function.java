@@ -3,11 +3,14 @@ package expression;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import Atoms.Statement;
-
+import enums.Error;
+import enums.Instruction;
 import exception.InvalidExpression;
-
+import parser.Patterns;
 import validator.Context;
 
 public class Function extends ComplexExpression {
@@ -17,6 +20,10 @@ public class Function extends ComplexExpression {
 	public Function(String statement, int currentLine, String branch) 
 	{
 		super(statement, currentLine);
+		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.FUNCTION)).matcher(statement);
+		if (!checkBeginning.find()) {
+			this.addError(Error.RestrictedLowerCase);
+		}
 		this.branch = branch;
 		args = makeArgs(statement);
 		for (String arg:args)

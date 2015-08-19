@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @CHARSET "UTF-8";
 
 .lp 
@@ -62,3 +63,72 @@ body
 {
 	background-color: 96ABB3;
 }
+=======
+@CHARSET "UTF-8";
+
+@font-face {
+   font-family: myFirstFont;
+   src: url('NexaRustHandmade-Extended.otf') format('truetype');
+}
+
+.lp 
+{
+	width: 4%;	
+	border: 1px solid black;
+}
+.code, .error, .noError, .plain
+{
+	width: 48%;
+	border: 1px solid black;
+}
+.error
+{
+	background-color: red;
+	font-weight: bold;
+}
+table
+{
+	border: 1px solid black;
+}
+select
+{
+	width: 100%;	
+}
+.noError select 
+{
+	background-color: green;
+}
+.comment
+{
+	color: green;
+}
+.string
+{
+	color: blue;
+}
+.restricted
+{
+	color: red;
+	font-weight: bold;
+}
+td
+{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	background-color: B9C5C9;
+	box-shadow: 2px 2px 3px #888888;
+}
+table
+{
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border: solid black 4px;
+	background-color: 93A7AD;
+}
+body
+{
+	background-color: 96ABB3;
+}
+>>>>>>> a355ccb6b77b8d3d49bb56c5d9116de5af5afe0a
