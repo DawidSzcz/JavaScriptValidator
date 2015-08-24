@@ -3,27 +3,54 @@ package simpleExpression;
 import java.util.regex.Matcher;
 
 import exception.InvalidExpression;
+import parser.ParseUtils;
 
 public class ExpresionCorrect {
+	static int line =1;
+	public static boolean isExpressinCorrect(String expression) throws InvalidExpression {
 
-	public static boolean isExpressinCorrect(String expression) throws InvalidExpression{
-
+		if (expression.split("\\n").length != 1) {
+			String[] complexExpression = expression.split("\\n");
+			for (int i = 0; i < complexExpression.length; i++) {
+				try {
+					complexExpression[i] = ParseUtils.cleanLine(complexExpression[i]);
+					if(String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt(0)).matches("\\W") && i!=0){
+						if(String.valueOf(ParseUtils.cleanLine(complexExpression[i-1]).charAt(complexExpression[i-1].length() - 1)).matches("[\\w\\)]")){
+							complexExpression[i]="variable "+complexExpression[i];
+						}
+					}
+					if (String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt( complexExpression[i].length() - 1)).matches("\\W")) {
+						if (i != complexExpression[i].length() - 1) {
+							if (String.valueOf(ParseUtils.cleanLine(complexExpression[i + 1]).charAt(0)).matches("\\w")) {
+								complexExpression[i]=complexExpression[i]+" variable";
+							}
+						}
+					}
+					line=i+1;
+					isExpressinCorrect(complexExpression[i]);
+				} catch (IllegalStateException e) {
+					continue;
+				}
+			}
+		}
+		
 		functionValidator(expression);
 		expression = restrictedWords(expression);
 		if (validator.Context.variableWithUnderscoreValid)
 			underscoreValidator(expression);
+		
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
 		expression = functiontAsExpressionValidator(expression);
 		expression = bracketValidator(expression);
 		if (!isExpresionCorect(expression)) {
-			throw new InvalidExpression(enums.Error.SyntaxError, expression);
+			throw new InvalidExpression(enums.Error.SyntaxError, expression, line);
 		}
 		return true;
 	}
 
-	private static String squareBracketValidator(String expression) throws InvalidExpression{
+	private static String squareBracketValidator(String expression) throws InvalidExpression {
 
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		while (macherSquareBracket.find()) {
@@ -31,7 +58,7 @@ public class ExpresionCorrect {
 			subexpression = functiontAsExpressionValidator(subexpression);
 			subexpression = bracketValidator(subexpression);
 			if (!isExpresionCorect(subexpression)) {
-				throw new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression);
+				throw new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line);
 			} else
 				expression = expression.replace("[" + macherSquareBracket.group() + "]", "");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
@@ -39,7 +66,7 @@ public class ExpresionCorrect {
 		return expression;
 	}
 
-	private static String functiontAsExpressionValidator(String expression) throws InvalidExpression{
+	private static String functiontAsExpressionValidator(String expression) throws InvalidExpression {
 		Matcher macherFunction = Patterns.functionExpressions.matcher(expression);
 		Matcher macherBracket;
 		while (macherFunction.find()) {
@@ -48,7 +75,7 @@ public class ExpresionCorrect {
 				String[] arguments = macherBracket.group().split(",");
 				for (String argument : arguments) {
 					if (!isExpresionCorect(argument)) {
-						throw new InvalidExpression(enums.Error.InvalidFunction, expression);
+						throw new InvalidExpression(enums.Error.InvalidFunction, expression, line);
 					}
 				}
 			}
@@ -63,10 +90,10 @@ public class ExpresionCorrect {
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
 		while (macherBracket.find()) {
 			if (macherBracket.group().equals("")) {
-				throw new InvalidExpression(enums.Error.NullInBracket, expression);
+				throw new InvalidExpression(enums.Error.NullInBracket, expression, line);
 			}
 			if (!isExpresionCorect(macherBracket.group()))
-				throw new InvalidExpression(enums.Error.InvalExpresionInParenthesis, expression);
+				throw new InvalidExpression(enums.Error.InvalExpresionInParenthesis, expression, line);
 			else
 				expression = expression.replace("(" + macherBracket.group() + ")", "number");
 			macherBracket = Patterns.expressionInBracket.matcher(expression);
@@ -101,12 +128,15 @@ public class ExpresionCorrect {
 		}
 
 		expression = expression.replaceAll("\\s+", "");
-		if (expression.equals("variable") || expression.equals("number") || expression.equals(""))
+		if (expression.equals("variable") || expression.equals("number") || expression.equals("")){
+			line=1;
 			return true;
-		else
-			if(!expression.replaceAll("variable|number", "").equals(""))
-				throw new InvalidExpression(enums.Error.IncorrectMark, expression);	
-			return false;
+		}
+		else if (!expression.replaceAll("variable|number", "").equals(""))
+			throw new InvalidExpression(enums.Error.IncorrectMark, expression, line);
+		
+		line=1;
+		return false;
 	}
 
 	private static void underscoreValidator(String expression) throws InvalidExpression {
@@ -127,14 +157,15 @@ public class ExpresionCorrect {
 
 		Matcher matcherExpressionWithUnderscore = Patterns.expressionWithUnderscore.matcher(expression);
 		if (matcherExpressionWithUnderscore.find()) {
-			throw new InvalidExpression(enums.Error.IncorectExpresionWithUnderscore, expression);
+			throw new InvalidExpression(enums.Error.IncorectExpresionWithUnderscore, expression, line);
 		}
 	}
 
 	private static void functionValidator(String expression) throws InvalidExpression {
-		expression = expression.replaceAll("_featureManager\\.getProcessInstanceFeature\\(\\)\\.getWFLIProcessId\\(\\)","");
+		expression = expression.replaceAll("_featureManager\\.getProcessInstanceFeature\\(\\)\\.getWFLIProcessId\\(\\)",
+				"");
 		if (expression.indexOf("getWFLIProcessId()") != -1) {
-			throw new InvalidExpression(enums.Error.InvalidUseGetWFLIProcessId, expression);
+			throw new InvalidExpression(enums.Error.InvalidUseGetWFLIProcessId, expression, line);
 		}
 		String functionName;
 		String[] functionArguments;
@@ -147,49 +178,51 @@ public class ExpresionCorrect {
 			functionArguments = macherBracket.group().split(",");
 			for (String oneOperatorFunction : validator.Context.functions.keySet()) {
 				if (functionName.indexOf(oneOperatorFunction + "(") != -1) {
-					boolean correctNumberOfArguments=false;
+					boolean correctNumberOfArguments = false;
 					for (int numberOfArguments : validator.Context.functions.get(oneOperatorFunction)) {
 						if (functionArguments.length == numberOfArguments && !functionArguments[0].equals("")) {
-							correctNumberOfArguments=true;
+							correctNumberOfArguments = true;
 						}
-						if (functionArguments.length==1 && numberOfArguments==0 && functionArguments[0].equals("")){
-							correctNumberOfArguments=true;
+						if (functionArguments.length == 1 && numberOfArguments == 0
+								&& functionArguments[0].equals("")) {
+							correctNumberOfArguments = true;
 						}
 					}
-					if(!correctNumberOfArguments){
-						throw new InvalidExpression(enums.Error.IncorrectNumberOfArguments, expression);
+					if (!correctNumberOfArguments) {
+						throw new InvalidExpression(enums.Error.IncorrectNumberOfArguments, expression, line);
 					}
 				}
 			}
 			for (String functionBehindDot : validator.Context.functionsBehindDot) {
 				if (functionName.indexOf(functionBehindDot + "(") != -1) {
 					if (functionName.indexOf('.' + functionBehindDot) == -1) {
-						throw new InvalidExpression(enums.Error.MisssDotBeforFunctions, expression);
+						throw new InvalidExpression(enums.Error.MisssDotBeforFunctions, expression, line);
 					}
 				}
 			}
 		}
 	}
+
 	private static String restrictedWords(String expression) throws InvalidExpression {
-		Matcher matcherForbiddenWords= Patterns.forbiddenWords.matcher(expression);
-		if(matcherForbiddenWords.find()){
-			throw new InvalidExpression(enums.Error.UsedKeyWord, expression);
+		Matcher matcherForbiddenWords = Patterns.forbiddenWords.matcher(expression);
+		if (matcherForbiddenWords.find()) {
+			throw new InvalidExpression(enums.Error.UsedKeyWord, expression, line);
 		}
 		expression = expression.replaceAll(Patterns.prefiks, "variable");
 		expression = expression.replaceAll(Patterns.Instanceof, "variable");
 		return expression;
 	}
-	
-	public static boolean declarationException(String expression)  throws InvalidExpression{
-		
-		if(expression.matches("\\s*"+Patterns.variable+"\\s*")){
+
+	public static boolean declarationException(String expression) throws InvalidExpression {
+
+		if (expression.matches("\\s*" + Patterns.variable + "\\s*")) {
 			return true;
 		}
-		if(expression.matches("\\s*"+Patterns.exception+"\\s+"+Patterns.variable+"\\s*")){
+		if (expression.matches("\\s*" + Patterns.exception + "\\s+" + Patterns.variable + "\\s*")) {
 			return true;
 		}
-		
-		throw new InvalidExpression(enums.Error.IncorrectDeclaredException, expression);
+
+		throw new InvalidExpression(enums.Error.IncorrectDeclaredException, expression, line);
 	}
 
 }

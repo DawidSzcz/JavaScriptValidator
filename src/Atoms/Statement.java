@@ -29,7 +29,7 @@ public class Statement {
 		while (stringId.find()) {
 				if (!Context.strings.get(stringId.group()).getErrors().isEmpty()) {
 					for(Error error:Context.strings.get(stringId.group()).getErrors())
-						throw new InvalidExpression(error,name);
+						throw new InvalidExpression(error,name,1);
 				}
 		}
 
