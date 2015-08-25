@@ -8,6 +8,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 import exception.InvalidExpression;
+import parser.ParseUtils;
 
 public class ValidationTest {
 
@@ -80,5 +81,10 @@ public class ValidationTest {
 		assertFalse(TestUtils.testStatement("JavaScriptException.javaException instanceofjava.lang.NumberFormatException"));
 // to do		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
 
+	}
+	@Test()
+	public void testReplaceFirstFunction(){
+		String test=ParseUtils.replaceFirst("kot", "hif", "Ala ma kotaaa");
+		assertTrue(test.equals("Ala ma hifaaa"));
 	}
 }
