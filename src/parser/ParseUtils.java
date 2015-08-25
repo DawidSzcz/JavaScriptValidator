@@ -33,6 +33,7 @@ public class ParseUtils {
 			linesBeforeStatement = lbs;
 		}
 	}
+	
 	public static String cleanLine(String statement) throws IllegalStateException
 	{
 		statement = statement.replace("[ \t\r]+", " ");
@@ -64,6 +65,24 @@ public class ParseUtils {
 			matcherStringsAndComents = Patterns.stringsAndComents.matcher(javaScriptText.getString());
 		}
 		return javaScriptText;
+	}
+	
+	public static String replaceFirst (String find, String replace, String text){
+		int begin = text.indexOf(find);
+		int end = begin+find.length();
+		text=text.substring(0, begin)+replace+text.substring(end);
+		return text;
+	}
+	
+	public static String numberOfEnter(String expression){
+		String enters="";
+		for( int i=0 ; i<expression.length(); i++){
+			if(expression.charAt(i)=='\n'){
+				enters+="\n";
+			}
+		}
+		
+		return enters;
 	}
 	
 	public static String takeOutStrings(String javaScriptText) {

@@ -6,21 +6,26 @@ import exception.InvalidExpression;
 import parser.ParseUtils;
 
 public class ExpresionCorrect {
-	static int line =1;
-	public static boolean isExpressinCorrect(String expression) throws InvalidExpression {
+	static int line = 1;
 
-		if (expression.split("\\n").length != 1) {
-			if(validComplexExpression (expression))
-				return true;
-			else
-				return false;
-		}
-		
+	public static boolean isExpressinCorrect(String expression) throws InvalidExpression {
+////		try {
+////			expression=ParseUtils.cleanLine(expression);
+//			if (expression.split("\\n").length != 1) {
+//				if (validComplexExpression(expression))
+//					return true;
+//				else
+//					return false;
+//			}
+////		} catch (IllegalStateException e) {
+//
+////		}
+		line = 1;
 		functionValidator(expression);
 		expression = restrictedWords(expression);
 		if (validator.Context.variableWithUnderscoreValid)
 			underscoreValidator(expression);
-		
+
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
@@ -84,7 +89,7 @@ public class ExpresionCorrect {
 	}
 
 	private static boolean isExpresionCorect(String expression) throws InvalidExpression {
-
+		String enters="";
 		expression = expression.replaceAll(Patterns.complexExpressions, "variable");
 
 		Matcher matcherThreePlus = Patterns.threePlus.matcher(expression);
@@ -95,29 +100,34 @@ public class ExpresionCorrect {
 
 		Matcher matcherOperator1expression = Patterns.operator1expression.matcher(expression);
 		while (matcherOperator1expression.find()) {
-			expression = expression.replace(matcherOperator1expression.group(), "variable");
+			enters=ParseUtils.numberOfEnter(expression);
+			expression = ParseUtils.replaceFirst(matcherOperator1expression.group(), enters+"variable",expression);
 			matcherOperator1expression = Patterns.operator1expression.matcher(expression);
 		}
 		Matcher matcherOperator2expression = Patterns.operator2expressions.matcher(expression);
 		while (matcherOperator2expression.find()) {
-			expression = expression.replace(matcherOperator2expression.group(), "variable");
+			enters=ParseUtils.numberOfEnter(expression);
+			expression = ParseUtils.replaceFirst(matcherOperator2expression.group(), enters+"variable",expression);
 			matcherOperator2expression = Patterns.operator2expressions.matcher(expression);
 		}
 		Matcher matcherQuestionMark = Patterns.questionMark.matcher(expression);
 		while (matcherQuestionMark.find()) {
-			expression = expression.replace(matcherQuestionMark.group(), "variable");
-			matcherQuestionMark = Patterns.operator2expressions.matcher(expression);
+			enters=ParseUtils.numberOfEnter(expression);
+			expression = ParseUtils.replaceFirst(matcherQuestionMark.group(), enters+"variable",expression);
+			matcherQuestionMark = Patterns.questionMark.matcher(expression);
 		}
-
-		expression = expression.replaceAll("\\s+", "");
-		if (expression.equals("variable") || expression.equals("number") || expression.equals("")){
-			line=1;
-			return true;
+		expression = expression.replaceAll("\\s+$", "");
+		for(int i=0; i < expression.length(); i++ ){
+			if(expression.charAt(i)=='\n'){
+				line++;
+			}
 		}
-		else if (!expression.replaceAll("variable|number", "").equals(""))
-			throw new InvalidExpression(enums.Error.IncorrectMark, expression, line);
 		
-		line=1;
+		expression = expression.replaceAll("^\\s+", "");
+		if (expression.equals("variable") || expression.equals("number") || expression.equals("")) {
+			return true;
+		} else if (!expression.replaceAll("variable|number", "").equals(""))
+			throw new InvalidExpression(enums.Error.IncorrectMark, expression, line);
 		return false;
 	}
 
@@ -206,29 +216,32 @@ public class ExpresionCorrect {
 
 		throw new InvalidExpression(enums.Error.IncorrectDeclaredException, expression, line);
 	}
-	public static boolean validComplexExpression (String expression) throws InvalidExpression{
+
+	public static boolean validComplexExpression(String expression) throws InvalidExpression {
 		String[] complexExpression = expression.split("\\n");
 		for (int i = 0; i < complexExpression.length; i++) {
 			try {
 				complexExpression[i] = ParseUtils.cleanLine(complexExpression[i]);
-				if(String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt(0)).matches("\\W") && i!=0){
-					if(String.valueOf(ParseUtils.cleanLine(complexExpression[i-1]).charAt(complexExpression[i-1].length() - 1)).matches("[\\w\\)]")){
-						complexExpression[i]="variable "+complexExpression[i];
+				if (String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt(0)).matches("\\W") && i != 0) {
+					if (String.valueOf(ParseUtils.cleanLine(complexExpression[i - 1])
+							.charAt(complexExpression[i - 1].length() - 1)).matches("[\\w\\)]")) {
+						complexExpression[i] = "variable " + complexExpression[i];
 					}
 				}
-				if (String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt( complexExpression[i].length() - 1)).matches("\\W")) {
-					if (i != complexExpression[i].length() - 1) {
+				if (String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt(complexExpression[i].length() - 1))
+						.matches("\\W")) {
+					if (i != complexExpression.length- 1) {
 						if (String.valueOf(ParseUtils.cleanLine(complexExpression[i + 1]).charAt(0)).matches("\\w")) {
-							complexExpression[i]=complexExpression[i]+" variable";
+							complexExpression[i] = complexExpression[i] + " variable";
 						}
 					}
 				}
-				line=i+1;
-				if(!isExpressinCorrect(complexExpression[i])){
+				line = i + 1;
+				if (!isExpressinCorrect(complexExpression[i])) {
 					return false;
 				}
 			} catch (IllegalStateException e) {
-				continue;
+				
 			}
 		}
 		return true;
