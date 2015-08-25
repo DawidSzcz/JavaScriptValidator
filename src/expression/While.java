@@ -9,6 +9,7 @@ import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import parser.ExpressionParser;
 import parser.ParseUtils;
 import parser.Patterns;
@@ -43,6 +44,9 @@ public class While extends ComplexExpression{
 		}catch(InvalidExpression e)
 		{
 			this.addError(e.getError(), line + e.getLine());
+			return false;
+		}catch (InvalidString e) {
+			addError(e.getError(), e.getLine());
 			return false;
 		}
 	}

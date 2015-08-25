@@ -41,6 +41,10 @@ public abstract class Expression {
 	{
 		return errors.get(i) != null;
 	}
+	public boolean hasErrors()
+	{
+		return !errors.isEmpty();
+	}
 	public void addError(enums.Error err, int i)
 	{
 		if(errors.get(i) == null) 

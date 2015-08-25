@@ -5,6 +5,7 @@ import java.util.Map;
 import Atoms.Statement;
 import Atoms.StringContainer;
 import exception.InvalidExpression;
+import exception.InvalidString;
 
 public class Invocation extends SimpleExpression {
 	Statement invocation;
@@ -27,6 +28,9 @@ public class Invocation extends SimpleExpression {
 				invocation.isValid();
 			} catch (InvalidExpression e) {
 				this.addError(e.getError(), e.getLine() + line);
+				return false;
+			}catch (InvalidString e) {
+				addError(e.getError(), e.getLine());
 				return false;
 			}
 			return true;

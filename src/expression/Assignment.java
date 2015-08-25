@@ -9,6 +9,7 @@ import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import parser.ParseUtils;
 import parser.Patterns;
 import validator.Context;
@@ -73,6 +74,8 @@ public class Assignment extends SimpleExpression {
 			} catch (InvalidExpression e) {
 				addError(e.getError(), line + e.getLine());
 				return false;
+			} catch (InvalidString e) {
+				addError(e.getError(), e.getLine());
 			}
 			return true;
 		} else

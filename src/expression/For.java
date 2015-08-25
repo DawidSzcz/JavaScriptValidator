@@ -76,6 +76,13 @@ public class For extends ComplexExpression{
 		return super.hasErrors(i);
 	}
 	@Override
+	public boolean hasErrors() {
+		for(Expression e : forConditions)
+			if(e == null || e.hasErrors())
+				return true;
+		return super.hasErrors();
+	}
+	@Override
 	public List<Error> getErrors(int i) {
 		List<Error> errs= super.getErrors(i);
 		for(Expression e : forConditions)

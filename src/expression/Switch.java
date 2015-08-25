@@ -9,6 +9,7 @@ import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import exception.WrongComplexException;
 import parser.Patterns;
 import validator.Context;
@@ -36,6 +37,9 @@ public class Switch extends ComplexExpression {
 				condition.isValid();
 		} catch (InvalidExpression e) {
 			this.addError(e.getError(), line + e.getLine());
+			return false;
+		}catch (InvalidString e) {
+			addError(e.getError(), e.getLine());
 			return false;
 		}
 		return true;

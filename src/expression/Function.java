@@ -10,6 +10,7 @@ import Atoms.Statement;
 import enums.Error;
 import enums.Instruction;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import parser.Patterns;
 import validator.Context;
 
@@ -50,7 +51,9 @@ public class Function extends ComplexExpression {
 			try {
 				condtioniterator.isValid();
 			} catch (InvalidExpression e) {
-				return false;
+				addError(e.getError(), line + e.getLine());
+			}catch (InvalidString e) {
+				addError(e.getError(), e.getLine());
 			}
 		}
 		return true;

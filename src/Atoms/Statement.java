@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import enums.Error;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import simpleExpression.ExpresionCorrect;
 import simpleExpression.Patterns;
 import validator.Context;
@@ -24,12 +25,12 @@ public class Statement {
 		return;
 	}
 
-	public boolean isValid() throws InvalidExpression {
+	public boolean isValid() throws InvalidExpression, InvalidString{
 		Matcher stringId = parser.Patterns.stringID.matcher(name);
 		while (stringId.find()) {
 				if (!Context.strings.get(stringId.group()).getErrors().isEmpty()) {
 					for(Error error:Context.strings.get(stringId.group()).getErrors())
-						throw new InvalidExpression(error,name,Context.strings.get(stringId.group()).getLine());
+						throw new InvalidString(error,name,Context.strings.get(stringId.group()).getLine());
 				}
 		}
 

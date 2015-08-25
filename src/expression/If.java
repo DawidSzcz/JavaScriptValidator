@@ -8,6 +8,7 @@ import Atoms.Statement;
 import enums.Error;
 import enums.Instruction;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import parser.Patterns;
 
 public class If extends ComplexExpression{
@@ -45,6 +46,9 @@ public class If extends ComplexExpression{
 		}catch(InvalidExpression e)
 		{
 			this.addError(e.getError(), line + e.getLine());
+			return false;
+		}catch (InvalidString e) {
+			addError(e.getError(), e.getLine());
 			return false;
 		}
 		return true;
