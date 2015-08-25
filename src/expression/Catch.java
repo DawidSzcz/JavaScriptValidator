@@ -16,7 +16,7 @@ public class Catch extends ComplexExpression {
 
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.CATCH)).matcher(name);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 		this.branch = branch;
 	}
@@ -32,7 +32,7 @@ public class Catch extends ComplexExpression {
 		try {
 			ExpresionCorrect.declarationException(condition.getName());
 		} catch (InvalidExpression e) {
-			this.addError(e.getError());
+			this.addError(e.getError(), line + e.getLine());
 		}
 		return super.isValid();
 	}

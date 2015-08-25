@@ -15,7 +15,7 @@ public class InvalidComment extends Expression
 		super("NVM", line);
 		area = ParseUtils.getLines(program) - line +1;
 		for(Error e : errors)
-			this.addError(e);
+			this.addError(e, line);
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public abstract class SimpleExpression extends Expression {
 					return true;
 				}
 			}
-			errors.add(Error.SqlPortIsNotOpen);
+			addError(Error.SqlPortIsNotOpen, line);
 			return false;
 		}
 		return true;

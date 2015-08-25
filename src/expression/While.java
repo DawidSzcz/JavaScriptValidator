@@ -19,7 +19,7 @@ public class While extends ComplexExpression{
 		super(statement, currentLine);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.WHILE)).matcher(statement);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 		this.branch = branch;
 		Matcher label = Patterns.label.matcher(statement);
@@ -42,7 +42,7 @@ public class While extends ComplexExpression{
 			return true;
 		}catch(InvalidExpression e)
 		{
-			this.addError(e.getError());
+			this.addError(e.getError(), line + e.getLine());
 			return false;
 		}
 	}

@@ -18,7 +18,7 @@ public class Switch extends ComplexExpression {
 		super(statement, currentLine);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.SWITCH)).matcher(statement);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 	}
 
@@ -35,7 +35,7 @@ public class Switch extends ComplexExpression {
 			if (condition != null)
 				condition.isValid();
 		} catch (InvalidExpression e) {
-			this.addError(e.getError());
+			this.addError(e.getError(), line + e.getLine());
 			return false;
 		}
 		return true;

@@ -22,7 +22,7 @@ public class Try extends ComplexExpression
 		super(name, currentLine);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.TRY)).matcher(name);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 		this.branch = branch;
 	}
@@ -40,7 +40,7 @@ public class Try extends ComplexExpression
 		super.isValid();
 		if(!catchList.isEmpty())
 			return true;
-		this.addError(Error.TryWithNoCatch);
+		this.addError(Error.TryWithNoCatch, line);
 		return false;
 	}
 	public void insertCatch(Catch c)

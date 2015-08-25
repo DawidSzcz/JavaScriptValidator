@@ -16,7 +16,7 @@ public abstract class Expression {
 	protected int line;
 	protected int area;
 	protected String branch = "";
-	HashMap<Integer, List<enums.Error>> errors = new HashMap<>();
+	private HashMap<Integer, List<enums.Error>> errors = new HashMap<>();
 	
 	public Expression(String name, int currentLine) 
 	{

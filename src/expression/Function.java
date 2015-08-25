@@ -22,7 +22,7 @@ public class Function extends ComplexExpression {
 		super(statement, currentLine);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.FUNCTION)).matcher(statement);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 		this.branch = branch;
 		args = makeArgs(statement);

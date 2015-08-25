@@ -29,7 +29,7 @@ public class Assignment extends SimpleExpression {
 			try{
 				argument = new Statement(ParseUtils.cleanLine(side[side.length-1]));
 			}catch(IllegalStateException e){
-				errors.add(enums.Error.NullSteatment);
+				addError(Error.NullSteatment, line);
 				argument = new Statement(ParseUtils.cleanLine("null"));
 			}
 			for (int i = side.length-2 ; i >= 0; i--) {
@@ -38,7 +38,7 @@ public class Assignment extends SimpleExpression {
 				Context.variables.add(side[i]);
 				}
 				catch(IllegalStateException e){
-					errors.add(enums.Error.NullSteatment);
+					addError(Error.NullSteatment, line);
 					variables.add(new Statement(ParseUtils.cleanLine("null")));
 				}
 			}
@@ -47,7 +47,7 @@ public class Assignment extends SimpleExpression {
 		else
 		{
 			statement = ParseUtils.cleanLine(statement);
-			this.addError(Error.WrongAssignment);
+			addError(Error.WrongAssignment, line);
 		}
 	}
 
@@ -60,7 +60,7 @@ public class Assignment extends SimpleExpression {
 		super.isPortOpen(argument,variables);
 		for(Statement variable:variables){
 			if(variable.getName().matches("\\s*"+simpleExpression.Patterns.number+"\\s*")){
-				errors.add(enums.Error.ExpectedVariableNotNumber);
+				addError(Error.ExpectedVariableNotNumber, line);
 				return false;
 			}
 		}
@@ -71,7 +71,7 @@ public class Assignment extends SimpleExpression {
 				}
 				argument.isValid();
 			} catch (InvalidExpression e) {
-				this.addError(e.getError());
+				addError(e.getError(), line + e.getLine());
 				return false;
 			}
 			return true;

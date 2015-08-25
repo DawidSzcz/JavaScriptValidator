@@ -16,7 +16,7 @@ public class Var extends SimpleExpression {
 				try {
 					assignments.add(new Assignment(variable, currentLine, branch));
 				} catch (IllegalStateException e) {
-					errors.add(enums.Error.NullSteatment);
+					addError(enums.Error.NullSteatment, line);
 					assignments.add(new Assignment("null", currentLine, branch));
 	
 				}
@@ -32,18 +32,18 @@ public class Var extends SimpleExpression {
 		return "Declaration";
 	}
 	public boolean isValid() {
-		for (Assignment assignment : assignments) {
-			if(!assignment.isValid()){
-				errors.addAll(assignment.errors);
-				return false;
-			}
-		}
-		for (Invocation invocation : invocations) {
-			if(!invocation.isValid()){
-				errors.addAll(invocation.errors);
-				return false;
-			}
-		}
+//		for (Assignment assignment : assignments) {
+//			if(!assignment.isValid()){
+//				errors.addAll(assignment.errors);
+//				return false;
+//			}
+//		}
+//		for (Invocation invocation : invocations) {
+//			if(!invocation.isValid()){
+//				errors.addAll(invocation.errors);
+//				return false;
+//			}
+//		}
 		return true;
 	}
 

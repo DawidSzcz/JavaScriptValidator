@@ -26,7 +26,7 @@ public class Else extends ComplexExpression
 		super(statement, currentLine);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.ELSE)).matcher(statement);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 		this.branch = branch;
 		area = 0;

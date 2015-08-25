@@ -38,7 +38,7 @@ public class Core extends HttpServlet {
 		{
 			List<Expression> list = map.get(i+1);
 			if(list != null)
-				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), ValidUtils.hasErrors(list) ? "error" : "noError", ValidUtils.hasErrors(list) ? ValidUtils.prepareErrors(list, language) : ValidUtils.prepareExpressions(list, language));
+				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), ValidUtils.hasErrors(list, i +1) ? "error" : "noError", ValidUtils.hasErrors(list, i +1) ? ValidUtils.prepareErrors(list, i +1, language) : ValidUtils.prepareExpressions(list, language));
 			else
 				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
 		}

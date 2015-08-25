@@ -18,5 +18,8 @@ public class InvalidExpression extends JSValidatorException {
 	public String getStatement() {
 		return block;
 	}
+	public int getLine() {
+		return line;
+	}
 
 }

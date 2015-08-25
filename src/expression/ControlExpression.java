@@ -25,10 +25,10 @@ public class ControlExpression extends SimpleExpression {
 		{
 			label = ParseUtils.cleanLine(name);
 			if(!labels.contains(label))
-				this.addError(Error.MissingLabeDeclaration);
+				this.addError(Error.MissingLabelDeclaration, line);
 		}
 		if(!(branch.contains("For") || branch.contains("While") || (control.matches("\\s*break") && branch.contains("Switch"))))
-			this.addError(Error.ControlStatementNotInLoop);
+			this.addError(Error.ControlStatementNotInLoop, line);
 	}
 
 

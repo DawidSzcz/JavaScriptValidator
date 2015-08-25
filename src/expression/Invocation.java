@@ -26,7 +26,7 @@ public class Invocation extends SimpleExpression {
 			try {
 				invocation.isValid();
 			} catch (InvalidExpression e) {
-				this.addError(e.getError());
+				this.addError(e.getError(), e.getLine() + line);
 				return false;
 			}
 			return true;

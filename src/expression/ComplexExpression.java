@@ -33,7 +33,7 @@ public abstract class ComplexExpression extends Expression {
 		else if(this instanceof Try || this instanceof Else || this instanceof Program || this instanceof Block)
 				condition = null;
 			else
-				this.addError(Error.InvalidCondition);
+				this.addError(Error.InvalidCondition, line);
 		beginOfStatements = line + area;
 
 	}
@@ -53,7 +53,7 @@ public abstract class ComplexExpression extends Expression {
 //				}
 //			}
 //		return hash;
-		return errors;
+		return null;
 	}
 	public void insertBlock( List<Expression> block)
 	{

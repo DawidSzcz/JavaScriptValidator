@@ -15,7 +15,7 @@ public class If extends ComplexExpression{
 		super(statement, currentLine);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.IF)).matcher(statement);
 		if (!checkBeginning.find()) {
-			this.addError(Error.RestrictedLowerCase);
+			this.addError(Error.RestrictedLowerCase, line);
 		}
 		this.branch = branch;
 	}
@@ -44,7 +44,7 @@ public class If extends ComplexExpression{
 				condition.isValid();
 		}catch(InvalidExpression e)
 		{
-			this.addError(e.getError());
+			this.addError(e.getError(), line + e.getLine());
 			return false;
 		}
 		return true;
