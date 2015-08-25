@@ -29,7 +29,7 @@ public class Var extends SimpleExpression {
 
 	@Override
 	public String toString() {
-		return "declaration of variables";
+		return "Declaration";
 	}
 	public boolean isValid() {
 		for (Assignment assignment : assignments) {

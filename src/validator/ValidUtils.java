@@ -44,10 +44,10 @@ public class ValidUtils {
 		return result * 5;
 	}
 
-	public static String prepareErrors(List<Expression> exps, String language) {
+	public static String prepareErrors(List<Expression> exps, int i, String language) {
 		List<Error> errors = new LinkedList<Error>();
 		for (Expression exp : exps)
-			errors.addAll(exp.getErrors());
+			errors.addAll(exp.getErrors(i));
 		if (errors.size() == 1) {
 			if (language.equals("English")) {
 				return errors.get(0).enContent;
@@ -83,9 +83,9 @@ public class ValidUtils {
 		return data + "\n</select>";
 	}
 
-	public static boolean hasErrors(List<Expression> list) {
+	public static boolean hasErrors(List<Expression> list, int i) {
 		for(Expression exp : list)
-			if(exp.hasErrors())
+			if(exp.hasErrors(i))
 				return true;
 		return false;
 	}

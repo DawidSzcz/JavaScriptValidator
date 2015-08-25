@@ -16,14 +16,14 @@ public abstract class Expression {
 	protected int line;
 	protected int area;
 	protected String branch = "";
-	List<enums.Error> errors = new LinkedList<>();
+	HashMap<Integer, List<enums.Error>> errors = new HashMap<>();
 	
 	public Expression(String name, int currentLine) 
 	{
 		try{
 			this.name = ParseUtils.cleanLine(name);
 		}catch(IllegalStateException e){
-			addError(enums.Error.UnparsedLine);
+			addError(enums.Error.UnparsedLine, currentLine);
 			this.name ="Unparsed";
 		}
 		this.line = currentLine + ParseUtils.getLinesBNS(name);
@@ -33,17 +33,19 @@ public abstract class Expression {
 	public abstract String toString();
 	public abstract boolean isValid();
 	
-	public List<enums.Error> getErrors()
+	public List<enums.Error> getErrors(int i)
 	{
-		return errors;
+		return errors.get(i) != null ? errors.get(i) : new LinkedList<enums.Error>();
 	}
-	public boolean hasErrors()
+	public boolean hasErrors(int i)
 	{
-		return !errors.isEmpty();
+		return errors.get(i) != null;
 	}
-	public void addError(enums.Error err)
+	public void addError(enums.Error err, int i)
 	{
-		errors.add(err);
+		if(errors.get(i) == null) 
+			errors.put(i, new LinkedList<>());
+		errors.get(i).add(err);
 	}
 	public void addtoInstructions(Map<Integer, List<Expression>> instructions)
 	{
@@ -61,10 +63,7 @@ public abstract class Expression {
 		return line;
 	}
 	public HashMap<Integer, List<Error>> getAllErrors() {
-		HashMap<Integer, List<Error>> hash = new HashMap<>();
-		if(!errors.isEmpty())
-			hash.put(line, getErrors());
-		return hash;
+		return errors;
 	}
 
 	public String getBranch() {

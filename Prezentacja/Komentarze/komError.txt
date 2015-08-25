@@ -1,0 +1,45 @@
+importClass(java.util.Arrays);
+importClass(java.util.HashMap);
+
+PARAM = typeof _WFL_OP_PARAM != 'undefined' ? _WFL_OP_PARAM.getValue() : "IS_UNDEFINED";
+VAL1 = typeof _WFL_OP_VAL1 != 'undefined' ? _WFL_OP_VAL1.getValue() : null;
+VAL2 = typeof _WFL_OP_VAL2 != 'undefined' ? _WFL_OP_VAL2.getValue() : null;
+
+if( PARAM == "IS_UNDEFINED" || ((VAL1 != null && PARAM.equals(VAL1)) || (VAL2 != null && !PARAM.equals(VAL2))) ){
+
+/* load parameters with validation mask */
+  vi_iactivity_id = _featureManager.getActivityInstanceFeature().getWFLIActivityId();
+  vx_dbPort       = _featureManager.getTytanDBPortFeature();
+  vs_query        = vx_dbPort.executeStatement("SELECT PARAMNAME, PARAMMASK, PARAMCAPTIONSTYLE FROM TABLE(xpWFLVaMoUtils.fcGetValidtionMasks(" + vi_iactivity_id + "))");
+  var maskAndCaptionStyleList    = new java.util.HashMap();
+  while(vs_query.next()) {
+    var maskAndCaptionStyle = new Array;
+    /*maskAndCaptionStyle[0] = vs_query.getString("PARAMMASK");
+    maskAndCaptionStyle[1] = */*/vs_query.getString("PARAMCAPTIONSTYLE");
+    maskAndCaptionStyleList.put(vs_query.getString("PARAMNAME"), maskAndCaptionStyle);
+
+  }
+
+  /* validate parameters */
+  rowsIterator = _TABLE.getRowsIterator();
+  while (rowsIterator.hasNext()) {
+    row = rowsIterator.next();
+    for(i=0;i<row.getParameterCount();i++) {
+      var parameter = row.getParameter(i);
+      var maskAndCaptionStyleRow = maskAndCaptionStyleList.get(parameter.getName());
+      if(maskAndCaptionStyleRow != null && parameter.isHiddenParameter() == false){
+        /*paramValue = parameter.getValue() != null ? parameter.getValue().toString() : null;
+        paramMask = maskAndCaptionStyleRow[0];
+        paramCaptionStyle = maskAndCaptionStyleRow[1];
+
+        //_logger.warn("parameter[" + parameter.getName() + "] paramValue[" + paramValue + "] paramMask[" + paramMask + "] paramCaptionStyle[" + paramCaptionStyle + "]");
+        if(paramValue == null && paramCaptionStyle != null && paramCaptionStyle.equals("REQUIRED")){
+          parameter.setErrorMsg("Required");
+        }
+        else if(paramValue != null && paramMask != null && paramValue.match( "" + paramMask ) == null){
+          parameter.setErrorMsg("Format: " + paramMask);
+        }
+      }
+    }
+  }
+}

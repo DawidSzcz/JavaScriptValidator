@@ -8,6 +8,7 @@ import enums.Error;
 public class StringContainer  {
 	private List<Error> errors = new LinkedList<>();
 	private String string;
+	private int line;
 	public StringContainer(String string) 
 	{
 		this.string = string;
@@ -29,5 +30,13 @@ public class StringContainer  {
 	public void addErrors(List<Error> errors2) {
 		errors.addAll(errors2);
 		
+	}
+	public void setLine(int line) {
+		this.line = line;
+		
+	}
+	public int getLine()
+	{
+		return line;
 	}
 }

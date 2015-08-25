@@ -29,11 +29,11 @@ public class Statement {
 		while (stringId.find()) {
 				if (!Context.strings.get(stringId.group()).getErrors().isEmpty()) {
 					for(Error error:Context.strings.get(stringId.group()).getErrors())
-						throw new InvalidExpression(error,name,1);
+						throw new InvalidExpression(error,name,Context.strings.get(stringId.group()).getLine());
 				}
 		}
 
-		return ExpresionCorrect.isExpressinCorrect(name);
+		return true;//ExpresionCorrect.isExpressinCorrect(name);
 
 	}
 }

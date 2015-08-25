@@ -38,8 +38,8 @@ public class ExpressionParser {
 	{
 		this.input=ParseUtils.takeOutStringsAndComents(input);
 		Pair<String, Map<String, String>> removedBlocks = ParseUtils.removeBlocks(this.input.getString());
-		this.input.setString(removedBlocks.getKey());
 		wholeProgram = this.input.getString();
+		this.input.setString(removedBlocks.getKey());
 		blocks = removedBlocks.getValue();
 	}
 	public List<Expression> parse() {		
@@ -70,7 +70,7 @@ public class ExpressionParser {
 				{
 					exp =new Else(statement, currentLine, branch);
 					if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
-						exp.addError(Error.MissingIfBeforeElse);
+						exp.addError(Error.MissingIfBeforeElse, currentLine);
 				}
 				else if (head.startsWith("catch"))
 				{
@@ -79,7 +79,7 @@ public class ExpressionParser {
 						((Try)exps.get(exps.size()-1)).insertCatch((Catch)exp);
 						exp = exps.remove(exps.size()-1);
 					}catch(Exception e){
-						exp.addError(Error.MissingTryBeforeCatch);
+						exp.addError(Error.MissingTryBeforeCatch, currentLine);
 					}
 				}
 					else if (head.startsWith("if"))
@@ -135,7 +135,7 @@ public class ExpressionParser {
 											continue;
 										exp = new UnknownExpression(statement, currentLine, branch);
 										if (statement.contains("}"))
-											exp.addError(Error.UnexpectedClosingBracket);
+											exp.addError(Error.UnexpectedClosingBracket, currentLine);
 									}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);

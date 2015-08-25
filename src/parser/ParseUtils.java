@@ -67,38 +67,41 @@ public class ParseUtils {
 	}
 	
 	public static String takeOutStrings(String javaScriptText) {
-		StringContainer stringInTexst = new StringContainer("");
+		StringContainer stringInText = new StringContainer("");
 		Boolean isInString = false;
-		char doubleQuotes = '"';
-		char quotes = '\'';
+		char delimiter = 'u';
+		String content = "";
+		int line = 1;
 		for (int iterator = 0; iterator < javaScriptText.length(); iterator++) {
 			String uniqueId = ParseUtils.uniqueId(javaScriptText);
 			
-			if (javaScriptText.charAt(iterator) == doubleQuotes || javaScriptText.charAt(iterator) == quotes) {
-				if (javaScriptText.charAt(iterator) == '"') {
-					quotes = '"';
-				}
-				if (javaScriptText.charAt(iterator) == '\'') {
-					doubleQuotes = '\'';
-				}
-				if (!isInString) {
-					isInString = true;
-				} else {
-					// isInString = false;
-					stringInTexst.setString(stringInTexst.getString()+javaScriptText.charAt(iterator));
-					Context.strings.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.getString(), " StringID" + uniqueId+" ");
-					break;
-				}
+			if (!isInString && (javaScriptText.charAt(iterator) == '"' || javaScriptText.charAt(iterator) == '\'')) {
+				delimiter = javaScriptText.charAt(iterator);
+				isInString = true;
+				content += javaScriptText.charAt(iterator);
+				continue;
+			}
+			if(isInString && javaScriptText.charAt(iterator) == delimiter)
+			{
+				content+= delimiter;
+				stringInText.setString(stringInText.getString()+javaScriptText.charAt(iterator));
+				Context.strings.put("StringID" + uniqueId, stringInText);
+				javaScriptText = javaScriptText.replace(content, " StringID" + uniqueId+" ");
+				stringInText.setString(content);
+				stringInText.setLine(line);
+				break;
 			}
 			if (isInString) {
-				stringInTexst.setString(stringInTexst.getString()+javaScriptText.charAt(iterator));
 				if (javaScriptText.charAt(iterator) == '\n' || iterator==javaScriptText.length()-1) {
-					stringInTexst.addError(Error.EnterInString);
-					Context.strings.put("StringID" + uniqueId, stringInTexst);
-					javaScriptText = javaScriptText.replace(stringInTexst.getString(), "StringID" + uniqueId + '\n');
+					stringInText.addError(Error.EnterInString);
+					Context.strings.put("StringID" + uniqueId, stringInText);
+					javaScriptText = javaScriptText.replace(content, "StringID" + uniqueId + " ");
+					stringInText.setString(content);
+					stringInText.setLine(line);
+					isInString = false;
 					break;
 				}
+				content += javaScriptText.charAt(iterator);
 				if (javaScriptText.charAt(iterator) == '\\' && iterator + 1 < javaScriptText.length()) {
 					if (javaScriptText.charAt(iterator + 1) == '\\' || javaScriptText.charAt(iterator + 1) == 'n'
 							|| javaScriptText.charAt(iterator + 1) == 'r' || javaScriptText.charAt(iterator + 1) == 't'
@@ -107,13 +110,15 @@ public class ParseUtils {
 						
 					} else if (javaScriptText.charAt(iterator + 1) == '\''
 							|| javaScriptText.charAt(iterator + 1) == '\"') {
-						stringInTexst.setString(stringInTexst.getString()+javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1));
+						stringInText.setString(stringInText.getString()+javaScriptText.charAt(iterator) + javaScriptText.charAt(iterator + 1));
 						++iterator;
 					} else {
-						stringInTexst.addError(Error.InvalidEscape);
+						stringInText.addError(Error.InvalidEscape);
 					}
 				}
 			}
+			if(javaScriptText.charAt(iterator) == '\n')
+				line++;
 		}
 
 		return javaScriptText;
