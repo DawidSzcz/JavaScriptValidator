@@ -1,0 +1,21 @@
+function hideStructureAndParameters(structure, hideParameterValue){
+  structure.hideParameter(hideParameterValue);
+  var iter = structure.getRowsIterator();
+  var row = null;
+  while(iter.hasNext()){
+    row = iter.next();
+    for(i=0 i<row.getParameterCount(); i+){
+      row.getParameter(i).hideParameter(hideParameterValue);
+    }
+  }
+
+
+
+If(PARAM != null){
+  if( PARAM == "IS_UNDEFINED" || ((VALUE_EQ != null && PARAM.equals(VALUE_EQ)) || (VALUE_NEQ != null && !PARAM.equals(VALUE_NEQ))) ){
+    hideStructureAndParameters(_STRUCTURE, true);
+  }
+  else {
+    hideStructureAndParameters(_STRUCTURE, false);
+  }
+}
