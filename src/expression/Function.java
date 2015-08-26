@@ -78,8 +78,12 @@ public class Function extends ComplexExpression {
 			}
 			if (in.charAt(i) == '(')
 				opened++;
-			if (in.charAt(i) == ')')
+			if (in.charAt(i) == ')'){
 				opened--;
+				if(opened==0){
+					break;
+				}
+			}
 			currentArg += in.charAt(i);
 		}
 		list.add(currentArg);

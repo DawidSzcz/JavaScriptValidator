@@ -124,6 +124,8 @@ public class ExpresionCorrect {
 				break;
 			}
 		}
+		expression = expression.replaceAll("^\\s+", "");
+		expression = expression.replaceAll("\\s+$", "");
 		if (expression.equals("variable") || expression.equals("number") || expression.equals("")) {
 			return true;
 		} else if (!expression.replaceAll("variable|number", "").equals(""))
