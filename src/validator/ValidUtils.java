@@ -76,10 +76,10 @@ public class ValidUtils {
 
 	public static String prepareExpressions(List<Expression> list, String language) {
 		if(list.size() == 1)
-			return list.get(0).toString() + (list.get(0).hasErrors() ? " Error" : "");
+			return list.get(0).toString() + (list.get(0).hasErrors() ? " <b>Error</b>" : "");
 		String data = "<select >\n";
 		for(Expression exp : list)
-			data += "<option>\n" + exp.toString() + (exp.hasErrors() ? " Error" : "" )+ "</option>";
+			data += "<option>\n" + exp.toString() + (exp.hasErrors() ? " <b>Error</b>" : "" )+ "</option>";
 		return data + "\n</select>";
 	}
 
