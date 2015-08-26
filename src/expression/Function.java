@@ -80,9 +80,13 @@ public class Function extends ComplexExpression {
 				opened++;
 			if (in.charAt(i) == ')')
 				opened--;
+			if(opened == 0 )
+			{
+				list.add(currentArg);
+				break;
+			}
 			currentArg += in.charAt(i);
 		}
-		list.add(currentArg);
 		return list;
 	}
 }
