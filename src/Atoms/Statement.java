@@ -34,7 +34,7 @@ public class Statement {
 				}
 		}
 
-		return true;//ExpresionCorrect.isExpressinCorrect(name);
+		return ExpresionCorrect.isExpressinCorrect(name);
 
 	}
 }
