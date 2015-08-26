@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.coyote.ErrorState;
+
 import Atoms.Statement;
 import Atoms.StringContainer;
 import enums.Error;
@@ -40,20 +42,21 @@ public abstract class ComplexExpression extends Expression {
 
 	@Override
 	public HashMap<Integer, List<Error>> getAllErrors() {
-//		HashMap<Integer, List<Error>> hash = new HashMap<>();
-//		if (!errors.isEmpty())
-//			hash.put(line, getErrors());
-//		if(statements != null)
-//			for (Expression exp : statements) {
-//				for (Integer l : exp.getAllErrors().keySet()) {
-//					if (!hash.keySet().contains(l))
-//						hash.put(l, exp.getAllErrors().get(l));
-//					else
-//						hash.get(l).addAll(exp.getAllErrors().get(l));
-//				}
-//			}
-//		return hash;
-		return null;
+		HashMap<Integer, List<Error>> hash = new HashMap<>();
+		for(int line : super.getAllErrors().keySet())
+		{
+			hash.put(line, new LinkedList<>());
+			hash.get(line).addAll(super.getAllErrors().get(line));
+		}
+		if(statements != null)
+			for (Expression exp : statements) {
+				for (Integer l : exp.getAllErrors().keySet()) {
+					if (!hash.keySet().contains(l))
+						hash.put(l, new LinkedList<>());
+					hash.get(l).addAll(exp.getAllErrors().get(l));
+				}
+			}
+		return hash;
 	}
 	public void insertBlock( List<Expression> block)
 	{

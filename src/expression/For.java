@@ -1,6 +1,7 @@
 package expression;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,20 @@ public class For extends ComplexExpression{
 			if(e == null || e.hasErrors())
 				return true;
 		return super.hasErrors();
+	}
+	@Override
+	public HashMap<Integer, List<Error>> getAllErrors() {
+		HashMap<Integer, List<Error>> hash = super.getAllErrors();
+		for(Expression e : forConditions)
+		{
+			for(int line : e.getAllErrors().keySet())
+			{
+				if(!hash.containsKey(this.line + line))
+					hash.put(line + this.line, new LinkedList<>());
+				hash.get(this.line + line).addAll(e.getAllErrors().get(line));
+			}
+		}
+		return hash;
 	}
 	@Override
 	public List<Error> getErrors(int i) {
