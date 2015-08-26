@@ -1,0 +1,11 @@
+dbpf=_featureManager.getTytanDBPortFeature();
+rs=dbpf.executeStatement(query);
+
+rs=adbpf.executeStatement(query);
+adbpf=_featureManager.getTytanDBPortFeature();
+
+bdbpf=_featureManager.getTytanDBPortFeature();
+rs=cdbpf.executeStatement(query);
+
+ddbpf=_featureManager.geTTytanDBPortFeature();
+rs=ddbpf.executeStatement(query);
