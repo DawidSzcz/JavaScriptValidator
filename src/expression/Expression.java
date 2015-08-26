@@ -51,6 +51,12 @@ public abstract class Expression {
 			errors.put(i, new LinkedList<>());
 		errors.get(i).add(err);
 	}
+	public void addError(List<enums.Error> err, int i)
+	{
+		if(errors.get(i) == null) 
+			errors.put(i, new LinkedList<>());
+		errors.get(i).addAll(err);
+	}
 	public void addtoInstructions(Map<Integer, List<Expression>> instructions)
 	{
 		this.isValid();

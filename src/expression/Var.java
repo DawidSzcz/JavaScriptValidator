@@ -32,19 +32,21 @@ public class Var extends SimpleExpression {
 		return "Declaration";
 	}
 	public boolean isValid() {
-//		for (Assignment assignment : assignments) {
-//			if(!assignment.isValid()){
-//				errors.addAll(assignment.errors);
-//				return false;
-//			}
-//		}
-//		for (Invocation invocation : invocations) {
-//			if(!invocation.isValid()){
-//				errors.addAll(invocation.errors);
-//				return false;
-//			}
-//		}
-		return true;
+		boolean valid = true;
+		for (Assignment assignment : assignments) 
+			if(!assignment.isValid()){
+				for(int key : assignment.getAllErrors().keySet())
+					addError(assignment.getAllErrors().get(key), key);
+				valid = false;
+			}
+		for (Invocation invocation : invocations) {
+			if(!invocation.isValid()){
+				for(int key : invocation.getAllErrors().keySet())
+					addError(invocation.getAllErrors().get(key), key);
+				valid = false;
+			}
+		}
+		return valid;
 	}
 
 }
