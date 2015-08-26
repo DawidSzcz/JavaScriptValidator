@@ -264,7 +264,7 @@ public class ParseUtils {
 			String ID = headerId(head, input);
 			map.put(ID, head + condition);
 			input = input.replace(head + condition, ID+";");
-			MatchH = Patterns.header.matcher(input.replace(head + condition, ID));
+			MatchH = Patterns.header.matcher(input);
 		}
 		return new Pair<String, Map<String, String>>(input, map);
 	}
