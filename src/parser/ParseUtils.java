@@ -233,7 +233,7 @@ public class ParseUtils {
 			String block = mat.group();
 			String uniqueId = "BlockID"+ParseUtils.uniqueId(input);
 			if (input.contains(block))
-				input = input.replace(block, uniqueId + ";");
+				input = replaceFirst(block, ";" + uniqueId + ";", input);
 			blocks.put(uniqueId, block);
 			mat = Patterns.block.matcher(input);
 		}
@@ -263,7 +263,7 @@ public class ParseUtils {
 			}
 			String ID = headerId(head, input);
 			map.put(ID, head + condition);
-			input = input.replace(head + condition, ID+";");
+			input = replaceFirst(head + condition, ID+";", input);
 			MatchH = Patterns.header.matcher(input);
 		}
 		return new Pair<String, Map<String, String>>(input, map);
