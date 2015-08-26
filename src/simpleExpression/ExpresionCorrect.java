@@ -9,17 +9,6 @@ public class ExpresionCorrect {
 	static int line = 0;
 
 	public static boolean isExpressinCorrect(String expression) throws InvalidExpression {
-////		try {
-////			expression=ParseUtils.cleanLine(expression);
-//			if (expression.split("\\n").length != 1) {
-//				if (validComplexExpression(expression))
-//					return true;
-//				else
-//					return false;
-//			}
-////		} catch (IllegalStateException e) {
-//
-////		}
 		line = 0;
 		functionValidator(expression);
 		expression = restrictedWords(expression);
@@ -124,8 +113,7 @@ public class ExpresionCorrect {
 				break;
 			}
 		}
-		expression = expression.replaceAll("^\\s+", "");
-		expression = expression.replaceAll("\\s+$", "");
+		expression = expression.replaceAll("\\s+", "");
 		if (expression.equals("variable") || expression.equals("number") || expression.equals("")) {
 			return true;
 		} else if (!expression.replaceAll("variable|number", "").equals(""))
@@ -218,34 +206,4 @@ public class ExpresionCorrect {
 
 		throw new InvalidExpression(enums.Error.IncorrectDeclaredException, expression, line);
 	}
-
-//	public static boolean validComplexExpression(String expression) throws InvalidExpression {
-//		String[] complexExpression = expression.split("\\n");
-//		for (int i = 0; i < complexExpression.length; i++) {
-//			try {
-//				complexExpression[i] = ParseUtils.cleanLine(complexExpression[i]);
-//				if (String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt(0)).matches("\\W") && i != 0) {
-//					if (String.valueOf(ParseUtils.cleanLine(complexExpression[i - 1])
-//							.charAt(complexExpression[i - 1].length() - 1)).matches("[\\w\\)]")) {
-//						complexExpression[i] = "variable " + complexExpression[i];
-//					}
-//				}
-//				if (String.valueOf(ParseUtils.cleanLine(complexExpression[i]).charAt(complexExpression[i].length() - 1))
-//						.matches("\\W")) {
-//					if (i != complexExpression.length- 1) {
-//						if (String.valueOf(ParseUtils.cleanLine(complexExpression[i + 1]).charAt(0)).matches("\\w")) {
-//							complexExpression[i] = complexExpression[i] + " variable";
-//						}
-//					}
-//				}
-//				line = i + 1;
-//				if (!isExpressinCorrect(complexExpression[i])) {
-//					return false;
-//				}
-//			} catch (IllegalStateException e) {
-//				
-//			}
-//		}
-//		return true;
-//	}
 }
