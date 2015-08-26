@@ -132,7 +132,10 @@ public class ExpressionParser {
 									exp = new Invocation(statement, currentLine, branch);
 								else {
 										if(statement.matches("\\s*"))
+										{
+											currentLine+=ParseUtils.getLines(statement, blocks);
 											continue;
+										}
 										exp = new UnknownExpression(statement, currentLine, branch);
 										if (statement.contains("}"))
 											exp.addError(Error.UnexpectedClosingBracket, currentLine);
