@@ -4,6 +4,7 @@ import java.util.Map;
 
 import Atoms.Statement;
 import Atoms.StringContainer;
+import exception.ExceptionContainer;
 import exception.InvalidExpression;
 import exception.InvalidString;
 
@@ -23,18 +24,16 @@ public class Invocation extends SimpleExpression {
 
 	@Override
 	public boolean isValid() {
-		if (super.isValid()) {
-			try {
-				invocation.isValid();
-			} catch (InvalidExpression e) {
-				this.addError(e.getError(), e.getLine() + line);
-				return false;
-			}catch (InvalidString e) {
+		boolean valid = super.isValid();
+		try {
+			invocation.isValid();
+		} catch (ExceptionContainer ex) {
+			for(InvalidExpression e : ex.getInlineExceptions())
+				addError(e.getError(), line + e.getLine());
+			for(InvalidString e : ex.getBeginningExceptions())
 				addError(e.getError(), e.getLine());
-				return false;
-			}
-			return true;
-		} else
-			return false;
+			valid =  false;
+		}
+		return valid;
 	}
 }

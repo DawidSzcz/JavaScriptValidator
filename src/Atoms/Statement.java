@@ -3,6 +3,7 @@ package Atoms;
 import java.util.regex.Matcher;
 
 import enums.Error;
+import exception.ExceptionContainer;
 import exception.InvalidExpression;
 import exception.InvalidString;
 import simpleExpression.ExpresionCorrect;
@@ -25,16 +26,25 @@ public class Statement {
 		return;
 	}
 
-	public boolean isValid() throws InvalidExpression, InvalidString{
+	public boolean isValid() throws ExceptionContainer{
 		Matcher stringId = parser.Patterns.stringID.matcher(name);
+		ExceptionContainer exception = new ExceptionContainer();
 		while (stringId.find()) {
 				if (!Context.strings.get(stringId.group()).getErrors().isEmpty()) {
 					for(Error error:Context.strings.get(stringId.group()).getErrors())
-						throw new InvalidString(error,name,Context.strings.get(stringId.group()).getLine());
+						exception.addException(new InvalidString(error,name,Context.strings.get(stringId.group()).getLine()));
 				}
 		}
-
-		return ExpresionCorrect.isExpressinCorrect(name);
+		
+		try{
+			ExpresionCorrect.isExpressinCorrect(name);
+		}catch(InvalidExpression e)
+		{
+			exception.addException(e);
+		}
+		if(!exception.isEmpty())
+			throw exception;
+		return true;
 
 	}
 }

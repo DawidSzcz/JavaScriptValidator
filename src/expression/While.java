@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import Atoms.StringContainer;
 import enums.Error;
 import enums.Instruction;
+import exception.ExceptionContainer;
 import exception.InvalidExpression;
 import exception.InvalidString;
 import parser.ExpressionParser;
@@ -34,20 +35,18 @@ public class While extends ComplexExpression{
 	}
 	@Override
 	public boolean isValid() {
-		super.isValid();
+		boolean valid = super.isValid();
 		try{
 			if(condition != null)
 				condition.isValid();
-			else 
-				return false;
-			return true;
-		}catch(InvalidExpression e)
-		{
-			this.addError(e.getError(), line + e.getLine());
-			return false;
-		}catch (InvalidString e) {
-			addError(e.getError(), e.getLine());
-			return false;
+
+		}catch (ExceptionContainer ex) {
+			for(InvalidExpression e : ex.getInlineExceptions())
+				addError(e.getError(), line + e.getLine());
+			for(InvalidString e : ex.getBeginningExceptions())
+				addError(e.getError(), e.getLine());
+			valid =  false;
 		}
+		return valid;
 	}
 }

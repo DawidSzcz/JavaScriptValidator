@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import Atoms.Statement;
 import enums.Error;
 import enums.Instruction;
+import exception.ExceptionContainer;
 import exception.InvalidExpression;
 import exception.InvalidString;
 import parser.Patterns;
@@ -47,17 +48,19 @@ public class Function extends ComplexExpression {
 
 	@Override
 	public boolean isValid() {
-		super.isValid();
+		boolean valid = super.isValid();
 		for (Statement condtioniterator : arguments) {
 			try {
 				condtioniterator.isValid();
-			} catch (InvalidExpression e) {
-				addError(e.getError(), line + e.getLine());
-			} catch (InvalidString e) {
-				addError(e.getError(), e.getLine());
+			} catch (ExceptionContainer ex) {
+				for(InvalidExpression e : ex.getInlineExceptions())
+					addError(e.getError(), line + e.getLine());
+				for(InvalidString e : ex.getBeginningExceptions())
+					addError(e.getError(), e.getLine());
+				valid =  false;
 			}
 		}
-		return true;
+		return valid;
 	}
 
 	private String getName(String statement) {

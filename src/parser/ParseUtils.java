@@ -105,7 +105,7 @@ public class ParseUtils {
 				content+= delimiter;
 				stringInText.setString(stringInText.getString()+javaScriptText.charAt(iterator));
 				Context.strings.put("StringID" + uniqueId, stringInText);
-				javaScriptText = javaScriptText.replace(content, " StringID" + uniqueId+" ");
+				javaScriptText = ParseUtils.replaceFirst(content, "StringID" + uniqueId + " ", javaScriptText);
 				stringInText.setString(content);
 				stringInText.setLine(line);
 				break;
@@ -114,7 +114,7 @@ public class ParseUtils {
 				if (javaScriptText.charAt(iterator) == '\n' || iterator==javaScriptText.length()-1) {
 					stringInText.addError(Error.EnterInString);
 					Context.strings.put("StringID" + uniqueId, stringInText);
-					javaScriptText = javaScriptText.replace(content, "StringID" + uniqueId + " ");
+					javaScriptText = ParseUtils.replaceFirst(content, "StringID" + uniqueId + " ", javaScriptText);
 					stringInText.setString(content);
 					stringInText.setLine(line);
 					isInString = false;
