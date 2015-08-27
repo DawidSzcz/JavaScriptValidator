@@ -1,0 +1,26 @@
+if( PARAM == "IS_UNDEFINED" || ((VAL1 != null && PARAM.equals(VAL1)) || (VAL2 != null && !PARAM.equals(VAL2)&& (VAL3 == null || (VAL3 != null && !PARAM.equals(VAL3))) )) ){
+
+label1: while (iterator.hasNext()){
+   dWishDate = row.getParameterByName(sWishDateParamName).getValue() != null ? sdf.format(row.getParameterByName(sWishDateParamName).getValue()) : sdf.format(sysdate);
+
+   MobilityGroupParam = row.getParameterByName(sMobilityGroupParamName);
+   if (sRangeFrom != null && sRangeTo != null){
+      break label1;
+   }
+   label2: while(1)
+   {
+        if (sRangeFrom != null && sRangeTo != null){
+            continue label2;
+        }
+        break label1;
+    }
+    label3: while(true)
+    {
+        continue label2;
+        break label1;
+    }
+}
+continue;
+label1 invocation();
+break label1;
+}
