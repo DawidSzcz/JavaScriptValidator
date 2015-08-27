@@ -17,12 +17,12 @@ public class ControlExpression extends SimpleExpression {
 	public ControlExpression(String name, int currentLine, List<String> labels, String branch) {
 		super(name, currentLine);
 		this.branch = branch;
-		this.label = label;
-		Matcher matchC = Patterns.control.matcher(name);
-		Matcher matchL = Patterns.label.matcher(name);
+		this.labels = labels;
+		Matcher matchC = Patterns.control.matcher(this.name);
+		Matcher matchL = Patterns.label.matcher(this.name);
 		if(matchC.find())
 			control = matchC.group();
-		name = name.replace(control, "");
+		this.name = this.name.replace(control, "");
 	}
 	
 	@Override

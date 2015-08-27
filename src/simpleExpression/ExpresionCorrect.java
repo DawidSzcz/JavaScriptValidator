@@ -8,7 +8,7 @@ import parser.ParseUtils;
 
 public class ExpresionCorrect {
 	static int line = 0;
-	static ExceptionContainer errors;
+	static ExceptionContainer errors = new ExceptionContainer();
 	public static boolean isExpressinCorrect(String expression) throws ExceptionContainer {
 
 		line = 0;
