@@ -44,7 +44,9 @@ public enum Error {
 	ExpectedVariableNotNumber("Expected variable not number","Lczba zamiast cyfry"),
 	IncorrectDeclaredException("Incorrect declared exception","Niepoprawne zadeklarowany wyj¹tek"),
 	InvalidToken("Invalid token","brak znaku"),
-	IncorrectMark("Incorrect mark","nie poprawny znak");
+	IncorrectMark("Incorrect mark","nie poprawny znak"),
+	TripleOperator("Triple operator","potrójny operator"),
+	InvalidFunction("Invalid expression in funktion","Nieprawid³owe wyra¿enie w funkcji");
 
 	public final String enContent;
 	public final String plContent;
