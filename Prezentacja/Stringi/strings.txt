@@ -3,7 +3,7 @@ dbPort = _featureManager.getTytanDBPortFeature();
 strSQL = "SELECT xpAMAccountMGMT.fvGetCItemName (CItem_id, SYSDATE) as vpn FROM TAMCONTRACTEDITEMD WHERE cpartyaccount_id = "+_ACCOUNTID.getValue()+" and product_id = 809";
 
 query = dbPort.executeStatement(strSQL);
-while(query.next())
+while(x == "x" + "y")
 {
    rowc = _ADDLIST.createNewRow();
    rowc.getParameter(0).setValue(query.getString("VPN"));

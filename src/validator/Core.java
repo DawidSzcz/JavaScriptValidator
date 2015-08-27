@@ -37,7 +37,7 @@ public class Core extends HttpServlet {
 		for(int i = 0; i < rows.size(); i++)
 		{
 			List<Expression> list = map.get(i+1);
-			if(list != null)
+			if(!rows.get(i).matches("\\s*") && list != null)
 				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), ValidUtils.hasErrors(list, i +1) ? "error" : "noError", ValidUtils.hasErrors(list, i +1) ? ValidUtils.prepareErrors(list, i +1, language) : ValidUtils.prepareExpressions(list, language));
 			else
 				body += String.format(ValidUtils.row, i+1, ValidUtils.countSpace(rows.get(i)), rows.get(i), "plain", "plain");
