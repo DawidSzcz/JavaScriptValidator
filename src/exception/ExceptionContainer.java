@@ -10,6 +10,7 @@ public class ExceptionContainer extends Exception {
 	{
 		list.add(exc);
 	}
+
 	public List<InvalidString> getBeginningExceptions()
 	{
 		List<InvalidString> l = new LinkedList<>();

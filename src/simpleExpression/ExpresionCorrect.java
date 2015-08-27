@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 
 import exception.ExceptionContainer;
 import exception.InvalidExpression;
+import exception.InvalidString;
 import parser.ParseUtils;
 
 public class ExpresionCorrect {
@@ -20,8 +21,18 @@ public class ExpresionCorrect {
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
-		expression = functiontAsExpressionValidator(expression);
-		expression = bracketValidator(expression);
+		Matcher funktionOrBracket= Patterns.funktionAndBracket.matcher(expression);
+		while (funktionOrBracket.find()){
+			Matcher macherFunction = Patterns.functionExpressions.matcher(expression);
+			if(macherFunction.find()){
+				expression = functiontAsExpressionValidator(expression);
+			}
+			Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
+			if(macherBracket.find()){
+				expression = bracketValidator(expression);
+			}
+			funktionOrBracket= Patterns.funktionAndBracket.matcher(expression);
+		}
 		isExpresionCorect(expression);
 		
 		if(!errors.isEmpty()){
@@ -37,8 +48,18 @@ public class ExpresionCorrect {
 			String subexpression = macherSquareBracket.group();
 			subexpression = functiontAsExpressionValidator(subexpression);
 			subexpression = bracketValidator(subexpression);
-			if (!isExpresionCorect(subexpression)) {
-				errors.addException(new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line));
+			try {
+				if (!isExpressinCorrect(subexpression)) {
+					errors.addException(new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line));
+				}
+			} catch (ExceptionContainer e) {
+			   for(InvalidString error:e.getBeginningExceptions()){
+				   errors.addException(error);
+			   }
+			   for(InvalidExpression error:e.getInlineExceptions()){
+				   errors.addException(error);
+			   }
+			   errors.addException(new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line));
 			} 
 			expression = expression.replace("[" + macherSquareBracket.group() + "]", "");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
@@ -54,13 +75,24 @@ public class ExpresionCorrect {
 			if (macherBracket.find()) {
 				String[] arguments = macherBracket.group().split(",");
 				for (String argument : arguments) {
-					if (!isExpresionCorect(argument)) {
-						errors.addException(new InvalidExpression(enums.Error.InvalidFunction, expression, line));
+					
+					try {
+						if (!isExpressinCorrect(argument)) {
+							errors.addException(new InvalidExpression(enums.Error.InvalidFunction, expression, line));
+						}
+					} catch (ExceptionContainer e) {
+						   for(InvalidString error:e.getBeginningExceptions()){
+							   errors.addException(error);
+						   }
+						   for(InvalidExpression error:e.getInlineExceptions()){
+							   errors.addException(error);
+						   }
+						   errors.addException(new InvalidExpression(enums.Error.InvalidFunction, expression, line));
 					}
 				}
 			}
 			expression = expression.replace(macherFunction.group(), "variable");
-			macherFunction = Patterns.functionExpressions.matcher(expression);
+		macherFunction = Patterns.functionExpressions.matcher(expression);
 		}
 		return expression;
 	}
@@ -68,14 +100,14 @@ public class ExpresionCorrect {
 	private static String bracketValidator(String expression){
 		Matcher macherBracket;
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
-		while (macherBracket.find()) {
+		if (macherBracket.find()) {
 			if (macherBracket.group().equals("")) {
 				errors.addException(new InvalidExpression(enums.Error.NullInBracket, expression, line));
 			}
 			if (!isExpresionCorect(macherBracket.group()))
 				errors.addException(new InvalidExpression(enums.Error.InvalExpresionInParenthesis, expression, line));
 			expression = expression.replace("(" + macherBracket.group() + ")", "number");
-			macherBracket = Patterns.expressionInBracket.matcher(expression);
+//			macherBracket = Patterns.expressionInBracket.matcher(expression);
 		}
 		return expression;
 	}
@@ -122,7 +154,8 @@ public class ExpresionCorrect {
 			return true;
 		} else if (!expression.replaceAll("variable|number", "").equals(""))
 			errors.addException(new InvalidExpression(enums.Error.IncorrectMark, expression, line));
-		errors.addException(new InvalidExpression(enums.Error.SyntaxError, expression, line));
+		else
+			errors.addException(new InvalidExpression(enums.Error.SyntaxError, expression, line));
 		return false;
 	}
 

@@ -1,25 +1,16 @@
 package expression;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.apache.coyote.ErrorState;
 
 import Atoms.Statement;
-import Atoms.StringContainer;
+
 import enums.Error;
-import enums.Instruction;
-import exception.WrongBlockException;
-import exception.WrongComplexException;
-import exception.WrongConditionException;
-import parser.ParseUtils;
 import parser.Patterns;
-import validator.Context;
+
 
 public abstract class ComplexExpression extends Expression {
 

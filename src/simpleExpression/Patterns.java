@@ -19,6 +19,7 @@ public class Patterns {
 	public static String expressionWithUnderscoreS = "(^|\\W)_[_$A-Za-z0-9]*";
 	public static String expressionWithUnderscoreAndFunctionS = "(^|\\W)_[_$A-Za-z0-9]+(\\.[_$A-Za-z0-9]*)+\\s*\\(";
 	public static String Instanceof = "("+variable+"\\.)*"+variable+"\\s+instanceof\\s+"+variable+"*(\\."+variable+")*";
+	public static String funktionAndBracketS = functionExpressionS+"|"+expressionInBracketS;
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
 		+ "|" + createRegex1("variable\\+\\+")
 		+ "|" + createRegex1("variable\\-\\-")
@@ -89,6 +90,7 @@ public class Patterns {
 	public static Pattern expressionWithUnderscore = Pattern.compile(expressionWithUnderscoreS);
 	public static Pattern expressionWithUnderscoreAndFunction = Pattern.compile(expressionWithUnderscoreAndFunctionS);
 	public static Pattern forbiddenWords = Pattern.compile(forbiddenWordsS);
+	public static Pattern funktionAndBracket = Pattern.compile(funktionAndBracketS);
 	
 	private static String createRegex1(String operator) {
 		return "(?<=\\W)\\s*"+operator+"\\s*(?=\\W)|^"+operator+"\\s*|\\s*"+operator+"$";
