@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import enums.Error;
 import enums.Instruction;
+import exception.ExceptionContainer;
 import exception.InvalidExpression;
 import parser.Patterns;
 import simpleExpression.ExpresionCorrect;

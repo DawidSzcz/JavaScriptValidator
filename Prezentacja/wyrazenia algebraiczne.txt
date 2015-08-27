@@ -1,0 +1,61 @@
+dbPort = _featureManager.getTytanDBPortFeature();
+sPBXTypeIdName    =  _PBXTYPEID.getName();
+sPBXTypeParamName =  _PBXTYPE.getName();
+sServiceParamName =  _SERVICE.getName();
+sDeleteParamName  =  _DELETE.getName();
+sOSAC_TSACParamName = _OSAC_TSAC_REQUIRED.getName();
+sFoPbxParamName = _FOPBXBUSINESSIDENTITY.getName();
+sDeskNumberParamName = _ENTERPRISEDESKNUMBER.getName();
+sServiceValue = _SERVICEVALUE.getValue(); // bind value of Service (should be FoPBX-R1) to validate if some other parameters are 
+
+PARAM = typeof _WFL_OP_PARAM != 'undefined' ? _WFL_OP_PARAM.getValue() : "IS_UNDEFINED";
+VAL1 = typeof _WFL_OP_VAL1 != 'undefined' ? _WFL_OP_VAL1.getValue() : null;
+VAL2 = typeof _WFL_OP_VAL2 != 'undefined' ? _WFL_OP_VAL2.getValue()  null;
+VAL3 = typeof _WFL_OP_VAL3 != 'undefined' ? _WFL_OP_VAL3.getValue() : null;
+
+if( PARAM == "IS_UNDEFINED" || ((VAL1 != null && PARAM.equals(VAL1)) || (VAL2 != null && !PARAM.equals(VAL2)&& (VAL3 == null || (VAL3 != null && !PARAM.equals(VAL3))) )) ){
+   vi_rowsIterator = _TABLE.getRowsIterator();
+   while (vi_rowsIterator.hasNext()) {
+      vr_Row        = vi_rowsIterator.next();
+      iPBXTypeIdParam = vr_Row.getParameterByName(sPBXTypeIdName).getValue();
+      PBXTypeParam = vr_Row.getParameterByName(sPBXTypeParamName);
+      sPBXTypeParam = PBXTypeParam.getValue();
+      ServiceParam = vr_Row.getParameterByName(sServiceParamName);
+      sServiceParam = ServiceParam.getValue();
+      sDeleteParam = vr_Row.getParameterByName(sDeleteParamName).getValue();
+      // if it isn't new row (PBXTypeId !=1) or deleted row, check if PBXType or Service values are not changed
+      _logger.warn("iPBXTypeIdParam: " iPBXTypeIdParam +" sPBXTypeParam: "+sPBXTypeParam+" sServiceParam: "+sServiceParam);
+      if (sDeleteParam == null){
+      if (iPBXTypeIdParam =! 1){
+	     strSQL = "SELECT ID,PBXTYPE,SERVICE FROM xtpbxtypes where id ="+iPBXTypeIdParam;
+         query = dbPort.executeStatement(strSQL);
+         while(query.next()){
+            iPBXTypeId = query.getInt("ID");
+            sPBXType = query.getString("PBXTYPE");
+            sService = query.getString("SERVICE");
+
+         if((sPBXTypeParam != null && !sPBXTypeParam.equals(sPBXType)) || sPBXTypeParam == null){
+           PBXTypeParam.setErrorMsg('This value cannot be changed. Previous value ['+sPBXType+']');
+         }
+         if((sServiceParam != null && !sServiceParam.equals(sService)) || sServiceParam == null){
+		    _logger.warn('sServiceParam: This value cannot be changed. Previous value ['+sService+']');
+            ServiceParam.setErrorMsg('This value cannot be changed. Previous value ['+sService+']');
+		 }
+         }
+      }
+	  // if Service = 'FoPBX-R1' check if OSAC_TSAC_Required, foPbxBusinessIdentity, enterpriseDeskNumber have a value
+	  OSAC_TSACParam = vr_Row.getParameterByName(sOSAC_TSACParamName);
+	  FoPbxParamName = vr_Row.getParameterByName(sFoPbxParamName);
+	  DeskNumberParam = vr_Row.getParameterByName(sDeskNumberParamName);
+	  if (OSAC_TSACParam.getValue() == null && sServiceParam != null && sServiceParam.equals(sServiceValue)){
+	     OSAC_TSACParam.setErrorMsg("If "+sServiceParamName+" = "+sServiceParam+" then "+sOSAC_TSACParamName+" must have a value");
+	  }
+	  if (FoPbxParamName.getValue() == null && sServiceParam != null && sServiceParam.equals(sServiceValue)){
+	     FoPbxParamName.setErrorMsg("If "+sServiceParamName+" = "+sServiceParam+" then "+sFoPbxParamName+" must have a value");
+	  }
+	  if (DeskNumberParam.getValue() == null && sServiceParam != null && sServiceParam.equals(sServiceValue)){
+	     DeskNumberParam.setErrorMsg("If "+sServiceParamName+" = "+sServiceParam+" then "+sDeskNumberParamName+" must have a value");
+	  }
+      }
+   }
+}
