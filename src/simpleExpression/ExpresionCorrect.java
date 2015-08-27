@@ -171,7 +171,7 @@ public class ExpresionCorrect {
 						}
 					}
 					if (!correctNumberOfArguments) {
-						throw new InvalidExpression(enums.Error.IncorrectNumberOfArguments, expression, line);
+						throw new InvalidExpression(enums.Error.WrongNumberOfArguments, expression, line);
 					}
 				}
 			}

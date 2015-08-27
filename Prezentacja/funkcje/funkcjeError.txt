@@ -8,14 +8,14 @@ function hideStructureAndParameters(structure, hideParameterValue){
       row.getParameter(i).hideParameter(hideParameterValue);
     }
   }
+}
+hideStructureAndParameters(a,b,c);
 
-
-
-If(PARAM != null){
-  if( PARAM == "IS_UNDEFINED" || ((VALUE_EQ != null && PARAM.equals(VALUE_EQ)) || (VALUE_NEQ != null && !PARAM.equals(VALUE_NEQ))) ){
+if(PARAM != null){
+  If( PARAM == "IS_UNDEFINED" || ((VALUE_EQ != null && PARAM.equals(VALUE_EQ)) || (VALUE_NEQ != null && !PARAM.equals(VALUE_NEQ))) ){
     hideStructureAndParameters(_STRUCTURE, true);
   }
   else {
     hideStructureAndParameters(_STRUCTURE, false);
   }
-}
+

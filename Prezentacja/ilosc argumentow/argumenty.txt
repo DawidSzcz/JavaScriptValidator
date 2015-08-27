@@ -1,0 +1,13 @@
+//0
+table.getRowsIterator();
+//1
+parameter.setErrorMsg("Format: " + paramMask);
+query.getString("NOORDER");
+vs_query.getInt("CITEM");
+row.getParameterByName(sClobName);
+rowParameter.setStringValue(propertyValue);
+newRow.getParameterByName(paramIdName).setIntegerValue(1);
+_CITEM.setIntValue(vi_citem);
+//1 lub 2
+param00.setValue(null);
+param00.setValue(name ,"informacja");

@@ -16,8 +16,8 @@ public class Patterns {
 	public static String questionMarkS = "(number|variable)\\s*\\?\\s*(number|variable)\\s*:\\s*(number|variable)";
 	private static String threePlusS = "\\+\\+\\+";
 	private static String threeMinusS = "\\-\\-\\-";
-	public static String expressionWithUnderscoreS = "\\W_[_$A-Za-z0-9]*";
-	public static String expressionWithUnderscoreAndFunctionS = "\\W_[_$A-Za-z0-9]*(\\.[_$A-Za-z0-9]*)+\\s*\\(";
+	public static String expressionWithUnderscoreS = "(^|\\W)_[_$A-Za-z0-9]*";
+	public static String expressionWithUnderscoreAndFunctionS = "(^|\\W)_[_$A-Za-z0-9]+(\\.[_$A-Za-z0-9]*)+\\s*\\(";
 	public static String Instanceof = "("+variable+"\\.)*"+variable+"\\s+instanceof\\s+"+variable+"*(\\."+variable+")*";
 	public static String operator1expressionS = createRegex1("\\+\\+variable")
 		+ "|" + createRegex1("variable\\+\\+")

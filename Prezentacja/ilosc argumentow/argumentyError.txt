@@ -1,0 +1,12 @@
+//0
+table.getRowsIterator(10);
+//1
+parameter.setErrorMsg("Format: " + paramMask,a);
+query.getString();
+vs_query.getInt("CITEM",a);
+row.getParameterByName();
+rowParameter.setStringValue(propertyValue,a);
+newRow.getParameterByName(paramIdName).setIntegerValue(1,a);
+_CITEM.setIntValue();
+//1 lub 2
+param00.setValue(name ,"informacja",a);

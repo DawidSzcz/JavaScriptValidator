@@ -1,0 +1,8 @@
+dbPort = _featureManager.getTytanDBPortFeature();
+sPBXTypeIdName    =  _PBXTYPEID.getName();
+sPBXTypeParamName =  _PBXTYPE.getName();
+sServiceParamName =  _SERVICE.getName();
+sDeleteParamName  =  _DELETE.getName();
+
+PARAM = typeof _WFL_OP_PARAM != 'undefined' ? _WFL_OP_PARAM.getValue() : "IS_UNDEFINED";
+VAL1 = typeof _WFL_OP_VAL1 != 'undefined' ? _WFL_OP_VAL1.getValue() : null;

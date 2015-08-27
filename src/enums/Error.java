@@ -32,7 +32,6 @@ public enum Error {
 	MissingEndOfComment("Missing end of comment","Brakuje konca komentarza"),
 	IncorectExpresionWithUnderscore("Incorect expresion with underscore","Niepoprawne wyra¿enie z podkreslnikiem"),
 	FunctionIsNotDeclared("Function is not declared", "Funkcja nie zosta³a zadeklarowana"),
-	IncorrectNumberOfArguments("Incorrect number of arguments","Niepoprawna ilosc argumentow"),
 	SomethingWrongWithElseIf("Somfing wrong with elseif", "Cos sie nie zgadza w instrukcji else if"),
 	TryWithNoCatch("Missing catch block after try", "Brakuj¹cy catch po try"),
 	MisssDotBeforFunctions("Misss dot befor functions","brakuje kropki przed funkcj¹"),

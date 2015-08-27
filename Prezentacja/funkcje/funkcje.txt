@@ -9,7 +9,7 @@ function hideStructureAndParameters(structure, hideParameterValue){
     }
   }
 }
-
+hideStructureAndParameters(a,b);
 
 if(PARAM != null){
   if( PARAM == "IS_UNDEFINED" || ((VALUE_EQ != null && PARAM.equals(VALUE_EQ)) || (VALUE_NEQ != null && !PARAM.equals(VALUE_NEQ))) ){
@@ -19,4 +19,5 @@ if(PARAM != null){
     hideStructureAndParameters(_STRUCTURE, false);
   }
 }
+
 
