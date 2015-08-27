@@ -120,7 +120,7 @@ public class ExpressionParser {
 					exp = new Block(statement, currentLine, branch);
 				}
 				
-				((ComplexExpression)exp).insertBlock(this.parseExpressions(states, ((ComplexExpression)exp).nextLine() + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
+				((ComplexExpression)exp).insertBlock(this.parseExpressions(states, currentLine + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
 			}													
 				else if (matcherVar.find())	
 						exp = new Var(statement, currentLine, branch);
