@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +12,8 @@ import simpleExpression.ExpresionCorrect;
 
 public class Catch extends ComplexExpression {
 
-	public Catch(String name, int currentLine, String branch){
-		super(name, currentLine);
+	public Catch(String name, int currentLine, List<String> labels, String branch){
+		super(name, currentLine, labels);
 
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.CATCH)).matcher(name);
 		if (!checkBeginning.find()) {
@@ -29,12 +30,14 @@ public class Catch extends ComplexExpression {
 
 	@Override
 	public boolean isValid() {
+		boolean valid = super.isValid();
 		try {
 			ExpresionCorrect.declarationException(condition.getName());
 		} catch (InvalidExpression e) {
 			this.addError(e.getError(), line + e.getLine());
+			valid = false;
 		}
-		return super.isValid();
+		return valid;
 	}
 
 	public int size() {

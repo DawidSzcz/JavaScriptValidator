@@ -27,8 +27,12 @@ public abstract class ComplexExpression extends Expression {
 	protected int beginOfStatements;
 	protected Statement condition;
 
-	public ComplexExpression(String in,  int currentLine) {
+	protected List<String> labels = new LinkedList<>();
+	public ComplexExpression(String in,  int currentLine, List<String> labels) {
 		super(in, currentLine);
+		
+		this.labels.addAll(labels);
+		
 		Matcher matchCondition = Patterns.condition.matcher(in);
 		if(matchCondition.find())
 			condition = new Statement(matchCondition.group());
@@ -82,5 +86,8 @@ public abstract class ComplexExpression extends Expression {
 			return false;
 		}
 		return true;
+	}
+	public List<String> getLabels() {
+		return labels;
 	}
 }

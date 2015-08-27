@@ -6,8 +6,8 @@ import parser.ParseUtils;
 
 public class Block extends ComplexExpression {
 
-	public Block(String in, int currentLine, String branch) {
-		super(in, currentLine);
+	public Block(String in, int currentLine, List<String> labels, String branch) {
+		super(in, currentLine, labels);
 		this.branch = branch;
 		beginOfStatements = ParseUtils.getLinesBNS(in)-1;
 		area = 0;

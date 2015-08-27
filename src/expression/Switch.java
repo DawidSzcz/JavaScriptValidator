@@ -17,7 +17,7 @@ import validator.Context;
 
 public class Switch extends ComplexExpression {
 	public Switch(String statement, int currentLine, List<String> labels, String branch) {
-		super(statement, currentLine);
+		super(statement, currentLine, labels);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.SWITCH)).matcher(statement);
 		if (!checkBeginning.find()) {
 			this.addError(Error.RestrictedLowerCase, line);

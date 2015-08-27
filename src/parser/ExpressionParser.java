@@ -32,7 +32,6 @@ public class ExpressionParser {
 	private Map<String, String> blocks = new HashMap<>();
 	private InputContainer input;
 	private String wholeProgram;
-	private List<String> labels;
 	
 	public ExpressionParser(String input)
 	{
@@ -51,7 +50,6 @@ public class ExpressionParser {
 	public List<Expression> parseExpressions(String input, int currentLine, List<String> labels, String branch) {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements = input.split(Patterns.splitS);
-		int labelCount = labels.size();
 		for (String statement : statements) {
 			Matcher matcherAssign = Patterns.assign.matcher(statement);
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);
@@ -68,13 +66,13 @@ public class ExpressionParser {
 				statement = blocks.get(head);
 				if(head.startsWith("else"))
 				{
-					exp =new Else(statement, currentLine, branch);
+					exp =new Else(statement, currentLine, labels, branch);
 					if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
 						exp.addError(Error.MissingIfBeforeElse, currentLine);
 				}
 				else if (head.startsWith("catch"))
 				{
-					exp = new Catch(statement, currentLine, branch);
+					exp = new Catch(statement, currentLine, labels, branch);
 					try{
 						((Try)exps.get(exps.size()-1)).insertCatch((Catch)exp);
 						exp = exps.remove(exps.size()-1);
@@ -84,7 +82,7 @@ public class ExpressionParser {
 				}
 					else if (head.startsWith("if"))
 					{
-						exp = new If(statement, currentLine, branch);
+						exp = new If(statement, currentLine, labels, branch);
 						if(exps.size() > 0 && exps.get(exps.size() -1) instanceof Else && ((Else)exps.get(exps.size() -1)).isEmpty())
 						{
 							((Else)exps.get(exps.size() -1)).addIf(exp);
@@ -92,15 +90,15 @@ public class ExpressionParser {
 						}
 					}
 						else if (head.startsWith("function"))
-								exp = new Function(statement, currentLine, branch);
+								exp = new Function(statement, currentLine, labels, branch);
 							else if (head.startsWith("while"))
-									exp = new While(statement, currentLine, labels.subList(0, labelCount), branch);
+									exp = new While(statement, currentLine, labels, branch);
 								else if (head.startsWith("for"))
-										exp = new For(statement, currentLine, labels.subList(0, labelCount), branch, this);
+										exp = new For(statement, currentLine, labels, branch, this);
 									else if (head.startsWith("try"))
-											exp = new Try(statement, currentLine, branch);
+											exp = new Try(statement, currentLine, labels, branch);
 										else if(head.startsWith("switch"))
-												exp = new Switch(statement, currentLine, labels.subList(0, labelCount), branch);
+												exp = new Switch(statement, currentLine, labels, branch);
 			}		
 			else if (matchBlock.find() && blocks.containsKey(ParseUtils.cleanLine(matchBlock.group()))) {
 				String blockID = ParseUtils.cleanLine(matchBlock.group());
@@ -117,15 +115,15 @@ public class ExpressionParser {
 					exps.remove(exps.size()-1);
 				}catch(Exception e)
 				{
-					exp = new Block(statement, currentLine, branch);
+					exp = new Block(statement, currentLine, labels, branch);
 				}
 				
-				((ComplexExpression)exp).insertBlock(this.parseExpressions(states, currentLine + ParseUtils.getLinesBNS(statement), labels, exp.getBranch()));
+				((ComplexExpression)exp).insertBlock(this.parseExpressions(states, currentLine + ParseUtils.getLinesBNS(statement), ((ComplexExpression)exp).getLabels(), exp.getBranch()));
 			}													
 				else if (matcherVar.find())	
 						exp = new Var(statement, currentLine, branch);
 					else if (matcherControl.find())
-							exp = new ControlExpression(statement, currentLine, labels.subList(0, labelCount), branch);
+							exp = new ControlExpression(statement, currentLine, labels, branch);
 						else if (matcherAssign.find())
 								exp = new Assignment(statement, currentLine, branch);
 							else if (matcherInvo.find())

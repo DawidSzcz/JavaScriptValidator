@@ -1,6 +1,7 @@
 package expression;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import validator.Context;
 public class Program extends ComplexExpression 
 {
 	public Program(String input) throws WrongComplexException {
-		super(input, 1);
+		super(input, 1, new LinkedList<>());
 		statements = (new ExpressionParser(input)).parse();
 	}
 

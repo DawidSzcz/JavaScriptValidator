@@ -1,5 +1,6 @@
 package expression;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -18,7 +19,7 @@ import parser.Patterns;
 public class While extends ComplexExpression{
 	public While(String statement, int currentLine, List<String> labels, String branch) 
 	{
-		super(statement, currentLine);
+		super(statement, currentLine, labels);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.WHILE)).matcher(statement);
 		if (!checkBeginning.find()) {
 			this.addError(Error.RestrictedLowerCase, line);
@@ -26,7 +27,7 @@ public class While extends ComplexExpression{
 		this.branch = branch;
 		Matcher label = Patterns.label.matcher(statement);
 		if(label.find())
-			labels.add(ParseUtils.cleanLine(label.group().substring(0, label.group().length() -1)));
+			this.labels.add(ParseUtils.cleanLine(label.group().substring(0, label.group().length() -1)));
 	}
 
 	@Override

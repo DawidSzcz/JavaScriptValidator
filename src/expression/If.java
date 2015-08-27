@@ -13,8 +13,8 @@ import exception.InvalidString;
 import parser.Patterns;
 
 public class If extends ComplexExpression{
-	public If(String statement, int currentLine, String branch) {
-		super(statement, currentLine);
+	public If(String statement, int currentLine, List<String> labels, String branch) {
+		super(statement, currentLine, labels);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.IF)).matcher(statement);
 		if (!checkBeginning.find()) {
 			this.addError(Error.RestrictedLowerCase, line);

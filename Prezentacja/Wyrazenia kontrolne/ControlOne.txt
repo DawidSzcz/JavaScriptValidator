@@ -10,7 +10,7 @@ label1: while (iterator.hasNext()){
    label2: while(1)
    {
         if (sRangeFrom != null && sRangeTo != null){
-            contiune label2;
+            continue label2;
         }
         break label1;
     }

@@ -20,8 +20,8 @@ public class Function extends ComplexExpression {
 	List<String> args;
 	String functionName;
 
-	public Function(String statement, int currentLine, String branch) {
-		super(statement, currentLine);
+	public Function(String statement, int currentLine, List<String> labels, String branch) {
+		super(statement, currentLine, labels);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.FUNCTION))
 				.matcher(statement);
 		if (!checkBeginning.find()) {

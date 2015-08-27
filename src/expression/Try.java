@@ -17,9 +17,9 @@ public class Try extends ComplexExpression
 {
 	List<Catch> catchList = new LinkedList();
 	Statement condition;
-	public Try(String name, int currentLine, String branch)
+	public Try(String name, int currentLine, List<String> labels, String branch)
 	{
-		super(name, currentLine);
+		super(name, currentLine, labels);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.TRY)).matcher(name);
 		if (!checkBeginning.find()) {
 			this.addError(Error.RestrictedLowerCase, line);
@@ -37,11 +37,13 @@ public class Try extends ComplexExpression
 
 	@Override
 	public boolean isValid() {
-		super.isValid();
-		if(!catchList.isEmpty())
-			return true;
-		this.addError(Error.TryWithNoCatch, line);
-		return false;
+		boolean valid = super.isValid();
+		if(catchList.isEmpty())
+		{
+			valid = false;
+			this.addError(Error.TryWithNoCatch, line);
+		}
+		return valid;
 	}
 	public void insertCatch(Catch c)
 	{

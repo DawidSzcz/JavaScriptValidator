@@ -21,9 +21,9 @@ import parser.Patterns;
 public class Else extends ComplexExpression
 {
 	private boolean elseIf = false;
-	public Else(String statement, int currentLine, String branch)
+	public Else(String statement, int currentLine, List<String> labels, String branch)
 	{
-		super(statement, currentLine);
+		super(statement, currentLine, labels);
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.ELSE)).matcher(statement);
 		if (!checkBeginning.find()) {
 			this.addError(Error.RestrictedLowerCase, line);

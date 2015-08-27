@@ -22,7 +22,7 @@ public class For extends ComplexExpression{
 	String[] conditions;
 	public For(String statement, int currentLine, List<String> labels, String branch, ExpressionParser parser)
 	{
-		super(statement, currentLine);
+		super(statement, currentLine, labels);
 
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.FOR)).matcher(statement);
 		if (!checkBeginning.find()) {
@@ -31,7 +31,8 @@ public class For extends ComplexExpression{
 		this.branch = branch;
 		Matcher label = Patterns.label.matcher(statement);
 		if(label.find())
-			labels.add(ParseUtils.cleanLine(label.group().substring(0, label.group().length() -1)));
+			this.labels.add(ParseUtils.cleanLine(label.group().substring(0, label.group().length() -1)));
+		
 		conditions = (condition.getName()+" ").split(";");
 		if(conditions.length == 3)
 		{
@@ -62,12 +63,11 @@ public class For extends ComplexExpression{
 
 	@Override
 	public boolean isValid() {
-		super.isValid();
-		boolean isValid = true;
+		boolean valid = super.isValid();
 		for(Expression e : forConditions)
 			if(e == null || !e.isValid())
-				isValid = false;
-		return isValid;
+				valid = false;
+		return valid;
 	}
 	@Override
 	public boolean hasErrors(int i) {

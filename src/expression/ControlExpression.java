@@ -13,25 +13,37 @@ public class ControlExpression extends SimpleExpression {
 
 	String label;
 	String control;
+	List<String> labels;
 	public ControlExpression(String name, int currentLine, List<String> labels, String branch) {
 		super(name, currentLine);
 		this.branch = branch;
+		this.label = label;
 		Matcher matchC = Patterns.control.matcher(name);
 		Matcher matchL = Patterns.label.matcher(name);
 		if(matchC.find())
 			control = matchC.group();
 		name = name.replace(control, "");
+	}
+	
+	@Override
+	public boolean isValid() {
+		boolean valid = true;
+		if(!(branch.contains("For") || branch.contains("While") || (control.matches("\\s*break") && branch.contains("Switch"))))
+		{
+			this.addError(Error.ControlStatementNotInLoop, line);
+			valid = false;
+		}
 		if(!(name.matches("\\s*;?")))
 		{
 			label = ParseUtils.cleanLine(name);
 			if(!labels.contains(label))
+			{
 				this.addError(Error.MissingLabelDeclaration, line);
+				valid = false;
+			}
 		}
-		if(!(branch.contains("For") || branch.contains("While") || (control.matches("\\s*break") && branch.contains("Switch"))))
-			this.addError(Error.ControlStatementNotInLoop, line);
+		return valid;
 	}
-
-
 
 	@Override
 	public String toString() {
