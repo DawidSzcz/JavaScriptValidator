@@ -10,7 +10,7 @@ public class ExpresionCorrect {
 	static int line = 0;
 	static ExceptionContainer errors = new ExceptionContainer();
 	public static boolean isExpressinCorrect(String expression) throws ExceptionContainer {
-
+		errors = new ExceptionContainer();
 		line = 0;
 		functionValidator(expression);
 		expression = restrictedWords(expression);
@@ -55,7 +55,7 @@ public class ExpresionCorrect {
 				String[] arguments = macherBracket.group().split(",");
 				for (String argument : arguments) {
 					if (!isExpresionCorect(argument)) {
-						errors.addException(new InvalidExpression(enums.Error.SyntaxError, expression, line));
+						errors.addException(new InvalidExpression(enums.Error.InvalidFunction, expression, line));
 					}
 				}
 			}
