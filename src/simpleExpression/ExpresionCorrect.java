@@ -51,7 +51,7 @@ public class ExpresionCorrect {
 				String[] arguments = macherBracket.group().split(",");
 				for (String argument : arguments) {
 					if (!isExpresionCorect(argument)) {
-						throw new InvalidExpression(enums.Error.InvalidFunction, expression, line);
+						throw new InvalidExpression(enums.Error.SyntaxError, expression, line);
 					}
 				}
 			}

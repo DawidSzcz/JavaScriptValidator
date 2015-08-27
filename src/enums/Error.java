@@ -11,7 +11,7 @@ public enum Error {
 	WrongAssignment("Wrong assignment","Nieprawidlowa operacja"),
 	MissingIfBeforeElse("MissingIfBeforeElse","Brakuje \"if\" przed \"else\""),
 	SyntaxError("Syntax error","blad skladni"),
-	InvalidFunction("Invalid function","Nieprawidlowa funkcja"),
+	//InvalidFunction("Invalid function","Nieprawidlowa funkcja"),
 	InvalExpresionInSquareBracket("Inval expresion in square bracket","Nieprawidlowe wyrazenie w nawiasie kwadratowym"),
 	InvalExpresionInParenthesis("Inval Expresion In Parenthesis","Nieprawidlowe wyrazenie w nawiasie okraglym"),
 	InvalidElseName("Invalid Else Name","Nieprawidlowa nazwa else-a"),
