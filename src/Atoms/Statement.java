@@ -29,18 +29,18 @@ public class Statement {
 	public boolean isValid() throws ExceptionContainer{
 		Matcher stringId = parser.Patterns.stringID.matcher(name);
 		ExceptionContainer exception = new ExceptionContainer();
+		
+		try{
+			ExpresionCorrect.isExpressinCorrect(name);
+		}catch(ExceptionContainer e)
+		{
+			exception = e;
+		}
 		while (stringId.find()) {
 				if (!Context.strings.get(stringId.group()).getErrors().isEmpty()) {
 					for(Error error:Context.strings.get(stringId.group()).getErrors())
 						exception.addException(new InvalidString(error,name,Context.strings.get(stringId.group()).getLine()));
 				}
-		}
-		
-		try{
-			ExpresionCorrect.isExpressinCorrect(name);
-		}catch(InvalidExpression e)
-		{
-			exception.addException(e);
 		}
 		if(!exception.isEmpty())
 			throw exception;
