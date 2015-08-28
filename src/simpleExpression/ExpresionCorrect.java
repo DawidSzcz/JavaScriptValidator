@@ -21,18 +21,7 @@ public class ExpresionCorrect {
 		expression = expression.replaceAll(Patterns.variable, "variable");
 		expression = expression.replaceAll(Patterns.number, "number");
 		expression = squareBracketValidator(expression);
-		Matcher funktionOrBracket= Patterns.funktionAndBracket.matcher(expression);
-		while (funktionOrBracket.find()){
-			Matcher macherFunction = Patterns.functionExpressions.matcher(expression);
-			if(macherFunction.find()){
-				expression = functiontAsExpressionValidator(expression);
-			}
-			Matcher macherBracket = Patterns.expressionInBracket.matcher(expression);
-			if(macherBracket.find()){
-				expression = bracketValidator(expression);
-			}
-			funktionOrBracket= Patterns.funktionAndBracket.matcher(expression);
-		}
+		expression = FunctionsAndBrakets(expression);
 		isExpresionCorect(expression);
 		
 		if(!errors.isEmpty()){
@@ -40,26 +29,35 @@ public class ExpresionCorrect {
 		}else
 			return true;
 	}
-
+	private static String FunctionsAndBrakets(String expression)
+	{
+		String exp = expression, Oldexp = expression;
+		while(true)
+		{
+			exp = functiontAsExpressionValidator(exp);
+			if(!exp.equals(Oldexp))
+			{
+				Oldexp = exp;
+				continue;
+			}
+			exp = bracketValidator(exp);
+			if(!exp.equals(Oldexp))
+			{
+				Oldexp = exp;
+				continue;
+			}
+			break;
+		}
+		return exp;
+	}
 	private static String squareBracketValidator(String expression) {
 
 		Matcher macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
 		while (macherSquareBracket.find()) {
 			String subexpression = macherSquareBracket.group();
-			subexpression = functiontAsExpressionValidator(subexpression);
-			subexpression = bracketValidator(subexpression);
-			try {
-				if (!isExpressinCorrect(subexpression)) {
-					errors.addException(new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line));
-				}
-			} catch (ExceptionContainer e) {
-			   for(InvalidString error:e.getBeginningExceptions()){
-				   errors.addException(error);
-			   }
-			   for(InvalidExpression error:e.getInlineExceptions()){
-				   errors.addException(error);
-			   }
-			   errors.addException(new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line));
+			subexpression = FunctionsAndBrakets(subexpression);
+			if (!isExpresionCorect(subexpression)) {
+				errors.addException(new InvalidExpression(enums.Error.InvalExpresionInSquareBracket, expression, line));
 			} 
 			expression = expression.replace("[" + macherSquareBracket.group() + "]", "");
 			macherSquareBracket = Patterns.expressionInSquareBracket.matcher(expression);
@@ -70,7 +68,7 @@ public class ExpresionCorrect {
 	private static String functiontAsExpressionValidator(String expression) {
 		Matcher macherFunction = Patterns.functionExpressions.matcher(expression);
 		Matcher macherBracket;
-		while (macherFunction.find()) {
+		if(macherFunction.find()) {
 			macherBracket = Patterns.expressionInBracket.matcher(macherFunction.group());
 			if (macherBracket.find()) {
 				String[] arguments = macherBracket.group().split(",");
@@ -92,7 +90,7 @@ public class ExpresionCorrect {
 				}
 			}
 			expression = expression.replace(macherFunction.group(), "variable");
-		macherFunction = Patterns.functionExpressions.matcher(expression);
+
 		}
 		return expression;
 	}
@@ -100,14 +98,13 @@ public class ExpresionCorrect {
 	private static String bracketValidator(String expression){
 		Matcher macherBracket;
 		macherBracket = Patterns.expressionInBracket.matcher(expression);
-		if (macherBracket.find()) {
+		if(macherBracket.find()) {
 			if (macherBracket.group().equals("")) {
 				errors.addException(new InvalidExpression(enums.Error.NullInBracket, expression, line));
 			}
 			if (!isExpresionCorect(macherBracket.group()))
 				errors.addException(new InvalidExpression(enums.Error.InvalExpresionInParenthesis, expression, line));
 			expression = expression.replace("(" + macherBracket.group() + ")", "number");
-//			macherBracket = Patterns.expressionInBracket.matcher(expression);
 		}
 		return expression;
 	}

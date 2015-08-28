@@ -1,0 +1,32 @@
+while( a == b)
+{
+    foo1(foo2(x, y));
+    foo3() += 2;
+}
+while
+        (
+        PARAM == "IS_UNDEFINED" || 
+        ((VALUE_EQ != null && PARAM.equals(VALUE_EQ)) 
+        || (VALUE_NEQ != null && !PARAM.equals(VALUE_NEQ)
+        ))){
+           cstmt.close();
+           if (vc_clob == null) {
+              _MESSAGE.storeValue("");
+           } else {
+              _MESSAGE.storeValue(vc_clob.getSubString(1,vc_clob.length()));
+           }
+        }
+        
+while(a.foo() +
+    b.goo())
+    
+    
+    {
+        tak();
+        nie();
+        while(true){
+            false;
+        }
+    }
+        
+        

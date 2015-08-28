@@ -162,7 +162,8 @@ public class ValidUtils {
 				if(string && c == '\n')
 				{
 					string = false;
-					finalString += c+spanEnd;
+					finalString += spanEnd;
+					i--;
 					continue;
 				}
 				if(string && c == '\\' && i < jSText.length() -1 && jSText.charAt(i+1) == stringDelimiter)

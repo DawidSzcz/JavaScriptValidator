@@ -10,6 +10,7 @@ public class Patterns {
 	public static String complexExpressions = "(variable\\.)+variable";
 	public static String expressionInBracketS = "((?<=\\()[^\\)\\(]*(?=\\)))";
 	public static String functionExpressionS = "(variable\\.)*variable\\s*(\\([^\\)\\(]*\\))";
+	public static String wtfS = expressionInBracketS + "|" + functionExpressionS;
 	private static String functionS = "(("+variable+")\\.)*\\.?("+variable+")\\s*(\\([^\\)\\(]*\\))";
 	public static String expressionInSquareBracketS = "(?<=\\w\\[)[^\\]\\[]*(?=\\])";
 //	public static String splitFunctionArgumentsS = "^[^,]+(?=,)|(?<=,)[^,]+(?=,)|(?<=,)[^,]+$";
@@ -77,6 +78,7 @@ public class Patterns {
 		+ "|" +"NoSuchFieldException"
 		+ "|" +"NoSuchMethodException"
 		+")";
+	public static Pattern wtf = Pattern.compile(wtfS);
 	public static Pattern expressionInBracket = Pattern.compile(expressionInBracketS);
 	public static Pattern functionExpressions = Pattern.compile(functionExpressionS);
 	public static Pattern function = Pattern.compile(functionS);

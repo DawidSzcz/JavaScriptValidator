@@ -241,6 +241,8 @@ public class ParseUtils {
 	}
 	public static Pair<String, Map<String, String>> removeHeaders(String input) 
 	{
+		List<Character> forbidden = Arrays.asList(';', '{', '}');
+		List<Character> forbiddenFor = Arrays.asList( '{', '}');
 		Map<String, String> map = new HashMap<>();
 		Matcher MatchH = Patterns.header.matcher(input);
 		while(MatchH.find())
@@ -252,11 +254,26 @@ public class ParseUtils {
 				int opened = 1;
 				for (int i = input.indexOf(head) + head.length(); i < input.length(); i++) 
 				{
-					if (input.charAt(i) == '(')
+					char c = input.charAt(i);
+					if(head.matches("\\s*for\\("))
+					{
+						if(forbiddenFor.contains(c))
+						{
+							i--;
+							break;
+						}
+					}
+					else
+						if(forbidden.contains(c))
+						{
+							i--;
+							break;
+						}
+					if (c == '(')
 						opened++;
-					if (input.charAt(i) == ')')
+					if (c == ')')
 						opened--;
-					condition += input.charAt(i);
+					condition += c;
 					if (opened == 0) 
 						break;
 				}
