@@ -1,4 +1,4 @@
-dbPort = _featureManager.getTytanDBPortFeature();
+ddbPort = _featureManager.getTytanDBPortFeature();
 sPBXTypeIdName    =  _PBXTYPEID.getName();
 sPBXTypeParamName =  _PBXTYPE.getName();
 sServiceParamName =  _SERVICE.getName();
@@ -9,8 +9,8 @@ sDeskNumberParamName = _ENTERPRISEDESKNUMBER.getName();
 sServiceValue = _SERVICEVALUE.getValue(); // bind value of Service (should be FoPBX-R1) to validate if some other parameters are 
 
 PARAM = typeof _WFL_OP_PARAM != 'undefined' ? _WFL_OP_PARAM.getValue() : "IS_UNDEFINED";
-VAL1 = typeof _WFL_OP_VAL1 != 'undefined' ? _WFL_OP_VAL1.getValue() : null;
-VAL2 = typeof _WFL_OP_VAL2 != 'undefined' ? _WFL_OP_VAL2.getValue()  null;
+VAL1 = tyepof _WFL_OP_VAL1 != 'undefined' ? _WFL_OP_VAL1.getValue() : null;
+VAL2 = typeof _WFL_OP_VAL2 != 'undefined' ? _WFL_OP_VAL2.getValue() : null;
 VAL3 = typeof _WFL_OP_VAL3 != 'undefined' ? _WFL_OP_VAL3.getValue() : null;
 
 if( PARAM == "IS_UNDEFINED" || ((VAL1 != null && PARAM.equals(VAL1)) || (VAL2 != null && !PARAM.equals(VAL2)&& (VAL3 == null || (VAL3 != null && !PARAM.equals(VAL3))) )) ){
@@ -54,7 +54,7 @@ if( PARAM == "IS_UNDEFINED" || ((VAL1 != null && PARAM.equals(VAL1)) || (VAL2 !=
 	     FoPbxParamName.setErrorMsg("If "+sServiceParamName+" = "+sServiceParam+" then "+sFoPbxParamName+" must have a value");
 	  }
 	  if (DeskNumberParam.getValue() == null && sServiceParam != null && sServiceParam.equals(sServiceValue)){
-	     DeskNumberParam.setErrorMsg("If "+sServiceParamName+" = "+sServiceParam+" then "+sDeskNumberParamName+" must have a value");
+	     DeskNumberParam.setErrorMsg("If "+sServiceParamName+" = "+sServiceParam+" then "+sDeskNumberParamName + " must have a value");
 	  }
       }
    }
