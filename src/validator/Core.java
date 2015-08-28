@@ -20,6 +20,7 @@ public class Core extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		try{
 		Context.clear();
