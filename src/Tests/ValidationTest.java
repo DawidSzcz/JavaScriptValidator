@@ -84,7 +84,7 @@ public class ValidationTest {
 	}
 	@Test()
 	public void testReplaceFirstFunction(){
-		String test=ParseUtils.replaceFirst("kot", "hif", "Ala ma kotaaa");
-		assertTrue(test.equals("Ala ma hifaaa"));
+		String test=ParseUtils.replaceFirst("kota", "hif", "Ala ma kota");
+		assertTrue(test.equals("Ala ma hif"));
 	}
 }
