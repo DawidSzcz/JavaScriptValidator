@@ -1,11 +1,9 @@
 package Tests;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
+import static org.junit.Assert.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
 
 import exception.InvalidExpression;
 import parser.ParseUtils;
@@ -13,7 +11,7 @@ import parser.ParseUtils;
 public class ValidationTest {
 
 	@Test()
-	public void testOperatorCprrect() throws IOException,  InvalidExpression {
+	public void testOperatorCprrect() throws  InvalidExpression {
 
 		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
 		assertTrue(TestUtils.testStatement("vr_Row.getParameterByName(stringid13213).setValue(vt_codes[vr_Row.getParameterByName(stringid123).getValue()])"));
