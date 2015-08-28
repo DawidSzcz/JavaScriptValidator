@@ -16,6 +16,7 @@ import Atoms.StringContainer;
 import javafx.util.Pair;
 import validator.Context;
 import enums.Error;
+import enums.Instruction;
 
 
 public class ParseUtils {
@@ -249,7 +250,8 @@ public class ParseUtils {
 		{
 			String head = MatchH.group();
 			String condition = "";
-			if(!(head.matches("\\s*try") || head.matches("\\s*else")))
+			String x = ParseUtils.cleanLine(head);
+			if(!(head.matches("\\s*try") || head.matches("\\s*else") || x.matches(Instruction.CASE.toString())))
 			{
 				int opened = 1;
 				for (int i = input.indexOf(head) + head.length(); i < input.length(); i++) 
@@ -294,7 +296,8 @@ public class ParseUtils {
 		Matcher matcherSwich = Patterns.Switch.matcher(statement);
 		Matcher matcherIf = Patterns.If.matcher(statement);
 		Matcher matcherFunc = Patterns.function.matcher(statement);
-		Matcher matcherWhile = Patterns.While.matcher(statement);	
+		Matcher matcherWhile = Patterns.While.matcher(statement);
+		Matcher matcherCase = Patterns.Case.matcher(statement);		
 		String id;
 		if(matcherElse.find())
 			id = "else";
@@ -312,8 +315,10 @@ public class ParseUtils {
 									id = "while";
 								else if(matcherFor.find())
 										id = "for";
-									else
-										id= "ohShit";
+									else if(matcherCase.find())
+												id = "case";
+										else
+											id= "ohShit";
 		return id+uniqueId(input);
 	}
 	

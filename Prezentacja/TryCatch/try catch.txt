@@ -1,0 +1,34 @@
+try {
+    adddlert("Welcome guest!");
+}
+catch(err) {
+    document.getElementById("demo").innerHTML = err.message;
+}catch(NullPointerException err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+
+try 
+{
+    adddlert("Welcome guest!");
+}
+catch(NullPointerException err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+
+
+while(warunek)
+{
+    try{cos(); cos2();
+    if(a > b){
+        throw new NullPointerException();
+    }
+    }catch(NullPointerException x)
+    {
+        x = 1;
+    }
+    catch(y)
+    {
+        y =2;
+    }
+}
+        

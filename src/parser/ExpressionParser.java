@@ -11,6 +11,7 @@ import Atoms.StringContainer;
 import enums.Error;
 import expression.Assignment;
 import expression.Block;
+import expression.Case;
 import expression.Catch;
 import expression.ComplexExpression;
 import expression.ControlExpression;
@@ -50,9 +51,9 @@ public class ExpressionParser {
 	public List<Expression> parseExpressions(String input, int currentLine, List<String> labels, String branch) {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements;
-		if(!branch.matches(".*Switch "))
-			statements = input.split(Patterns.splitS);
-		else
+//		if(!branch.matches(".*Switch "))
+//			statements = input.split(Patterns.splitS);
+//		else
 			statements = input.split(Patterns.splitCaseS);
 		for (String statement : statements) {
 			Matcher matcherAssign = Patterns.assign.matcher(statement);
@@ -93,16 +94,18 @@ public class ExpressionParser {
 							exp = exps.remove(exps.size() -1);
 						}
 					}
-						else if (head.startsWith("function"))
-								exp = new Function(statement, currentLine, labels, branch);
-							else if (head.startsWith("while"))
-									exp = new While(statement, currentLine, labels, branch);
-								else if (head.startsWith("for"))
-										exp = new For(statement, currentLine, labels, branch, this);
-									else if (head.startsWith("try"))
-											exp = new Try(statement, currentLine, labels, branch);
-										else if(head.startsWith("switch"))
-												exp = new Switch(statement, currentLine, labels, branch);
+						else if (head.startsWith("case"))
+							exp = new Case(statement, currentLine, branch);
+							else if (head.startsWith("function"))
+									exp = new Function(statement, currentLine, labels, branch);
+								else if (head.startsWith("while"))
+										exp = new While(statement, currentLine, labels, branch);
+									else if (head.startsWith("for"))
+											exp = new For(statement, currentLine, labels, branch, this);
+										else if (head.startsWith("try"))
+												exp = new Try(statement, currentLine, labels, branch);
+											else if(head.startsWith("switch"))
+													exp = new Switch(statement, currentLine, labels, branch);
 			}		
 			else if (matchBlock.find() && blocks.containsKey(ParseUtils.cleanLine(matchBlock.group()))) {
 				String blockID = ParseUtils.cleanLine(matchBlock.group());

@@ -47,7 +47,7 @@ public class ControlExpression extends SimpleExpression {
 
 	@Override
 	public String toString() {
-		return branch + "Control statement";
+		return branch + "Control";
 	}
 
 }
