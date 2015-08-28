@@ -1,0 +1,33 @@
+catch(NullPointerException err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+
+try {
+    adddlert("Welcome guest!");
+}
+catch(err) {
+    document.getElementById("demo").innerHTML = err.message;
+}catch(NullPointerException err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+
+try {
+    adddlert("Welcome guest!");
+}
+catch(NullPointerException err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+
+try {
+    adddlert("Welcome guest!");
+}
+catch(NullPointerexception err) {
+    document.getElementById("demo").innerHTML = err.message;
+}
+
+try {
+    adddlert("Welcome guest!");
+}
+catch(NullPointerException 0p ) {
+    document.getElementById("demo").innerHTML = err.message;
+}

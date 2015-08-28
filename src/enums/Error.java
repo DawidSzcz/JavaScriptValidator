@@ -1,7 +1,7 @@
 package enums;
 
 public enum Error {
-	InvalidBlock("InvalidBlock","Nieprawidlowy blok"),
+	InvalidBlock("InvalidBlock","Nieprawid³owy blok"),
 	InvalidArguments("InvalidArguments","Nieprawid³owy argument"),
 	UnexpectedOpeningBracket("Unexpected opening bracket","Nieoczekiwany nawias otwierajacy"),
 	UnexpectedClosingBracket("Unexpected closing bracket","Nieoczekiwany nawias zamykajacy"),	

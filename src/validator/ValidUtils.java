@@ -14,7 +14,8 @@ import parser.ParseUtils;
 public class ValidUtils {
 
 	public static final String html = "<html>" + "<head>"
-			+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"outStyle.css\">" + "</head>" + "<body> " + "<table>"
+			+"<meta charset=\"UTF-8\">"
+			+ "<link rel=\"stylesheet\" type=\"text/css\" href=\"outStyle.css\">" + "</head>" + "<body> ¹¹¹¹³³³³</br>" + "<table>"
 			+ "<tr><th>Lp.</th><th>Code</th><th>Errors</th></tr>" + "%s<table>" + "</body>";
 	public static final String row = "<tr><td class=\"lp\">%d</td><td style=\"padding-left:%dpx\" class=\"code\">%s</td><td class=\"%s\">%s</td></tr>";
 	
