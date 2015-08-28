@@ -213,10 +213,16 @@ public class ExpresionCorrect {
 
 	private static String restrictedWords(String expression) {
 		Matcher matcherForbiddenWords = Patterns.forbiddenWords.matcher(expression);
+	//	Matcher macherPrefiks = Patterns.prefiks.matcher(expression);
+	//	String variableWithoutPrefix;
+		
 		if (matcherForbiddenWords.find()) {
 			errors.addException(new InvalidExpression(enums.Error.UsedKeyWord, expression, line));
 		}
-		expression = expression.replaceAll(Patterns.prefiks, "variable");
+	//	if(macherPrefiks.find()){
+	//		variableWithoutPrefix=macherPrefiks.group().replaceFirst(Patterns.prefikx2, "");
+			expression = expression.replaceAll(Patterns.prefiksS, "variable");
+	//	}
 		expression = expression.replaceAll(Patterns.Instanceof, "variable");
 		return expression;
 	}

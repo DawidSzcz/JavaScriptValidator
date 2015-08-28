@@ -33,12 +33,16 @@ public class Var extends SimpleExpression {
 	}
 	public boolean isValid() {
 		boolean valid = super.isValid();
-		for (Assignment assignment : assignments) 
+		for (Assignment assignment : assignments){
+			if (assignment.hasErrors()){
+				valid = false;
+			}
 			if(!assignment.isValid()){
 				for(int key : assignment.getAllErrors().keySet())
 					addError(assignment.getAllErrors().get(key), key);
 				valid = false;
 			}
+		}
 		for (Invocation invocation : invocations) {
 			if(!invocation.isValid()){
 				for(int key : invocation.getAllErrors().keySet())
