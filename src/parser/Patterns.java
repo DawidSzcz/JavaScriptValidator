@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import enums.Instruction;
 
 public class Patterns {
-	public static String CaseS = "(?<=\\W)case\\s+\\d+\\s*:";
+	public static String CaseS = "(?<=case).+(?<=:)";
 	public static String DefaultS = "(?<=\\W)default\\s*:";
 	public static String SwitchS = "^\\s*switch\\s*[\\(\\)]+";
 	public static String ElseS = "^\\s*else";
@@ -26,12 +26,13 @@ public class Patterns {
 									+"|" + Instruction.FUNCTION
 									+"|" + Instruction.CATCH
 									+"|" + Instruction.FOR 
+									+"|" + Instruction.CASE
 									+"|" + Instruction.ELSE
 									+"(?=\\{|\\s+)"
 									+"|" + Instruction.TRY
 									+"(?=\\s+|\\{))"; 
 	public static String identiferS = "BlockID-?\\d+";
-	public static String headerIDS = "^\\s*(if|else|try|catch|switch|for|while|function)-?\\d+";
+	public static String headerIDS = "^\\s*(if|else|try|catch|switch|for|while|function|case)-?\\d+";
 	public static String statementsS = "(?<=^\\{).*(?=\\})";
 	public static String conditionS = "(?<=\\().*(?=\\))";
 	public static String singleStatement = "\\w+";
@@ -84,7 +85,7 @@ public class Patterns {
 	public static Pattern stringsAndComents = Pattern.compile(stringsAndComentsS);
 	public static Pattern sqlExecuteStetmentFunction = Pattern.compile(sqlExecuteStetmentFunctionS);
 	public static Pattern sqlGetPortFunction = Pattern.compile(sqlGetPortFunctionS);
-	public static Pattern Case = Pattern.compile(CaseS);
+	public static Pattern Case = Pattern.compile(CaseS, Pattern.DOTALL + Pattern.CASE_INSENSITIVE);
 	public static Pattern Default = Pattern.compile(DefaultS);
 	public static Pattern label = Pattern.compile(labelS);
 	public static Pattern control = Pattern.compile(controlS);

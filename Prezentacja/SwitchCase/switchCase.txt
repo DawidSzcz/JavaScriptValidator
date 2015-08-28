@@ -1,0 +1,13 @@
+switch(x){
+    case 1:
+        gooo();
+        break;
+    case 2:
+        break;
+    case 3: 
+        foo();
+    default:
+        loo();
+        koo();
+}
+
