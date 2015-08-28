@@ -32,7 +32,7 @@ public class Var extends SimpleExpression {
 		return "Declaration";
 	}
 	public boolean isValid() {
-		boolean valid = true;
+		boolean valid = super.isValid();
 		for (Assignment assignment : assignments) 
 			if(!assignment.isValid()){
 				for(int key : assignment.getAllErrors().keySet())

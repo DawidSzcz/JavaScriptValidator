@@ -45,6 +45,7 @@ public class Patterns {
 		+ "|" + createRegex2("\\|\\|")
 		+ "|" + createRegex2("\\&\\&");
 	public static String prefiks =createprefix("new")
+		+ "|" + createprefix("throw\\s+new")
 		+ "|" + createprefix("void")
 		+ "|" + createprefix("typeof")
 		+ "|" + createprefix("import")
@@ -53,6 +54,7 @@ public class Patterns {
 		+ "|" + createprefix("byte")
 		+ "|" + createprefix("int")
 		+ "|" + createprefix("boolean")
+		+ "|" + createprefix("throw")
 		+ "|" + createprefix("var");
 	public static String exception = "("+"ArithmeticException"
 		+ "|" +"ArithmeticException" 

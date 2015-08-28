@@ -10,7 +10,7 @@ public enum Instruction {
 	WHILE("([\\w$_]+:\\s*)?while\\s*\\("),
 	CATCH("catch\\s*\\("),
 	FUNCTION("function\\s+[\\w$_]+\\s*\\("),
-	VAR("(^|(?<=\\s))var\\W"),
+	VAR("(^|(?<=\\s))var(?=\\W)"),
 	PROGRAM("");
 	
 	public final String content;
