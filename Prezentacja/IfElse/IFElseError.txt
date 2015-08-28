@@ -1,0 +1,34 @@
+if(warunek bledny )
+{
+    stat1();
+    state2();
+    if(warunek2)
+    {
+        state3();
+    }
+    else if( complexstatement1() &&
+            (complex2() || complex3)
+            ){
+            statement();
+            }
+            else{
+                statement;
+                x;
+                y =3;
+                var p = 1;
+            }
+            else{
+                state();
+            }
+    if(var x = 1)
+    {
+        if(niedomkniety
+        {
+            goo();
+
+    }
+    else
+    {
+        foo();
+    }
+statement();

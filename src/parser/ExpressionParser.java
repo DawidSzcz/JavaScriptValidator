@@ -68,7 +68,7 @@ public class ExpressionParser {
 				{
 					exp =new Else(statement, currentLine, labels, branch);
 					if(!(exps.get(exps.size()-1) instanceof If) && !(exps.get(exps.size()-1) instanceof Else && ((Else)exps.get(exps.size()-1)).isElseIf()))
-						exp.addError(Error.MissingIfBeforeElse, currentLine);
+						exp.addError(Error.MissingIfBeforeElse, exp.getLine());
 				}
 				else if (head.startsWith("catch"))
 				{

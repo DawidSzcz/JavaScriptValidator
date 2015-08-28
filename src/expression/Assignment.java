@@ -85,6 +85,6 @@ public class Assignment extends SimpleExpression {
 				addError(e.getError(), e.getLine());
 			valid =  false;
 		}
-		return valid;
+		return valid && !hasErrors();
 	}
 }

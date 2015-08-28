@@ -27,7 +27,11 @@ public abstract class Expression {
 			this.name ="Unparsed";
 		}
 		this.line = currentLine + ParseUtils.getLinesBNS(name);
-		this.area = ParseUtils.getArea(name);
+		try{
+			this.area = ParseUtils.getArea(name);
+		}catch(IllegalStateException e){
+			area = 0;
+		}
 	}
 	
 	public abstract String toString();
