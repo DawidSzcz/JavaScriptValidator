@@ -27,7 +27,7 @@ public class Switch extends ComplexExpression {
 	@Override
 	public String toString() 
 	{
-		return branch + "Switch";
+		return branch + "Switch ";
 	}
 
 	@Override

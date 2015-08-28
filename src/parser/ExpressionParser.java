@@ -49,7 +49,11 @@ public class ExpressionParser {
 	}
 	public List<Expression> parseExpressions(String input, int currentLine, List<String> labels, String branch) {
 		List<Expression> exps = new LinkedList<>();
-		String[] statements = input.split(Patterns.splitS);
+		String[] statements;
+		if(!branch.matches(".*Switch "))
+			statements = input.split(Patterns.splitS);
+		else
+			statements = input.split(Patterns.splitCaseS);
 		for (String statement : statements) {
 			Matcher matcherAssign = Patterns.assign.matcher(statement);
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);

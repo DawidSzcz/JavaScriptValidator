@@ -10,6 +10,7 @@ public class Patterns {
 	public static String SwitchS = "^\\s*switch\\s*[\\(\\)]+";
 	public static String ElseS = "^\\s*else";
 	public static String splitS = "(;[\t \r]*)+|(?<=\\})|(?<=\\{)";
+	public static String splitCaseS = "((:|;)[\t \r]*)+|(?<=\\})|(?<=\\{)";
 	public static String variableS = "\\a+\\w+";
 	public static String argumentsS = "(?<=\\().+(?=\\)\\s*\\{)";
 	public static String IfS = "^\\s*if\\s*[\\(\\)]+";
