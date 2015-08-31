@@ -1,4 +1,4 @@
-ddbPort = _featureManager.getTytanDBPortFeature();
+dbPort = _featureManager.getTytanDBPortFeature();
 sPBXTypeIdName    =  _PBXTYPEID.getName();
 sPBXTypeParamName =  _PBXTYPE.getName();
 sServiceParamName =  _SERVICE.getName();

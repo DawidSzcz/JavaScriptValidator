@@ -12,7 +12,6 @@ public class ValidationTest {
 
 	@Test()
 	public void testOperatorCprrect() throws  InvalidExpression {
-
 		assertTrue(TestUtils.testStatement("vt_codes[vs_query.getString(stringID23424)] "));
 		assertTrue(TestUtils.testStatement("vr_Row.getParameterByName(stringid13213).setValue(vt_codes[vr_Row.getParameterByName(stringid123).getValue()])"));
 		assertTrue(TestUtils.testStatement("PARAM1 == StringID8219226471481774312 || ((VAL1 != null && PARAM1.equals(VAL1)) || (VAL2 != null && !PARAM1.equals(VAL2)))"));
@@ -78,7 +77,6 @@ public class ValidationTest {
 		assertFalse(TestUtils.testStatement("JavaScriptException.javaException instanceof"));
 		assertFalse(TestUtils.testStatement("JavaScriptException.javaException instanceofjava.lang.NumberFormatException"));
 		assertTrue(TestUtils.testStatement("x(x(a,b, c),b+(a+v), c(d,e))"));
-
 	}
 	@Test()
 	public void testReplaceFirstFunction(){
