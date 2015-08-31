@@ -52,6 +52,7 @@ public class ExpressionParser {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements;
 		statements = input.split(Patterns.splitS);
+
 		for (String statement : statements) {
 			Matcher matcherAssign = Patterns.assign.matcher(statement);
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);
@@ -140,7 +141,9 @@ public class ExpressionParser {
 										}
 										exp = new UnknownExpression(statement, currentLine, branch);
 										if (statement.contains("}"))
-											exp.addError(Error.UnexpectedClosingBracket, currentLine);
+											exp.addError(Error.UnexpectedClosingBracket, currentLine + ParseUtils.getLinesBNS(statement));
+										if (statement.contains("{"))
+											exp.addError(Error.UnexpectedOpeningBracket, currentLine + ParseUtils.getLinesBNS(statement));
 									}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);

@@ -4,7 +4,7 @@ public enum Instruction {
 	
 	TRY("try"),
 	ELSE("else"),
-	CASE("case[^:]+:"),
+	CASE("(default\\s*:|case[^:]+:)"),
 	IF("if\\s*\\("),
 	SWITCH("switch\\s*\\("),
 	FOR("([\\w$_]+:\\s*)?for\\s*\\("),

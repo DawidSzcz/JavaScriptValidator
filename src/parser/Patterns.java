@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import enums.Instruction;
 
 public class Patterns {
-	public static String CaseS = "(?<=case).+(?<=:)";
+	public static String CaseS = "((?<=default)\\s*(?=:)|(?<=case).+(?=:))";
 	public static String DefaultS = "(?<=\\W)default\\s*:";
 	public static String SwitchS = "^\\s*switch\\s*[\\(\\)]+";
 	public static String ElseS = "^\\s*else";
