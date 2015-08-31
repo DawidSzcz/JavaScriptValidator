@@ -20,7 +20,10 @@ public class Case extends SimpleExpression {
 		this.branch = branch;
 		Matcher match = Patterns.Case.matcher(name);
 		match.find();
-		variant = new Statement(match.group().substring(0, match.group().length()-1));
+		if(name.matches("\\s*default:\\s*"))
+			variant = new Statement("default");
+		else
+			variant = new Statement(match.group().substring(0, match.group().length()-1));
 		Matcher checkBeginning = Pattern.compile(String.format(Patterns.beginComplexS, Instruction.CASE)).matcher(name);
 		if (!checkBeginning.find()) {
 			this.addError(Error.RestrictedLowerCase, line);

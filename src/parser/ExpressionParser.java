@@ -51,10 +51,8 @@ public class ExpressionParser {
 	public List<Expression> parseExpressions(String input, int currentLine, List<String> labels, String branch) {
 		List<Expression> exps = new LinkedList<>();
 		String[] statements;
-//		if(!branch.matches(".*Switch "))
-//			statements = input.split(Patterns.splitS);
-//		else
-			statements = input.split(Patterns.splitCaseS);
+		statements = input.split(Patterns.splitS);
+
 		for (String statement : statements) {
 			Matcher matcherAssign = Patterns.assign.matcher(statement);
 			Matcher matcherInvo = Patterns.invocation.matcher(statement);
@@ -143,7 +141,9 @@ public class ExpressionParser {
 										}
 										exp = new UnknownExpression(statement, currentLine, branch);
 										if (statement.contains("}"))
-											exp.addError(Error.UnexpectedClosingBracket, currentLine);
+											exp.addError(Error.UnexpectedClosingBracket, currentLine + ParseUtils.getLinesBNS(statement));
+										if (statement.contains("{"))
+											exp.addError(Error.UnexpectedOpeningBracket, currentLine + ParseUtils.getLinesBNS(statement));
 									}
 			exps.add(exp);
 			currentLine+=ParseUtils.getLines(statement, blocks);
