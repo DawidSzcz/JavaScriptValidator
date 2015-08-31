@@ -44,7 +44,7 @@ public class Patterns {
 		+ "|" + createRegex2("\\<\\<")
 		+ "|" + createRegex2("\\|\\|")
 		+ "|" + createRegex2("\\&\\&");
-	public static String prefiks =createprefix("new")
+	public static String prefiksS =createprefix("new")
 		+ "|" + createprefix("throw\\s+new")
 		+ "|" + createprefix("void")
 		+ "|" + createprefix("typeof")
@@ -56,6 +56,18 @@ public class Patterns {
 		+ "|" + createprefix("boolean")
 		+ "|" + createprefix("throw")
 		+ "|" + createprefix("var");
+	public static String prefikx2="("+"new"
+		+ "|" + "throw\\s+new"
+		+ "|" + "void"
+		+ "|" + "typeof"
+		+ "|" + "import"
+		+ "|" + "float"
+		+ "|" + "char"
+		+ "|" + "byte"
+		+ "|" + "int"
+		+ "|" + "boolean"
+		+ "|" + "throw"
+		+ "|" + "var"+")";
 	public static String exception = "("+"ArithmeticException"
 		+ "|" +"ArithmeticException" 
 		+ "|" +"ArrayIndexOutOfBoundsException" 
@@ -95,6 +107,7 @@ public class Patterns {
 	public static Pattern expressionWithUnderscoreAndFunction = Pattern.compile(expressionWithUnderscoreAndFunctionS);
 	public static Pattern forbiddenWords = Pattern.compile(forbiddenWordsS);
 	public static Pattern funktionAndBracket = Pattern.compile(funktionAndBracketS);
+	public static Pattern prefiks = Pattern.compile(prefiksS);
 	
 	private static String createRegex1(String operator) {
 		return "(?<=\\W)\\s*"+operator+"\\s*(?=\\W)|^"+operator+"\\s*|\\s*"+operator+"$";
@@ -104,6 +117,6 @@ public class Patterns {
 		return "\\s*(number|variable)\\s*"+operator+"\\s*(number|variable)\\s*";
 	}
 	private static String createprefix(String prefix) {
-		return "((?<=\\W)|^)"+prefix+"\\s+[_$A-Za-z]\\w*";
+		return "((?<=\\W)|^)"+prefix+"\\s+(?=[_$A-Za-z][_$A-Za-z0-9]*)";
 	}
 }
